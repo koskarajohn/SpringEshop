@@ -11,7 +11,7 @@ public interface CategoryService {
 	void saveCategory(Category category);
 	void updateCategory(Category category);
 	void deleteCategoryById(int id);
-	void deleatAllCategories();
+	void deleteAllCategories();
 	List<Category> findAllCategories();
 	boolean doesCategoryExist(Category category);
 }

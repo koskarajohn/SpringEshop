@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "product")
@@ -20,12 +23,17 @@ public class Product {
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "categoryid")
+	@NotNull
 	private Category category;
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
+	@NotNull(message = "Please provide product name")
+	@Size(min = 3, max = 200, message = "Name must be between 10 and 200 characters")
 	private String name;
 	
 	@Column(name = "price", nullable = false)
+	@NotNull(message = "Please provide product price")
+	@Min(value = 0, message = "Price must be greater than zero")
 	private double price;
 	
 	@Column(name = "description")

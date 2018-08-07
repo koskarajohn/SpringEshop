@@ -39,18 +39,13 @@ public class JpaConfiguration {
 	@Bean
 	public DataSource dataSource(){
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
 		dataSource.setUrl(environment.getProperty("spring.datasource.url"));
 		dataSource.setUsername(environment.getProperty("spring.datasource.username"));
 	    dataSource.setPassword(environment.getProperty("spring.datasource.password"));	
 		return dataSource;
 	}
-	
-	//dataSource.setDriverClassName("org.postgresql.Driver");
-	//dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-	//dataSource.setUsername("postgres");
-    //dataSource.setPassword("root");	
-	
+		
 	@Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();

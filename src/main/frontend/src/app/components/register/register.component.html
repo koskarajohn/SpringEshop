@@ -1,0 +1,52 @@
+<navigation-bar></navigation-bar>
+
+<!-- Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+            <a routerLink="/"><i class="fas fa-home mr-1"></i></a>/
+            Εγγραφή
+    </div>
+</div>
+
+<!-- Register -->
+<section class="register">
+    <div class="container">
+        <h1>Εγγραφή</h1>
+        <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink="/login">εδώ</a>.</p>
+           
+        <form>
+            <h4>Προσωπικά στοιχεία</h4>
+            <div class="form-group">
+                <label>Όνομα</label>
+                <input type="text" class="form-control" placeholder="Όνομα" name="fname">
+            </div>
+            <div class="form-group">
+                <label>Επώνυμο</label>
+                <input type="text" class="form-control" placeholder="Επώνυμο" name="lname">
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" class="form-control"placeholder="E-Mail" name="email">
+            </div>
+            <div class="form-group">
+                <label>Τηλέφωνο</label>
+                <input type="number" class="form-control" placeholder="Τηλέφωνο" name="phone">
+            </div>
+            <h4>Ο Κωδικός</h4>
+            <div class="form-group">
+                <label>Kωδικός</label>
+                <input type="password" class="form-control"  placeholder="Κωδικός" name="password">
+            </div>
+            <div class="form-group">
+                <label>Επαλήθευση Κωδικού</label>
+                <input type="password" class="form-control" placeholder="Επαλήθευση Κωδικού" name="confirmpassword">
+            </div>
+            <div class="submit">
+                <p>Συμφωνώ με τους όρους πολιτικής</p>
+                <button type="submit" class="btn btn-primary">Εγγραφή</button>
+            </div>
+           </form>
+    </div>
+</section>
+
+<my-footer></my-footer>

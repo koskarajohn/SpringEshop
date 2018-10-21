@@ -1,0 +1,40 @@
+/* --- Breadcrumbs --- */
+
+.breadcrumbs{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+ /* --- Login --- */
+
+section.login{
+  padding-bottom: 32px;
+}
+
+section.login h1{
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+section.login form .form-group input{
+  background:	#E0E0E0;
+}
+
+section.login form .submit{
+  text-align: center;
+  margin-top: 32px
+}
+
+section.login form .submit button{
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-right: 16px;
+}
+
+section.login form .submit a{
+  text-decoration: underline;
+}
+
+section.login form .submit a:hover{
+  text-decoration: none;
+}

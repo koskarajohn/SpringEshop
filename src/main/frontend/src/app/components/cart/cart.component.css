@@ -1,0 +1,17 @@
+/* --- Breadcrumbs --- */
+
+.breadcrumbs{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+ /* --- Shopping Cart --- */
+
+section.cart{
+    margin-top: 16px;
+    margin-bottom: 48px;
+  }
+
+  section.cart .table-content{
+    margin-top: 64px;
+  }

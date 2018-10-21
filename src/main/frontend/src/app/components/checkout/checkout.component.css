@@ -1,0 +1,13 @@
+/* --- Breadcrumbs --- */
+
+.breadcrumbs{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+ /* --- Checkout --- */
+
+  section.checkout{
+    margin-top: 16px;
+    margin-bottom: 48px;
+  }

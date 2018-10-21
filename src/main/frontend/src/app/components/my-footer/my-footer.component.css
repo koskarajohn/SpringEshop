@@ -1,0 +1,30 @@
+/* --- Footer --- */
+footer{
+    text-align: left;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  
+  footer h3{
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+  
+  footer .menu a{
+    font-size: 16px;
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px){
+    footer .container .row{
+      text-align: center;
+    }
+  
+    footer .container .row .col-sm-4:nth-child(2){
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+  }

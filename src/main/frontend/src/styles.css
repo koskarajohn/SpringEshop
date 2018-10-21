@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+
+a {
+    color: #333333;
+  }
+  
+  a:focus, a:hover, a:active {
+    color: #04BF00;
+  }
+  
+  .background-primary {
+    background-color: #fff;
+  }
+  
+  .background-secondary {
+    background-color: #04BF00;
+  }
+  
+  .text-primary {
+    color: #333333;
+  }
+  
+  .btn-primary{
+    background-color: #04BF00;
+    border-color: #04BF00;
+    color:white;  
+  }
+  
+  .btn-primary:hover, .btn-primary:hover, .btn-primary:active{
+    background-color: #04BF00;
+    border-color: #04BF00;
+  }

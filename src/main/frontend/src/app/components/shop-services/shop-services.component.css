@@ -1,0 +1,27 @@
+/* --- Services --- */
+section.services{
+    background-color: #04BF00;
+    color:#fff;
+    text-align: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  
+  section.services h3{
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  section.services p{
+    font-size: 16px;
+    text-align: left;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  
+  @media (max-width: 768px){
+    section.services p:nth-child(2){
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+  }

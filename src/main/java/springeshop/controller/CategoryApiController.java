@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import springeshop.model.Category;
 import springeshop.service.CategoryService;
 import springeshop.util.ErrorMessage;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class CategoryApiController {
@@ -58,7 +60,7 @@ public class CategoryApiController {
 		
 		if(categoryService.doesCategoryExist(category)){
 			logger.error("Unable to create. A Category with name {} already exist", category.getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. A Category with name " + category.getName() + " already exist."), HttpStatus.CONFLICT);
+			return new ResponseEntity(new ErrorMessage("Unable to create. A Category with name " + category.getName() + " already exists."), HttpStatus.CONFLICT);
 		}
 		
 		categoryService.saveCategory(category);

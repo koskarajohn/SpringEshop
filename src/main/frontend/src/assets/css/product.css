@@ -1,0 +1,167 @@
+
+a {
+    color: #333333;
+  }
+  
+  a:focus, a:hover, a:active {
+    color: #04BF00;
+  }
+  
+  .background-primary {
+    background-color: #fff;
+  }
+  
+  .background-secondary {
+    background-color: #04BF00;
+  }
+  
+  .text-primary {
+    color: #333333;
+  }
+  
+  .btn-primary{
+    background-color: #04BF00;
+    border-color: #04BF00;
+    color:white;  
+  }
+  
+  .btn-primary:hover, .btn-primary:hover, .btn-primary:active{
+    background-color: #04BF00;
+    border-color: #04BF00;
+  }
+  
+  /* --- First Navbar --- */
+  
+  #firstNavbar{
+    padding-bottom: 0;
+  }
+  
+  #firstNavbar a.navbar-brand{
+    font-size: 40px;
+  }
+  
+  #firstNavbar a.navbar-brand span{
+    color: #04BF00;
+    font-weight: 700;
+  }
+  
+    #firstNavbar a.navbar-brand:hover{
+      color: #333333;
+    }
+  
+  #firstNavbar input.form-control{
+    border: 2px solid #04BF00;
+    width: 360px;
+  }
+  
+  #firstNavbar ul.navbar-nav a.nav-link{
+    font-size: 20px;
+  }
+  
+  #firstNavbar ul.navbar-nav a.nav-link i{
+    color: #04BF00;
+  }
+  
+  @media (max-width: 768px){
+    #firstNavbar a.navbar-brand{
+      font-size: 28px;
+    }
+  
+    #firstNavbar input.form-control{
+      width: 160px;
+    }
+  }
+  
+  /* --- Second Navbar --- */
+  
+  #secondNavbar ul.navbar-nav a.nav-link{
+    font-size: 20px;
+  }
+  
+  #secondNavbar{
+    padding-top: 0;
+  }
+
+  /* --- Breadcrumbs --- */
+
+  .breadcrumbs{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+ /* --- Product --- */
+
+ section.product .product-details{
+  margin-top: 16px;
+}
+
+section.product .product-details h3{
+  color: #E00000 ;
+}
+
+ section.product p span.checked{
+  color: orange;
+}
+
+@media (max-width: 576px){
+
+  section.product .product-image img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  section.product .product-details{
+    text-align: center;
+  }
+}
+
+
+/* --- Addition Product Information--- */
+
+section.product-information{
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+section.product-information .tab-content #description p{
+  margin-bottom: 0;
+}
+
+section.product-information ul li.nav-item a.active{
+  background-color: #04BF00;
+}
+  
+  /* --- Footer --- */
+  footer{
+    text-align: left;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  
+  footer h3{
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+  
+  footer .menu a{
+    font-size: 16px;
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px){
+    footer .container .row{
+      text-align: center;
+    }
+  
+    footer .container .row .col-sm-4:nth-child(2){
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+  }
+  
+  
+  

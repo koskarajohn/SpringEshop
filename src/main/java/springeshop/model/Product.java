@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product {
 	
 	@Id
@@ -22,7 +22,7 @@ public class Product {
 	private int id;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "categoryid")
+	@JoinColumn(name = "category_id")
 	@NotNull
 	private Category category;
 	

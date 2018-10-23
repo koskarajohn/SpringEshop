@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "images")
-public class Image {
+@Table(name = "product_images")
+public class ProductImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +28,11 @@ public class Image {
 	@NotNull(message = "Please provide the image url")
 	private String url;
 	
-	public Image(){
+	public ProductImage(){
 		
 	}
 	
-    public Image(String url){
+    public ProductImage(String url){
 		this.url = url;
 	}
 

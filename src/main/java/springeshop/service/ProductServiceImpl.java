@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import springeshop.model.Product;
+import springeshop.model.ProductImage;
 import springeshop.repositories.ProductRepository;
 
 @Service("productService")
@@ -59,6 +60,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public boolean doesProductExist(Product product) {
 		return findByName(product.getName()) != null;
+	}
+
+	@Override
+	public ProductImage findByProductId(int id) {
+		return productRepository.findByProductId(id);
 	}
 
 	

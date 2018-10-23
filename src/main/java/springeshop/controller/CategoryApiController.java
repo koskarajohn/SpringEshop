@@ -24,7 +24,6 @@ import springeshop.model.Category;
 import springeshop.service.CategoryService;
 import springeshop.util.ErrorMessage;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class CategoryApiController {

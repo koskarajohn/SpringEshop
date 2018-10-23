@@ -5,18 +5,18 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import springeshop.model.Image;
-import springeshop.repositories.ImageRepository;
+import springeshop.model.ProductImage;
+import springeshop.repositories.ProductImageRepository;
 
 @Service("imageService")
 @Transactional
-public class ImageServiceImpl implements ImageService{
+public class ProductImageServiceImpl implements ProductImageService{
 
 	@Autowired
-	private ImageRepository imageRepository;
+	private ProductImageRepository imageRepository;
 
 	@Override
-	public void saveImage(Image image) {
+	public void saveImage(ProductImage image) {
 		imageRepository.save(image);
 	}
 }

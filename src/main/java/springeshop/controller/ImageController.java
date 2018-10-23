@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import springeshop.model.Image;
-import springeshop.service.ImageService;
+import springeshop.model.ProductImage;
+import springeshop.service.ProductImageService;
 
 @RestController
 @RequestMapping("/api")
@@ -24,10 +24,10 @@ public class ImageController {
 public static final Logger logger = LoggerFactory.getLogger(ImageController.class);
 	
 	@Autowired
-	private ImageService imageService;
+	private ProductImageService imageService;
 	
 	@RequestMapping(value = "/images", method = RequestMethod.POST)
-	public ResponseEntity<?> createImage(@Valid @RequestBody Image image, UriComponentsBuilder ucBuilder){
+	public ResponseEntity<?> createImage(@Valid @RequestBody ProductImage image, UriComponentsBuilder ucBuilder){
 		logger.info("Creating Image : {}", image);
 		
 		imageService.saveImage(image);

@@ -2,7 +2,10 @@ package springeshop.service;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import springeshop.model.Product;
+import springeshop.model.ProductImage;
 
 public interface ProductService {
 
@@ -15,4 +18,5 @@ public interface ProductService {
 	void deleteAllProducts();
 	List<Product> findAllProducts();
 	boolean doesProductExist(Product product);
+	ProductImage findByProductId(int id);
 }

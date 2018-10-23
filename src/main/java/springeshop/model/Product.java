@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +40,12 @@ public class Product {
 	@Column(name = "description")
 	private String description;
 	
+	@Transient
+	private String imageUrl;
+	
+	
+	
+
 	public Product(){
 		
 	}
@@ -89,6 +96,12 @@ public class Product {
 		this.description = description;
 	}
 	
-	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 }

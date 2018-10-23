@@ -20,10 +20,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import springeshop.model.Category;
 import springeshop.model.Product;
+import springeshop.model.ProductImage;
 import springeshop.service.ProductService;
 import springeshop.util.ErrorMessage;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class ProductApiController {
@@ -40,6 +40,11 @@ public class ProductApiController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		
+		for(Product product : products){
+			ProductImage productImage = productService.findByProductId(product.getId());
+	        product.setImageUrl(productImage.getUrl());
+		}
+		
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 	
@@ -52,6 +57,9 @@ public class ProductApiController {
         	logger.error("Product with id {} not found.", id);
 			return new ResponseEntity(new ErrorMessage("Product with id " + id + " not found"),HttpStatus.NOT_FOUND);
         }
+        
+        ProductImage productImage = productService.findByProductId(id);
+        product.setImageUrl(productImage.getUrl());
         
         return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}

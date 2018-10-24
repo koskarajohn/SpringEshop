@@ -36,13 +36,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _components_index_index_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/index/index.component */ "./src/app/components/index/index.component.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
-/* harmony import */ var _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/cart/cart.component */ "./src/app/components/cart/cart.component.ts");
-/* harmony import */ var _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/checkout/checkout.component */ "./src/app/components/checkout/checkout.component.ts");
-/* harmony import */ var _components_category_category_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/category/category.component */ "./src/app/components/category/category.component.ts");
-/* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
+/* harmony import */ var _components_cart_page_cart_page_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/cart-page/cart-page.component */ "./src/app/components/cart-page/cart-page.component.ts");
+/* harmony import */ var _components_category_page_category_page_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/category-page/category-page.component */ "./src/app/components/category-page/category-page.component.ts");
+/* harmony import */ var _components_login_page_login_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/login-page/login-page.component */ "./src/app/components/login-page/login-page.component.ts");
+/* harmony import */ var _components_checkout_page_checkout_page_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/checkout-page/checkout-page.component */ "./src/app/components/checkout-page/checkout-page.component.ts");
+/* harmony import */ var _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/product-page/product-page.component */ "./src/app/components/product-page/product-page.component.ts");
+/* harmony import */ var _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/register-page/register-page.component */ "./src/app/components/register-page/register-page.component.ts");
+/* harmony import */ var _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/index-page/index-page.component */ "./src/app/components/index-page/index-page.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -60,31 +60,31 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var appRoutes = [
     { path: '',
-        component: _components_index_index_component__WEBPACK_IMPORTED_MODULE_2__["IndexComponent"]
+        component: _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_8__["IndexPageComponent"]
     },
     {
         path: 'login',
-        component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"]
+        component: _components_login_page_login_page_component__WEBPACK_IMPORTED_MODULE_4__["LoginPageComponent"]
     },
     {
         path: 'register',
-        component: _components_register_register_component__WEBPACK_IMPORTED_MODULE_4__["RegisterComponent"]
+        component: _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_7__["RegisterPageComponent"]
     },
     {
         path: 'cart',
-        component: _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_5__["CartComponent"]
+        component: _components_cart_page_cart_page_component__WEBPACK_IMPORTED_MODULE_2__["CartPageComponent"]
     },
     {
         path: 'checkout',
-        component: _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_6__["CheckoutComponent"]
+        component: _components_checkout_page_checkout_page_component__WEBPACK_IMPORTED_MODULE_5__["CheckoutPageComponent"]
     },
     {
         path: 'category',
-        component: _components_category_category_component__WEBPACK_IMPORTED_MODULE_7__["CategoryComponent"]
+        component: _components_category_page_category_page_component__WEBPACK_IMPORTED_MODULE_3__["CategoryPageComponent"]
     },
     {
         path: 'product',
-        component: _components_product_product_component__WEBPACK_IMPORTED_MODULE_8__["ProductComponent"]
+        component: _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_6__["ProductPageComponent"]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -180,15 +180,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/shop-services/shop-services.component */ "./src/app/components/shop-services/shop-services.component.ts");
 /* harmony import */ var _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/discount-carousel/discount-carousel.component */ "./src/app/components/discount-carousel/discount-carousel.component.ts");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _components_index_index_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/index/index.component */ "./src/app/components/index/index.component.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
-/* harmony import */ var _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/my-footer/my-footer.component */ "./src/app/components/my-footer/my-footer.component.ts");
-/* harmony import */ var _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
-/* harmony import */ var _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/checkout/checkout.component */ "./src/app/components/checkout/checkout.component.ts");
-/* harmony import */ var _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/cart/cart.component */ "./src/app/components/cart/cart.component.ts");
-/* harmony import */ var _components_category_category_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/category/category.component */ "./src/app/components/category/category.component.ts");
-/* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
+/* harmony import */ var _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/my-footer/my-footer.component */ "./src/app/components/my-footer/my-footer.component.ts");
+/* harmony import */ var _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
+/* harmony import */ var _components_cart_page_cart_page_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/cart-page/cart-page.component */ "./src/app/components/cart-page/cart-page.component.ts");
+/* harmony import */ var _components_category_page_category_page_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/category-page/category-page.component */ "./src/app/components/category-page/category-page.component.ts");
+/* harmony import */ var _components_checkout_page_checkout_page_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/checkout-page/checkout-page.component */ "./src/app/components/checkout-page/checkout-page.component.ts");
+/* harmony import */ var _components_login_page_login_page_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/login-page/login-page.component */ "./src/app/components/login-page/login-page.component.ts");
+/* harmony import */ var _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/register-page/register-page.component */ "./src/app/components/register-page/register-page.component.ts");
+/* harmony import */ var _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/product-page/product-page.component */ "./src/app/components/product-page/product-page.component.ts");
+/* harmony import */ var _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/index-page/index-page.component */ "./src/app/components/index-page/index-page.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -220,15 +220,15 @@ var AppModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
                 _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_4__["ShopServicesComponent"],
                 _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_5__["DiscountCarouselComponent"],
-                _components_index_index_component__WEBPACK_IMPORTED_MODULE_7__["IndexComponent"],
-                _components_login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"],
-                _components_register_register_component__WEBPACK_IMPORTED_MODULE_9__["RegisterComponent"],
-                _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_10__["MyFooterComponent"],
-                _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_11__["NavigationBarComponent"],
-                _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__["CheckoutComponent"],
-                _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_13__["CartComponent"],
-                _components_category_category_component__WEBPACK_IMPORTED_MODULE_14__["CategoryComponent"],
-                _components_product_product_component__WEBPACK_IMPORTED_MODULE_15__["ProductComponent"]
+                _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_7__["MyFooterComponent"],
+                _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_8__["NavigationBarComponent"],
+                _components_cart_page_cart_page_component__WEBPACK_IMPORTED_MODULE_9__["CartPageComponent"],
+                _components_category_page_category_page_component__WEBPACK_IMPORTED_MODULE_10__["CategoryPageComponent"],
+                _components_checkout_page_checkout_page_component__WEBPACK_IMPORTED_MODULE_11__["CheckoutPageComponent"],
+                _components_login_page_login_page_component__WEBPACK_IMPORTED_MODULE_12__["LoginPageComponent"],
+                _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_13__["RegisterPageComponent"],
+                _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_14__["ProductPageComponent"],
+                _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__["IndexPageComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -246,10 +246,10 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/components/cart/cart.component.css":
-/*!****************************************************!*\
-  !*** ./src/app/components/cart/cart.component.css ***!
-  \****************************************************/
+/***/ "./src/app/components/cart-page/cart-page.component.css":
+/*!**************************************************************!*\
+  !*** ./src/app/components/cart-page/cart-page.component.css ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -257,10 +257,10 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 
 /***/ }),
 
-/***/ "./src/app/components/cart/cart.component.html":
-/*!*****************************************************!*\
-  !*** ./src/app/components/cart/cart.component.html ***!
-  \*****************************************************/
+/***/ "./src/app/components/cart-page/cart-page.component.html":
+/*!***************************************************************!*\
+  !*** ./src/app/components/cart-page/cart-page.component.html ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -268,16 +268,16 @@ module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<di
 
 /***/ }),
 
-/***/ "./src/app/components/cart/cart.component.ts":
-/*!***************************************************!*\
-  !*** ./src/app/components/cart/cart.component.ts ***!
-  \***************************************************/
-/*! exports provided: CartComponent */
+/***/ "./src/app/components/cart-page/cart-page.component.ts":
+/*!*************************************************************!*\
+  !*** ./src/app/components/cart-page/cart-page.component.ts ***!
+  \*************************************************************/
+/*! exports provided: CartPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CartComponent", function() { return CartComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CartPageComponent", function() { return CartPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -289,30 +289,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var CartComponent = /** @class */ (function () {
-    function CartComponent() {
+var CartPageComponent = /** @class */ (function () {
+    function CartPageComponent() {
     }
-    CartComponent.prototype.ngOnInit = function () {
+    CartPageComponent.prototype.ngOnInit = function () {
     };
-    CartComponent = __decorate([
+    CartPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'cart',
-            template: __webpack_require__(/*! ./cart.component.html */ "./src/app/components/cart/cart.component.html"),
-            styles: [__webpack_require__(/*! ./cart.component.css */ "./src/app/components/cart/cart.component.css")]
+            selector: 'cart-page',
+            template: __webpack_require__(/*! ./cart-page.component.html */ "./src/app/components/cart-page/cart-page.component.html"),
+            styles: [__webpack_require__(/*! ./cart-page.component.css */ "./src/app/components/cart-page/cart-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], CartComponent);
-    return CartComponent;
+    ], CartPageComponent);
+    return CartPageComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/components/category/category.component.css":
-/*!************************************************************!*\
-  !*** ./src/app/components/category/category.component.css ***!
-  \************************************************************/
+/***/ "./src/app/components/category-page/category-page.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/components/category-page/category-page.component.css ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -320,27 +320,27 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 
 /***/ }),
 
-/***/ "./src/app/components/category/category.component.html":
-/*!*************************************************************!*\
-  !*** ./src/app/components/category/category.component.html ***!
-  \*************************************************************/
+/***/ "./src/app/components/category-page/category-page.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/category-page/category-page.component.html ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Category\n  </div>\n</div>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Category\n  </div>\n</div>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
-/***/ "./src/app/components/category/category.component.ts":
-/*!***********************************************************!*\
-  !*** ./src/app/components/category/category.component.ts ***!
-  \***********************************************************/
-/*! exports provided: CategoryComponent */
+/***/ "./src/app/components/category-page/category-page.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/category-page/category-page.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: CategoryPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryComponent", function() { return CategoryComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryPageComponent", function() { return CategoryPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -352,30 +352,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var CategoryComponent = /** @class */ (function () {
-    function CategoryComponent() {
+var CategoryPageComponent = /** @class */ (function () {
+    function CategoryPageComponent() {
     }
-    CategoryComponent.prototype.ngOnInit = function () {
+    CategoryPageComponent.prototype.ngOnInit = function () {
     };
-    CategoryComponent = __decorate([
+    CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'category',
-            template: __webpack_require__(/*! ./category.component.html */ "./src/app/components/category/category.component.html"),
-            styles: [__webpack_require__(/*! ./category.component.css */ "./src/app/components/category/category.component.css")]
+            selector: 'category-page',
+            template: __webpack_require__(/*! ./category-page.component.html */ "./src/app/components/category-page/category-page.component.html"),
+            styles: [__webpack_require__(/*! ./category-page.component.css */ "./src/app/components/category-page/category-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], CategoryComponent);
-    return CategoryComponent;
+    ], CategoryPageComponent);
+    return CategoryPageComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/components/checkout/checkout.component.css":
-/*!************************************************************!*\
-  !*** ./src/app/components/checkout/checkout.component.css ***!
-  \************************************************************/
+/***/ "./src/app/components/checkout-page/checkout-page.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/components/checkout-page/checkout-page.component.css ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -383,27 +383,27 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 
 /***/ }),
 
-/***/ "./src/app/components/checkout/checkout.component.html":
-/*!*************************************************************!*\
-  !*** ./src/app/components/checkout/checkout.component.html ***!
-  \*************************************************************/
+/***/ "./src/app/components/checkout-page/checkout-page.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/checkout-page/checkout-page.component.html ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Ολοκλήρωση Αγοράς\n  </div>\n</div>\n\n<!-- Checkout -->\n<section  class=\"checkout\">\n<div class=\"container\">\n  <h1 class=\"text-center\">Ολοκλήρωση Αγοράς</h1>\n  <div class=\"row\">\n      \n  </div>\n</div>  \n</section>\n\n<my-footer></my-footer>"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Ολοκλήρωση Αγοράς\n  </div>\n</div>\n\n<!-- Checkout -->\n<section  class=\"checkout\">\n<div class=\"container\">\n  <h1 class=\"text-center\">Ολοκλήρωση Αγοράς</h1>\n  <div class=\"row\">\n      \n  </div>\n</div>  \n</section>\n\n<my-footer></my-footer><p>\n  checkout-page works!\n</p>\n"
 
 /***/ }),
 
-/***/ "./src/app/components/checkout/checkout.component.ts":
-/*!***********************************************************!*\
-  !*** ./src/app/components/checkout/checkout.component.ts ***!
-  \***********************************************************/
-/*! exports provided: CheckoutComponent */
+/***/ "./src/app/components/checkout-page/checkout-page.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/checkout-page/checkout-page.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: CheckoutPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckoutComponent", function() { return CheckoutComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckoutPageComponent", function() { return CheckoutPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -415,20 +415,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var CheckoutComponent = /** @class */ (function () {
-    function CheckoutComponent() {
+var CheckoutPageComponent = /** @class */ (function () {
+    function CheckoutPageComponent() {
     }
-    CheckoutComponent.prototype.ngOnInit = function () {
+    CheckoutPageComponent.prototype.ngOnInit = function () {
     };
-    CheckoutComponent = __decorate([
+    CheckoutPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'checkout',
-            template: __webpack_require__(/*! ./checkout.component.html */ "./src/app/components/checkout/checkout.component.html"),
-            styles: [__webpack_require__(/*! ./checkout.component.css */ "./src/app/components/checkout/checkout.component.css")]
+            selector: 'checkout-page',
+            template: __webpack_require__(/*! ./checkout-page.component.html */ "./src/app/components/checkout-page/checkout-page.component.html"),
+            styles: [__webpack_require__(/*! ./checkout-page.component.css */ "./src/app/components/checkout-page/checkout-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], CheckoutComponent);
-    return CheckoutComponent;
+    ], CheckoutPageComponent);
+    return CheckoutPageComponent;
 }());
 
 
@@ -504,10 +504,10 @@ var DiscountCarouselComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/components/index/index.component.css":
-/*!******************************************************!*\
-  !*** ./src/app/components/index/index.component.css ***!
-  \******************************************************/
+/***/ "./src/app/components/index-page/index-page.component.css":
+/*!****************************************************************!*\
+  !*** ./src/app/components/index-page/index-page.component.css ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -515,10 +515,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/components/index/index.component.html":
-/*!*******************************************************!*\
-  !*** ./src/app/components/index/index.component.html ***!
-  \*******************************************************/
+/***/ "./src/app/components/index-page/index-page.component.html":
+/*!*****************************************************************!*\
+  !*** ./src/app/components/index-page/index-page.component.html ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -526,16 +526,16 @@ module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discou
 
 /***/ }),
 
-/***/ "./src/app/components/index/index.component.ts":
-/*!*****************************************************!*\
-  !*** ./src/app/components/index/index.component.ts ***!
-  \*****************************************************/
-/*! exports provided: IndexComponent */
+/***/ "./src/app/components/index-page/index-page.component.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/components/index-page/index-page.component.ts ***!
+  \***************************************************************/
+/*! exports provided: IndexPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IndexComponent", function() { return IndexComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IndexPageComponent", function() { return IndexPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -547,30 +547,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var IndexComponent = /** @class */ (function () {
-    function IndexComponent() {
+var IndexPageComponent = /** @class */ (function () {
+    function IndexPageComponent() {
     }
-    IndexComponent.prototype.ngOnInit = function () {
+    IndexPageComponent.prototype.ngOnInit = function () {
     };
-    IndexComponent = __decorate([
+    IndexPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'index',
-            template: __webpack_require__(/*! ./index.component.html */ "./src/app/components/index/index.component.html"),
-            styles: [__webpack_require__(/*! ./index.component.css */ "./src/app/components/index/index.component.css")]
+            selector: 'index-page',
+            template: __webpack_require__(/*! ./index-page.component.html */ "./src/app/components/index-page/index-page.component.html"),
+            styles: [__webpack_require__(/*! ./index-page.component.css */ "./src/app/components/index-page/index-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], IndexComponent);
-    return IndexComponent;
+    ], IndexPageComponent);
+    return IndexPageComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/components/login/login.component.css":
-/*!******************************************************!*\
-  !*** ./src/app/components/login/login.component.css ***!
-  \******************************************************/
+/***/ "./src/app/components/login-page/login-page.component.css":
+/*!****************************************************************!*\
+  !*** ./src/app/components/login-page/login-page.component.css ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -578,27 +578,27 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 
 /***/ }),
 
-/***/ "./src/app/components/login/login.component.html":
-/*!*******************************************************!*\
-  !*** ./src/app/components/login/login.component.html ***!
-  \*******************************************************/
+/***/ "./src/app/components/login-page/login-page.component.html":
+/*!*****************************************************************!*\
+  !*** ./src/app/components/login-page/login-page.component.html ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n                </div>\n                <div class=\"submit\">\n                    <button type=\"submit\" class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n                </div>\n                <div class=\"submit\">\n                    <button type=\"submit\" class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
-/***/ "./src/app/components/login/login.component.ts":
-/*!*****************************************************!*\
-  !*** ./src/app/components/login/login.component.ts ***!
-  \*****************************************************/
-/*! exports provided: LoginComponent */
+/***/ "./src/app/components/login-page/login-page.component.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/components/login-page/login-page.component.ts ***!
+  \***************************************************************/
+/*! exports provided: LoginPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageComponent", function() { return LoginPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -610,20 +610,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+var LoginPageComponent = /** @class */ (function () {
+    function LoginPageComponent() {
     }
-    LoginComponent.prototype.ngOnInit = function () {
+    LoginPageComponent.prototype.ngOnInit = function () {
     };
-    LoginComponent = __decorate([
+    LoginPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'login',
-            template: __webpack_require__(/*! ./login.component.html */ "./src/app/components/login/login.component.html"),
-            styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/components/login/login.component.css")]
+            selector: 'login-page',
+            template: __webpack_require__(/*! ./login-page.component.html */ "./src/app/components/login-page/login-page.component.html"),
+            styles: [__webpack_require__(/*! ./login-page.component.css */ "./src/app/components/login-page/login-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], LoginComponent);
-    return LoginComponent;
+    ], LoginPageComponent);
+    return LoginPageComponent;
 }());
 
 
@@ -756,38 +756,38 @@ var NavigationBarComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/components/product/product.component.css":
-/*!**********************************************************!*\
-  !*** ./src/app/components/product/product.component.css ***!
-  \**********************************************************/
+/***/ "./src/app/components/product-page/product-page.component.css":
+/*!********************************************************************!*\
+  !*** ./src/app/components/product-page/product-page.component.css ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n  padding-top: 32px;\r\n  padding-bottom: 32px;\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n    margin-top: 24px;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection.product-information .tab-content #description p{\r\n    margin-bottom: 0;\r\n  }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n    background-color: #04BF00;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
 
 /***/ }),
 
-/***/ "./src/app/components/product/product.component.html":
-/*!***********************************************************!*\
-  !*** ./src/app/components/product/product.component.html ***!
-  \***********************************************************/
+/***/ "./src/app/components/product-page/product-page.component.html":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/product-page/product-page.component.html ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Now Food B-100\n    </div>\n</div>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p><strong>NOW Foods Vitamin B-100 High Potency B Complex - 250 Capsules </strong></p>\n                      <p>Now Foods Vitamin B-100 Caps are a blend of key B vitamins combined with other nutritional factors for enhanced synergism. Now Foods Vitamin B-100 High Potency B Complex provides recommended potencies of the most important B vitamins and is designed to supply your body's required daily intake in one complete supplement.</p>\n                      <p><strong>Why do some B vitamin supplements from NOW® have an odor? Is this normal?</strong></p>\n                      <p>\n                          B vitamins by nature do not have a pleasant aroma. This is normal and does not indicate the product is expired or otherwise compromised. The expiration date of any NOW supplement is printed on the bottom of the bottle. \n                          Sometimes you may get B vitamin powder residue on the capsules, usually yellow in color. \n                          Again, this is a normal occurrence. \n                          There is often a small amount of powder that escapes during the encapsulation process, and it sometimes coats the outside of the capsules.\n                      </p>\n\n                      <p><strong>I noticed that your Coenzyme B-complex is enteric coated. Does this mean it's considered slow release?</strong></p>\n                      <p>\n                          The enteric coating does slow the release of the nutrients somewhat by allowing them to pass through the stomach intact but no this does not create a time release product. \n                          It is tested to readily disintegrate in simulated intestinal conditions.\n                      </p>\n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Now Food B-100\n    </div>\n</div>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p><strong>NOW Foods Vitamin B-100 High Potency B Complex - 250 Capsules </strong></p>\n                      <p>Now Foods Vitamin B-100 Caps are a blend of key B vitamins combined with other nutritional factors for enhanced synergism. Now Foods Vitamin B-100 High Potency B Complex provides recommended potencies of the most important B vitamins and is designed to supply your body's required daily intake in one complete supplement.</p>\n                      <p><strong>Why do some B vitamin supplements from NOW® have an odor? Is this normal?</strong></p>\n                      <p>\n                          B vitamins by nature do not have a pleasant aroma. This is normal and does not indicate the product is expired or otherwise compromised. The expiration date of any NOW supplement is printed on the bottom of the bottle. \n                          Sometimes you may get B vitamin powder residue on the capsules, usually yellow in color. \n                          Again, this is a normal occurrence. \n                          There is often a small amount of powder that escapes during the encapsulation process, and it sometimes coats the outside of the capsules.\n                      </p>\n\n                      <p><strong>I noticed that your Coenzyme B-complex is enteric coated. Does this mean it's considered slow release?</strong></p>\n                      <p>\n                          The enteric coating does slow the release of the nutrients somewhat by allowing them to pass through the stomach intact but no this does not create a time release product. \n                          It is tested to readily disintegrate in simulated intestinal conditions.\n                      </p>\n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
-/***/ "./src/app/components/product/product.component.ts":
-/*!*********************************************************!*\
-  !*** ./src/app/components/product/product.component.ts ***!
-  \*********************************************************/
-/*! exports provided: ProductComponent */
+/***/ "./src/app/components/product-page/product-page.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/components/product-page/product-page.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: ProductPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductComponent", function() { return ProductComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductPageComponent", function() { return ProductPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -799,30 +799,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var ProductComponent = /** @class */ (function () {
-    function ProductComponent() {
+var ProductPageComponent = /** @class */ (function () {
+    function ProductPageComponent() {
     }
-    ProductComponent.prototype.ngOnInit = function () {
+    ProductPageComponent.prototype.ngOnInit = function () {
     };
-    ProductComponent = __decorate([
+    ProductPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'product',
-            template: __webpack_require__(/*! ./product.component.html */ "./src/app/components/product/product.component.html"),
-            styles: [__webpack_require__(/*! ./product.component.css */ "./src/app/components/product/product.component.css")]
+            selector: 'product-page',
+            template: __webpack_require__(/*! ./product-page.component.html */ "./src/app/components/product-page/product-page.component.html"),
+            styles: [__webpack_require__(/*! ./product-page.component.css */ "./src/app/components/product-page/product-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], ProductComponent);
-    return ProductComponent;
+    ], ProductPageComponent);
+    return ProductPageComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/components/register/register.component.css":
-/*!************************************************************!*\
-  !*** ./src/app/components/register/register.component.css ***!
-  \************************************************************/
+/***/ "./src/app/components/register-page/register-page.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/components/register-page/register-page.component.css ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -830,27 +830,27 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 
 /***/ }),
 
-/***/ "./src/app/components/register/register.component.html":
-/*!*************************************************************!*\
-  !*** ./src/app/components/register/register.component.html ***!
-  \*************************************************************/
+/***/ "./src/app/components/register-page/register-page.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/register-page/register-page.component.html ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n            <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n            Εγγραφή\n    </div>\n</div>\n\n<!-- Register -->\n<section class=\"register\">\n    <div class=\"container\">\n        <h1>Εγγραφή</h1>\n        <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink=\"/login\">εδώ</a>.</p>\n           \n        <form>\n            <h4>Προσωπικά στοιχεία</h4>\n            <div class=\"form-group\">\n                <label>Όνομα</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Όνομα\" name=\"fname\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επώνυμο</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Επώνυμο\" name=\"lname\">\n            </div>\n            <div class=\"form-group\">\n                <label>E-mail</label>\n                <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n            </div>\n            <div class=\"form-group\">\n                <label>Τηλέφωνο</label>\n                <input type=\"number\" class=\"form-control\" placeholder=\"Τηλέφωνο\" name=\"phone\">\n            </div>\n            <h4>Ο Κωδικός</h4>\n            <div class=\"form-group\">\n                <label>Kωδικός</label>\n                <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επαλήθευση Κωδικού</label>\n                <input type=\"password\" class=\"form-control\" placeholder=\"Επαλήθευση Κωδικού\" name=\"confirmpassword\">\n            </div>\n            <div class=\"submit\">\n                <p>Συμφωνώ με τους όρους πολιτικής</p>\n                <button type=\"submit\" class=\"btn btn-primary\">Εγγραφή</button>\n            </div>\n           </form>\n    </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n            <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n            Εγγραφή\n    </div>\n</div>\n\n<!-- Register -->\n<section class=\"register\">\n    <div class=\"container\">\n        <h1>Εγγραφή</h1>\n        <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink=\"/login\">εδώ</a>.</p>\n           \n        <form>\n            <h4>Προσωπικά στοιχεία</h4>\n            <div class=\"form-group\">\n                <label>Όνομα</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Όνομα\" name=\"fname\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επώνυμο</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Επώνυμο\" name=\"lname\">\n            </div>\n            <div class=\"form-group\">\n                <label>E-mail</label>\n                <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n            </div>\n            <div class=\"form-group\">\n                <label>Τηλέφωνο</label>\n                <input type=\"number\" class=\"form-control\" placeholder=\"Τηλέφωνο\" name=\"phone\">\n            </div>\n            <h4>Ο Κωδικός</h4>\n            <div class=\"form-group\">\n                <label>Kωδικός</label>\n                <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επαλήθευση Κωδικού</label>\n                <input type=\"password\" class=\"form-control\" placeholder=\"Επαλήθευση Κωδικού\" name=\"confirmpassword\">\n            </div>\n            <div class=\"submit\">\n                <p>Συμφωνώ με τους όρους πολιτικής</p>\n                <button type=\"submit\" class=\"btn btn-primary\">Εγγραφή</button>\n            </div>\n           </form>\n    </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
-/***/ "./src/app/components/register/register.component.ts":
-/*!***********************************************************!*\
-  !*** ./src/app/components/register/register.component.ts ***!
-  \***********************************************************/
-/*! exports provided: RegisterComponent */
+/***/ "./src/app/components/register-page/register-page.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/register-page/register-page.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: RegisterPageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterComponent", function() { return RegisterComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterPageComponent", function() { return RegisterPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -862,20 +862,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var RegisterComponent = /** @class */ (function () {
-    function RegisterComponent() {
+var RegisterPageComponent = /** @class */ (function () {
+    function RegisterPageComponent() {
     }
-    RegisterComponent.prototype.ngOnInit = function () {
+    RegisterPageComponent.prototype.ngOnInit = function () {
     };
-    RegisterComponent = __decorate([
+    RegisterPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'register',
-            template: __webpack_require__(/*! ./register.component.html */ "./src/app/components/register/register.component.html"),
-            styles: [__webpack_require__(/*! ./register.component.css */ "./src/app/components/register/register.component.css")]
+            selector: 'register-page',
+            template: __webpack_require__(/*! ./register-page.component.html */ "./src/app/components/register-page/register-page.component.html"),
+            styles: [__webpack_require__(/*! ./register-page.component.css */ "./src/app/components/register-page/register-page.component.css")]
         }),
         __metadata("design:paramtypes", [])
-    ], RegisterComponent);
-    return RegisterComponent;
+    ], RegisterPageComponent);
+    return RegisterPageComponent;
 }());
 
 

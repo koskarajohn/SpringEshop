@@ -1,41 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IndexComponent } from './components/index/index.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { CartComponent } from './components/cart/cart.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
-import { CategoryComponent } from './components/category/category.component';
-import { ProductComponent } from './components/product/product.component';
+import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { CategoryPageComponent } from './components/category-page/category-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
+import { ProductPageComponent } from './components/product-page/product-page.component';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { IndexPageComponent } from './components/index-page/index-page.component';
 
 export const appRoutes: Routes = [
   { path: '', 
-    component: IndexComponent 
+    component: IndexPageComponent 
   },
   {
     path: 'login',
-    component:LoginComponent
+    component:LoginPageComponent
   },
   {
     path: 'register',
-    component:RegisterComponent
+    component:RegisterPageComponent
   },
   {
     path: 'cart',
-    component:CartComponent
+    component:CartPageComponent
   },
   {
     path: 'checkout',
-    component:CheckoutComponent
+    component:CheckoutPageComponent
   }
   ,
   {
     path: 'category',
-    component:CategoryComponent
+    component:CategoryPageComponent
   },
   {
     path: 'product',
-    component:ProductComponent
+    component:ProductPageComponent
   }
 ];
 

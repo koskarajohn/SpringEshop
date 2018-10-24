@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Deal} from '../../models/deal';
+import {DealService } from 'src/app/services/deal.service';
 
 @Component({
   selector: 'discount-carousel',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiscountCarouselComponent implements OnInit {
 
-  constructor() { }
+  deals : Deal[];
+
+  constructor(private dealService : DealService) { }
 
   ngOnInit() {
+    this.dealService.getDeals()
+        .subscribe(deals => this.deals = deals);
   }
 
 }

@@ -175,19 +175,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/shop-services/shop-services.component */ "./src/app/components/shop-services/shop-services.component.ts");
-/* harmony import */ var _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/discount-carousel/discount-carousel.component */ "./src/app/components/discount-carousel/discount-carousel.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _components_index_index_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/index/index.component */ "./src/app/components/index/index.component.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
-/* harmony import */ var _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/my-footer/my-footer.component */ "./src/app/components/my-footer/my-footer.component.ts");
-/* harmony import */ var _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
-/* harmony import */ var _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/checkout/checkout.component */ "./src/app/components/checkout/checkout.component.ts");
-/* harmony import */ var _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/cart/cart.component */ "./src/app/components/cart/cart.component.ts");
-/* harmony import */ var _components_category_category_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/category/category.component */ "./src/app/components/category/category.component.ts");
-/* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/shop-services/shop-services.component */ "./src/app/components/shop-services/shop-services.component.ts");
+/* harmony import */ var _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/discount-carousel/discount-carousel.component */ "./src/app/components/discount-carousel/discount-carousel.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _components_index_index_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/index/index.component */ "./src/app/components/index/index.component.ts");
+/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
+/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
+/* harmony import */ var _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/my-footer/my-footer.component */ "./src/app/components/my-footer/my-footer.component.ts");
+/* harmony import */ var _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
+/* harmony import */ var _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/checkout/checkout.component */ "./src/app/components/checkout/checkout.component.ts");
+/* harmony import */ var _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/cart/cart.component */ "./src/app/components/cart/cart.component.ts");
+/* harmony import */ var _components_category_category_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/category/category.component */ "./src/app/components/category/category.component.ts");
+/* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -209,31 +210,33 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"],
-                _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_3__["ShopServicesComponent"],
-                _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_4__["DiscountCarouselComponent"],
-                _components_index_index_component__WEBPACK_IMPORTED_MODULE_6__["IndexComponent"],
-                _components_login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"],
-                _components_register_register_component__WEBPACK_IMPORTED_MODULE_8__["RegisterComponent"],
-                _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_9__["MyFooterComponent"],
-                _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_10__["NavigationBarComponent"],
-                _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_11__["CheckoutComponent"],
-                _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_12__["CartComponent"],
-                _components_category_category_component__WEBPACK_IMPORTED_MODULE_13__["CategoryComponent"],
-                _components_product_product_component__WEBPACK_IMPORTED_MODULE_14__["ProductComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
+                _components_shop_services_shop_services_component__WEBPACK_IMPORTED_MODULE_4__["ShopServicesComponent"],
+                _components_discount_carousel_discount_carousel_component__WEBPACK_IMPORTED_MODULE_5__["DiscountCarouselComponent"],
+                _components_index_index_component__WEBPACK_IMPORTED_MODULE_7__["IndexComponent"],
+                _components_login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"],
+                _components_register_register_component__WEBPACK_IMPORTED_MODULE_9__["RegisterComponent"],
+                _components_my_footer_my_footer_component__WEBPACK_IMPORTED_MODULE_10__["MyFooterComponent"],
+                _components_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_11__["NavigationBarComponent"],
+                _components_checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__["CheckoutComponent"],
+                _components_cart_cart_component__WEBPACK_IMPORTED_MODULE_13__["CartComponent"],
+                _components_category_category_component__WEBPACK_IMPORTED_MODULE_14__["CategoryComponent"],
+                _components_product_product_component__WEBPACK_IMPORTED_MODULE_15__["ProductComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -450,7 +453,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Discount Carousel -->\n<section  class=\"carousel-section\">\n  <div class=\"container\">\n      <div class=\"row justify-content-center\">\n          <div id=\"carousel-discounts\" class=\"carousel slide\" data-ride=\"carousel\">\n              <ul class=\"carousel-indicators\">\n                  <li data-target=\"#carousel-discounts\" data-slide-to=\"0\" class=\"active\"></li>\n                  <li data-target=\"#carousel-discounts\" data-slide-to=\"1\"></li>\n                  <li data-target=\"#carousel-discounts\" data-slide-to=\"2\"></li>\n                  <li data-target=\"#carousel-discounts\" data-slide-to=\"3\"></li>\n              </ul>\n                      \n              <div class=\"carousel-inner\">\n                  <div class=\"carousel-item active\">\n                      <img class=\"img-fluid\" src=\"assets/img/discounts/powerhealth.png\" alt=\"\">\n                  </div>\n                  <div class=\"carousel-item\">\n                      <img class=\"img-fluid\" src=\"assets/img/discounts/apivita.png\" alt=\"\">\n                  </div>\n                  <div class=\"carousel-item\">\n                      <img class=\"img-fluid\" src=\"assets/img/discounts/frezyderm.png\" alt=\"\">\n                  </div>\n                  <div class=\"carousel-item\">\n                      <img class=\"img-fluid\" src=\"assets/img/discounts/korres.png\" alt=\"\">\n                  </div>\n              </div>\n      \n              <a class=\"carousel-control-prev\" href=\"#carousel-discounts\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#carousel-discounts\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n      \n  </div>  \n</section>\n"
+module.exports = "<!-- Discount Carousel -->\n<section  class=\"carousel-section\">\n  <div class=\"container\">\n      <div class=\"row justify-content-center\">\n          <div id=\"carousel-discounts\" class=\"carousel slide\" data-ride=\"carousel\">\n              <ul class=\"carousel-indicators\">\n                  <li data-target=\"#carousel-discounts\" *ngFor = \"let deal of deals; let i = index; let isFirstItem = first\" \n                      [attr.data-slide-to] = \"i\" [ngClass] = \"{'active' : isFirstItem}\">\n                  </li>\n              </ul>\n                      \n              <div class=\"carousel-inner\">\n                  <div *ngFor = \"let deal of deals; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n                      <img class=\"img-fluid\" src=\"{{deal.imageUrl}}\" alt=\"\">\n                  </div>\n              </div>\n      \n              <a class=\"carousel-control-prev\" href=\"#carousel-discounts\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#carousel-discounts\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n      \n  </div>  \n</section>\n"
 
 /***/ }),
 
@@ -465,6 +468,7 @@ module.exports = "<!-- Discount Carousel -->\n<section  class=\"carousel-section
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DiscountCarouselComponent", function() { return DiscountCarouselComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_deal_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/deal.service */ "./src/app/services/deal.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -475,10 +479,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var DiscountCarouselComponent = /** @class */ (function () {
-    function DiscountCarouselComponent() {
+    function DiscountCarouselComponent(dealService) {
+        this.dealService = dealService;
     }
     DiscountCarouselComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dealService.getDeals()
+            .subscribe(function (deals) { return _this.deals = deals; });
     };
     DiscountCarouselComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -486,7 +495,7 @@ var DiscountCarouselComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./discount-carousel.component.html */ "./src/app/components/discount-carousel/discount-carousel.component.html"),
             styles: [__webpack_require__(/*! ./discount-carousel.component.css */ "./src/app/components/discount-carousel/discount-carousel.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [src_app_services_deal_service__WEBPACK_IMPORTED_MODULE_1__["DealService"]])
     ], DiscountCarouselComponent);
     return DiscountCarouselComponent;
 }());
@@ -513,7 +522,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discount-carousel>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -930,6 +939,50 @@ var ShopServicesComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], ShopServicesComponent);
     return ShopServicesComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/deal.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/deal.service.ts ***!
+  \******************************************/
+/*! exports provided: DealService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DealService", function() { return DealService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DealService = /** @class */ (function () {
+    function DealService(http) {
+        this.http = http;
+        this.dealsApi = '/api/deals';
+    }
+    DealService.prototype.getDeals = function () {
+        return this.http.get(this.dealsApi);
+    };
+    DealService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], DealService);
+    return DealService;
 }());
 
 

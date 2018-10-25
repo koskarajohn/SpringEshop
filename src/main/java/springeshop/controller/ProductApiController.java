@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class ProductApiController {
 	private ProductService productService;
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ResponseEntity<?> listProducts(){
+	public ResponseEntity<?> listProducts(@RequestParam(value = "filter", required = false) String filter){
 		List<Product> products = productService.findAllProducts();
 		if(products.isEmpty()){
 			return new ResponseEntity(HttpStatus.NO_CONTENT);

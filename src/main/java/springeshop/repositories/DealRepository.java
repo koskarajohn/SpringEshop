@@ -14,6 +14,6 @@ public interface DealRepository extends JpaRepository<Deal, Integer>{
 	Deal findById(int id);
 	Deal findByName(String name);
 	
-	@Query("select di from DealImage di INNER JOIN di.deal de where di.id = :id")
+	@Query("select di from DealImage di INNER JOIN di.deal de where di.deal.id = :id")
 	DealImage findByDealId(@Param("id") int id);
 }

@@ -14,6 +14,8 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { IndexPageComponent } from './components/index-page/index-page.component';
+import { ProductComponent } from './components/product/product.component';
+import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { IndexPageComponent } from './components/index-page/index-page.component
     LoginPageComponent,
     RegisterPageComponent,
     ProductPageComponent,
-    IndexPageComponent
+    IndexPageComponent,
+    ProductComponent,
+    ProductCarouselComponent
   ],
   imports: [
     BrowserModule,

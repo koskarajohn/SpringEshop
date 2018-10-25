@@ -17,6 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	Product findByName(String name);
 	List<Product> findByCategoryId(int id);
 	
-	@Query("select pi from ProductImage pi INNER JOIN pi.product pr where pi.id = :id")
+	@Query("select pi from ProductImage pi INNER JOIN pi.product pr where pi.product.id = :id")
 	ProductImage findByProductId(@Param("id") int id);
 }

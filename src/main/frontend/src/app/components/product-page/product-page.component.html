@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 product-image">
-            <img class="img-fluid" src="{{product?.imageUrl}}" alt="">
+            <img class="img-fluid" src="{{product?.largeImageUrl}}" alt="">
         </div>
         <div class="col-sm-4 product-details">
             <h4>{{product?.name}}</h4>
@@ -47,21 +47,8 @@
               <div class="tab-content">
                   <div id="description" class="container tab-pane active">
                       <br>
-                      <p><strong>NOW Foods Vitamin B-100 High Potency B Complex - 250 Capsules </strong></p>
-                      <p>Now Foods Vitamin B-100 Caps are a blend of key B vitamins combined with other nutritional factors for enhanced synergism. Now Foods Vitamin B-100 High Potency B Complex provides recommended potencies of the most important B vitamins and is designed to supply your body's required daily intake in one complete supplement.</p>
-                      <p><strong>Why do some B vitamin supplements from NOW® have an odor? Is this normal?</strong></p>
-                      <p>
-                          B vitamins by nature do not have a pleasant aroma. This is normal and does not indicate the product is expired or otherwise compromised. The expiration date of any NOW supplement is printed on the bottom of the bottle. 
-                          Sometimes you may get B vitamin powder residue on the capsules, usually yellow in color. 
-                          Again, this is a normal occurrence. 
-                          There is often a small amount of powder that escapes during the encapsulation process, and it sometimes coats the outside of the capsules.
-                      </p>
-
-                      <p><strong>I noticed that your Coenzyme B-complex is enteric coated. Does this mean it's considered slow release?</strong></p>
-                      <p>
-                          The enteric coating does slow the release of the nutrients somewhat by allowing them to pass through the stomach intact but no this does not create a time release product. 
-                          It is tested to readily disintegrate in simulated intestinal conditions.
-                      </p>
+                      <p>{{product?.description}}</p>
+   
                       
                   </div> 
                   <div id="additional-info" class="container tab-pane fade">

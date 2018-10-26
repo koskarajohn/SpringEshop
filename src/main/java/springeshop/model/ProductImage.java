@@ -24,17 +24,18 @@ public class ProductImage {
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
-	@Column(name = "image_url")
-	@NotNull(message = "Please provide the image url")
-	private String url;
+	@Column(name = "small_image_url")
+	@NotNull(message = "Please provide the small image url")
+	private String smallImageurl;
+	
+	@Column(name = "large_image_url")
+	@NotNull(message = "Please provide the large image url")
+	private String largeImageurl;
 	
 	public ProductImage(){
 		
 	}
 	
-    public ProductImage(String url){
-		this.url = url;
-	}
 
 	public int getId() {
 		return id;
@@ -52,12 +53,24 @@ public class ProductImage {
 		this.product = product;
 	}
 
-	public String getUrl() {
-		return url;
+
+	public String getSmallImageurl() {
+		return smallImageurl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+
+	public void setSmallImageurl(String smallImageurl) {
+		this.smallImageurl = smallImageurl;
+	}
+
+
+	public String getLargeImageurl() {
+		return largeImageurl;
+	}
+
+
+	public void setLargeImageurl(String largeImageurl) {
+		this.largeImageurl = largeImageurl;
 	}
 	
 	

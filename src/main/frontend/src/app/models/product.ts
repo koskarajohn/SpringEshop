@@ -4,5 +4,6 @@ export class Product{
     category : string
     price : number
     description : string
-    imageUrl : string
+    smallImageUrl : string
+    largeImageUrl : string
 }

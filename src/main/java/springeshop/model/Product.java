@@ -41,7 +41,10 @@ public class Product {
 	private String description;
 	
 	@Transient
-	private String imageUrl;
+	private String smallImageUrl;
+	
+	@Transient
+	private String largeImageUrl;
 	
 	
 	
@@ -95,13 +98,21 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getSmallImageUrl() {
+		return smallImageUrl;
+	}
+
+	public void setSmallImageUrl(String smallImageUrl) {
+		this.smallImageUrl = smallImageUrl;
+	}
+
+	public String getLargeImageUrl() {
+		return largeImageUrl;
+	}
+
+	public void setLargeImageUrl(String largeImageUrl) {
+		this.largeImageUrl = largeImageUrl;
+	}
 	
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
 }

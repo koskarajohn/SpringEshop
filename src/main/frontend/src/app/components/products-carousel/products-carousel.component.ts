@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class ProductsCarouselComponent implements OnInit, OnDestroy{
 
   @Input() carouselTitle : string;
+  @Input() carouselHtmlId : string;
   httpSubscription : Subscription;
 
   productLists : Product[][];

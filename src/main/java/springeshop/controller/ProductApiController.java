@@ -44,7 +44,8 @@ public class ProductApiController {
 		
 		for(Product product : products){
 			ProductImage productImage = productService.findByProductId(product.getId());
-	        product.setImageUrl(productImage.getUrl());
+	        product.setSmallImageUrl(productImage.getSmallImageurl());
+	        product.setLargeImageUrl(productImage.getLargeImageurl());
 		}
 		
 		if(filter == null){
@@ -83,7 +84,8 @@ public class ProductApiController {
         }
         
         ProductImage productImage = productService.findByProductId(product.getId());
-        product.setImageUrl(productImage.getUrl());
+        product.setSmallImageUrl(productImage.getSmallImageurl());
+        product.setLargeImageUrl(productImage.getLargeImageurl());
         
         return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}

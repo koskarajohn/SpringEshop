@@ -34,7 +34,7 @@ export const appRoutes: Routes = [
     component:CategoryPageComponent
   },
   {
-    path: 'product',
+    path: 'product/:name',
     component:ProductPageComponent
   }
 ];

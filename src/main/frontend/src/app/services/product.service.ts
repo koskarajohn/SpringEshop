@@ -8,11 +8,15 @@ import { Product } from '../models/product';
 })
 export class ProductService {
 
-  private productListsApi = '/api/products?filter=favorite';
+  private productListsApi = '/api/products';
 
   constructor(private http : HttpClient) { }
 
   getProductList() : Observable<Product[][]>{
-    return this.http.get<Product[][]>(this.productListsApi);
+    return this.http.get<Product[][]>(this.productListsApi + '?filter=favorite');
+  }
+
+  getSingleProduct(name : string) : Observable<Product>{
+    return this.http.get<Product>(this.productListsApi + '/' + name);
   }
 }

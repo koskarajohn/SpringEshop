@@ -1,7 +1,7 @@
 <div class="product">
-  <a href="#"><img class="img-fluid d-block mx-auto" src="{{product.imageUrl}}" alt=""></a>
-  <a href="#"><h4>{{product.name}}</h4></a>
-  <p>{{product.price}}€</p>
+  <a routerLink="/product/{{product.name}}"><img class="img-fluid d-block mx-auto" src="{{product?.imageUrl}}" alt=""></a>
+  <a routerLink="/product/{{product.name}}"><h4>{{product?.name}}</h4></a>
+  <p>{{product?.price}}€</p>
   <button type="button" class="btn btn-primary">
       <i class="fas fa-cart-plus mr-2"></i>Προσθήκη στο καλάθι
   </button>

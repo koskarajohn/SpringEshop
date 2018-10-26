@@ -83,7 +83,7 @@ var appRoutes = [
         component: _components_category_page_category_page_component__WEBPACK_IMPORTED_MODULE_3__["CategoryPageComponent"]
     },
     {
-        path: 'product',
+        path: 'product/:name',
         component: _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_6__["ProductPageComponent"]
     }
 ];
@@ -459,7 +459,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Discount Carousel -->\n<section  class=\"carousel-section\">\n  <div class=\"container\">\n      <div class=\"row justify-content-center\">\n          <div id=\"carousel-discounts\" class=\"carousel slide\" data-ride=\"carousel\">\n              <ul class=\"carousel-indicators\">\n                  <li data-target=\"#carousel-discounts\" *ngFor = \"let deal of deals; let i = index; let isFirstItem = first\" \n                      [attr.data-slide-to] = \"i\" [ngClass] = \"{'active' : isFirstItem}\">\n                  </li>\n              </ul>\n                      \n              <div class=\"carousel-inner\">\n                  <div *ngFor = \"let deal of deals; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n                      <img class=\"img-fluid\" src=\"{{deal.imageUrl}}\" alt=\"\">\n                  </div>\n              </div>\n      \n              <a class=\"carousel-control-prev\" href=\"#carousel-discounts\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#carousel-discounts\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n      \n  </div>  \n</section>\n"
+module.exports = "<!-- Discount Carousel -->\n<section  class=\"carousel-section\">\n  <div class=\"container\">\n      <div class=\"row justify-content-center\">\n          <div id=\"carousel-discounts\" class=\"carousel slide\" data-ride=\"carousel\">\n              <ul class=\"carousel-indicators\">\n                  <li data-target=\"#carousel-discounts\" *ngFor = \"let deal of deals; let i = index; let isFirstItem = first\" \n                      [attr.data-slide-to] = \"i\" [ngClass] = \"{'active' : isFirstItem}\">\n                  </li>\n              </ul>\n                      \n              <div class=\"carousel-inner\">\n                  <div *ngFor = \"let deal of deals; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n                      <img class=\"img-fluid\" src=\"{{deal?.imageUrl}}\" alt=\"\">\n                  </div>\n              </div>\n      \n              <a class=\"carousel-control-prev\" href=\"#carousel-discounts\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#carousel-discounts\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n      \n  </div>  \n</section>\n"
 
 /***/ }),
 
@@ -492,8 +492,11 @@ var DiscountCarouselComponent = /** @class */ (function () {
     }
     DiscountCarouselComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dealService.getDeals()
+        this.httpSubscription = this.dealService.getDeals()
             .subscribe(function (deals) { return _this.deals = deals; });
+    };
+    DiscountCarouselComponent.prototype.ngOnDestroy = function () {
+        this.httpSubscription.unsubscribe();
     };
     DiscountCarouselComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -769,7 +772,7 @@ var NavigationBarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
 
 /***/ }),
 
@@ -780,7 +783,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Now Food B-100\n    </div>\n</div>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p><strong>NOW Foods Vitamin B-100 High Potency B Complex - 250 Capsules </strong></p>\n                      <p>Now Foods Vitamin B-100 Caps are a blend of key B vitamins combined with other nutritional factors for enhanced synergism. Now Foods Vitamin B-100 High Potency B Complex provides recommended potencies of the most important B vitamins and is designed to supply your body's required daily intake in one complete supplement.</p>\n                      <p><strong>Why do some B vitamin supplements from NOW® have an odor? Is this normal?</strong></p>\n                      <p>\n                          B vitamins by nature do not have a pleasant aroma. This is normal and does not indicate the product is expired or otherwise compromised. The expiration date of any NOW supplement is printed on the bottom of the bottle. \n                          Sometimes you may get B vitamin powder residue on the capsules, usually yellow in color. \n                          Again, this is a normal occurrence. \n                          There is often a small amount of powder that escapes during the encapsulation process, and it sometimes coats the outside of the capsules.\n                      </p>\n\n                      <p><strong>I noticed that your Coenzyme B-complex is enteric coated. Does this mean it's considered slow release?</strong></p>\n                      <p>\n                          The enteric coating does slow the release of the nutrients somewhat by allowing them to pass through the stomach intact but no this does not create a time release product. \n                          It is tested to readily disintegrate in simulated intestinal conditions.\n                      </p>\n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n\n<div class=\"container\">\n    <div class=\"row justify-content-center\">\n        <div class=\"col-sm-4 product-image\">\n            <img class=\"img-fluid\" src=\"{{product?.imageUrl}}\" alt=\"\">\n        </div>\n        <div class=\"col-sm-4 product-details\">\n            <h4>{{product?.name}}</h4>\n            <h3>{{product?.price}}€</h3>\n            <p><span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star\"></span>\n            </p>\n            <p><strong>Εταιρία</strong> : Now</p>\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\n            <p><strong>Διαθεσιμότητα</strong> : Σε απόθεμα</p>\n            <p><strong>Ποσότητα</strong> : <input type=\"number\" name=\"quantity\" value=\"1\" min=\"1\" max=\"999\"></p>\n            <button type=\"button\" class=\"btn btn-primary\">\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n            </button>\n        </div>\n    </div>\n</div>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p><strong>NOW Foods Vitamin B-100 High Potency B Complex - 250 Capsules </strong></p>\n                      <p>Now Foods Vitamin B-100 Caps are a blend of key B vitamins combined with other nutritional factors for enhanced synergism. Now Foods Vitamin B-100 High Potency B Complex provides recommended potencies of the most important B vitamins and is designed to supply your body's required daily intake in one complete supplement.</p>\n                      <p><strong>Why do some B vitamin supplements from NOW® have an odor? Is this normal?</strong></p>\n                      <p>\n                          B vitamins by nature do not have a pleasant aroma. This is normal and does not indicate the product is expired or otherwise compromised. The expiration date of any NOW supplement is printed on the bottom of the bottle. \n                          Sometimes you may get B vitamin powder residue on the capsules, usually yellow in color. \n                          Again, this is a normal occurrence. \n                          There is often a small amount of powder that escapes during the encapsulation process, and it sometimes coats the outside of the capsules.\n                      </p>\n\n                      <p><strong>I noticed that your Coenzyme B-complex is enteric coated. Does this mean it's considered slow release?</strong></p>\n                      <p>\n                          The enteric coating does slow the release of the nutrients somewhat by allowing them to pass through the stomach intact but no this does not create a time release product. \n                          It is tested to readily disintegrate in simulated intestinal conditions.\n                      </p>\n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -795,6 +798,8 @@ module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<di
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductPageComponent", function() { return ProductPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/product.service */ "./src/app/services/product.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -805,10 +810,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var ProductPageComponent = /** @class */ (function () {
-    function ProductPageComponent() {
+    function ProductPageComponent(route, productService) {
+        this.route = route;
+        this.productService = productService;
     }
     ProductPageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.routeSubscription = this.route.params.subscribe(function (params) { return _this.productNameParam = params['name']; });
+        this.httpSubscription = this.productService.getSingleProduct(this.productNameParam)
+            .subscribe(function (product) {
+            _this.product = product;
+            console.log(_this.product);
+        });
+    };
+    ProductPageComponent.prototype.ngOnDestroy = function () {
+        this.routeSubscription.unsubscribe();
+        this.httpSubscription.unsubscribe();
     };
     ProductPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -816,7 +836,7 @@ var ProductPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./product-page.component.html */ "./src/app/components/product-page/product-page.component.html"),
             styles: [__webpack_require__(/*! ./product-page.component.css */ "./src/app/components/product-page/product-page.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"]])
     ], ProductPageComponent);
     return ProductPageComponent;
 }());
@@ -843,7 +863,7 @@ module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"product\">\n  <a href=\"#\"><img class=\"img-fluid d-block mx-auto\" src=\"{{product.imageUrl}}\" alt=\"\"></a>\n  <a href=\"#\"><h4>{{product.name}}</h4></a>\n  <p>{{product.price}}€</p>\n  <button type=\"button\" class=\"btn btn-primary\">\n      <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n  </button>\n</div>"
+module.exports = "<div class=\"product\">\n  <a routerLink=\"/product/{{product.name}}\"><img class=\"img-fluid d-block mx-auto\" src=\"{{product?.imageUrl}}\" alt=\"\"></a>\n  <a routerLink=\"/product/{{product.name}}\"><h4>{{product?.name}}</h4></a>\n  <p>{{product?.price}}€</p>\n  <button type=\"button\" class=\"btn btn-primary\">\n      <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n  </button>\n</div>"
 
 /***/ }),
 
@@ -900,7 +920,7 @@ var ProductComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".content{\r\n  margin-top: 40px;\r\n  margin-bottom: 40px;\r\n}\r\n\r\nh1{\r\n    margin-bottom: 64px;\r\n}\r\n\r\n.carousel-control-prev-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\n.carousel-control-next-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\na.carousel-control-prev{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n }\r\n\r\na.carousel-control-next{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n}"
+module.exports = ".content{\r\n  margin-top: 40px;\r\n  margin-bottom: 80px;\r\n}\r\n\r\nh1{\r\n    margin-bottom: 64px;\r\n}\r\n\r\n.carousel-control-prev-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\n.carousel-control-next-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\na.carousel-control-prev{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n }\r\n\r\na.carousel-control-next{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n}"
 
 /***/ }),
 
@@ -944,8 +964,11 @@ var ProductsCarouselComponent = /** @class */ (function () {
     }
     ProductsCarouselComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.productService.getProductList()
+        this.httpSubscription = this.productService.getProductList()
             .subscribe(function (productLists) { return _this.productLists = productLists; });
+    };
+    ProductsCarouselComponent.prototype.ngOnDestroy = function () {
+        this.httpSubscription.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1182,10 +1205,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var ProductService = /** @class */ (function () {
     function ProductService(http) {
         this.http = http;
-        this.productListsApi = '/api/products?filter=favorite';
+        this.productListsApi = '/api/products';
     }
     ProductService.prototype.getProductList = function () {
-        return this.http.get(this.productListsApi);
+        return this.http.get(this.productListsApi + '?filter=favorite');
+    };
+    ProductService.prototype.getSingleProduct = function (name) {
+        return this.http.get(this.productListsApi + '/' + name);
     };
     ProductService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

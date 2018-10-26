@@ -72,17 +72,17 @@ public class ProductApiController {
 		return (int) Math.ceil(numberOfProducts / 4.0);
 	}
 	
-	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getProduct(@PathVariable("id") int id){
-		logger.info("Fetching Product with id {}", id);
-        Product product = productService.findById(id);
+	@RequestMapping(value = "/products/{name}", method = RequestMethod.GET)
+	public ResponseEntity<?> getProductByName(@PathVariable("name") String name){
+		logger.info("Fetching Product with name {}", name);
+        Product product = productService.findByName(name);
         
         if(product == null){
-        	logger.error("Product with id {} not found.", id);
-			return new ResponseEntity(new ErrorMessage("Product with id " + id + " not found"),HttpStatus.NOT_FOUND);
+        	logger.error("Product with name {} not found.", name);
+			return new ResponseEntity(new ErrorMessage("Product with name " + name + " not found"),HttpStatus.NOT_FOUND);
         }
         
-        ProductImage productImage = productService.findByProductId(id);
+        ProductImage productImage = productService.findByProductId(product.getId());
         product.setImageUrl(productImage.getUrl());
         
         return new ResponseEntity<Product>(product, HttpStatus.OK);
@@ -140,7 +140,21 @@ public class ProductApiController {
         return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 	
-	
+	//@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+	//public ResponseEntity<?> getProductById(@PathVariable("id") int id){
+	//	logger.info("Fetching Product with id {}", id);
+    //    Product product = productService.findById(id);
+    //    
+     //   if(product == null){
+    //    	logger.error("Product with id {} not found.", id);
+	//		return new ResponseEntity(new ErrorMessage("Product with id " + id + " not found"),HttpStatus.NOT_FOUND);
+    //    }
+        
+    //    ProductImage productImage = productService.findByProductId(product.getId());
+    //    product.setImageUrl(productImage.getUrl());
+        
+    //    return new ResponseEntity<Product>(product, HttpStatus.OK);
+	//}
 	
 	
 	

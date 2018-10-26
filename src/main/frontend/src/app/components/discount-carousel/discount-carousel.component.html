@@ -11,7 +11,7 @@
                       
               <div class="carousel-inner">
                   <div *ngFor = "let deal of deals; let isFirstItem = first" [ngClass] = " isFirstItem ? 'carousel-item active' : 'carousel-item'">
-                      <img class="img-fluid" src="{{deal.imageUrl}}" alt="">
+                      <img class="img-fluid" src="{{deal?.imageUrl}}" alt="">
                   </div>
               </div>
       

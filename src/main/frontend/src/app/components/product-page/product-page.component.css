@@ -4,6 +4,33 @@
     padding-top: 32px;
     padding-bottom: 32px;
   }
+
+   /* --- Product --- */
+
+.product-details{
+  margin-top: 16px;
+}
+
+.product-details h3{
+  color: #E00000 ;
+}
+
+p span.checked{
+  color: orange;
+}
+
+@media (max-width: 576px){
+
+.product-image img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.product-details{
+    text-align: center;
+  }
+}
   
   /* --- Addition Product Information--- */
   

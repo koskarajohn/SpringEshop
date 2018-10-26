@@ -1,5 +1,6 @@
 package springeshop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,7 +47,29 @@ public class ProductApiController {
 	        product.setImageUrl(productImage.getUrl());
 		}
 		
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		if(filter == null){
+			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		}else if(filter.equals("favorite")){
+			
+			List<List<Product>> listOfFourProductSublists = new ArrayList<>();
+			int sublistsNumber = getListsOfFour(products.size());
+			for(int i=0; i < sublistsNumber; i++){
+				listOfFourProductSublists.add(new ArrayList<Product>());
+			}
+			
+			for(int i=1; i <=products.size(); i++){
+				listOfFourProductSublists.get(getListsOfFour(i) - 1).add(products.get(i - 1));			
+			}
+			
+			return new ResponseEntity<List<List<Product>>>(listOfFourProductSublists, HttpStatus.OK);
+		}else 
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		
+		
+	}
+	
+	private int getListsOfFour(int numberOfProducts){
+		return (int) Math.ceil(numberOfProducts / 4.0);
 	}
 	
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)

@@ -20,11 +20,11 @@
  }
 
  @media (max-width: 768px){
-  .product h44{
+  .product h4{
     min-height: 60px;
   }
 
   .product{
-    margin-top: 24px;
+    margin-top: 48px;
   }
 }

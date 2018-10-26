@@ -189,12 +189,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/register-page/register-page.component */ "./src/app/components/register-page/register-page.component.ts");
 /* harmony import */ var _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/product-page/product-page.component */ "./src/app/components/product-page/product-page.component.ts");
 /* harmony import */ var _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/index-page/index-page.component */ "./src/app/components/index-page/index-page.component.ts");
+/* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
+/* harmony import */ var _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/products-carousel/products-carousel.component */ "./src/app/components/products-carousel/products-carousel.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -228,7 +232,9 @@ var AppModule = /** @class */ (function () {
                 _components_login_page_login_page_component__WEBPACK_IMPORTED_MODULE_12__["LoginPageComponent"],
                 _components_register_page_register_page_component__WEBPACK_IMPORTED_MODULE_13__["RegisterPageComponent"],
                 _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_14__["ProductPageComponent"],
-                _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__["IndexPageComponent"]
+                _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__["IndexPageComponent"],
+                _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__["ProductComponent"],
+                _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__["ProductsCarouselComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -522,7 +528,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discount-carousel>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discount-carousel>\n<products-carousel [carouselTitle] = \"'Δημοφιλή Προιόντα'\"></products-carousel>\n<products-carousel [carouselTitle] = \"'Νέα Προιόντα'\"></products-carousel>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -819,6 +825,147 @@ var ProductPageComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/product/product.component.css":
+/*!**********************************************************!*\
+  !*** ./src/app/components/product/product.component.css ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/product/product.component.html":
+/*!***********************************************************!*\
+  !*** ./src/app/components/product/product.component.html ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"product\">\n  <a href=\"#\"><img class=\"img-fluid d-block mx-auto\" src=\"{{product.imageUrl}}\" alt=\"\"></a>\n  <a href=\"#\"><h4>{{product.name}}</h4></a>\n  <p>{{product.price}}€</p>\n  <button type=\"button\" class=\"btn btn-primary\">\n      <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n  </button>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/product/product.component.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/components/product/product.component.ts ***!
+  \*********************************************************/
+/*! exports provided: ProductComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductComponent", function() { return ProductComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_models_product__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/models/product */ "./src/app/models/product.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ProductComponent = /** @class */ (function () {
+    function ProductComponent() {
+    }
+    ProductComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", src_app_models_product__WEBPACK_IMPORTED_MODULE_1__["Product"])
+    ], ProductComponent.prototype, "product", void 0);
+    ProductComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'product-item',
+            template: __webpack_require__(/*! ./product.component.html */ "./src/app/components/product/product.component.html"),
+            styles: [__webpack_require__(/*! ./product.component.css */ "./src/app/components/product/product.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ProductComponent);
+    return ProductComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/products-carousel/products-carousel.component.css":
+/*!******************************************************************************!*\
+  !*** ./src/app/components/products-carousel/products-carousel.component.css ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".content{\r\n  margin-top: 40px;\r\n  margin-bottom: 40px;\r\n}\r\n\r\nh1{\r\n    margin-bottom: 64px;\r\n}\r\n\r\n.carousel-control-prev-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\n.carousel-control-next-icon{\r\n    background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E\") !important;\r\n}\r\n\r\na.carousel-control-prev{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n }\r\n\r\na.carousel-control-next{\r\n    width: 60px;\r\n    height:60px;\r\n    display: block;\r\n    margin-top: auto;\r\n    margin-bottom: auto;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/products-carousel/products-carousel.component.html":
+/*!*******************************************************************************!*\
+  !*** ./src/app/components/products-carousel/products-carousel.component.html ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container content\">\n  <h1 class=\"text-center\">{{carouselTitle}}</h1>\n  <div class=\"row\">\n      <div class=\"col-md-12\">\n          <div id=\"carousel-popular-products\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"0\">\n\n                              \n              <div class=\"carousel-inner\">\n\n                  <div *ngFor = \"let productList of productLists; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n\n                      <div class=\"row\">\n\n                          <div class=\"col-sm-6 col-md-6 col-lg-3\" *ngFor=\"let productItem of productList\">\n                              <product-item [product] = \"productItem\"></product-item>\n                          </div>\n\n                      </div>\n\n                  </div>                         \n\n\n              </div>\n              \n              <a class=\"carousel-control-prev\" href=\"#carousel-popular-products\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#carousel-popular-products\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n  </div>\n</div>  \n"
+
+/***/ }),
+
+/***/ "./src/app/components/products-carousel/products-carousel.component.ts":
+/*!*****************************************************************************!*\
+  !*** ./src/app/components/products-carousel/products-carousel.component.ts ***!
+  \*****************************************************************************/
+/*! exports provided: ProductsCarouselComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductsCarouselComponent", function() { return ProductsCarouselComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_product_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/product.service */ "./src/app/services/product.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ProductsCarouselComponent = /** @class */ (function () {
+    function ProductsCarouselComponent(productService) {
+        this.productService = productService;
+    }
+    ProductsCarouselComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.productService.getProductList()
+            .subscribe(function (productLists) { return _this.productLists = productLists; });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ProductsCarouselComponent.prototype, "carouselTitle", void 0);
+    ProductsCarouselComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'products-carousel',
+            template: __webpack_require__(/*! ./products-carousel.component.html */ "./src/app/components/products-carousel/products-carousel.component.html"),
+            styles: [__webpack_require__(/*! ./products-carousel.component.css */ "./src/app/components/products-carousel/products-carousel.component.css")]
+        }),
+        __metadata("design:paramtypes", [src_app_services_product_service__WEBPACK_IMPORTED_MODULE_1__["ProductService"]])
+    ], ProductsCarouselComponent);
+    return ProductsCarouselComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/register-page/register-page.component.css":
 /*!**********************************************************************!*\
   !*** ./src/app/components/register-page/register-page.component.css ***!
@@ -945,6 +1092,26 @@ var ShopServicesComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/models/product.ts":
+/*!***********************************!*\
+  !*** ./src/app/models/product.ts ***!
+  \***********************************/
+/*! exports provided: Product */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
+var Product = /** @class */ (function () {
+    function Product() {
+    }
+    return Product;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/deal.service.ts":
 /*!******************************************!*\
   !*** ./src/app/services/deal.service.ts ***!
@@ -983,6 +1150,50 @@ var DealService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], DealService);
     return DealService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/product.service.ts":
+/*!*********************************************!*\
+  !*** ./src/app/services/product.service.ts ***!
+  \*********************************************/
+/*! exports provided: ProductService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductService", function() { return ProductService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ProductService = /** @class */ (function () {
+    function ProductService(http) {
+        this.http = http;
+        this.productListsApi = '/api/products?filter=favorite';
+    }
+    ProductService.prototype.getProductList = function () {
+        return this.http.get(this.productListsApi);
+    };
+    ProductService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ProductService);
+    return ProductService;
 }());
 
 

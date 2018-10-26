@@ -15,7 +15,7 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { IndexPageComponent } from './components/index-page/index-page.component';
 import { ProductComponent } from './components/product/product.component';
-import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
+import { ProductsCarouselComponent } from './components/products-carousel/products-carousel.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     ProductPageComponent,
     IndexPageComponent,
     ProductComponent,
-    ProductCarouselComponent
+    ProductsCarouselComponent
   ],
   imports: [
     BrowserModule,

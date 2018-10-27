@@ -1,40 +1,40 @@
 package springeshop.controller;
 
-import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
-import springeshop.model.ProductImage;
-import springeshop.service.ProductImageService;
+import springeshop.service.AmazonS3ClientService;
+
 
 @RestController
 @RequestMapping("/api")
 public class ImageController {
-	
-public static final Logger logger = LoggerFactory.getLogger(ImageController.class);
-	
-	@Autowired
-	private ProductImageService imageService;
-	
-	@RequestMapping(value = "/images", method = RequestMethod.POST)
-	public ResponseEntity<?> createImage(@Valid @RequestBody ProductImage image, UriComponentsBuilder ucBuilder){
-		logger.info("Creating Image : {}", image);
-		
-		imageService.saveImage(image);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/images/{id}").buildAndExpand(image.getId()).toUri());
-		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-	}
 
+	@Autowired
+    private AmazonS3ClientService amazonS3ClientService;
+	
+	@PostMapping(value = "/images")
+    public ResponseEntity<?> uploadFile(@RequestPart(value = "file") MultipartFile file) throws InterruptedException, ExecutionException
+    {
+        CompletableFuture<Boolean> imageUploadFuture = this.amazonS3ClientService.uploadImage(file);
+        boolean isImageUploadSuccess = imageUploadFuture.get().booleanValue();
+
+        if(isImageUploadSuccess){
+        	return new ResponseEntity<>(HttpStatus.CREATED);
+        }else {
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
 }

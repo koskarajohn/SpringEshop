@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class TestController {
+public class RoutesController {
 
 	@RequestMapping({ "/login", "/register", "/category", "/cart", "/product", "/checkout" })
 	   public String index() {

@@ -20,6 +20,8 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+import springeshop.util.Constants;
+
 @Component
 public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
 
@@ -61,7 +63,7 @@ public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
 	}
 	
 	private void uploadImageToS3Bucket(String imageName, File imageFile){
-		amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, "products/" +imageName, imageFile)
+		amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.SMALL_VITAMIN_IMAGE_PATH +imageName, imageFile)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 }

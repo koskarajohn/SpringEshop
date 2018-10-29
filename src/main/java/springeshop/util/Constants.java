@@ -2,10 +2,9 @@ package springeshop.util;
 
 public final class Constants {
 
-	public static final String SMALL_MINERAL_IMAGE_PATH = "products/small/minerals/";
-	public static final String SMALL_VITAMIN_IMAGE_PATH = "products/small/vitamins/";
-	public static final String LARGE_MINERAL_IMAGE_PATH = "products/large/minerals/";
-	public static final String LARGE_VITAMIN_IMAGE_PATH = "products/large/vitamins/";
+	public static final String AMAZON_S3_URL = "https://s3.eu-central-1.amazonaws.com/springeshop-bucket/";
+	public static final String SMALL_PRODUCTS_PATH = "products/small/";
+	public static final String LARGE_PRODUCTS_PATH = "products/large/";
 	
 	private Constants(){
 		

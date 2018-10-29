@@ -38,13 +38,13 @@ public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
     }
 
 	@Async
-	public CompletableFuture<Boolean> uploadImage(MultipartFile image) {
+	public CompletableFuture<Boolean> uploadImage(MultipartFile image, String category, boolean isImageSmall) {
 		
 		boolean isImageUploadSuccess = true;
 
 		try{
 			File imageFile = convertImageToFile(image);
-			uploadImageToS3Bucket(image.getOriginalFilename(), imageFile);
+			uploadImageToS3Bucket(image.getOriginalFilename(), imageFile, category, isImageSmall);
 			imageFile.delete();
 		}catch (IOException | AmazonServiceException ex) {
 			logger.error("error [" + ex.getMessage() + "] occurred while uploading [" + image.getOriginalFilename() + "] ");
@@ -62,8 +62,14 @@ public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
 		return convertedFile;
 	}
 	
-	private void uploadImageToS3Bucket(String imageName, File imageFile){
-		amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.SMALL_VITAMIN_IMAGE_PATH +imageName, imageFile)
-				.withCannedAcl(CannedAccessControlList.PublicRead));
+	private void uploadImageToS3Bucket(String imageName, File imageFile, String category, boolean isImageSmall){
+		
+		if(isImageSmall){
+			amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.SMALL_PRODUCTS_PATH + category + "/" + imageName, imageFile)
+					.withCannedAcl(CannedAccessControlList.PublicRead));
+		}else{
+			amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.LARGE_PRODUCTS_PATH + category + "/" + imageName, imageFile)
+					.withCannedAcl(CannedAccessControlList.PublicRead));
+		}
 	}
 }

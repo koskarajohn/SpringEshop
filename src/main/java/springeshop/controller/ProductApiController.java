@@ -2,8 +2,11 @@ package springeshop.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +14,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
+import springeshop.service.AmazonS3ClientService;
+import springeshop.service.CategoryService;
+import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
+import springeshop.util.Constants;
 import springeshop.util.ErrorMessage;
 
 @RestController
@@ -34,6 +41,15 @@ public class ProductApiController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	CategoryService categoryService;
+	
+	@Autowired
+	private ProductImageService productImageService;
+	
+	@Autowired
+    private AmazonS3ClientService amazonS3ClientService;
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
 	public ResponseEntity<?> listProducts(@RequestParam(value = "filter", required = false) String filter){
@@ -90,20 +106,57 @@ public class ProductApiController {
         return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/products", method = RequestMethod.POST)
-	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product, UriComponentsBuilder ucBuilder){
+	@RequestMapping(value = "/products", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+	public ResponseEntity<?> createProduct(@Valid @RequestPart(value = "product") Product product, @RequestPart (value = "smallImage") MultipartFile smallImage, 
+    		@RequestPart(value = "largeImage") MultipartFile largeImage , UriComponentsBuilder ucBuilder) throws InterruptedException, ExecutionException{
+		
 		logger.info("Creating Product : {}", product);
 		
 		if(productService.doesProductExist(product)){
 			logger.error("Unable to create. A Product with name {} already exist", product.getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. A Product with name " + product.getName() + " already exist."), HttpStatus.CONFLICT);
+			return new ResponseEntity(new ErrorMessage("Unable to create. A  Product with name " + product.getName() + " already exist."), HttpStatus.CONFLICT);
 		}
 		
+		if(!categoryService.doesCategoryExist(product.getCategory())){
+			logger.error("Unable to create. Category with name {} does not  exist", product.getCategory().getName());
+			return new ResponseEntity(new ErrorMessage("Unable to create. Category with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		product.getCategory().setId(categoryService.findByName(product.getCategory().getName()).getId());
 		productService.saveProduct(product);
 		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/products/{id}").buildAndExpand(product.getId()).toUri());
-		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+		if(product.getId() == 0) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		CompletableFuture<Boolean> smallImageUploadFuture = this.amazonS3ClientService
+				                                                .uploadImage(smallImage, getCategoryNameWithFirstLetterCapital(product.getCategory().getName()), true);
+        CompletableFuture<Boolean> largeImageUploadFuture = this.amazonS3ClientService
+        		                                                .uploadImage(largeImage, getCategoryNameWithFirstLetterCapital(product.getCategory().getName()), false);
+        boolean isSmallImageUploadSuccess = smallImageUploadFuture.get().booleanValue();
+        boolean isLargeImageUploadSuccess = largeImageUploadFuture.get().booleanValue();
+        
+        if(!(isSmallImageUploadSuccess && isLargeImageUploadSuccess)) {
+        	productService.deleteProductById(product.getId());
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+			
+		ProductImage productImage = new ProductImage();
+		productImage.setProduct(product);
+		productImage.setSmallImageurl(Constants.AMAZON_S3_URL + Constants.SMALL_PRODUCTS_PATH
+		                                                      + getCategoryNameWithFirstLetterCapital(product.getCategory().getName()) + "/"
+		                                                      + smallImage.getOriginalFilename());
+		
+		productImage.setLargeImageurl(Constants.AMAZON_S3_URL + Constants.LARGE_PRODUCTS_PATH 
+                                                              + getCategoryNameWithFirstLetterCapital(product.getCategory().getName()) + "/"
+                                                              + largeImage.getOriginalFilename());
+		productImageService.saveImage(productImage);
+			
+		return new ResponseEntity<String>(HttpStatus.CREATED);
+		
+		
+	}
+	
+	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+		return categoryName.substring(0,1).toLowerCase() + categoryName.substring(1);
 	}
 	
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)

@@ -5,5 +5,5 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface AmazonS3ClientService {
-	CompletableFuture<Boolean> uploadImage(MultipartFile image);
+	CompletableFuture<Boolean> uploadImage(MultipartFile image, String category, boolean isImageSmall);
 }

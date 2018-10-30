@@ -23,6 +23,11 @@ public class Product {
 	private int id;
 	
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "brand_id")
+	@NotNull
+	private Brand brand;
+	
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "category_id")
 	@NotNull
 	private Category category;
@@ -65,6 +70,14 @@ public class Product {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public Category getCategory() {
@@ -114,5 +127,6 @@ public class Product {
 	public void setLargeImageUrl(String largeImageUrl) {
 		this.largeImageUrl = largeImageUrl;
 	}
+
 	
 }

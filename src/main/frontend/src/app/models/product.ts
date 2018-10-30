@@ -1,7 +1,11 @@
+import { Brand } from "./brand";
+import { Category } from "./category";
+
 export class Product{
     id : number
     name : string
-    category : string
+    brand : Brand
+    category : Category
     price : number
     description : string
     smallImageUrl : string

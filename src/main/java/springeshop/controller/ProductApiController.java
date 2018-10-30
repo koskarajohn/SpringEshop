@@ -27,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.service.AmazonS3ClientService;
+import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
 import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
@@ -41,6 +42,9 @@ public class ProductApiController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private BrandService brandService;
 	
 	@Autowired
 	CategoryService categoryService;
@@ -122,6 +126,12 @@ public class ProductApiController {
 			return new ResponseEntity(new ErrorMessage("Unable to create. Category with name {} does not  exist"), HttpStatus.BAD_REQUEST);
 		}
 		
+		if(!brandService.doesBrandExist(product.getBrand())){
+			logger.error("Unable to create. Brand with name {} does not  exist", product.getBrand().getName());
+			return new ResponseEntity(new ErrorMessage("Unable to create. Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		product.getBrand().setId(brandService.findByName(product.getBrand().getName()).getId());
 		product.getCategory().setId(categoryService.findByName(product.getCategory().getName()).getId());
 		productService.saveProduct(product);
 		

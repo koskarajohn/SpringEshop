@@ -191,12 +191,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/index-page/index-page.component */ "./src/app/components/index-page/index-page.component.ts");
 /* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
 /* harmony import */ var _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/products-carousel/products-carousel.component */ "./src/app/components/products-carousel/products-carousel.component.ts");
+/* harmony import */ var _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -234,7 +236,8 @@ var AppModule = /** @class */ (function () {
                 _components_product_page_product_page_component__WEBPACK_IMPORTED_MODULE_14__["ProductPageComponent"],
                 _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_15__["IndexPageComponent"],
                 _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__["ProductComponent"],
-                _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__["ProductsCarouselComponent"]
+                _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__["ProductsCarouselComponent"],
+                _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__["CategorySidebarComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -333,7 +336,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Category\n  </div>\n</div>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n      Category\n      <category-sidebar></category-sidebar>\n  </div>\n</div>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -372,6 +375,78 @@ var CategoryPageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], CategoryPageComponent);
     return CategoryPageComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/category-sidebar/category-sidebar.component.css":
+/*!****************************************************************************!*\
+  !*** ./src/app/components/category-sidebar/category-sidebar.component.css ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r\n\r\nspan.checked{\r\n    color: orange;\r\n  }"
+
+/***/ }),
+
+/***/ "./src/app/components/category-sidebar/category-sidebar.component.html":
+/*!*****************************************************************************!*\
+  !*** ./src/app/components/category-sidebar/category-sidebar.component.html ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let brand of brands\">\n        <input type=\"checkbox\" class=\"mr-2\">{{brand?.name}}\n        <span class=\"ml-2\">(303)</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">0€ - 10€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">10€ - 20€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">20€ - 30€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">30€ - 50€<span class=\"ml-2\">(303)</span></li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li class=\"list-group-item\">\n    <input type=\"checkbox\" class=\"mr-2\">\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"ml-2\">(303)</span>\n  </li>\n</ul>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/category-sidebar/category-sidebar.component.ts":
+/*!***************************************************************************!*\
+  !*** ./src/app/components/category-sidebar/category-sidebar.component.ts ***!
+  \***************************************************************************/
+/*! exports provided: CategorySidebarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategorySidebarComponent", function() { return CategorySidebarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_brand_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/brand.service */ "./src/app/services/brand.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CategorySidebarComponent = /** @class */ (function () {
+    function CategorySidebarComponent(brandService) {
+        this.brandService = brandService;
+    }
+    CategorySidebarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.httpSubscription = this.brandService.getBrands()
+            .subscribe(function (brands) { return _this.brands = brands; });
+    };
+    CategorySidebarComponent.prototype.ngOnDestroy = function () {
+        this.httpSubscription.unsubscribe();
+    };
+    CategorySidebarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'category-sidebar',
+            template: __webpack_require__(/*! ./category-sidebar.component.html */ "./src/app/components/category-sidebar/category-sidebar.component.html"),
+            styles: [__webpack_require__(/*! ./category-sidebar.component.css */ "./src/app/components/category-sidebar/category-sidebar.component.css")]
+        }),
+        __metadata("design:paramtypes", [src_app_services_brand_service__WEBPACK_IMPORTED_MODULE_1__["BrandService"]])
+    ], CategorySidebarComponent);
+    return CategorySidebarComponent;
 }());
 
 
@@ -1134,6 +1209,50 @@ var Product = /** @class */ (function () {
     function Product() {
     }
     return Product;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/brand.service.ts":
+/*!*******************************************!*\
+  !*** ./src/app/services/brand.service.ts ***!
+  \*******************************************/
+/*! exports provided: BrandService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BrandService", function() { return BrandService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var BrandService = /** @class */ (function () {
+    function BrandService(http) {
+        this.http = http;
+        this.brandsApi = '/api/brands';
+    }
+    BrandService.prototype.getBrands = function () {
+        return this.http.get(this.brandsApi);
+    };
+    BrandService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], BrandService);
+    return BrandService;
 }());
 
 

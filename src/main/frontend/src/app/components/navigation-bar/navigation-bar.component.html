@@ -39,32 +39,8 @@
 <nav class="navbar navbar-expand-md" id="secondNavbar">
   <div class="container">
       <ul class="navbar-nav mx-md-auto">
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Βιταμίνες</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Μέταλλα</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Λιπαρά Οξέα</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Λιποδιαλυτικά</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Υπερτροφές</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Αντιηλιακά</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Σαμπουάν</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Ομοιοπαθητικά</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/category">Προσφορές</a>
+          <li *ngFor="let category of categories" class="nav-item">
+              <a class="nav-link" routerLink="/category/{{category.englishName}}">{{category.greekName}}</a>
           </li>
       </ul>
   </div>

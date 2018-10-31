@@ -30,7 +30,7 @@ export const appRoutes: Routes = [
   }
   ,
   {
-    path: 'category',
+    path: 'category/:name',
     component:CategoryPageComponent
   },
   {

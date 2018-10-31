@@ -17,6 +17,7 @@ import { IndexPageComponent } from './components/index-page/index-page.component
 import { ProductComponent } from './components/product/product.component';
 import { ProductsCarouselComponent } from './components/products-carousel/products-carousel.component';
 import { CategorySidebarComponent } from './components/category-sidebar/category-sidebar.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CategorySidebarComponent } from './components/category-sidebar/category
     ProductComponent,
     ProductsCarouselComponent,
     CategorySidebarComponent,
+    RatingComponent,
   ],
   imports: [
     BrowserModule,

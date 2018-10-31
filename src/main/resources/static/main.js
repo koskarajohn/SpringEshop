@@ -192,12 +192,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/product/product.component */ "./src/app/components/product/product.component.ts");
 /* harmony import */ var _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/products-carousel/products-carousel.component */ "./src/app/components/products-carousel/products-carousel.component.ts");
 /* harmony import */ var _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
+/* harmony import */ var _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/rating/rating.component */ "./src/app/components/rating/rating.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -238,6 +240,7 @@ var AppModule = /** @class */ (function () {
                 _components_product_product_component__WEBPACK_IMPORTED_MODULE_16__["ProductComponent"],
                 _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__["ProductsCarouselComponent"],
                 _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__["CategorySidebarComponent"],
+                _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__["RatingComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -388,7 +391,7 @@ var CategoryPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r\n\r\nspan.checked{\r\n    color: orange;\r\n  }"
+module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}"
 
 /***/ }),
 
@@ -399,7 +402,7 @@ module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let brand of brands\">\n        <input type=\"checkbox\" class=\"mr-2\">{{brand?.name}}\n        <span class=\"ml-2\">(303)</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">0€ - 10€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">10€ - 20€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">20€ - 30€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">30€ - 50€<span class=\"ml-2\">(303)</span></li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li class=\"list-group-item\">\n    <input type=\"checkbox\" class=\"mr-2\">\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"fa fa-star checked\"></span>\n      <span class=\"ml-2\">(303)</span>\n  </li>\n</ul>\n"
+module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let brand of brands\">\n        <input type=\"checkbox\" class=\"mr-2\">{{brand?.name}}\n        <span class=\"ml-2\">(303)</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">0€ - 10€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">10€ - 20€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">20€ - 30€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">30€ - 50€<span class=\"ml-2\">(303)</span></li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n"
 
 /***/ }),
 
@@ -434,9 +437,18 @@ var CategorySidebarComponent = /** @class */ (function () {
         var _this = this;
         this.httpSubscription = this.brandService.getBrands()
             .subscribe(function (brands) { return _this.brands = brands; });
+        this.initializeRatings();
     };
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
         this.httpSubscription.unsubscribe();
+    };
+    CategorySidebarComponent.prototype.initializeRatings = function () {
+        this.ratings = [];
+        for (var i = 0; i < 5; i++) {
+            var rating = {};
+            rating.uncheckedStars = i;
+            this.ratings.push(rating);
+        }
     };
     CategorySidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1063,6 +1075,79 @@ var ProductsCarouselComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [src_app_services_product_service__WEBPACK_IMPORTED_MODULE_1__["ProductService"]])
     ], ProductsCarouselComponent);
     return ProductsCarouselComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/rating/rating.component.css":
+/*!********************************************************!*\
+  !*** ./src/app/components/rating/rating.component.css ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "span.checked{\r\n    color: orange;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/rating/rating.component.html":
+/*!*********************************************************!*\
+  !*** ./src/app/components/rating/rating.component.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<input type=\"checkbox\" class=\"mr-2\">\n<span *ngFor=\"let checkedStar of counter(checkedStars)\" class=\"fa fa-star checked\"></span>\n<ng-container *ngIf=\"areThereUncheckedstars\">\n    <span *ngFor=\"let uncheckedStar of counter(uncheckedStars)\" class=\"fa fa-star\"></span>\n</ng-container>\n<span class=\"ml-2\">(303)</span>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/rating/rating.component.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/components/rating/rating.component.ts ***!
+  \*******************************************************/
+/*! exports provided: RatingComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RatingComponent", function() { return RatingComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var RatingComponent = /** @class */ (function () {
+    function RatingComponent() {
+    }
+    RatingComponent.prototype.ngOnInit = function () {
+        this.totalStars = 5;
+        this.checkedStars = this.totalStars - this.uncheckedStars;
+        this.areThereUncheckedstars = this.uncheckedStars > 0;
+    };
+    RatingComponent.prototype.counter = function (i) {
+        return new Array(i);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], RatingComponent.prototype, "uncheckedStars", void 0);
+    RatingComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'rating',
+            template: __webpack_require__(/*! ./rating.component.html */ "./src/app/components/rating/rating.component.html"),
+            styles: [__webpack_require__(/*! ./rating.component.css */ "./src/app/components/rating/rating.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], RatingComponent);
+    return RatingComponent;
 }());
 
 

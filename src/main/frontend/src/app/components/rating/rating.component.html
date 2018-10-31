@@ -1,0 +1,6 @@
+<input type="checkbox" class="mr-2">
+<span *ngFor="let checkedStar of counter(checkedStars)" class="fa fa-star checked"></span>
+<ng-container *ngIf="areThereUncheckedstars">
+    <span *ngFor="let uncheckedStar of counter(uncheckedStars)" class="fa fa-star"></span>
+</ng-container>
+<span class="ml-2">(303)</span>

@@ -16,13 +16,7 @@
 
 <h4>Αξιολογήσεις</h4>
 <ul class="list-group">
-  <li class="list-group-item">
-    <input type="checkbox" class="mr-2">
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="ml-2">(303)</span>
+  <li *ngFor="let currentRating of ratings" class="list-group-item">
+      <rating [uncheckedStars] = "currentRating.uncheckedStars"></rating>
   </li>
 </ul>

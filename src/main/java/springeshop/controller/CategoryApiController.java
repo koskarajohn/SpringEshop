@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import springeshop.model.Category;
+import springeshop.model.Product;
+import springeshop.model.ProductImage;
 import springeshop.service.CategoryService;
+import springeshop.service.ProductImageService;
+import springeshop.service.ProductService;
 import springeshop.util.ErrorMessage;
 
 @RestController
@@ -31,7 +35,13 @@ public class CategoryApiController {
 	public static final Logger logger = LoggerFactory.getLogger(CategoryApiController.class);
 	
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private ProductImageService productImageService;
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public ResponseEntity<?> listCategories(){
@@ -42,15 +52,34 @@ public class CategoryApiController {
 		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryById(@PathVariable("id") int id){
-		logger.info("Fetching Category with id {}", id);
-		Category category = categoryService.findById(id);
+	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
+	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name){
+		logger.info("Fetching Category with name {}", name);
+		Category category = categoryService.findByName(getCategoryNameWithFirstLetterCapital(name));
+		
 		if(category == null){
-			logger.error("Category with id {} not found.", id);
-			return new ResponseEntity(new ErrorMessage("Category with id " + id + " not found"),HttpStatus.NOT_FOUND);
+			logger.error("Category with name {} not found.", name);
+			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Category>(category, HttpStatus.OK);
+		
+		List<Product> products = productService.findByCategoryId(category.getId());
+		
+		if(products == null){
+			logger.error("Category with name {} not found.", name);
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		
+		for(Product product : products){
+			ProductImage productImage = productImageService.findByProductId(product.getId());
+	        product.setSmallImageUrl(productImage.getSmallImageurl());
+	        product.setLargeImageUrl(productImage.getLargeImageurl());
+		}
+		
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+	}
+	
+	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
 	}
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)

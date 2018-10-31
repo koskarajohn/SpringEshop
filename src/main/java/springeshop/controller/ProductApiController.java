@@ -63,7 +63,7 @@ public class ProductApiController {
 		}
 		
 		for(Product product : products){
-			ProductImage productImage = productService.findByProductId(product.getId());
+			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
 		}
@@ -103,7 +103,7 @@ public class ProductApiController {
 			return new ResponseEntity(new ErrorMessage("Product with name " + name + " not found"),HttpStatus.NOT_FOUND);
         }
         
-        ProductImage productImage = productService.findByProductId(product.getId());
+        ProductImage productImage = productImageService.findByProductId(product.getId());
         product.setSmallImageUrl(productImage.getSmallImageurl());
         product.setLargeImageUrl(productImage.getLargeImageurl());
         
@@ -138,9 +138,9 @@ public class ProductApiController {
 		if(product.getId() == 0) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 		CompletableFuture<Boolean> smallImageUploadFuture = this.amazonS3ClientService
-				                                                .uploadImage(smallImage, getCategoryNameWithFirstLetterCapital(product.getCategory().getName()), true);
+				                                                .uploadImage(smallImage, getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()), true);
         CompletableFuture<Boolean> largeImageUploadFuture = this.amazonS3ClientService
-        		                                                .uploadImage(largeImage, getCategoryNameWithFirstLetterCapital(product.getCategory().getName()), false);
+        		                                                .uploadImage(largeImage, getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()), false);
         boolean isSmallImageUploadSuccess = smallImageUploadFuture.get().booleanValue();
         boolean isLargeImageUploadSuccess = largeImageUploadFuture.get().booleanValue();
         
@@ -152,11 +152,11 @@ public class ProductApiController {
 		ProductImage productImage = new ProductImage();
 		productImage.setProduct(product);
 		productImage.setSmallImageurl(Constants.AMAZON_S3_URL + Constants.SMALL_PRODUCTS_PATH
-		                                                      + getCategoryNameWithFirstLetterCapital(product.getCategory().getName()) + "/"
+		                                                      + getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()) + "/"
 		                                                      + smallImage.getOriginalFilename());
 		
 		productImage.setLargeImageurl(Constants.AMAZON_S3_URL + Constants.LARGE_PRODUCTS_PATH 
-                                                              + getCategoryNameWithFirstLetterCapital(product.getCategory().getName()) + "/"
+                                                              + getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()) + "/"
                                                               + largeImage.getOriginalFilename());
 		productImageService.saveImage(productImage);
 			
@@ -165,7 +165,7 @@ public class ProductApiController {
 		
 	}
 	
-	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+	private String getCategoryNameWithFirstLetterLowercase(String categoryName){
 		return categoryName.substring(0,1).toLowerCase() + categoryName.substring(1);
 	}
 	

@@ -19,4 +19,9 @@ public class ProductImageServiceImpl implements ProductImageService{
 	public void saveImage(ProductImage image) {
 		imageRepository.save(image);
 	}
+
+	@Override
+	public ProductImage findByProductId(int id) {
+		return imageRepository.findByProductId(id);
+	}
 }

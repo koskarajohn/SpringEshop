@@ -328,7 +328,7 @@ var CartPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\nul{\r\n    margin-top:48px;\r\n}"
 
 /***/ }),
 
@@ -339,7 +339,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{category}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n\n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{category}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-3\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Previous</a></li>\n            <li class=\"page-item active\"><a class=\"page-link\" href=\"#\">1</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -355,6 +355,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryPageComponent", function() { return CategoryPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/category.service */ "./src/app/services/category.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -366,16 +367,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var CategoryPageComponent = /** @class */ (function () {
-    function CategoryPageComponent(route) {
+    function CategoryPageComponent(route, categoryService) {
         this.route = route;
+        this.categoryService = categoryService;
     }
     CategoryPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.routeSubscription = this.route.params.subscribe(function (params) { return _this.category = params['name']; });
+        this.httpSubscription = this.categoryService.getCategoryProducts(this.category).subscribe(function (products) { return _this.products = products; });
     };
     CategoryPageComponent.prototype.ngOnDestroy = function () {
         this.routeSubscription.unsubscribe();
+        this.httpSubscription.unsubscribe();
     };
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -383,7 +388,7 @@ var CategoryPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./category-page.component.html */ "./src/app/components/category-page/category-page.component.html"),
             styles: [__webpack_require__(/*! ./category-page.component.css */ "./src/app/components/category-page/category-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__["CategoryService"]])
     ], CategoryPageComponent);
     return CategoryPageComponent;
 }());
@@ -1358,6 +1363,50 @@ var BrandService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], BrandService);
     return BrandService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/category.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/services/category.service.ts ***!
+  \**********************************************/
+/*! exports provided: CategoryService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryService", function() { return CategoryService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CategoryService = /** @class */ (function () {
+    function CategoryService(http) {
+        this.http = http;
+        this.categoryProductsApi = '/api/categories/';
+    }
+    CategoryService.prototype.getCategoryProducts = function (category) {
+        return this.http.get(this.categoryProductsApi + category);
+    };
+    CategoryService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], CategoryService);
+    return CategoryService;
 }());
 
 

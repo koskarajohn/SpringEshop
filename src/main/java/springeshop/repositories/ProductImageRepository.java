@@ -8,4 +8,5 @@ import springeshop.model.ProductImage;
 @Repository
 public interface ProductImageRepository extends JpaRepository<ProductImage, Integer>{
 
+	ProductImage findByProductId(int id);
 }

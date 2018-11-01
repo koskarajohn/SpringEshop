@@ -11,4 +11,5 @@ public interface BrandService {
 	void saveBrand(Brand brand);
 	List<Brand> findAllBrands();
 	boolean doesBrandExist(Brand brand);
+	boolean doesBrandExist(String brand);
 }

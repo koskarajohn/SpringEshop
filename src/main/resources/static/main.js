@@ -339,7 +339,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{category}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-3\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Previous</a></li>\n            <li class=\"page-item active\"><a class=\"page-link\" href=\"#\">1</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{category}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar [category] = \"category\"></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Previous</a></li>\n            <li class=\"page-item active\"><a class=\"page-link\" href=\"#\">1</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -448,7 +448,7 @@ var CategorySidebarComponent = /** @class */ (function () {
     }
     CategorySidebarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.httpSubscription = this.brandService.getBrands()
+        this.httpSubscription = this.brandService.getBrands(this.category)
             .subscribe(function (brands) { return _this.brands = brands; });
         this.initializeRatings();
     };
@@ -463,6 +463,10 @@ var CategorySidebarComponent = /** @class */ (function () {
             this.ratings.push(rating);
         }
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], CategorySidebarComponent.prototype, "category", void 0);
     CategorySidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'category-sidebar',
@@ -1351,10 +1355,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var BrandService = /** @class */ (function () {
     function BrandService(http) {
         this.http = http;
-        this.brandsApi = '/api/brands';
+        this.brandsApi = '/api/brands?category=';
     }
-    BrandService.prototype.getBrands = function () {
-        return this.http.get(this.brandsApi);
+    BrandService.prototype.getBrands = function (category) {
+        return this.http.get(this.brandsApi + category);
     };
     BrandService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

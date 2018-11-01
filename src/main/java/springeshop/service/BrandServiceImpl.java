@@ -35,4 +35,9 @@ public class BrandServiceImpl implements BrandService{
 	public boolean doesBrandExist(Brand brand) {
 		return findByName(brand.getName()) != null;
 	}
+
+	@Override
+	public boolean doesBrandExist(String brandName) {
+		return findByName(brandName) != null;
+	}
 }

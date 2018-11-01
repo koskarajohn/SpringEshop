@@ -1,5 +1,7 @@
 package springeshop.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.List;
 
 import javax.persistence.Id;
@@ -23,6 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
+import springeshop.model.ProductsNumber;
+import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
 import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
@@ -33,6 +37,9 @@ import springeshop.util.ErrorMessage;
 public class CategoryApiController {
 
 	public static final Logger logger = LoggerFactory.getLogger(CategoryApiController.class);
+	
+	@Autowired
+	private BrandService brandService;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -62,7 +69,7 @@ public class CategoryApiController {
 			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		List<Product> products = productService.findByCategoryId(category.getId());
+		List<Product> products = productService.findByCategoryIdOrderByPriceAsc(category.getId());
 		
 		if(products == null){
 			logger.error("Category with name {} not found.", name);
@@ -80,6 +87,49 @@ public class CategoryApiController {
 	
 	private String getCategoryNameWithFirstLetterCapital(String categoryName){
 		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
+	}
+	
+	@RequestMapping(value = "/categories/{name}/count", method = RequestMethod.GET)
+	public 	ResponseEntity<?> getCategoryProductsNumber(@PathVariable("name") String name, @RequestParam(value = "brand", required = false) String brand,
+			                                           @RequestParam(value = "min", defaultValue = "-1", required = false) double min, 
+			                                           @RequestParam(value = "max", defaultValue = "-1", required = false) double max){
+		
+		logger.info("Fetching Category with name {}", name);
+		Category category = categoryService.findByName(getCategoryNameWithFirstLetterCapital(name));
+		
+		if(category == null){
+			logger.error("Category with name {} not found.", name);
+			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
+		}
+		
+		int productsNumber = 0;
+		
+		if(brand != null && min == -1.0 && max == -1.0){
+			
+			if(!brandService.doesBrandExist(brand)){
+				logger.error("Unable to create. Brand with name {} does not  exist", brand);
+				return new ResponseEntity(new ErrorMessage("Unable to create. Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+			}
+			
+			productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brand).getId());
+			
+			ProductsNumber pNumber =  new ProductsNumber();
+			pNumber.setNumber(productsNumber);
+			
+			return new ResponseEntity<ProductsNumber>(pNumber, HttpStatus.OK);
+		}else if(brand == null && min != -1 && max != -1){
+            productsNumber = productService.findNumberOfProductsWithinPriceRange(category.getId(), min, max);
+			
+			ProductsNumber pNumber =  new ProductsNumber();
+			pNumber.setNumber(productsNumber);
+			
+			return new ResponseEntity<ProductsNumber>(pNumber, HttpStatus.OK);
+		}else{
+			  return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		
 	}
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)

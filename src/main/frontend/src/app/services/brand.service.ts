@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class BrandService {
 
-  private brandsApi = '/api/brands';
+  private brandsApi = '/api/brands?category=';
 
   constructor(private http : HttpClient) { }
 
-  getBrands() : Observable<Brand[]>{
-    return this.http.get<Brand[]>(this.brandsApi);
+  getCategoryBrands(category : string) : Observable<Brand[]>{
+    return this.http.get<Brand[]>(this.brandsApi + category);
   }
 }

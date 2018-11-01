@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import springeshop.model.Brand;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.repositories.ProductRepository;
@@ -25,11 +26,6 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product findByName(String name) {
 		return productRepository.findByName(name);
-	}
-	
-	@Override
-	public List<Product> findByCategoryId(int id) {
-		return productRepository.findByCategoryId(id);
 	}
 
 	@Override
@@ -65,6 +61,36 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductImage findByProductId(int id) {
 		return productRepository.findByProductId(id);
+	}
+
+	@Override
+	public List<Product> findByCategoryIdOrderByPriceAsc(int id) {
+		return productRepository.findByCategoryIdOrderByPriceAsc(id);
+	}
+
+	@Override
+	public List<Product> findByCategoryIdOrderByPriceDesc(int id) {
+		return productRepository.findByCategoryIdOrderByPriceDesc(id);
+	}
+
+	@Override
+	public List<Brand> findCategoryBrands(int id) {
+		return productRepository.findCategoryBrands(id);
+	}
+
+	@Override
+	public List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId) {
+		return productRepository.findByCategoryIdAndBrandId(categoryId, brandId);
+	}
+
+	@Override
+	public int findNumberOfProductsOfBrandInCategory(int categoryid, int brandid) {
+		return productRepository.findNumberOfProductsOfBrandInCategory(categoryid, brandid);
+	}
+
+	@Override
+	public int findNumberOfProductsWithinPriceRange(int categoryid, double min, double max) {
+		return productRepository.findNumberOfProductsWithinPriceRange(categoryid, min, max);
 	}
 
 	

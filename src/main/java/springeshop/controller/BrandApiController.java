@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Brand;
+import springeshop.model.Category;
 import springeshop.service.BrandService;
+import springeshop.service.CategoryService;
+import springeshop.service.ProductService;
+import springeshop.util.ErrorMessage;
 
 @RestController
 @RequestMapping("/api")
@@ -25,13 +29,30 @@ public class BrandApiController {
 	@Autowired
 	private BrandService brandService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private ProductService productService;
+	
 	@RequestMapping(value = "/brands", method = RequestMethod.GET)
-	public ResponseEntity<?> listBrands(){
-		List<Brand> brands = brandService.findAllBrands();
+	public ResponseEntity<?> listCategoryBrands(@RequestParam(value ="category", required = false) String category){
+		
+		Category requestedCategory = categoryService.findByName(getCategoryNameWithFirstLetterCapital(category));
+		
+		if(requestedCategory == null){
+			return new ResponseEntity(new ErrorMessage("Category does not exist"),HttpStatus.BAD_REQUEST);
+		}
+		
+		List<Brand> brands = productService.findCategoryBrands(requestedCategory.getId());
 		if(brands.isEmpty()){
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		
 		return new ResponseEntity<List<Brand>>(brands, HttpStatus.OK);
+	}
+	
+	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
 	}
 }

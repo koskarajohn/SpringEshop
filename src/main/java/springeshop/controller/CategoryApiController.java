@@ -25,7 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
-import springeshop.model.ProductsNumber;
+import springeshop.model.ProductsPerBrand;
+import springeshop.model.ProductsPerPriceRange;
 import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
 import springeshop.service.ProductImageService;
@@ -113,17 +114,20 @@ public class CategoryApiController {
 			
 			productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brand).getId());
 			
-			ProductsNumber pNumber =  new ProductsNumber();
+			ProductsPerBrand pNumber =  new ProductsPerBrand();
 			pNumber.setNumber(productsNumber);
+			pNumber.setBrand(brand);
 			
-			return new ResponseEntity<ProductsNumber>(pNumber, HttpStatus.OK);
+			return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
 		}else if(brand == null && min != -1 && max != -1){
             productsNumber = productService.findNumberOfProductsWithinPriceRange(category.getId(), min, max);
 			
-			ProductsNumber pNumber =  new ProductsNumber();
-			pNumber.setNumber(productsNumber);
+			ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();
+			ppNumber.setNumber(productsNumber);
+			ppNumber.setMin(min);
+			ppNumber.setMax(max);
 			
-			return new ResponseEntity<ProductsNumber>(pNumber, HttpStatus.OK);
+			return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
 		}else{
 			  return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}

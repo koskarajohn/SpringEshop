@@ -404,7 +404,7 @@ var CategoryPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}"
+module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r\n\r\nspan{\r\n    margin-left: 8px;\r\n}"
 
 /***/ }),
 
@@ -415,7 +415,7 @@ module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let brand of brands\">\n        <input type=\"checkbox\" class=\"mr-2\">{{brand?.name}}\n        <span class=\"ml-2\">(303)</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">0€ - 10€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">10€ - 20€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">20€ - 30€<span class=\"ml-2\">(303)</span></li>\n    <li class=\"list-group-item\"><input type=\"checkbox\" class=\"mr-2\">30€ - 50€<span class=\"ml-2\">(303)</span></li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n"
+module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let currentBrand of numberOfProductsPerBrand\">\n        <input type=\"checkbox\" class=\"mr-2\">{{currentBrand?.brand}}\n        <span>({{currentBrand?.number}})</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\n      <input type=\"checkbox\" class=\"mr-2\">{{priceRange?.min}}€ - {{priceRange?.max}}€\n      <span>({{priceRange?.number}})</span>\n    </li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n"
 
 /***/ }),
 
@@ -430,7 +430,7 @@ module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategorySidebarComponent", function() { return CategorySidebarComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var src_app_services_brand_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/brand.service */ "./src/app/services/brand.service.ts");
+/* harmony import */ var src_app_services_category_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/category.service */ "./src/app/services/category.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -443,17 +443,28 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var CategorySidebarComponent = /** @class */ (function () {
-    function CategorySidebarComponent(brandService) {
-        this.brandService = brandService;
+    function CategorySidebarComponent(categoryService) {
+        this.categoryService = categoryService;
     }
     CategorySidebarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.httpSubscription = this.brandService.getBrands(this.category)
-            .subscribe(function (brands) { return _this.brands = brands; });
+        this.numberOfProductsPerBrand = [];
+        this.categoryService.getCategoryBrands(this.category).subscribe(function (brands) {
+            _this.categoryBrands = brands;
+            _this.categoryService.getCategoryProductsNumberByBrand(_this.category, _this.categoryBrands).subscribe(function (item) {
+                _this.numberOfProductsPerBrand.push(item);
+                _this.numberOfProductsPerBrand.sort(function (a, b) { return (a.brand > b.brand) ? 1 : ((b.brand > a.brand) ? 1 : 0); });
+            });
+        });
+        this.initializePriceRanges();
+        this.numberOfProductsPerPriceRange = [];
+        this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
+            _this.numberOfProductsPerPriceRange.push(range);
+            _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.min > b.min) ? 1 : ((b.min > a.min) ? 1 : 0); });
+        });
         this.initializeRatings();
     };
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
-        this.httpSubscription.unsubscribe();
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {
         this.ratings = [];
@@ -462,6 +473,25 @@ var CategorySidebarComponent = /** @class */ (function () {
             rating.uncheckedStars = i;
             this.ratings.push(rating);
         }
+    };
+    CategorySidebarComponent.prototype.initializePriceRanges = function () {
+        this.priceRanges = [];
+        var zeroToTen = {};
+        var tenToTwenty = {};
+        var TwentyToThirty = {};
+        var ThirtyToFifty = {};
+        zeroToTen.min = 0;
+        zeroToTen.max = 10;
+        tenToTwenty.min = 10;
+        tenToTwenty.max = 20;
+        TwentyToThirty.min = 20;
+        TwentyToThirty.max = 30;
+        ThirtyToFifty.min = 30;
+        ThirtyToFifty.max = 50;
+        this.priceRanges.push(zeroToTen);
+        this.priceRanges.push(tenToTwenty);
+        this.priceRanges.push(TwentyToThirty);
+        this.priceRanges.push(ThirtyToFifty);
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -473,7 +503,7 @@ var CategorySidebarComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./category-sidebar.component.html */ "./src/app/components/category-sidebar/category-sidebar.component.html"),
             styles: [__webpack_require__(/*! ./category-sidebar.component.css */ "./src/app/components/category-sidebar/category-sidebar.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_services_brand_service__WEBPACK_IMPORTED_MODULE_1__["BrandService"]])
+        __metadata("design:paramtypes", [src_app_services_category_service__WEBPACK_IMPORTED_MODULE_1__["CategoryService"]])
     ], CategorySidebarComponent);
     return CategorySidebarComponent;
 }());
@@ -1329,50 +1359,6 @@ var Product = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/services/brand.service.ts":
-/*!*******************************************!*\
-  !*** ./src/app/services/brand.service.ts ***!
-  \*******************************************/
-/*! exports provided: BrandService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BrandService", function() { return BrandService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var BrandService = /** @class */ (function () {
-    function BrandService(http) {
-        this.http = http;
-        this.brandsApi = '/api/brands?category=';
-    }
-    BrandService.prototype.getBrands = function (category) {
-        return this.http.get(this.brandsApi + category);
-    };
-    BrandService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], BrandService);
-    return BrandService;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/services/category.service.ts":
 /*!**********************************************!*\
   !*** ./src/app/services/category.service.ts ***!
@@ -1385,6 +1371,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryService", function() { return CategoryService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1396,13 +1384,32 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var CategoryService = /** @class */ (function () {
     function CategoryService(http) {
         this.http = http;
         this.categoryProductsApi = '/api/categories/';
+        this.categoryBrands = "/api/brands";
+        this.countPath = "/count";
+        this.categoryParameter = "?category=";
+        this.brandParameter = "?brand=";
+        this.minParameter = "?min=";
+        this.maxParameter = "&max=";
     }
     CategoryService.prototype.getCategoryProducts = function (category) {
         return this.http.get(this.categoryProductsApi + category);
+    };
+    CategoryService.prototype.getCategoryBrands = function (category) {
+        return this.http.get(this.categoryBrands + this.categoryParameter + category);
+    };
+    CategoryService.prototype.getCategoryProductsNumberByBrand = function (category, brands) {
+        var _this = this;
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
+    };
+    CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
+        var _this = this;
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.minParameter + range.min + _this.maxParameter + range.max); }));
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

@@ -1,10 +1,7 @@
 package springeshop.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.List;
 
-import javax.persistence.Id;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;

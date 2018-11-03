@@ -38,6 +38,10 @@
     #firstNavbar input.form-control{
       width: 160px;
     }
+
+    #secondNavbar ul.navbar-nav li a{
+      padding: 2px;
+    }
   }
   
   /* --- Second Navbar --- */
@@ -48,4 +52,8 @@
   
   #secondNavbar{
     padding-top: 0;
+  }
+
+  #secondNavbar ul.navbar-nav li{
+    margin-right: 40px;
   }

@@ -9,8 +9,8 @@ import { NavigationCategory } from 'src/app/models/navigationCategory';
 export class NavigationBarComponent implements OnInit {
 
   categories : NavigationCategory[];
-  greekCategoryNames : string[ ] = ['Βιταμίνες','Μέταλλα','Λιπαρά Οξέα','Λιποδιαλυτικά','Υπερτροφές','Αντιηλιακά','Σαμπουάν','Ομοιοπαθητικά','Προσφορές'];
-  englishCategoryNames : string[ ] = ['vitamins','minerals','fish-oils','fat-burners','superfoods','sunscreens','shampoos','homeopathy','deals'];
+  greekCategoryNames : string[ ] = ['Βιταμίνες','Μέταλλα','Ιχθυέλαια','Υπερτροφές','Αρώματα','Σαμπουάν'];
+  englishCategoryNames : string[ ] = ['vitamins','minerals','fish-oils','superfoods','fragrances','shampoos'];
   constructor() { }
 
   ngOnInit() {

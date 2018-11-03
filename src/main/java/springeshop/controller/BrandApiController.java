@@ -38,7 +38,7 @@ public class BrandApiController {
 	@RequestMapping(value = "/brands", method = RequestMethod.GET)
 	public ResponseEntity<?> listCategoryBrands(@RequestParam(value ="category", required = false) String category){
 		
-		Category requestedCategory = categoryService.findByName(getCategoryNameWithFirstLetterCapital(category));
+		Category requestedCategory = categoryService.findByName(getCorrectCategoryName(category));
 		
 		if(requestedCategory == null){
 			return new ResponseEntity(new ErrorMessage("Category does not exist"),HttpStatus.BAD_REQUEST);
@@ -52,7 +52,14 @@ public class BrandApiController {
 		return new ResponseEntity<List<Brand>>(brands, HttpStatus.OK);
 	}
 	
-	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+	private String getCorrectCategoryName(String categoryName){
+		if(categoryName.contains("-")){
+			String[] parts = categoryName.split("-");
+			String partOneWithFirstCapital = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
+			String partTwoWithFirstCapital = parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
+			return partOneWithFirstCapital + "-" + partTwoWithFirstCapital;
+		}
+		
 		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
 	}
 }

@@ -138,9 +138,9 @@ public class ProductApiController {
 		if(product.getId() == 0) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 		CompletableFuture<Boolean> smallImageUploadFuture = this.amazonS3ClientService
-				                                                .uploadImage(smallImage, getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()), true);
+				                                                .uploadImage(smallImage, getCorrectCategoryName(product.getCategory().getName()), true);
         CompletableFuture<Boolean> largeImageUploadFuture = this.amazonS3ClientService
-        		                                                .uploadImage(largeImage, getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()), false);
+        		                                                .uploadImage(largeImage, getCorrectCategoryName(product.getCategory().getName()), false);
         boolean isSmallImageUploadSuccess = smallImageUploadFuture.get().booleanValue();
         boolean isLargeImageUploadSuccess = largeImageUploadFuture.get().booleanValue();
         
@@ -152,11 +152,11 @@ public class ProductApiController {
 		ProductImage productImage = new ProductImage();
 		productImage.setProduct(product);
 		productImage.setSmallImageurl(Constants.AMAZON_S3_URL + Constants.SMALL_PRODUCTS_PATH
-		                                                      + getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()) + "/"
+		                                                      + getCorrectCategoryName(product.getCategory().getName()) + "/"
 		                                                      + smallImage.getOriginalFilename());
 		
 		productImage.setLargeImageurl(Constants.AMAZON_S3_URL + Constants.LARGE_PRODUCTS_PATH 
-                                                              + getCategoryNameWithFirstLetterLowercase(product.getCategory().getName()) + "/"
+                                                              + getCorrectCategoryName(product.getCategory().getName()) + "/"
                                                               + largeImage.getOriginalFilename());
 		productImageService.saveImage(productImage);
 			
@@ -165,7 +165,14 @@ public class ProductApiController {
 		
 	}
 	
-	private String getCategoryNameWithFirstLetterLowercase(String categoryName){
+	private String getCorrectCategoryName(String categoryName){
+		if(categoryName.contains("-")){
+			String[] parts = categoryName.split("-");
+			String partOneWithFirstLowercase = parts[0].substring(0, 1).toLowerCase() + parts[0].substring(1);
+			String partTwoWithFirstLowercase = parts[1].substring(0, 1).toLowerCase() + parts[1].substring(1);
+			return partOneWithFirstLowercase + "-" + partTwoWithFirstLowercase;
+		}
+		
 		return categoryName.substring(0,1).toLowerCase() + categoryName.substring(1);
 	}
 	

@@ -375,8 +375,10 @@ var CategoryPageComponent = /** @class */ (function () {
     }
     CategoryPageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.routeSubscription = this.route.params.subscribe(function (params) { return _this.category = params['name']; });
-        this.httpSubscription = this.categoryService.getCategoryProducts(this.category).subscribe(function (products) { return _this.products = products; });
+        this.routeSubscription = this.route.params.subscribe(function (params) {
+            _this.category = params['name'];
+            _this.httpSubscription = _this.categoryService.getCategoryProducts(_this.category).subscribe(function (products) { return _this.products = products; });
+        });
     };
     CategoryPageComponent.prototype.ngOnDestroy = function () {
         this.routeSubscription.unsubscribe();
@@ -847,7 +849,7 @@ var MyFooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 360px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n@media (max-width: 768px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      width: 160px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }"
+module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 360px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n@media (max-width: 768px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      width: 160px;\r\n    }\r\n\r\n    #secondNavbar ul.navbar-nav li a{\r\n      padding: 2px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }\r\n\r\n#secondNavbar ul.navbar-nav li{\r\n    margin-right: 40px;\r\n  }"
 
 /***/ }),
 
@@ -885,8 +887,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var NavigationBarComponent = /** @class */ (function () {
     function NavigationBarComponent() {
-        this.greekCategoryNames = ['Βιταμίνες', 'Μέταλλα', 'Λιπαρά Οξέα', 'Λιποδιαλυτικά', 'Υπερτροφές', 'Αντιηλιακά', 'Σαμπουάν', 'Ομοιοπαθητικά', 'Προσφορές'];
-        this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'fat-burners', 'superfoods', 'sunscreens', 'shampoos', 'homeopathy', 'deals'];
+        this.greekCategoryNames = ['Βιταμίνες', 'Μέταλλα', 'Ιχθυέλαια', 'Υπερτροφές', 'Αρώματα', 'Σαμπουάν'];
+        this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
     }
     NavigationBarComponent.prototype.ngOnInit = function () {
         this.initialiseCategories();

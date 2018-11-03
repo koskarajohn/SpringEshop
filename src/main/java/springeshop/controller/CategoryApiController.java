@@ -63,7 +63,7 @@ public class CategoryApiController {
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name){
 		logger.info("Fetching Category with name {}", name);
-		Category category = categoryService.findByName(getCategoryNameWithFirstLetterCapital(name));
+		Category category = categoryService.findByName(getCorrectCategoryName(name));
 		
 		if(category == null){
 			logger.error("Category with name {} not found.", name);
@@ -86,7 +86,14 @@ public class CategoryApiController {
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 	
-	private String getCategoryNameWithFirstLetterCapital(String categoryName){
+	private String getCorrectCategoryName(String categoryName){
+		if(categoryName.contains("-")){
+			String[] parts = categoryName.split("-");
+			String partOneWithFirstCapital = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
+			String partTwoWithFirstCapital = parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
+			return partOneWithFirstCapital + "-" + partTwoWithFirstCapital;
+		}
+		
 		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
 	}
 	
@@ -96,7 +103,7 @@ public class CategoryApiController {
 			                                           @RequestParam(value = "max", defaultValue = "-1", required = false) double max){
 		
 		logger.info("Fetching Category with name {}", name);
-		Category category = categoryService.findByName(getCategoryNameWithFirstLetterCapital(name));
+		Category category = categoryService.findByName(getCorrectCategoryName(name));
 		
 		if(category == null){
 			logger.error("Category with name {} not found.", name);

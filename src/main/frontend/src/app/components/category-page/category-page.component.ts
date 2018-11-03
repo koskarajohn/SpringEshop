@@ -19,8 +19,11 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   constructor(private route : ActivatedRoute, private categoryService : CategoryService) { }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe(params => this.category = params['name']);
-    this.httpSubscription = this.categoryService.getCategoryProducts(this.category).subscribe(products => this.products = products);
+    this.routeSubscription = this.route.params.subscribe(params => {
+      this.category = params['name'];
+      this.httpSubscription = this.categoryService.getCategoryProducts(this.category).subscribe(products => this.products = products);
+    });
+    
   }
 
   ngOnDestroy(){

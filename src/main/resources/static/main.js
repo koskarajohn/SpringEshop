@@ -369,7 +369,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var CategoryPageComponent = /** @class */ (function () {
-    function CategoryPageComponent(route, categoryService) {
+    function CategoryPageComponent(router, route, categoryService) {
+        this.router = router;
         this.route = route;
         this.categoryService = categoryService;
     }
@@ -384,13 +385,17 @@ var CategoryPageComponent = /** @class */ (function () {
         this.routeSubscription.unsubscribe();
         this.httpSubscription.unsubscribe();
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('sidebar'),
+        __metadata("design:type", Object)
+    ], CategoryPageComponent.prototype, "sidebar", void 0);
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'category-page',
             template: __webpack_require__(/*! ./category-page.component.html */ "./src/app/components/category-page/category-page.component.html"),
             styles: [__webpack_require__(/*! ./category-page.component.css */ "./src/app/components/category-page/category-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__["CategoryService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__["CategoryService"]])
     ], CategoryPageComponent);
     return CategoryPageComponent;
 }());
@@ -449,6 +454,15 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.categoryService = categoryService;
     }
     CategorySidebarComponent.prototype.ngOnInit = function () {
+        this.initializeRatings();
+    };
+    CategorySidebarComponent.prototype.ngOnDestroy = function () {
+    };
+    CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
+        this.getBrands();
+        this.getPriceRanges();
+    };
+    CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
         this.numberOfProductsPerBrand = [];
         this.categoryService.getCategoryBrands(this.category).subscribe(function (brands) {
@@ -458,15 +472,15 @@ var CategorySidebarComponent = /** @class */ (function () {
                 _this.numberOfProductsPerBrand.sort(function (a, b) { return (a.brand > b.brand) ? 1 : ((b.brand > a.brand) ? 1 : 0); });
             });
         });
+    };
+    CategorySidebarComponent.prototype.getPriceRanges = function () {
+        var _this = this;
         this.initializePriceRanges();
         this.numberOfProductsPerPriceRange = [];
         this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
             _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.min > b.min) ? 1 : ((b.min > a.min) ? 1 : 0); });
         });
-        this.initializeRatings();
-    };
-    CategorySidebarComponent.prototype.ngOnDestroy = function () {
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {
         this.ratings = [];

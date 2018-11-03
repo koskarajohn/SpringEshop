@@ -212,27 +212,6 @@ public class ProductApiController {
         return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 	
-	//@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-	//public ResponseEntity<?> getProductById(@PathVariable("id") int id){
-	//	logger.info("Fetching Product with id {}", id);
-    //    Product product = productService.findById(id);
-    //    
-     //   if(product == null){
-    //    	logger.error("Product with id {} not found.", id);
-	//		return new ResponseEntity(new ErrorMessage("Product with id " + id + " not found"),HttpStatus.NOT_FOUND);
-    //    }
-        
-    //    ProductImage productImage = productService.findByProductId(product.getId());
-    //    product.setImageUrl(productImage.getUrl());
-        
-    //    return new ResponseEntity<Product>(product, HttpStatus.OK);
-	//}
-	
-	
-	
-	
-	
-	
 	
 	
 }

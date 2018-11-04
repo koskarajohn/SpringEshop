@@ -43,7 +43,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
       this.categoryBrands = brands;
       this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands).subscribe(item => {
         this.numberOfProductsPerBrand.push(item);
-        //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
+        this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
       });
     });
   }

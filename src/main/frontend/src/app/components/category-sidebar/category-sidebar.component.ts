@@ -53,7 +53,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.numberOfProductsPerPriceRange = [];
     this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
-      //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.min > b.min) ? 1 : ( (b.min > a.min) ? 1 : 0);});
+      this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.min > b.min) ? 1 : ( (b.min > a.min) ? 1 : 0);});
     });
   }
 

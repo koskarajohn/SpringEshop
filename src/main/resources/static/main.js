@@ -473,7 +473,7 @@ var CategorySidebarComponent = /** @class */ (function () {
             _this.categoryBrands = brands;
             _this.categoryService.getCategoryProductsNumberByBrand(_this.category, _this.categoryBrands).subscribe(function (item) {
                 _this.numberOfProductsPerBrand.push(item);
-                //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
+                _this.numberOfProductsPerBrand.sort(function (a, b) { return (a.brand > b.brand) ? 1 : ((b.brand > a.brand) ? 1 : 0); });
             });
         });
     };
@@ -483,7 +483,7 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.numberOfProductsPerPriceRange = [];
         this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
-            //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.min > b.min) ? 1 : ( (b.min > a.min) ? 1 : 0);});
+            _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.min > b.min) ? 1 : ((b.min > a.min) ? 1 : 0); });
         });
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {

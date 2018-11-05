@@ -3,6 +3,8 @@ package springeshop.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,16 +46,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public void deleteAllProducts() {
-		productRepository.deleteAll();
-	}
-
-	@Override
-	public List<Product> findAllProducts() {
-		return productRepository.findAll();
-	}
-
-	@Override
 	public boolean doesProductExist(Product product) {
 		return findByName(product.getName()) != null;
 	}
@@ -66,11 +58,6 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> findByCategoryIdOrderByPriceAsc(int id) {
 		return productRepository.findByCategoryIdOrderByPriceAsc(id);
-	}
-
-	@Override
-	public List<Product> findByCategoryIdOrderByPriceDesc(int id) {
-		return productRepository.findByCategoryIdOrderByPriceDesc(id);
 	}
 
 	@Override
@@ -91,6 +78,23 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int findNumberOfProductsWithinPriceRange(int categoryid, double min, double max) {
 		return productRepository.findNumberOfProductsWithinPriceRange(categoryid, min, max);
+	}
+
+
+
+	@Override
+	public int findNumberOfProductsInCategory(int categoryid) {
+		return findNumberOfProductsInCategory(categoryid);
+	}
+
+	@Override
+	public Page<Product> findFavoriteProducts(Pageable pageable) {
+		return productRepository.findFavoriteProducts(pageable);
+	}
+
+	@Override
+	public Page<Product> findNewProducts(Pageable pageable) {
+		return productRepository.findNewProducts(pageable);
 	}
 
 	

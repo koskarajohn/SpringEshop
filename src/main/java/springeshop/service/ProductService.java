@@ -2,7 +2,8 @@ package springeshop.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import springeshop.model.Brand;
 import springeshop.model.Product;
@@ -15,15 +16,15 @@ public interface ProductService {
 	void saveProduct(Product product);
 	void updateProduct(Product product);
 	void deleteProductById(int id);
-	void deleteAllProducts();
-	List<Product> findAllProducts();
 	boolean doesProductExist(Product product);
 	
 	ProductImage findByProductId(int id);
 	List<Product> findByCategoryIdOrderByPriceAsc(int id);
-	List<Product> findByCategoryIdOrderByPriceDesc(int id);
+	Page<Product> findFavoriteProducts(Pageable pageable);
+    Page<Product> findNewProducts(Pageable pageable);
 	List<Brand> findCategoryBrands(int id);
 	List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId);
+	int findNumberOfProductsInCategory(int categoryid);
 	int findNumberOfProductsOfBrandInCategory(int categoryid, int brandid);
 	int findNumberOfProductsWithinPriceRange(int categoryid, double min, double max);
 }

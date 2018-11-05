@@ -685,7 +685,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discount-carousel>\n<products-carousel [carouselTitle] = \"popularProductCarouselTitle\" [carouselHtmlId] = \"popularProductCarouselHtmlId\" ></products-carousel>\n<products-carousel [carouselTitle] = \"newProductCarouselTitle\" [carouselHtmlId] = \"newProductCarouselHtmlId\"></products-carousel>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n<discount-carousel></discount-carousel>\n<products-carousel [carouselType] = \"popularCarouselType\" [carouselTitle] = \"popularProductCarouselTitle\" [carouselHtmlId] = \"popularProductCarouselHtmlId\" ></products-carousel>\n<products-carousel [carouselType] = \"newCarouselType\" [carouselTitle] = \"newProductCarouselTitle\" [carouselHtmlId] = \"newProductCarouselHtmlId\"></products-carousel>\n<shop-services></shop-services>\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -718,6 +718,8 @@ var IndexPageComponent = /** @class */ (function () {
         this.newProductCarouselTitle = 'Νέα Προιόντα';
         this.popularProductCarouselHtmlId = 'carousel-popular-products';
         this.newProductCarouselHtmlId = 'carousel-new-products';
+        this.popularCarouselType = 'favorite';
+        this.newCarouselType = 'new';
     };
     IndexPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1098,7 +1100,7 @@ module.exports = ".content{\r\n  margin-top: 40px;\r\n  margin-bottom: 80px;\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container content\">\n  <h1 class=\"text-center\">{{carouselTitle}}</h1>\n  <div class=\"row\">\n      <div class=\"col-md-12\">\n          <div id=\"{{carouselHtmlId}}\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"0\">\n\n                              \n              <div class=\"carousel-inner\">\n\n                  <div *ngFor = \"let productList of productLists; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n\n                      <div class=\"row\">\n\n                          <div class=\"col-sm-6 col-md-6 col-lg-3\" *ngFor=\"let productItem of productList\">\n                              <product-item [product] = \"productItem\"></product-item>\n                          </div>\n\n                      </div>\n\n                  </div>                         \n\n\n              </div>\n              \n              <a class=\"carousel-control-prev\" href=\"#{{carouselHtmlId}}\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#{{carouselHtmlId}}\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n  </div>\n</div>  \n"
+module.exports = "<div class=\"container content\">\n  <h1 class=\"text-center\">{{carouselTitle}}</h1>\n  <div class=\"row\">\n      <div class=\"col-md-12\">\n          <div id=\"{{carouselHtmlId}}\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"0\">\n\n                              \n              <div class=\"carousel-inner\">\n\n                  <div *ngFor = \"let productPage of productPages; let isFirstItem = first\" [ngClass] = \" isFirstItem ? 'carousel-item active' : 'carousel-item'\">\n\n                      <div class=\"row\">\n\n                          <div class=\"col-sm-6 col-md-6 col-lg-3\" *ngFor=\"let productItem of productPage.content\">\n                              <product-item [product] = \"productItem\"></product-item>\n                          </div>\n\n                      </div>\n\n                  </div>                         \n\n\n              </div>\n              \n              <a class=\"carousel-control-prev\" href=\"#{{carouselHtmlId}}\" data-slide=\"prev\">\n                  <span class=\"carousel-control-prev-icon\"></span>\n              </a>\n              <a class=\"carousel-control-next\" href=\"#{{carouselHtmlId}}\" data-slide=\"next\">\n                  <span class=\"carousel-control-next-icon\"></span>\n              </a>\n          </div>\n      </div>\n  </div>\n</div>  \n"
 
 /***/ }),
 
@@ -1130,12 +1132,38 @@ var ProductsCarouselComponent = /** @class */ (function () {
         this.productService = productService;
     }
     ProductsCarouselComponent.prototype.ngOnInit = function () {
+        this.productPages = [];
+        this.pageNumber = [];
+        if (this.carouselType === 'favorite') {
+            this.addFavoriteProductsToCarousel();
+        }
+        else if (this.carouselType === 'new') {
+            this.addNewProductsToCarousel();
+        }
+    };
+    ProductsCarouselComponent.prototype.addFavoriteProductsToCarousel = function () {
         var _this = this;
-        this.httpSubscription = this.productService.getProductList()
-            .subscribe(function (productLists) { return _this.productLists = productLists; });
+        this.httpSubscription = this.productService.getFavoriteProductsInformation().subscribe(function (productPage) {
+            _this.productPagesInformation = productPage;
+            _this.initializePageNumber(_this.productPagesInformation.totalPages);
+            _this.httpSubscription2 = _this.productService.getFavoriteProducts(_this.pageNumber).subscribe(function (productPage) { return _this.productPages.push(productPage); });
+        });
+    };
+    ProductsCarouselComponent.prototype.addNewProductsToCarousel = function () {
+        var _this = this;
+        this.httpSubscription = this.productService.getNewProductsInformation().subscribe(function (productPage) {
+            _this.productPagesInformation = productPage;
+            _this.initializePageNumber(_this.productPagesInformation.totalPages);
+            _this.httpSubscription2 = _this.productService.getNewProducts(_this.pageNumber).subscribe(function (productPage) { return _this.productPages.push(productPage); });
+        });
+    };
+    ProductsCarouselComponent.prototype.initializePageNumber = function (pages) {
+        for (var i = 0; i < pages; i++)
+            this.pageNumber[i] = i;
     };
     ProductsCarouselComponent.prototype.ngOnDestroy = function () {
         this.httpSubscription.unsubscribe();
+        this.httpSubscription2.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1145,6 +1173,10 @@ var ProductsCarouselComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", String)
     ], ProductsCarouselComponent.prototype, "carouselHtmlId", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ProductsCarouselComponent.prototype, "carouselType", void 0);
     ProductsCarouselComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'products-carousel',
@@ -1500,6 +1532,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductService", function() { return ProductService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1511,13 +1545,29 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var ProductService = /** @class */ (function () {
     function ProductService(http) {
         this.http = http;
         this.productListsApi = '/api/products';
+        this.favoriteParam = '?filter=favorite';
+        this.newParam = '?filter=new';
+        this.pageParam = '&page=';
     }
-    ProductService.prototype.getProductList = function () {
-        return this.http.get(this.productListsApi + '?filter=favorite');
+    ProductService.prototype.getFavoriteProductsInformation = function () {
+        return this.http.get(this.productListsApi + this.favoriteParam + this.pageParam + '0');
+    };
+    ProductService.prototype.getNewProductsInformation = function () {
+        return this.http.get(this.productListsApi + this.newParam + this.pageParam + '0');
+    };
+    ProductService.prototype.getFavoriteProducts = function (pages) {
+        var _this = this;
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(pages).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (page) { return _this.http.get(_this.productListsApi + _this.favoriteParam + _this.pageParam + page); }));
+    };
+    ProductService.prototype.getNewProducts = function (pages) {
+        var _this = this;
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(pages).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (page) { return _this.http.get(_this.productListsApi + _this.newParam + _this.pageParam + page); }));
     };
     ProductService.prototype.getSingleProduct = function (name) {
         return this.http.get(this.productListsApi + '/' + name);

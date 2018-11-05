@@ -8,6 +8,8 @@ export class Product{
     category : Category
     price : number
     description : string
+    is_new : boolean
+    is_favorite : boolean
     smallImageUrl : string
     largeImageUrl : string
 }

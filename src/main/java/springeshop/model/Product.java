@@ -36,7 +36,7 @@ public class Product {
 	@NotNull(message = "Please provide product name")
 	@Size(min = 3, max = 200, message = "Name must be between 10 and 200 characters")
 	private String name;
-	
+
 	@Column(name = "price", nullable = false)
 	@NotNull(message = "Please provide product price")
 	@Min(value = 0, message = "Price must be greater than zero")
@@ -45,6 +45,14 @@ public class Product {
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "is_favorite")
+	@NotNull
+	private boolean is_favorite;
+	
+	@Column(name = "is_new")
+	@NotNull
+	private boolean is_new;
+
 	@Transient
 	private String smallImageUrl;
 	
@@ -128,5 +136,19 @@ public class Product {
 		this.largeImageUrl = largeImageUrl;
 	}
 
-	
+	public boolean getIs_favorite() {
+		return is_favorite;
+	}
+
+	public void setIs_favorite(boolean is_favorite) {
+		this.is_favorite = is_favorite;
+	}
+
+	public boolean getIs_new() {
+		return is_new;
+	}
+
+	public void setIs_new(boolean is_new) {
+		this.is_new = is_new;
+	}
 }

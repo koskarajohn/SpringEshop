@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,41 +58,39 @@ public class ProductApiController {
     private AmazonS3ClientService amazonS3ClientService;
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ResponseEntity<?> listProducts(@RequestParam(value = "filter", required = false) String filter){
-		List<Product> products = productService.findAllProducts();
-		if(products.isEmpty()){
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
+	public ResponseEntity<?> getProductsByFilter(@RequestParam(value = "filter", required = false) String filter, @RequestParam(value = "page", required = false) int page){
+					
 		
-		for(Product product : products){
-			ProductImage productImage = productImageService.findByProductId(product.getId());
-	        product.setSmallImageUrl(productImage.getSmallImageurl());
-	        product.setLargeImageUrl(productImage.getLargeImageurl());
-		}
-		
-		if(filter == null){
-			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
-		}else if(filter.equals("favorite")){
+		if(filter.equals("favorite")){
+			Page<Product> favoriteProducts = productService.findFavoriteProducts(PageRequest.of(page, 4));
 			
-			List<List<Product>> listOfFourProductSublists = new ArrayList<>();
-			int sublistsNumber = getListsOfFour(products.size());
-			for(int i=0; i < sublistsNumber; i++){
-				listOfFourProductSublists.add(new ArrayList<Product>());
+			if(favoriteProducts.getTotalElements() == 0){
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
 			}
 			
-			for(int i=1; i <=products.size(); i++){
-				listOfFourProductSublists.get(getListsOfFour(i) - 1).add(products.get(i - 1));			
+			addImagesToProducts(favoriteProducts);
+			return new ResponseEntity<Page<Product>>(favoriteProducts, HttpStatus.OK);
+		}else if(filter.equals("new")){
+			Page<Product> newProducts = productService.findNewProducts(PageRequest.of(page, 4));
+			
+			if(newProducts.getTotalElements() == 0){
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
 			}
 			
-			return new ResponseEntity<List<List<Product>>>(listOfFourProductSublists, HttpStatus.OK);
+			addImagesToProducts(newProducts);
+			return new ResponseEntity<Page<Product>>(newProducts, HttpStatus.OK);
 		}else 
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		
 		
 	}
 	
-	private int getListsOfFour(int numberOfProducts){
-		return (int) Math.ceil(numberOfProducts / 4.0);
+	private void addImagesToProducts(Page<Product> products){
+		for(Product product : products){
+			ProductImage productImage = productImageService.findByProductId(product.getId());
+	        product.setSmallImageUrl(productImage.getSmallImageurl());
+	        product.setLargeImageUrl(productImage.getLargeImageurl());
+		}
 	}
 	
 	@RequestMapping(value = "/products/{name}", method = RequestMethod.GET)
@@ -212,6 +212,18 @@ public class ProductApiController {
         return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 	
+	private int getListsOfFour(int numberOfProducts){
+		return (int) Math.ceil(numberOfProducts / 4.0);
+	}
 	
+	//List<List<Product>> listOfFourProductSublists = new ArrayList<>();
+	//int sublistsNumber = getListsOfFour(products.size());
+	//for(int i=0; i < sublistsNumber; i++){
+	//	listOfFourProductSublists.add(new ArrayList<Product>());
+	//}
+	
+	//for(int i=1; i <=products.size(); i++){
+	//	listOfFourProductSublists.get(getListsOfFour(i) - 1).add(products.get(i - 1));			
+	//}
 	
 }

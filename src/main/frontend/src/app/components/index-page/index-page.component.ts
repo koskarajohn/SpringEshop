@@ -11,6 +11,8 @@ export class IndexPageComponent implements OnInit {
   newProductCarouselTitle : string;
   popularProductCarouselHtmlId : string;
   newProductCarouselHtmlId : string;
+  popularCarouselType : string;
+  newCarouselType : string;
 
   constructor() { }
 
@@ -19,6 +21,8 @@ export class IndexPageComponent implements OnInit {
     this.newProductCarouselTitle = 'Νέα Προιόντα';
     this.popularProductCarouselHtmlId = 'carousel-popular-products';
     this.newProductCarouselHtmlId = 'carousel-new-products';
+    this.popularCarouselType = 'favorite';
+    this.newCarouselType = 'new';
   }
 
 }

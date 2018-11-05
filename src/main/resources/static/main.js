@@ -339,7 +339,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{categoryTitle}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar [category] = \"category\"></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Previous</a></li>\n            <li class=\"page-item active\"><a class=\"page-link\" href=\"#\">1</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{categoryTitle}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar [category] = \"category\"></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\n            </li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -372,6 +372,7 @@ var CategoryPageComponent = /** @class */ (function () {
     function CategoryPageComponent(route, categoryService) {
         this.route = route;
         this.categoryService = categoryService;
+        this.currentPage = 0;
         this.greekCategories = {
             vitamins: 'Βιταμίνες',
             minerals: 'Μέταλλα',
@@ -383,15 +384,37 @@ var CategoryPageComponent = /** @class */ (function () {
     }
     CategoryPageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.routeSubscription = this.route.params.subscribe(function (params) {
+        this.pageNumbers = [];
+        this.paramRouteSubscription = this.route.params.subscribe(function (params) {
             _this.category = params['name'];
+            _this.currentPage = _this.route.snapshot.queryParams['page'];
             _this.categoryTitle = params['name'] === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[params['name']];
-            _this.httpSubscription = _this.categoryService.getCategoryProducts(_this.category).subscribe(function (products) { return _this.products = products; });
+            _this.httpSubscription = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+                _this.productPage = productPage;
+                _this.products = productPage.content;
+                _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
+            });
+        });
+        this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
+            _this.currentPage = queryParams['page'];
+            _this.category = _this.route.snapshot.params['name'];
+            _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
+            _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+                _this.productPage = productPage;
+                _this.products = productPage.content;
+            });
         });
     };
+    CategoryPageComponent.prototype.initializePageNumberArray = function (pageNumbers, pageCount) {
+        for (var i = 0; i < pageCount; i++) {
+            pageNumbers[i] = i + 1;
+        }
+    };
     CategoryPageComponent.prototype.ngOnDestroy = function () {
-        this.routeSubscription.unsubscribe();
+        this.paramRouteSubscription.unsubscribe();
+        this.queryParamRouteSubscription.unsubscribe();
         this.httpSubscription.unsubscribe();
+        this.httpSubscription2.unsubscribe();
     };
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -880,7 +903,7 @@ module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">Αναζήτηση</button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/cart\">\r\n                       <i class=\"fas fa-shopping-cart mr-2\" ></i>Καλάθι\r\n                   </a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
+module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">Αναζήτηση</button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n               <li class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/cart\">\r\n                       <i class=\"fas fa-shopping-cart mr-2\" ></i>Καλάθι\r\n                   </a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\" [queryParams]=\"{ page: pageParam}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
 
 /***/ }),
 
@@ -909,6 +932,7 @@ var NavigationBarComponent = /** @class */ (function () {
     function NavigationBarComponent() {
         this.greekCategoryNames = ['Βιταμίνες', 'Μέταλλα', 'Ιχθυέλαια', 'Υπερτροφές', 'Αρώματα', 'Σαμπουάν'];
         this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
+        this.pageParam = 0;
     }
     NavigationBarComponent.prototype.ngOnInit = function () {
         this.initialiseCategories();
@@ -1448,9 +1472,10 @@ var CategoryService = /** @class */ (function () {
         this.brandParameter = "?brand=";
         this.minParameter = "?min=";
         this.maxParameter = "&max=";
+        this.pageParameter = "?page=";
     }
-    CategoryService.prototype.getCategoryProducts = function (category) {
-        return this.http.get(this.categoryProductsApi + category);
+    CategoryService.prototype.getCategoryProductsPage = function (category, page) {
+        return this.http.get(this.categoryProductsApi + category + this.pageParameter + page);
     };
     CategoryService.prototype.getCategoryBrands = function (category) {
         return this.http.get(this.categoryBrands + this.categoryParameter + category);

@@ -11,6 +11,8 @@ export class NavigationBarComponent implements OnInit {
   categories : NavigationCategory[];
   greekCategoryNames : string[ ] = ['Βιταμίνες','Μέταλλα','Ιχθυέλαια','Υπερτροφές','Αρώματα','Σαμπουάν'];
   englishCategoryNames : string[ ] = ['vitamins','minerals','fish-oils','superfoods','fragrances','shampoos'];
+  pageParam : number = 0;
+
   constructor() { }
 
   ngOnInit() {

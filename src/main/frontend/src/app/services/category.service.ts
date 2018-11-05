@@ -7,6 +7,7 @@ import { Brand } from '../models/brand';
 import { mergeMap, concatMap } from 'rxjs/operators';
 import { ProductsPerBrand } from '../models/productsPerBrand';
 import { ProductsPerPriceRange } from '../models/productsPerPriceRange';
+import { ProductPage } from '../models/productPage';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,12 @@ export class CategoryService {
   private brandParameter = "?brand=";
   private minParameter = "?min=";
   private maxParameter ="&max=";
+  private pageParameter = "?page=";
 
   constructor(private http : HttpClient) { }
 
-  getCategoryProducts(category : string) : Observable<Product[]>{
-    return this.http.get<Product[]>(this.categoryProductsApi + category);
+  getCategoryProductsPage(category : string, page : number) : Observable<ProductPage>{
+    return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page);
   }
 
   getCategoryBrands(category : string) : Observable<Brand[]>{

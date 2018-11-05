@@ -41,18 +41,10 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryRepository.deleteById(id);
 	}
 
-	@Override
-	public List<Category> findAllCategories() {
-		return categoryRepository.findAll();
-	}
 
 	@Override
 	public boolean doesCategoryExist(Category category) {
 		return findByName(category.getName()) != null;
 	}
 
-	@Override
-	public void deleteAllCategories() {
-		categoryRepository.deleteAll();
-	}
 }

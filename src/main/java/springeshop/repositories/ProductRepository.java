@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	Product findByName(String name);
 	
 	//Products
-	List<Product> findByCategoryIdOrderByPriceAsc(int id);
+	Page<Product> findByCategoryId(int id, Pageable pageable);
 	List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId);
 	
 	@Query("select prod from Product prod where prod.is_favorite = true")

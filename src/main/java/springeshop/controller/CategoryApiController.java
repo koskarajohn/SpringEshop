@@ -7,6 +7,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,17 +51,8 @@ public class CategoryApiController {
 	@Autowired
 	private ProductImageService productImageService;
 	
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public ResponseEntity<?> listCategories(){
-		List<Category> categories =  categoryService.findAllCategories();
-		if(categories.isEmpty())
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		
-		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
-	}
-	
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name){
+	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = false) int page){
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
 		
@@ -67,10 +61,10 @@ public class CategoryApiController {
 			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		List<Product> products = productService.findByCategoryIdOrderByPriceAsc(category.getId());
+		Page<Product> products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
 		
 		if(products == null){
-			logger.error("Category with name {} not found.", name);
+			logger.error("No products found.");
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		
@@ -80,7 +74,7 @@ public class CategoryApiController {
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
 		}
 		
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		return new ResponseEntity<Page<Product>>(products, HttpStatus.OK);
 	}
 	
 	private String getCorrectCategoryName(String categoryName){

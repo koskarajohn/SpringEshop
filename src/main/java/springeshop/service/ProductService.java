@@ -19,7 +19,7 @@ public interface ProductService {
 	boolean doesProductExist(Product product);
 	
 	ProductImage findByProductId(int id);
-	List<Product> findByCategoryIdOrderByPriceAsc(int id);
+	Page<Product> findByCategoryId(int id, Pageable pageable);
 	Page<Product> findFavoriteProducts(Pageable pageable);
     Page<Product> findNewProducts(Pageable pageable);
 	List<Brand> findCategoryBrands(int id);

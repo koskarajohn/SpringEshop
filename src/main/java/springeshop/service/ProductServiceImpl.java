@@ -56,8 +56,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> findByCategoryIdOrderByPriceAsc(int id) {
-		return productRepository.findByCategoryIdOrderByPriceAsc(id);
+	public Page<Product> findByCategoryId(int id, Pageable pageable) {
+		return productRepository.findByCategoryId(id, pageable);
 	}
 
 	@Override

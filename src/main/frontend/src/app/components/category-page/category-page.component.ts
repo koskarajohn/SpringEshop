@@ -34,12 +34,12 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   constructor(private route : ActivatedRoute, private categoryService : CategoryService) { }
 
   ngOnInit() {
-    this.pageNumbers = [];
     this.paramRouteSubscription = this.route.params.subscribe(params => {
       this.category = params['name'];
       this.currentPage =  this.route.snapshot.queryParams['page'];
       this.categoryTitle = params['name'] === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[params['name']];
       this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage).subscribe(productPage => {
+        this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;  
         this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
@@ -47,14 +47,17 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
     });
 
     this.queryParamRouteSubscription =  this.route.queryParams.subscribe(queryParams => {
+      let oldCategory = this.category;
+      let oldPage = this.currentPage;
       this.currentPage = queryParams['page'];
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
-      this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage).subscribe(productPage => {
-        this.productPage = productPage;
-        this.products = productPage.content; 
-      });
-
+      if(oldCategory === this.category && this.currentPage != oldPage){
+        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage).subscribe(productPage => {
+          this.productPage = productPage;
+          this.products = productPage.content; 
+        });
+      }
     });
   }
 
@@ -67,8 +70,8 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.paramRouteSubscription.unsubscribe();
     this.queryParamRouteSubscription.unsubscribe();
-    this.httpSubscription.unsubscribe();
-    this.httpSubscription2.unsubscribe();
+    if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
+    if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
   }
 
 }

@@ -10,7 +10,7 @@
 <!-- Content -->
 <section class="container">
   <h1>{{categoryTitle}}</h1>
-  <div class="row">
+  <div class="row category-content">
     <div class="col-md-3 sidebar">
         <category-sidebar [category] = "category"></category-sidebar>
     </div>
@@ -24,13 +24,13 @@
           </select>
         </div>
 
-        <div class="row">
+        <div class="row product-content">
             <div class="col-sm-6 col-md-6 col-lg-4 mb-5" *ngFor="let productItem of products">
                  <product-item [product] = "productItem"></product-item>
             </div>
         </div>
 
-        <ul class="pagination justify-content-center">
+        <ul class="pagination">
             <li *ngFor="let page of pageNumbers; let i = index;" [ngClass] = " i == currentPage ? 'page-item active' : 'page-item'">
               <a class="page-link" routerLink="/category/{{category}}" [queryParams]="{ page: i}">{{page}}</a>
             </li>

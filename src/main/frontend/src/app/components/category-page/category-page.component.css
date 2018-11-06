@@ -14,6 +14,16 @@ section h1{
     border-right: 1px solid #333333;
 }
 
+.category-content{
+    margin-bottom:48px;
+}
+
+.product-content{
+    margin-bottom:48px;
+}
+
 ul{
-    margin-top:48px;
+    position: absolute;
+    bottom: 0px;
+    left : 50%;
 }

@@ -328,7 +328,7 @@ var CartPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\nul{\r\n    margin-top:48px;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\nul{\r\n    position: absolute;\r\n    bottom: 0px;\r\n    left : 50%;\r\n}"
 
 /***/ }),
 
@@ -339,7 +339,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{categoryTitle}}</h1>\n  <div class=\"row\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar [category] = \"category\"></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination justify-content-center\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\n            </li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/{{category}}\n  </div>\n</div>\n\n<!-- Content -->\n<section class=\"container\">\n  <h1>{{categoryTitle}}</h1>\n  <div class=\"row category-content\">\n    <div class=\"col-md-3 sidebar\">\n        <category-sidebar [category] = \"category\"></category-sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\">\n            <option>Αύξουσα Τιμή</option>\n            <option>Φθίνουσα Τιμή</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\n            </li>\n        </ul> \n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -384,25 +384,29 @@ var CategoryPageComponent = /** @class */ (function () {
     }
     CategoryPageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.pageNumbers = [];
         this.paramRouteSubscription = this.route.params.subscribe(function (params) {
             _this.category = params['name'];
             _this.currentPage = _this.route.snapshot.queryParams['page'];
             _this.categoryTitle = params['name'] === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[params['name']];
             _this.httpSubscription = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+                _this.pageNumbers = [];
                 _this.productPage = productPage;
                 _this.products = productPage.content;
                 _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
             });
         });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
+            var oldCategory = _this.category;
+            var oldPage = _this.currentPage;
             _this.currentPage = queryParams['page'];
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
-            _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
-                _this.productPage = productPage;
-                _this.products = productPage.content;
-            });
+            if (oldCategory === _this.category && _this.currentPage != oldPage) {
+                _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+                    _this.productPage = productPage;
+                    _this.products = productPage.content;
+                });
+            }
         });
     };
     CategoryPageComponent.prototype.initializePageNumberArray = function (pageNumbers, pageCount) {
@@ -413,8 +417,10 @@ var CategoryPageComponent = /** @class */ (function () {
     CategoryPageComponent.prototype.ngOnDestroy = function () {
         this.paramRouteSubscription.unsubscribe();
         this.queryParamRouteSubscription.unsubscribe();
-        this.httpSubscription.unsubscribe();
-        this.httpSubscription2.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
+        if (this.httpSubscription2 !== undefined)
+            this.httpSubscription2.unsubscribe();
     };
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

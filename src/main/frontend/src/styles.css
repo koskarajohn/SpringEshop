@@ -26,4 +26,12 @@ a {
     color:white;  
   }
   
-  
+  .btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: #04BF00;
+    border-color: #04BF00;
+    color:white; 
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    outline : none;
+  }

@@ -13,6 +13,9 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   productNameParam : string;
   product : Product;
+  available : string = "Σε απόθεμα";
+  notAvailable  : string = "Δεν είναι διαθέσιμο";
+  productAvailability : string = "";
   routeSubscription : Subscription;
   httpSubscription : Subscription;
 
@@ -21,7 +24,10 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe(params => this.productNameParam = params['name']);
     this.httpSubscription = this.productService.getSingleProduct(this.productNameParam)
-                                .subscribe(product => this.product = product);
+                                              .subscribe(product => {
+                                                this.product = product;
+                                                this.productAvailability =  product.quantity > 0 ? this.available : this.notAvailable ;
+                                              });
     
   }
 

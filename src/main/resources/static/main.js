@@ -1051,7 +1051,7 @@ var ProductPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
+module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n.product button:hover, .product button:focus, .product button:active{\r\n  box-shadow: none;\r\n  outline : none;\r\n}\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
 
 /***/ }),
 

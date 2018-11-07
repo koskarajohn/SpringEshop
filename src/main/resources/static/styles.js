@@ -89,7 +89,7 @@ module.exports = "/*!\n * Bootstrap v4.1.3 (https://getbootstrap.com/)\n * Copyr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* You can add global styles to this file, and also import other style files */\n\na {\n    color: #333333;\n  }\n\na:focus, a:hover, a:active {\n    color: #04BF00;\n  }\n\n.background-primary {\n    background-color: #fff;\n  }\n\n.background-secondary {\n    background-color: #04BF00;\n  }\n\n.text-primary {\n    color: #333333;\n  }\n\n.btn-primary{\n    background-color: #04BF00;\n    border-color: #04BF00;\n    color:white;  \n  }\n\n.btn-primary:hover, .btn-primary:focus, .btn-primary:activer{\n    background-color: #04BF00;\n    border-color: #04BF00;\n    box-shadow: none;\n  }"
+module.exports = "/* You can add global styles to this file, and also import other style files */\n\na {\n    color: #333333;\n  }\n\na:focus, a:hover, a:active {\n    color: #04BF00;\n  }\n\n.background-primary {\n    background-color: #fff;\n  }\n\n.background-secondary {\n    background-color: #04BF00;\n  }\n\n.text-primary {\n    color: #333333;\n  }\n\n.btn-primary{\n    background-color: #04BF00;\n    border-color: #04BF00;\n    color:white;  \n  }\n  \n  "
 
 /***/ }),
 

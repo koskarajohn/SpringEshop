@@ -26,10 +26,4 @@ a {
     color:white;  
   }
   
-  .btn-primary:hover, .btn-primary:focus, .btn-primary:activer{
-    background-color: #04BF00;
-    border-color: #04BF00;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
+  

@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import springeshop.model.Inventory;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.service.AmazonS3ClientService;
 import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
+import springeshop.service.InventoryService;
 import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
 import springeshop.util.Constants;
@@ -49,7 +51,10 @@ public class ProductApiController {
 	private BrandService brandService;
 	
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Autowired
 	private ProductImageService productImageService;
@@ -68,7 +73,7 @@ public class ProductApiController {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 			}
 			
-			addImagesToProducts(favoriteProducts);
+			addImagesAndQuantityToProducts(favoriteProducts);
 			return new ResponseEntity<Page<Product>>(favoriteProducts, HttpStatus.OK);
 		}else if(filter.equals("new")){
 			Page<Product> newProducts = productService.findNewProducts(PageRequest.of(page, 4));
@@ -77,7 +82,7 @@ public class ProductApiController {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 			}
 			
-			addImagesToProducts(newProducts);
+			addImagesAndQuantityToProducts(newProducts);
 			return new ResponseEntity<Page<Product>>(newProducts, HttpStatus.OK);
 		}else 
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -85,13 +90,17 @@ public class ProductApiController {
 		
 	}
 	
-	private void addImagesToProducts(Page<Product> products){
+	private void addImagesAndQuantityToProducts(Page<Product> products){
 		for(Product product : products){
 			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
+	        
+	        int productQuantity = inventoryService.findProductQuantity(product.getId());
+	        product.setQuantity(productQuantity);
 		}
 	}
+	
 	
 	@RequestMapping(value = "/products/{name}", method = RequestMethod.GET)
 	public ResponseEntity<?> getProductByName(@PathVariable("name") String name){
@@ -106,6 +115,9 @@ public class ProductApiController {
         ProductImage productImage = productImageService.findByProductId(product.getId());
         product.setSmallImageUrl(productImage.getSmallImageurl());
         product.setLargeImageUrl(productImage.getLargeImageurl());
+        
+        int productQuantity = inventoryService.findProductQuantity(product.getId());
+        product.setQuantity(productQuantity);
         
         return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
@@ -148,6 +160,11 @@ public class ProductApiController {
         	productService.deleteProductById(product.getId());
         	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
+        Inventory productInventory = new Inventory();
+		productInventory.setProduct(product);
+		productInventory.setQuantity(product.getQuantity());
+		inventoryService.saveProductQuantity(productInventory);
 			
 		ProductImage productImage = new ProductImage();
 		productImage.setProduct(product);

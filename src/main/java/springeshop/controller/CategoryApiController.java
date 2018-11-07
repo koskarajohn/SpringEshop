@@ -1,7 +1,5 @@
 package springeshop.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +26,7 @@ import springeshop.model.ProductsPerBrand;
 import springeshop.model.ProductsPerPriceRange;
 import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
+import springeshop.service.InventoryService;
 import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
 import springeshop.util.ErrorMessage;
@@ -44,6 +42,9 @@ public class CategoryApiController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Autowired
 	private ProductService productService;
@@ -72,6 +73,9 @@ public class CategoryApiController {
 			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
+	        
+	        int productQuantity = inventoryService.findProductQuantity(product.getId());
+	        product.setQuantity(productQuantity);
 		}
 		
 		return new ResponseEntity<Page<Product>>(products, HttpStatus.OK);

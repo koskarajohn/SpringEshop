@@ -41,6 +41,11 @@ public class Product {
 	@NotNull(message = "Please provide product price")
 	@Min(value = 0, message = "Price must be greater than zero")
 	private double price;
+
+	@Transient
+	@NotNull(message = "Please provide product quantity")
+	@Min(value = 0, message = "Quantity must be greater than zero")
+	private int quantity;
 	
 	@Column(name = "description")
 	private String description;
@@ -110,6 +115,14 @@ public class Product {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getDescription() {

@@ -21,21 +21,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.anyRequest().authenticated()
-				.and()
-			    .httpBasic();
+		http.authorizeRequests()
+			.anyRequest().authenticated()
+			.and()
+			.httpBasic()
+			.and().csrf().disable();
 	}
 	
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).dataSource(dataSource)
+		auth.jdbcAuthentication().passwordEncoder(passwordEncoder()).dataSource(dataSource)
 		    .usersByUsernameQuery("select username, password, is_active from users where username=?")
 		    .authoritiesByUsernameQuery("select username, role from authorities where username=?");
 	}
 	
-	@Bean
+	@Bean(name = "passwordEncoder")
 	public BCryptPasswordEncoder passwordEncoder() {
 	return new BCryptPasswordEncoder();
 	}

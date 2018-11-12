@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,16 +22,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/*", "/api/**").permitAll()
+		http.anonymous().authorities("ROLE_GUEST").and()
+		    .authorizeRequests()
+		    .antMatchers(HttpMethod.GET, "/*", "/api/**").permitAll()
 		    .antMatchers(HttpMethod.POST, "/api/**").permitAll()
-			.anyRequest().authenticated()
+		    .anyRequest().authenticated()
 			.and()
 			.httpBasic()
 			.and().csrf().disable();
 		
-		http.sessionManagement().maximumSessions(1);
 	}
 	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	   // web.ignoring().antMatchers(HttpMethod.GET, "/*", "/api/**").;
+	    //web.ignoring().antMatchers(HttpMethod.POST, "/api/**");
+	}
 	
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {

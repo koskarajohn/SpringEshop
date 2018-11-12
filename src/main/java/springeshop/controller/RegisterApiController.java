@@ -59,6 +59,6 @@ public class RegisterApiController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 }

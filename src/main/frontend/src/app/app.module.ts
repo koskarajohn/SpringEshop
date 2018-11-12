@@ -18,6 +18,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductsCarouselComponent } from './components/products-carousel/products-carousel.component';
 import { CategorySidebarComponent } from './components/category-sidebar/category-sidebar.component';
 import { RatingComponent } from './components/rating/rating.component';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { RatingComponent } from './components/rating/rating.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

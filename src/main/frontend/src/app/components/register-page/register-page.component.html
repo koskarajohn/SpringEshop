@@ -14,37 +14,76 @@
         <h1>Εγγραφή</h1>
         <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink="/login">εδώ</a>.</p>
            
-        <form>
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
             <h4>Προσωπικά στοιχεία</h4>
             <div class="form-group">
-                <label>Όνομα</label>
-                <input type="text" class="form-control" placeholder="Όνομα" name="fname">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" [(ngModel)]="user.username" #username="ngModel" [ngClass]="{'is-invalid' : f.submitted && username.invalid}" required minlength="2">
+                <div *ngIf="f.submitted && username.invalid" class="invalid-feedback">
+                    <div *ngIf="username.errors.required">Πρέπει να συμπληρώσετε το Username</div>
+                    <div *ngIf="username.errors.minlength">Το Username πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label>Όνομα</label>
+                <input type="text" name="firstname" class="form-control" [(ngModel)]="user.first_name" #firstname="ngModel" [ngClass]="{'is-invalid' : f.submitted && firstname.invalid}" required minlength="2">
+                <div *ngIf="f.submitted && firstname.invalid" class="invalid-feedback">
+                    <div *ngIf="firstname.errors.required">Πρέπει να συμπληρώσετε το όνομα</div>
+                    <div *ngIf="firstname.errors.minlength">Το όνομα πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Επώνυμο</label>
-                <input type="text" class="form-control" placeholder="Επώνυμο" name="lname">
+                <input type="text" name="lastname" class="form-control" [(ngModel)]="user.last_name" #lastname="ngModel" [ngClass]="{'is-invalid' : f.submitted && lastname.invalid}" required minlength="2">
+                <div *ngIf="f.submitted && lastname.invalid" class="invalid-feedback">
+                    <div *ngIf="lastname.errors.required">Πρέπει να συμπληρώσετε το επίθετο</div>
+                    <div *ngIf="lastname.errors.minlength">Το επίθετο πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                </div>
             </div>
+
             <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" class="form-control"placeholder="E-Mail" name="email">
+                <input type="email" name="email" class="form-control" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{'is-invalid' : f.submitted && email.invalid}" required email>
+                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                    <div *ngIf="email.errors.required">Πρέπει να συμπληρώσετε το email</div>
+                    <div *ngIf="email.errors.email">Το email πρέπει να έχει τη σωστή μορφή</div>
+                </div>
             </div>
+
             <div class="form-group">
                 <label>Τηλέφωνο</label>
-                <input type="number" class="form-control" placeholder="Τηλέφωνο" name="phone">
+                <input type="number"  name="phone" class="form-control" [(ngModel)]="user.phone" #phone="ngModel" [ngClass]="{'is-invalid' : f.submitted && phone.invalid}" required tel>
+                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                    <div *ngIf="phone.errors.required">Πρέπει να συμπληρώσετε το τηλέφωνο</div>
+                    <div *ngIf="phone.errors.phone">Το τηλέφωνο πρέπει να έχει τη σωστή μορφή</div>
+                </div>
             </div>
+
+
             <h4>Ο Κωδικός</h4>
+
             <div class="form-group">
                 <label>Kωδικός</label>
-                <input type="password" class="form-control"  placeholder="Κωδικός" name="password">
+                <input type="password" name="password" class="form-control" [(ngModel)]="user.password" #password="ngModel" [ngClass]="{'is-invalid' : f.submitted && password.invalid}" required minlength="6">
+                <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>
+                    <div *ngIf="password.errors.minlength">Ο κωδικός πρέπει να έχει μήκος τουλάχιστον 6 χαρακτήρες</div>
+                </div>
             </div>
+
             <div class="form-group">
                 <label>Επαλήθευση Κωδικού</label>
-                <input type="password" class="form-control" placeholder="Επαλήθευση Κωδικού" name="confirmpassword">
+                <input type="password" name="confirmpassword" class="form-control" [(ngModel)]="user.confirm_password" #confirmpassword="ngModel" [ngClass]="{'is-invalid' : f.submitted && !arePasswordsFieldsTheSame()}">
+                <div *ngIf="f.submitted && !arePasswordsFieldsTheSame()" class="invalid-feedback">Οι κωδικοί δεν είναι ίδιοι</div>
             </div>
+
             <div class="submit">
                 <p>Συμφωνώ με τους όρους πολιτικής</p>
-                <button type="submit" class="btn btn-primary">Εγγραφή</button>
+                <button class="btn btn-primary">Εγγραφή</button>
             </div>
+
            </form>
     </div>
 </section>

@@ -193,12 +193,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_products_carousel_products_carousel_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/products-carousel/products-carousel.component */ "./src/app/components/products-carousel/products-carousel.component.ts");
 /* harmony import */ var _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
 /* harmony import */ var _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/rating/rating.component */ "./src/app/components/rating/rating.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -245,7 +247,8 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_20__["FormsModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
@@ -1057,7 +1060,7 @@ var ProductPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n.product button:hover, .product button:focus, .product button:active{\r\n  box-shadow: none;\r\n  outline : none;\r\n}\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
+module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
 
 /***/ }),
 
@@ -1319,7 +1322,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n            <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n            Εγγραφή\n    </div>\n</div>\n\n<!-- Register -->\n<section class=\"register\">\n    <div class=\"container\">\n        <h1>Εγγραφή</h1>\n        <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink=\"/login\">εδώ</a>.</p>\n           \n        <form>\n            <h4>Προσωπικά στοιχεία</h4>\n            <div class=\"form-group\">\n                <label>Όνομα</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Όνομα\" name=\"fname\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επώνυμο</label>\n                <input type=\"text\" class=\"form-control\" placeholder=\"Επώνυμο\" name=\"lname\">\n            </div>\n            <div class=\"form-group\">\n                <label>E-mail</label>\n                <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n            </div>\n            <div class=\"form-group\">\n                <label>Τηλέφωνο</label>\n                <input type=\"number\" class=\"form-control\" placeholder=\"Τηλέφωνο\" name=\"phone\">\n            </div>\n            <h4>Ο Κωδικός</h4>\n            <div class=\"form-group\">\n                <label>Kωδικός</label>\n                <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n            </div>\n            <div class=\"form-group\">\n                <label>Επαλήθευση Κωδικού</label>\n                <input type=\"password\" class=\"form-control\" placeholder=\"Επαλήθευση Κωδικού\" name=\"confirmpassword\">\n            </div>\n            <div class=\"submit\">\n                <p>Συμφωνώ με τους όρους πολιτικής</p>\n                <button type=\"submit\" class=\"btn btn-primary\">Εγγραφή</button>\n            </div>\n           </form>\n    </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n            <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n            Εγγραφή\n    </div>\n</div>\n\n<!-- Register -->\n<section class=\"register\">\n    <div class=\"container\">\n        <h1>Εγγραφή</h1>\n        <p>Εάν έχετε ήδη λογαριασμό, μπορείτε να εισέλθετε <a routerLink=\"/login\">εδώ</a>.</p>\n           \n        <form name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n            <h4>Προσωπικά στοιχεία</h4>\n            <div class=\"form-group\">\n                <label>Username</label>\n                <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"user.username\" #username=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && username.invalid}\" required minlength=\"2\">\n                <div *ngIf=\"f.submitted && username.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"username.errors.required\">Πρέπει να συμπληρώσετε το Username</div>\n                    <div *ngIf=\"username.errors.minlength\">Το Username πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>\n                </div>\n            </div>\n\n            <div class=\"form-group\">\n                <label>Όνομα</label>\n                <input type=\"text\" name=\"firstname\" class=\"form-control\" [(ngModel)]=\"user.first_name\" #firstname=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && firstname.invalid}\" required minlength=\"2\">\n                <div *ngIf=\"f.submitted && firstname.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"firstname.errors.required\">Πρέπει να συμπληρώσετε το όνομα</div>\n                    <div *ngIf=\"firstname.errors.minlength\">Το όνομα πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>\n                </div>\n            </div>\n\n            <div class=\"form-group\">\n                <label>Επώνυμο</label>\n                <input type=\"text\" name=\"lastname\" class=\"form-control\" [(ngModel)]=\"user.last_name\" #lastname=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && lastname.invalid}\" required minlength=\"2\">\n                <div *ngIf=\"f.submitted && lastname.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"lastname.errors.required\">Πρέπει να συμπληρώσετε το επίθετο</div>\n                    <div *ngIf=\"lastname.errors.minlength\">Το επίθετο πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>\n                </div>\n            </div>\n\n            <div class=\"form-group\">\n                <label>E-mail</label>\n                <input type=\"email\" name=\"email\" class=\"form-control\" [(ngModel)]=\"user.email\" #email=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && email.invalid}\" required email>\n                <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\n                    <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\n                </div>\n            </div>\n\n            <div class=\"form-group\">\n                <label>Τηλέφωνο</label>\n                <input type=\"number\"  name=\"phone\" class=\"form-control\" [(ngModel)]=\"user.phone\" #phone=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && phone.invalid}\" required tel>\n                <div *ngIf=\"f.submitted && phone.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"phone.errors.required\">Πρέπει να συμπληρώσετε το τηλέφωνο</div>\n                    <div *ngIf=\"phone.errors.phone\">Το τηλέφωνο πρέπει να έχει τη σωστή μορφή</div>\n                </div>\n            </div>\n\n\n            <h4>Ο Κωδικός</h4>\n\n            <div class=\"form-group\">\n                <label>Kωδικός</label>\n                <input type=\"password\" name=\"password\" class=\"form-control\" [(ngModel)]=\"user.password\" #password=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && password.invalid}\" required minlength=\"6\">\n                <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\n                    <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\n                    <div *ngIf=\"password.errors.minlength\">Ο κωδικός πρέπει να έχει μήκος τουλάχιστον 6 χαρακτήρες</div>\n                </div>\n            </div>\n\n            <div class=\"form-group\">\n                <label>Επαλήθευση Κωδικού</label>\n                <input type=\"password\" name=\"confirmpassword\" class=\"form-control\" [(ngModel)]=\"user.confirm_password\" #confirmpassword=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && !arePasswordsFieldsTheSame()}\">\n                <div *ngIf=\"f.submitted && !arePasswordsFieldsTheSame()\" class=\"invalid-feedback\">Οι κωδικοί δεν είναι ίδιοι</div>\n            </div>\n\n            <div class=\"submit\">\n                <p>Συμφωνώ με τους όρους πολιτικής</p>\n                <button class=\"btn btn-primary\">Εγγραφή</button>\n            </div>\n\n           </form>\n    </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -1334,6 +1337,7 @@ module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<di
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterPageComponent", function() { return RegisterPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_register_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/register.service */ "./src/app/services/register.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1344,10 +1348,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var RegisterPageComponent = /** @class */ (function () {
-    function RegisterPageComponent() {
+    function RegisterPageComponent(registerService) {
+        this.registerService = registerService;
     }
     RegisterPageComponent.prototype.ngOnInit = function () {
+        this.user = {};
+    };
+    RegisterPageComponent.prototype.onSubmit = function () {
+        alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.user));
+    };
+    RegisterPageComponent.prototype.arePasswordsFieldsTheSame = function () {
+        return this.user.password === this.user.confirm_password;
     };
     RegisterPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1355,7 +1368,7 @@ var RegisterPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./register-page.component.html */ "./src/app/components/register-page/register-page.component.html"),
             styles: [__webpack_require__(/*! ./register-page.component.css */ "./src/app/components/register-page/register-page.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [src_app_services_register_service__WEBPACK_IMPORTED_MODULE_1__["RegisterService"]])
     ], RegisterPageComponent);
     return RegisterPageComponent;
 }());
@@ -1616,6 +1629,50 @@ var ProductService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], ProductService);
     return ProductService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/register.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/services/register.service.ts ***!
+  \**********************************************/
+/*! exports provided: RegisterService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterService", function() { return RegisterService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var RegisterService = /** @class */ (function () {
+    function RegisterService(http) {
+        this.http = http;
+        this.registerApiEndpoint = '/api/register';
+    }
+    RegisterService.prototype.registerUser = function (user) {
+        return this.http.post(this.registerApiEndpoint, user);
+    };
+    RegisterService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], RegisterService);
+    return RegisterService;
 }());
 
 

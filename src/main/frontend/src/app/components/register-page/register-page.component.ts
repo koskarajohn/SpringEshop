@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RegisterService } from 'src/app/services/register.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'register-page',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPageComponent implements OnInit {
 
-  constructor() { }
+  user : User;
+
+  constructor(private registerService : RegisterService) { }
 
   ngOnInit() {
+    this.user = {} as User;
+  }
+
+  onSubmit(): void {
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.user));
+  }
+
+  arePasswordsFieldsTheSame() : boolean{
+    return this.user.password === this.user.confirm_password;
   }
 
 }

@@ -40,7 +40,7 @@ public class RegisterApiController {
 		
 		if(userService.doesUserExist(user)){
 			logger.error("Unable to register. A user with name {} already exist", user.getUsername());
-			return new ResponseEntity(new ErrorMessage("Unable to create. A user with name " + user.getUsername() + " already exists."), HttpStatus.CONFLICT);
+			return new ResponseEntity(new ErrorMessage("Unable to create. A user with username " + user.getUsername() + " already exists."), HttpStatus.CONFLICT);
 		}
 		
 		if(userService.doesEmailExist(user)){

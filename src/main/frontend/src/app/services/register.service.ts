@@ -15,4 +15,5 @@ export class RegisterService {
   registerUser(user : User) : Observable<User>{
     return this.http.post<User>(this.registerApiEndpoint, user);
   }
+
 }

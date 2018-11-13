@@ -49,6 +49,7 @@ public class RegisterApiController {
 		}
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setIs_active(true);
 		userService.addUser(user);
 		if(userService.doesUserExist(user)){
 			Authority authority = new Authority();

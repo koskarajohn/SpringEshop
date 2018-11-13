@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/models/user';
 import { Subscription } from 'rxjs';
 import { ErrorMessage } from 'src/app/models/errorMessage';
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'register-page',
@@ -18,7 +18,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   emailError : boolean = false;
   httpSubscription : Subscription;
 
-  constructor(private registerService : RegisterService) { }
+  constructor(private registerService : RegisterService, private router: Router) { }
 
   ngOnInit() {
     this.user = {} as User;
@@ -27,11 +27,10 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.httpSubscription = this.registerService.registerUser(this.user).subscribe(
-      user => console.log(user), 
+      user => this.router.navigate(['/login'], {queryParams : { redirect : 'register'}}), 
 
       errorResponse => {
       this.setProperFieldError(errorResponse.error.errorMessage);
-      console.log(errorResponse.error.errorMessage);
       });
   }
 
@@ -50,7 +49,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.httpSubscription.unsubscribe();
+    if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
   }
 
 }

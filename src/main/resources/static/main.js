@@ -786,7 +786,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\n    <div class=\"container\">\n        <div  class=\"alert alert-success text-center\">\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\n        </div>\n    </div>\n</section>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\"placeholder=\"E-Mail\" name=\"email\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\"  placeholder=\"Κωδικός\" name=\"password\">\n                </div>\n                <div class=\"submit\">\n                    <button type=\"submit\" class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\n    <div class=\"container\">\n        <div  class=\"alert alert-success text-center\">\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\n        </div>\n    </div>\n</section>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\n                    </div>\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\n                    </div>\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\n                </div>\n\n                <div class=\"submit\">\n                    <button class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -802,6 +802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageComponent", function() { return LoginPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/login.service */ "./src/app/services/login.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -813,21 +814,48 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var LoginPageComponent = /** @class */ (function () {
-    function LoginPageComponent(route) {
+    function LoginPageComponent(route, loginService) {
         this.route = route;
+        this.loginService = loginService;
+        this.emailDoesNotExistErrorMessage = 'Δεν υπάρχει λογαριασμός με αυτό το email';
+        this.passwordIsNotCorrectErrorMessage = 'Ο κωδικός δεν είναι σωστός';
+        this.emailDoesNotExist = false;
+        this.passwordIsNotCorrect = false;
         this.isRedirectedFromRegister = false;
     }
     LoginPageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.userCredentials = {};
         this.routeSubscription = this.route.queryParams.subscribe(function (params) {
             if (params['redirect'] === 'register')
                 _this.isRedirectedFromRegister = true;
         });
     };
+    LoginPageComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.httpSubscription = this.loginService.validateUser(this.userCredentials).subscribe(function (user) {
+            _this.loginService.getToken(user, _this.userCredentials).subscribe(function (session) { return console.log(session); });
+        }, function (errorResponse) {
+            _this.setProperFieldError(errorResponse.error.errorMessage);
+        });
+    };
+    LoginPageComponent.prototype.setProperFieldError = function (message) {
+        if (message === this.emailDoesNotExistErrorMessage) {
+            this.emailDoesNotExist = true;
+            this.passwordIsNotCorrect = false;
+        }
+        else if (message === this.passwordIsNotCorrectErrorMessage) {
+            this.emailDoesNotExist = false;
+            this.passwordIsNotCorrect = true;
+        }
+    };
     LoginPageComponent.prototype.ngOnDestroy = function () {
         if (this.routeSubscription !== undefined)
             this.routeSubscription.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
     };
     LoginPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -835,7 +863,7 @@ var LoginPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login-page.component.html */ "./src/app/components/login-page/login-page.component.html"),
             styles: [__webpack_require__(/*! ./login-page.component.css */ "./src/app/components/login-page/login-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_login_service__WEBPACK_IMPORTED_MODULE_2__["LoginService"]])
     ], LoginPageComponent);
     return LoginPageComponent;
 }());
@@ -1600,6 +1628,56 @@ var DealService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], DealService);
     return DealService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/login.service.ts":
+/*!*******************************************!*\
+  !*** ./src/app/services/login.service.ts ***!
+  \*******************************************/
+/*! exports provided: LoginService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return LoginService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var LoginService = /** @class */ (function () {
+    function LoginService(http) {
+        this.http = http;
+        this.validateUserApiEndpoint = '/authentication/validateuser';
+        this.sessionApiEndpoint = '/authentication/session';
+    }
+    LoginService.prototype.validateUser = function (userCredentials) {
+        return this.http.post(this.validateUserApiEndpoint, userCredentials);
+    };
+    LoginService.prototype.getToken = function (user, userCredentials) {
+        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
+        headers = headers.append('Authorization', 'Basic ' + btoa(user.username + ':' + userCredentials.password));
+        return this.http.get(this.sessionApiEndpoint, { headers: headers });
+    };
+    LoginService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], LoginService);
+    return LoginService;
 }());
 
 

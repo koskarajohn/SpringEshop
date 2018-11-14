@@ -21,18 +21,28 @@
         <div class="container">
             <h1>Είσοδος</h1>
 
-            <form>
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
                 <div class="form-group">
                     <label>E-mail</label>
-                    <input type="email" class="form-control"placeholder="E-Mail" name="email">
+                    <input type="email" class="form-control" name="email" [(ngModel)]="userCredentials.email" #email = "ngModel" [ngClass]="{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}" required email>
+                    <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                        <div *ngIf="email.errors.required">Πρέπει να συμπληρώσετε το email</div>
+                        <div *ngIf="email.errors.email">Το email πρέπει να έχει τη σωστή μορφή</div>
+                    </div>
+                    <div *ngIf="emailDoesNotExist" class="invalid-feedback">{{emailDoesNotExistErrorMessage}}</div>
                 </div>
 
                 <div class="form-group">
                     <label>Kωδικός</label>
-                    <input type="password" class="form-control"  placeholder="Κωδικός" name="password">
+                    <input type="password" class="form-control" name="password" [(ngModel)]="userCredentials.password" #password = "ngModel" [ngClass]="{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}" required>
+                    <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                        <div *ngIf="password.errors.required">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>
+                    </div>
+                    <div *ngIf="passwordIsNotCorrect" class="invalid-feedback">{{passwordIsNotCorrectErrorMessage}}</div>
                 </div>
+
                 <div class="submit">
-                    <button type="submit" class="btn btn-primary">Είσοδος</button><a href="#">Ξέχασες τον κωδικό σου?</a>
+                    <button class="btn btn-primary">Είσοδος</button><a href="#">Ξέχασες τον κωδικό σου?</a>
                 </div>
                </form>
         </div>

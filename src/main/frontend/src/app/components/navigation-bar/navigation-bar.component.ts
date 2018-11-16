@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationCategory } from 'src/app/models/navigationCategory';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'navigation-bar',
@@ -13,9 +14,12 @@ export class NavigationBarComponent implements OnInit {
   englishCategoryNames : string[ ] = ['vitamins','minerals','fish-oils','superfoods','fragrances','shampoos'];
   pageParam : number = 0;
 
-  constructor() { }
+  private isUserLoggedIn : boolean = false;
+
+  constructor(private authenticationService : AuthenticationService) { }
 
   ngOnInit() {
+    this.isUserLoggedIn = this.authenticationService.isAuthenticated;
     this.initialiseCategories();
   }
 

@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticationService {
 
-  private isAuthenticated : boolean = false;
+  public isAuthenticated : boolean = false;
 
   private validateUserApiEndpoint =  '/authentication/validateuser';
   private sessionApiEndpoint =  '/authentication/session';

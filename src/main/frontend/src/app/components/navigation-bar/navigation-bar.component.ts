@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationCategory } from 'src/app/models/navigationCategory';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navigation-bar',
@@ -17,7 +18,7 @@ export class NavigationBarComponent implements OnInit {
   private isUserLoggedIn : boolean = false;
   private user : string = '';
 
-  constructor(private authenticationService : AuthenticationService) { }
+  constructor(private router : Router, private authenticationService : AuthenticationService) { }
 
   ngOnInit() {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
@@ -35,6 +36,19 @@ export class NavigationBarComponent implements OnInit {
       navigationCategory.englishName =  this.englishCategoryNames[i];
       this.categories.push(navigationCategory);
     }
+  }
+
+  logout(){
+    this.authenticationService.logout(this.navigateToIndexPage.bind(this));
+  }
+
+  navigateToIndexPage(): void{
+    if(this.router.url === '/'){
+      window.location.reload();
+    }else{
+      this.router.navigate(['']);
+    }
+    
   }
 
 }

@@ -61,13 +61,13 @@ export class AuthenticationService {
     return message;
   }
 
-  async logout(callback){
-    await this.http.post(this.logoutApiEndpoint, {}).toPromise()
+  logout(navigateToIndexPage){
+    this.http.post(this.logoutApiEndpoint, {}).toPromise()
                                                     .then(response => {
                                                       this.isAuthenticated = false;
                                                       localStorage.clear();
                                                       localStorage.setItem('is_authenticated', 'no');
-                                                      callback();
+                                                      navigateToIndexPage();
                                                     })
                                                     .catch();
   }

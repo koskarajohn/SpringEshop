@@ -19,7 +19,7 @@
   
   #firstNavbar input.form-control{
     border: 2px solid #04BF00;
-    width: 360px;
+    width: 270px;
   }
   
   #firstNavbar ul.navbar-nav a.nav-link{
@@ -29,21 +29,31 @@
   #firstNavbar ul.navbar-nav a.nav-link i{
     color: #04BF00;
   }
+
+  #firstNavbar ul.navbar-nav a.nav-link.cart-name{
+    font-weight: 600;
+    padding: 0;
+  }
+
+  #firstNavbar ul div.cart-items{
+    font-size : 14px;
+  }
   
-  @media (max-width: 768px){
+  @media (max-width: 992px){
     #firstNavbar a.navbar-brand{
       font-size: 28px;
     }
   
     #firstNavbar input.form-control{
-      width: 160px;
+      border: 2px solid #04BF00;
+      width: 200px;
     }
 
     #secondNavbar ul.navbar-nav li a{
       padding: 2px;
     }
   }
-  
+
   /* --- Second Navbar --- */
   
   #secondNavbar ul.navbar-nav a.nav-link{

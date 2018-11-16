@@ -54,7 +54,7 @@ public class AuthenticationController {
 		return new ResponseEntity<>(userSession, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public ResponseEntity<?> logout(HttpSession session){
 		session.invalidate();
 		return new ResponseEntity<>(HttpStatus.OK);

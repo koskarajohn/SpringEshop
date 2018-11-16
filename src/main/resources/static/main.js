@@ -786,7 +786,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\n    <div class=\"container\">\n        <div  class=\"alert alert-success text-center\">\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\n        </div>\n    </div>\n</section>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\n                    </div>\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\n                    </div>\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\n                </div>\n\n                <div class=\"submit\">\n                    <button class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Είσοδος\n    </div>\n</div>\n\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\n    <div class=\"container\">\n        <div  class=\"alert alert-success text-center\">\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\n        </div>\n    </div>\n</section>\n\n<!-- Login -->\n<section class=\"login\">\n        <div class=\"container\">\n            <h1>Είσοδος</h1>\n\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\n                <div class=\"form-group\">\n                    <label>E-mail</label>\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\n                    </div>\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\n                </div>\n\n                <div class=\"form-group\">\n                    <label>Kωδικός</label>\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\n                    </div>\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\n                </div>\n\n                <div class=\"submit\">\n                    <button class=\"btn btn-primary\">Είσοδος</button><a href=\"#\">Ξέχασες τον κωδικό σου?</a>\n                </div>\n               </form>\n        </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -802,7 +802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageComponent", function() { return LoginPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var src_app_services_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/login.service */ "./src/app/services/login.service.ts");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -812,15 +812,52 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 
 var LoginPageComponent = /** @class */ (function () {
-    function LoginPageComponent(route, loginService) {
+    function LoginPageComponent(route, router, authenticationService) {
         this.route = route;
-        this.loginService = loginService;
+        this.router = router;
+        this.authenticationService = authenticationService;
         this.emailDoesNotExistErrorMessage = 'Δεν υπάρχει λογαριασμός με αυτό το email';
         this.passwordIsNotCorrectErrorMessage = 'Ο κωδικός δεν είναι σωστός';
+        this.genericError = 'Κάτι πήγε στραβά';
         this.emailDoesNotExist = false;
         this.passwordIsNotCorrect = false;
         this.isRedirectedFromRegister = false;
@@ -833,29 +870,37 @@ var LoginPageComponent = /** @class */ (function () {
                 _this.isRedirectedFromRegister = true;
         });
     };
-    LoginPageComponent.prototype.onSubmit = function () {
-        var _this = this;
-        this.httpSubscription = this.loginService.validateUser(this.userCredentials).subscribe(function (user) {
-            _this.loginService.getToken(user, _this.userCredentials).subscribe(function (session) { return console.log(session); });
-        }, function (errorResponse) {
-            _this.setProperFieldError(errorResponse.error.errorMessage);
+    LoginPageComponent.prototype.login = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var authenticationMessage;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.authenticationService.login(this.userCredentials)];
+                    case 1:
+                        authenticationMessage = _a.sent();
+                        if (authenticationMessage === this.emailDoesNotExistErrorMessage) {
+                            this.emailDoesNotExist = true;
+                            this.passwordIsNotCorrect = false;
+                        }
+                        else if (authenticationMessage === this.passwordIsNotCorrectErrorMessage) {
+                            this.emailDoesNotExist = false;
+                            this.passwordIsNotCorrect = true;
+                        }
+                        else if (authenticationMessage === this.genericError) {
+                            this.emailDoesNotExist = false;
+                            this.passwordIsNotCorrect = false;
+                        }
+                        else {
+                            this.router.navigate(['']);
+                        }
+                        return [2 /*return*/];
+                }
+            });
         });
-    };
-    LoginPageComponent.prototype.setProperFieldError = function (message) {
-        if (message === this.emailDoesNotExistErrorMessage) {
-            this.emailDoesNotExist = true;
-            this.passwordIsNotCorrect = false;
-        }
-        else if (message === this.passwordIsNotCorrectErrorMessage) {
-            this.emailDoesNotExist = false;
-            this.passwordIsNotCorrect = true;
-        }
     };
     LoginPageComponent.prototype.ngOnDestroy = function () {
         if (this.routeSubscription !== undefined)
             this.routeSubscription.unsubscribe();
-        if (this.httpSubscription !== undefined)
-            this.httpSubscription.unsubscribe();
     };
     LoginPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -863,7 +908,7 @@ var LoginPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login-page.component.html */ "./src/app/components/login-page/login-page.component.html"),
             styles: [__webpack_require__(/*! ./login-page.component.css */ "./src/app/components/login-page/login-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_login_service__WEBPACK_IMPORTED_MODULE_2__["LoginService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
     ], LoginPageComponent);
     return LoginPageComponent;
 }());
@@ -1524,6 +1569,150 @@ var Product = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/authentication.service.ts":
+/*!****************************************************!*\
+  !*** ./src/app/services/authentication.service.ts ***!
+  \****************************************************/
+/*! exports provided: AuthenticationService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationService", function() { return AuthenticationService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+var AuthenticationService = /** @class */ (function () {
+    function AuthenticationService(http) {
+        this.http = http;
+        this.isAuthenticated = false;
+        this.validateUserApiEndpoint = '/authentication/validateuser';
+        this.sessionApiEndpoint = '/authentication/session';
+        this.logoutApiEndpoint = '/authentication/logout';
+    }
+    AuthenticationService.prototype.login = function (credentials) {
+        return __awaiter(this, void 0, void 0, function () {
+            var message;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        message = '';
+                        return [4 /*yield*/, this.http.post(this.validateUserApiEndpoint, credentials).toPromise()
+                                .then(function (user) { return __awaiter(_this, void 0, void 0, function () {
+                                var headers;
+                                var _this = this;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
+                                            headers = headers.append('Authorization', 'Basic ' + btoa(user.username + ':' + credentials.password));
+                                            return [4 /*yield*/, this.http.get(this.sessionApiEndpoint, { headers: headers }).toPromise()
+                                                    .then(function (session) {
+                                                    message = "Επιτυχημένη είσοδος χρήστη";
+                                                    localStorage.setItem("session_id", session.id);
+                                                    localStorage.setItem("user", session.username);
+                                                    localStorage.setItem("type", session.type);
+                                                    _this.isAuthenticated = true;
+                                                })
+                                                    .catch(function (errorResponse) {
+                                                    message = "Κάτι πήγε στραβά";
+                                                    _this.isAuthenticated = false;
+                                                })];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); })
+                                .catch(function (errorResponse) {
+                                message = errorResponse.error.errorMessage;
+                                _this.isAuthenticated = false;
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, message];
+                }
+            });
+        });
+    };
+    AuthenticationService.prototype.logout = function (callback) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.http.post(this.logoutApiEndpoint, {}).toPromise()
+                            .then(function (response) {
+                            _this.isAuthenticated = false;
+                            localStorage.clear();
+                            callback();
+                        })
+                            .catch()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    AuthenticationService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], AuthenticationService);
+    return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/category.service.ts":
 /*!**********************************************!*\
   !*** ./src/app/services/category.service.ts ***!
@@ -1628,56 +1817,6 @@ var DealService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], DealService);
     return DealService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/services/login.service.ts":
-/*!*******************************************!*\
-  !*** ./src/app/services/login.service.ts ***!
-  \*******************************************/
-/*! exports provided: LoginService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return LoginService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var LoginService = /** @class */ (function () {
-    function LoginService(http) {
-        this.http = http;
-        this.validateUserApiEndpoint = '/authentication/validateuser';
-        this.sessionApiEndpoint = '/authentication/session';
-    }
-    LoginService.prototype.validateUser = function (userCredentials) {
-        return this.http.post(this.validateUserApiEndpoint, userCredentials);
-    };
-    LoginService.prototype.getToken = function (user, userCredentials) {
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-        headers = headers.append('Authorization', 'Basic ' + btoa(user.username + ':' + userCredentials.password));
-        return this.http.get(this.sessionApiEndpoint, { headers: headers });
-    };
-    LoginService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], LoginService);
-    return LoginService;
 }());
 
 

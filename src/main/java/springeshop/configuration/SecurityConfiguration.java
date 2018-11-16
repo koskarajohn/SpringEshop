@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -30,14 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		    .anyRequest().authenticated()
 			.and()
 			.httpBasic()
-			.and().csrf().disable();
+			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		
-	}
-	
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-	   // web.ignoring().antMatchers(HttpMethod.GET, "/*", "/api/**").;
-	    //web.ignoring().antMatchers(HttpMethod.POST, "/api/**");
 	}
 	
 	@Autowired

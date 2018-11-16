@@ -15,11 +15,15 @@ export class NavigationBarComponent implements OnInit {
   pageParam : number = 0;
 
   private isUserLoggedIn : boolean = false;
+  private user : string = '';
 
   constructor(private authenticationService : AuthenticationService) { }
 
   ngOnInit() {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
+    let storedUser = localStorage.getItem('user');
+    if(this.isUserLoggedIn && storedUser !== undefined) 
+       this.user = storedUser;
     this.initialiseCategories();
   }
 

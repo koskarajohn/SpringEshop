@@ -16,7 +16,16 @@ export class AuthenticationService {
   private sessionApiEndpoint =  '/authentication/session';
   private logoutApiEndpoint = '/authentication/logout';
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient) {
+    this.checkIfUserLoggedInPreviously();
+  }
+
+  checkIfUserLoggedInPreviously() : void{
+    let authenticationValue = localStorage.getItem('is_authenticated');
+    let didUserLogInPreviously = authenticationValue === 'yes';
+    this.isAuthenticated = didUserLogInPreviously ? true : false;
+    if(!this.isAuthenticated) localStorage.setItem('is_authenticated', 'no');
+  }
 
   async login(credentials : UserCredentials) : Promise<string>{
     let message : string = '';
@@ -32,18 +41,21 @@ export class AuthenticationService {
                                       localStorage.setItem("session_id", session.id);
                                       localStorage.setItem("user", session.username);
                                       localStorage.setItem("type", session.type);
+                                      localStorage.setItem('is_authenticated', 'yes');
                                       this.isAuthenticated = true;
                                     })
 
                                     .catch(errorResponse => {
                                       message = "Κάτι πήγε στραβά";
                                       this.isAuthenticated = false;
+                                      localStorage.setItem('is_authenticated', 'no');
                                     });
                               })
 
                              .catch(errorResponse => {
                                 message =  errorResponse.error.errorMessage;
                                 this.isAuthenticated = false;
+                                localStorage.setItem('is_authenticated', 'no');
                              });
 
     return message;
@@ -54,6 +66,7 @@ export class AuthenticationService {
                                                     .then(response => {
                                                       this.isAuthenticated = false;
                                                       localStorage.clear();
+                                                      localStorage.setItem('is_authenticated', 'no');
                                                       callback();
                                                     })
                                                     .catch();

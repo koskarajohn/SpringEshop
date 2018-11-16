@@ -987,7 +987,7 @@ var MyFooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 270px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.cart-name{\r\n    font-weight: 600;\r\n    padding: 0;\r\n  }\r\n\r\n#firstNavbar ul div.cart-items{\r\n    font-size : 14px;\r\n  }\r\n\r\n@media (max-width: 992px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      border: 2px solid #04BF00;\r\n      width: 200px;\r\n    }\r\n\r\n    #secondNavbar ul.navbar-nav li a{\r\n      padding: 2px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }\r\n\r\n#secondNavbar ul.navbar-nav li{\r\n    margin-right: 40px;\r\n  }"
+module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 270px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.cart-name{\r\n    padding: 0;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav div.cart-items{\r\n    font-size : 14px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info{\r\n    text-align: center;\r\n    font-size: 20px;\r\n    padding-left:8px;\r\n    padding-right:8px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info div.username{\r\n    font-size:16px;\r\n    font-style: italic;\r\n    font-weight: 600;\r\n  }\r\n\r\n@media (max-width: 992px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      border: 2px solid #04BF00;\r\n      width: 200px;\r\n    }\r\n\r\n    #secondNavbar ul.navbar-nav li a{\r\n      padding: 2px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }\r\n\r\n#secondNavbar ul.navbar-nav li{\r\n    margin-right: 40px;\r\n  }"
 
 /***/ }),
 
@@ -998,7 +998,7 @@ module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-lg\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">\r\n                           <i class=\"fas fa-search\"></i>\r\n                        </button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n\r\n               <li class=\"nav-item\">\r\n                 <div class=\"row\">\r\n                    <div class=\"col-sm-3\">\r\n                        <a class=\"nav-link\" routerLink=\"/cart\">\r\n                          <i class=\"fas fa-shopping-cart\"></i>\r\n                        </a>\r\n                    </div>\r\n\r\n                    <div class=\"col-sm-9\">\r\n                        <div><a class=\"nav-link cart-name\" routerLink=\"/cart\">Καλάθι</a></div>\r\n                        <div class=\"cart-items\">3 προιόντα</div>\r\n                    </div>\r\n                </div>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item\">\r\n                 <a class=\"nav-link\" >Αποσύνδεση</a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\" [queryParams]=\"{ page: pageParam}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
+module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-lg\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">\r\n                           <i class=\"fas fa-search\"></i>\r\n                        </button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item user-info\">\r\n                  <div>Καλώς ήρθες,</div>\r\n                  <div class=\"username\">{{user}}</div>\r\n               </li>\r\n\r\n               <li class=\"nav-item\">\r\n                 <div class=\"row\">\r\n                    <div class=\"col-sm-3\">\r\n                        <a class=\"nav-link\" routerLink=\"/cart\">\r\n                          <i class=\"fas fa-shopping-cart\"></i>\r\n                        </a>\r\n                    </div>\r\n\r\n                    <div class=\"col-sm-9\">\r\n                        <div><a class=\"nav-link cart-name\" routerLink=\"/cart\">Καλάθι</a></div>\r\n                        <div class=\"cart-items\">3 προιόντα</div>\r\n                    </div>\r\n                </div>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item\">\r\n                 <a class=\"nav-link\" >Αποσύνδεση</a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\" [queryParams]=\"{ page: pageParam}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
 
 /***/ }),
 
@@ -1032,9 +1032,13 @@ var NavigationBarComponent = /** @class */ (function () {
         this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
         this.pageParam = 0;
         this.isUserLoggedIn = false;
+        this.user = '';
     }
     NavigationBarComponent.prototype.ngOnInit = function () {
         this.isUserLoggedIn = this.authenticationService.isAuthenticated;
+        var storedUser = localStorage.getItem('user');
+        if (this.isUserLoggedIn && storedUser !== undefined)
+            this.user = storedUser;
         this.initialiseCategories();
     };
     NavigationBarComponent.prototype.initialiseCategories = function () {
@@ -1639,7 +1643,15 @@ var AuthenticationService = /** @class */ (function () {
         this.validateUserApiEndpoint = '/authentication/validateuser';
         this.sessionApiEndpoint = '/authentication/session';
         this.logoutApiEndpoint = '/authentication/logout';
+        this.checkIfUserLoggedInPreviously();
     }
+    AuthenticationService.prototype.checkIfUserLoggedInPreviously = function () {
+        var authenticationValue = localStorage.getItem('is_authenticated');
+        var didUserLogInPreviously = authenticationValue === 'yes';
+        this.isAuthenticated = didUserLogInPreviously ? true : false;
+        if (!this.isAuthenticated)
+            localStorage.setItem('is_authenticated', 'no');
+    };
     AuthenticationService.prototype.login = function (credentials) {
         return __awaiter(this, void 0, void 0, function () {
             var message;
@@ -1663,11 +1675,13 @@ var AuthenticationService = /** @class */ (function () {
                                                     localStorage.setItem("session_id", session.id);
                                                     localStorage.setItem("user", session.username);
                                                     localStorage.setItem("type", session.type);
+                                                    localStorage.setItem('is_authenticated', 'yes');
                                                     _this.isAuthenticated = true;
                                                 })
                                                     .catch(function (errorResponse) {
                                                     message = "Κάτι πήγε στραβά";
                                                     _this.isAuthenticated = false;
+                                                    localStorage.setItem('is_authenticated', 'no');
                                                 })];
                                         case 1:
                                             _a.sent();
@@ -1678,6 +1692,7 @@ var AuthenticationService = /** @class */ (function () {
                                 .catch(function (errorResponse) {
                                 message = errorResponse.error.errorMessage;
                                 _this.isAuthenticated = false;
+                                localStorage.setItem('is_authenticated', 'no');
                             })];
                     case 1:
                         _a.sent();
@@ -1695,6 +1710,7 @@ var AuthenticationService = /** @class */ (function () {
                             .then(function (response) {
                             _this.isAuthenticated = false;
                             localStorage.clear();
+                            localStorage.setItem('is_authenticated', 'no');
                             callback();
                         })
                             .catch()];

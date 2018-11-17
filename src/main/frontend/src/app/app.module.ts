@@ -19,6 +19,7 @@ import { ProductsCarouselComponent } from './components/products-carousel/produc
 import { CategorySidebarComponent } from './components/category-sidebar/category-sidebar.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { FormsModule }   from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { FormsModule }   from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

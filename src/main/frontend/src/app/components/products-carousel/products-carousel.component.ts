@@ -57,8 +57,8 @@ export class ProductsCarouselComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(){
-    this.httpSubscription.unsubscribe();
-    this.httpSubscription2.unsubscribe();
+    if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
+    if(this.httpSubscription2 !== undefined)this.httpSubscription2.unsubscribe();
   }
 
 }

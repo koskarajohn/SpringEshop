@@ -53,6 +53,7 @@
 
   #firstNavbar ul.navbar-nav a.nav-link.logout:hover{
     color: #04BF00;
+    cursor: pointer;
   }
   
   @media (max-width: 992px){

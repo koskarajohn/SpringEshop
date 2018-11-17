@@ -194,12 +194,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
 /* harmony import */ var _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/rating/rating.component */ "./src/app/components/rating/rating.component.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -250,7 +252,7 @@ var AppModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_20__["FormsModule"]
             ],
-            providers: [],
+            providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
     ], AppModule);
@@ -987,7 +989,7 @@ var MyFooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 270px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.cart-name{\r\n    padding: 0;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav div.cart-items{\r\n    font-size : 14px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info{\r\n    text-align: center;\r\n    font-size: 20px;\r\n    padding-left:8px;\r\n    padding-right:8px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info div.username{\r\n    font-size:16px;\r\n    font-style: italic;\r\n    font-weight: 600;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.logout:hover{\r\n    color: #04BF00;\r\n  }\r\n\r\n@media (max-width: 992px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      border: 2px solid #04BF00;\r\n      width: 200px;\r\n    }\r\n\r\n    #secondNavbar ul.navbar-nav li a{\r\n      padding: 2px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }\r\n\r\n#secondNavbar ul.navbar-nav li{\r\n    margin-right: 40px;\r\n  }"
+module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding-bottom: 0;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand{\r\n    font-size: 40px;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand span{\r\n    color: #04BF00;\r\n    font-weight: 700;\r\n  }\r\n\r\n#firstNavbar a.navbar-brand:hover{\r\n      color: #333333;\r\n    }\r\n\r\n#firstNavbar input.form-control{\r\n    border: 2px solid #04BF00;\r\n    width: 270px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link i{\r\n    color: #04BF00;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.cart-name{\r\n    padding: 0;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav div.cart-items{\r\n    font-size : 14px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info{\r\n    text-align: center;\r\n    font-size: 20px;\r\n    padding-left:8px;\r\n    padding-right:8px;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav li.nav-item.user-info div.username{\r\n    font-size:16px;\r\n    font-style: italic;\r\n    font-weight: 600;\r\n  }\r\n\r\n#firstNavbar ul.navbar-nav a.nav-link.logout:hover{\r\n    color: #04BF00;\r\n    cursor: pointer;\r\n  }\r\n\r\n@media (max-width: 992px){\r\n    #firstNavbar a.navbar-brand{\r\n      font-size: 28px;\r\n    }\r\n  \r\n    #firstNavbar input.form-control{\r\n      border: 2px solid #04BF00;\r\n      width: 200px;\r\n    }\r\n\r\n    #secondNavbar ul.navbar-nav li a{\r\n      padding: 2px;\r\n    }\r\n  }\r\n\r\n/* --- Second Navbar --- */\r\n\r\n#secondNavbar ul.navbar-nav a.nav-link{\r\n    font-size: 20px;\r\n  }\r\n\r\n#secondNavbar{\r\n    padding-top: 0;\r\n  }\r\n\r\n#secondNavbar ul.navbar-nav li{\r\n    margin-right: 40px;\r\n  }"
 
 /***/ }),
 
@@ -1310,8 +1312,10 @@ var ProductsCarouselComponent = /** @class */ (function () {
             this.pageNumber[i] = i;
     };
     ProductsCarouselComponent.prototype.ngOnDestroy = function () {
-        this.httpSubscription.unsubscribe();
-        this.httpSubscription2.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
+        if (this.httpSubscription2 !== undefined)
+            this.httpSubscription2.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),

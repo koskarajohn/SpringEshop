@@ -3,7 +3,7 @@ import { Session } from '../models/session';
 import { UserCredentials } from '../models/userCredentials';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
-import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +16,23 @@ export class AuthenticationService {
   private sessionApiEndpoint =  '/authentication/session';
   private logoutApiEndpoint = '/authentication/logout';
 
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient, private cookieService :  CookieService) {
     this.checkIfUserLoggedInPreviously();
   }
 
   checkIfUserLoggedInPreviously() : void{
-    let authenticationValue = localStorage.getItem('is_authenticated');
-    let didUserLogInPreviously = authenticationValue === 'yes';
-    this.isAuthenticated = didUserLogInPreviously ? true : false;
-    if(!this.isAuthenticated) localStorage.setItem('is_authenticated', 'no');
+    let isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
+    let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
+    let wasLocalStorageDeleted = localStorage.length === 0;
+
+    if(isAuthenticatedCookieDeletedOrNo){
+      this.isAuthenticated = false;
+      if(!wasLocalStorageDeleted) localStorage.clear();
+    }else if(isAuthenticatedCookieValueYes && wasLocalStorageDeleted){
+      this.logoutIfUserDeletesLocalStorage();
+    }else{
+      this.isAuthenticated = true;
+    }
   }
 
   async login(credentials : UserCredentials) : Promise<string>{
@@ -41,21 +49,18 @@ export class AuthenticationService {
                                       localStorage.setItem("session_id", session.id);
                                       localStorage.setItem("user", session.username);
                                       localStorage.setItem("type", session.type);
-                                      localStorage.setItem('is_authenticated', 'yes');
                                       this.isAuthenticated = true;
                                     })
 
                                     .catch(errorResponse => {
                                       message = "Κάτι πήγε στραβά";
                                       this.isAuthenticated = false;
-                                      localStorage.setItem('is_authenticated', 'no');
                                     });
                               })
 
                              .catch(errorResponse => {
                                 message =  errorResponse.error.errorMessage;
                                 this.isAuthenticated = false;
-                                localStorage.setItem('is_authenticated', 'no');
                              });
 
     return message;
@@ -66,9 +71,12 @@ export class AuthenticationService {
                                                     .then(response => {
                                                       this.isAuthenticated = false;
                                                       localStorage.clear();
-                                                      localStorage.setItem('is_authenticated', 'no');
                                                       navigateToIndexPage();
                                                     })
                                                     .catch();
+  }
+
+  logoutIfUserDeletesLocalStorage(){
+    this.http.post(this.logoutApiEndpoint, {}).toPromise().then(response => this.isAuthenticated = false).catch();
   }
 }

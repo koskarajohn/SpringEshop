@@ -252,7 +252,9 @@ var AppModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_20__["FormsModule"]
             ],
-            providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"]],
+            providers: [
+                ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"]
+            ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
     ], AppModule);
@@ -1608,6 +1610,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationService", function() { return AuthenticationService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1654,9 +1657,11 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http) {
+    function AuthenticationService(http, cookieService) {
         this.http = http;
+        this.cookieService = cookieService;
         this.isAuthenticated = false;
         this.validateUserApiEndpoint = '/authentication/validateuser';
         this.sessionApiEndpoint = '/authentication/session';
@@ -1664,11 +1669,20 @@ var AuthenticationService = /** @class */ (function () {
         this.checkIfUserLoggedInPreviously();
     }
     AuthenticationService.prototype.checkIfUserLoggedInPreviously = function () {
-        var authenticationValue = localStorage.getItem('is_authenticated');
-        var didUserLogInPreviously = authenticationValue === 'yes';
-        this.isAuthenticated = didUserLogInPreviously ? true : false;
-        if (!this.isAuthenticated)
-            localStorage.setItem('is_authenticated', 'no');
+        var isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
+        var isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
+        var wasLocalStorageDeleted = localStorage.length === 0;
+        if (isAuthenticatedCookieDeletedOrNo) {
+            this.isAuthenticated = false;
+            if (!wasLocalStorageDeleted)
+                localStorage.clear();
+        }
+        else if (isAuthenticatedCookieValueYes && wasLocalStorageDeleted) {
+            this.logoutIfUserDeletesLocalStorage();
+        }
+        else {
+            this.isAuthenticated = true;
+        }
     };
     AuthenticationService.prototype.login = function (credentials) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1693,13 +1707,11 @@ var AuthenticationService = /** @class */ (function () {
                                                     localStorage.setItem("session_id", session.id);
                                                     localStorage.setItem("user", session.username);
                                                     localStorage.setItem("type", session.type);
-                                                    localStorage.setItem('is_authenticated', 'yes');
                                                     _this.isAuthenticated = true;
                                                 })
                                                     .catch(function (errorResponse) {
                                                     message = "Κάτι πήγε στραβά";
                                                     _this.isAuthenticated = false;
-                                                    localStorage.setItem('is_authenticated', 'no');
                                                 })];
                                         case 1:
                                             _a.sent();
@@ -1710,7 +1722,6 @@ var AuthenticationService = /** @class */ (function () {
                                 .catch(function (errorResponse) {
                                 message = errorResponse.error.errorMessage;
                                 _this.isAuthenticated = false;
-                                localStorage.setItem('is_authenticated', 'no');
                             })];
                     case 1:
                         _a.sent();
@@ -1725,16 +1736,19 @@ var AuthenticationService = /** @class */ (function () {
             .then(function (response) {
             _this.isAuthenticated = false;
             localStorage.clear();
-            localStorage.setItem('is_authenticated', 'no');
             navigateToIndexPage();
         })
             .catch();
+    };
+    AuthenticationService.prototype.logoutIfUserDeletesLocalStorage = function () {
+        var _this = this;
+        this.http.post(this.logoutApiEndpoint, {}).toPromise().then(function (response) { return _this.isAuthenticated = false; }).catch();
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ShopServicesComponent } from './components/shop-services/shop-services.component';
 import { DiscountCarouselComponent } from './components/discount-carousel/discount-carousel.component';
@@ -20,6 +20,7 @@ import { CategorySidebarComponent } from './components/category-sidebar/category
 import { RatingComponent } from './components/rating/rating.component';
 import { FormsModule }   from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationStatusChangeInterceptor } from './authenticationStatusChangeInterceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,10 @@ import { CookieService } from 'ngx-cookie-service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [CookieService],
+  providers: [
+    CookieService
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

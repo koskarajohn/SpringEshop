@@ -17,21 +17,26 @@ export class AuthenticationStatusChangeInterceptor  implements  HttpInterceptor{
         let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
         let wasLocalStorageDeleted = localStorage.length === 0;
 
-        if(isUserCurrentlyAuthenticated && isAuthenticatedCookieDeletedOrNo){
-            this.authenticationService.isAuthenticated = false;
-            if(!wasLocalStorageDeleted) localStorage.clear();
-            this.navigateToIndexPage();
-            return empty();
-        }else if(isUserCurrentlyAuthenticated && isAuthenticatedCookieValueYes && wasLocalStorageDeleted){
-           // this.authenticationService.logoutIfUserDeletesLocalStorage();
-            this.navigateToIndexPage();
-            return empty();
-        }else{
-            return next.handle(request);
-        }
+       return  this.handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated, isAuthenticatedCookieValueYes,
+             isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted, request, next);
     }
 
-    navigateToIndexPage(): void{
+
+
+    handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated : boolean, isAuthenticatedCookieValueYes : boolean, 
+        isAuthenticatedCookieDeletedOrNo : boolean, wasLocalStorageDeleted : boolean, request: HttpRequest<any>, next: HttpHandler) {
+
+            if(isUserCurrentlyAuthenticated && isAuthenticatedCookieDeletedOrNo){
+                this.authenticationService.isAuthenticated = false;
+                if(!wasLocalStorageDeleted) localStorage.clear();
+                this.navigateToIndexPage();
+                return empty();
+            }
+
+            return next.handle(request);
+    }
+
+    navigateToIndexPage() : void{
         if(this.router.url === '/'){
           window.location.reload();
         }else{

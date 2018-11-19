@@ -48,7 +48,13 @@ import { AuthenticationStatusChangeInterceptor } from './interceptors/authentica
     FormsModule
   ],
   providers: [
-    CookieService
+    CookieService, 
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationStatusChangeInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

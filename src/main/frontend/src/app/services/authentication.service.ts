@@ -28,14 +28,10 @@ export class AuthenticationService {
     let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
     let wasLocalStorageDeleted = localStorage.length === 0;
 
-    if(isAuthenticatedCookieDeletedOrNo && !wasLocalStorageDeleted){
+    if(isAuthenticatedCookieDeletedOrNo){
       this.isAuthenticated = false;
       if(!wasLocalStorageDeleted) localStorage.clear();
       this.navigateToIndexPage();
-    }else if(isAuthenticatedCookieValueYes && wasLocalStorageDeleted){
-      await this.logout();
-    }else if(isAuthenticatedCookieDeletedOrNo){
-      this.isAuthenticated = false;
     }else{
       this.isAuthenticated = true;
     }
@@ -54,9 +50,7 @@ export class AuthenticationService {
                                 await this.http.get<Session>(this.sessionApiEndpoint, {headers : headers}).toPromise()
                                     .then( session => {
                                       message = "Επιτυχημένη είσοδος χρήστη";
-                                      localStorage.setItem("session_id", session.id);
-                                      localStorage.setItem("user", session.username);
-                                      localStorage.setItem("type", session.type);
+                                      this.writeSessionToLocalStorage(session);
                                       this.isAuthenticated = true;
                                     })
 
@@ -74,6 +68,17 @@ export class AuthenticationService {
     return message;
   }
 
+  writeSessionToLocalStorage(session : Session) : void{
+    localStorage.setItem("session_id", session.id);
+    localStorage.setItem("user", session.username);
+    localStorage.setItem("type", session.type);
+  }
+
+  getSessionDataAgain(){
+    return this.http.get<Session>(this.sessionApiEndpoint).toPromise().then( session => this.writeSessionToLocalStorage(session))
+                                                               .catch(errorResponse => console.log(errorResponse));
+  }
+
   logout(){
     return this.http.post(this.logoutApiEndpoint, {}).toPromise()
                                                     .then(response => {
@@ -88,7 +93,7 @@ export class AuthenticationService {
     if(this.router.url === '/' && !this.wasServiceJustInitialized){
       window.location.reload(); // User logins correctly, navigates to index and logouts from index
     }else if(this.router.url === '/' && this.wasServiceJustInitialized){
-      // User logins correctly, deletes local storage and request localhost:8080 again
+      // User logins correctly, deletes session cookie and request localhost:8080 again
     }else{
       this.router.navigate(['']);
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges } from '@angular/core';
 import { NavigationCategory } from 'src/app/models/navigationCategory';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit{
+  
 
   categories : NavigationCategory[];
   greekCategoryNames : string[ ] = ['Βιταμίνες','Μέταλλα','Ιχθυέλαια','Υπερτροφές','Αρώματα','Σαμπουάν'];
@@ -16,16 +17,31 @@ export class NavigationBarComponent implements OnInit{
   pageParam : number = 0;
 
   private isUserLoggedIn : boolean = false;
+  private isLocalStorageEmpty : boolean = localStorage.length === 0;  
   private user : string = '';
 
   constructor( private authenticationService : AuthenticationService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
-    let storedUser = localStorage.getItem('user');
-    if(this.isUserLoggedIn && storedUser !== undefined) 
-       this.user = storedUser;
+    if(this.isUserLoggedIn){
+
+      if(!this.isLocalStorageEmpty){
+        this.storeUserName()
+
+      }else{
+
+        await this.authenticationService.getSessionDataAgain();
+        this.storeUserName(); 
+      }
+    }
+
     this.initialiseCategories();
+  }
+
+  storeUserName() : void{
+    let storedUser = localStorage.getItem('user');
+    if(storedUser !== undefined) this.user = storedUser;
   }
 
   initialiseCategories() : void{

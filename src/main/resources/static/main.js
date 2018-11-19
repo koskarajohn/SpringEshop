@@ -195,12 +195,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/rating/rating.component */ "./src/app/components/rating/rating.component.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _interceptors_authenticationStatusChangeInterceptor__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./interceptors/authenticationStatusChangeInterceptor */ "./src/app/interceptors/authenticationStatusChangeInterceptor.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -253,7 +255,12 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_20__["FormsModule"]
             ],
             providers: [
-                ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"]
+                ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"],
+                {
+                    provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HTTP_INTERCEPTORS"],
+                    useClass: _interceptors_authenticationStatusChangeInterceptor__WEBPACK_IMPORTED_MODULE_22__["AuthenticationStatusChangeInterceptor"],
+                    multi: true
+                }
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
@@ -1027,6 +1034,41 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 var NavigationBarComponent = /** @class */ (function () {
@@ -1036,14 +1078,35 @@ var NavigationBarComponent = /** @class */ (function () {
         this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
         this.pageParam = 0;
         this.isUserLoggedIn = false;
+        this.isLocalStorageEmpty = localStorage.length === 0;
         this.user = '';
     }
     NavigationBarComponent.prototype.ngOnInit = function () {
-        this.isUserLoggedIn = this.authenticationService.isAuthenticated;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.isUserLoggedIn = this.authenticationService.isAuthenticated;
+                        if (!this.isUserLoggedIn) return [3 /*break*/, 3];
+                        if (!!this.isLocalStorageEmpty) return [3 /*break*/, 1];
+                        this.storeUserName();
+                        return [3 /*break*/, 3];
+                    case 1: return [4 /*yield*/, this.authenticationService.getSessionDataAgain()];
+                    case 2:
+                        _a.sent();
+                        this.storeUserName();
+                        _a.label = 3;
+                    case 3:
+                        this.initialiseCategories();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NavigationBarComponent.prototype.storeUserName = function () {
         var storedUser = localStorage.getItem('user');
-        if (this.isUserLoggedIn && storedUser !== undefined)
+        if (storedUser !== undefined)
             this.user = storedUser;
-        this.initialiseCategories();
     };
     NavigationBarComponent.prototype.initialiseCategories = function () {
         this.categories = [];
@@ -1567,6 +1630,77 @@ var ShopServicesComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/interceptors/authenticationStatusChangeInterceptor.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/interceptors/authenticationStatusChangeInterceptor.ts ***!
+  \***********************************************************************/
+/*! exports provided: AuthenticationStatusChangeInterceptor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationStatusChangeInterceptor", function() { return AuthenticationStatusChangeInterceptor; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/authentication.service */ "./src/app/services/authentication.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var AuthenticationStatusChangeInterceptor = /** @class */ (function () {
+    function AuthenticationStatusChangeInterceptor(authenticationService, cookieService, router) {
+        this.authenticationService = authenticationService;
+        this.cookieService = cookieService;
+        this.router = router;
+    }
+    AuthenticationStatusChangeInterceptor.prototype.intercept = function (request, next) {
+        var isUserCurrentlyAuthenticated = this.authenticationService.isAuthenticated;
+        var isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
+        var isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
+        var wasLocalStorageDeleted = localStorage.length === 0;
+        return this.handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated, isAuthenticatedCookieValueYes, isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted, request, next);
+    };
+    AuthenticationStatusChangeInterceptor.prototype.handleReqeuestsWhereAuthenticationStatusChanged = function (isUserCurrentlyAuthenticated, isAuthenticatedCookieValueYes, isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted, request, next) {
+        if (isUserCurrentlyAuthenticated && isAuthenticatedCookieDeletedOrNo) {
+            this.authenticationService.isAuthenticated = false;
+            if (!wasLocalStorageDeleted)
+                localStorage.clear();
+            this.navigateToIndexPage();
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["empty"])();
+        }
+        return next.handle(request);
+    };
+    AuthenticationStatusChangeInterceptor.prototype.navigateToIndexPage = function () {
+        if (this.router.url === '/') {
+            window.location.reload();
+        }
+        else {
+            this.router.navigate(['']);
+        }
+    };
+    AuthenticationStatusChangeInterceptor = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+    ], AuthenticationStatusChangeInterceptor);
+    return AuthenticationStatusChangeInterceptor;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/models/product.ts":
 /*!***********************************!*\
   !*** ./src/app/models/product.ts ***!
@@ -1665,36 +1799,21 @@ var AuthenticationService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var isAuthenticatedCookieValueYes, isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.wasServiceJustInitialized = true;
-                        isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
-                        isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
-                        wasLocalStorageDeleted = localStorage.length === 0;
-                        if (!(isAuthenticatedCookieDeletedOrNo && !wasLocalStorageDeleted)) return [3 /*break*/, 1];
-                        this.isAuthenticated = false;
-                        if (!wasLocalStorageDeleted)
-                            localStorage.clear();
-                        this.navigateToIndexPage();
-                        return [3 /*break*/, 4];
-                    case 1:
-                        if (!(isAuthenticatedCookieValueYes && wasLocalStorageDeleted)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.logout()];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        if (isAuthenticatedCookieDeletedOrNo) {
-                            this.isAuthenticated = false;
-                        }
-                        else {
-                            this.isAuthenticated = true;
-                        }
-                        _a.label = 4;
-                    case 4:
-                        this.wasServiceJustInitialized = false;
-                        return [2 /*return*/];
+                this.wasServiceJustInitialized = true;
+                isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
+                isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
+                wasLocalStorageDeleted = localStorage.length === 0;
+                if (isAuthenticatedCookieDeletedOrNo) {
+                    this.isAuthenticated = false;
+                    if (!wasLocalStorageDeleted)
+                        localStorage.clear();
+                    this.navigateToIndexPage();
                 }
+                else {
+                    this.isAuthenticated = true;
+                }
+                this.wasServiceJustInitialized = false;
+                return [2 /*return*/];
             });
         });
     };
@@ -1718,9 +1837,7 @@ var AuthenticationService = /** @class */ (function () {
                                             return [4 /*yield*/, this.http.get(this.sessionApiEndpoint, { headers: headers }).toPromise()
                                                     .then(function (session) {
                                                     message = "Επιτυχημένη είσοδος χρήστη";
-                                                    localStorage.setItem("session_id", session.id);
-                                                    localStorage.setItem("user", session.username);
-                                                    localStorage.setItem("type", session.type);
+                                                    _this.writeSessionToLocalStorage(session);
                                                     _this.isAuthenticated = true;
                                                 })
                                                     .catch(function (errorResponse) {
@@ -1744,6 +1861,16 @@ var AuthenticationService = /** @class */ (function () {
             });
         });
     };
+    AuthenticationService.prototype.writeSessionToLocalStorage = function (session) {
+        localStorage.setItem("session_id", session.id);
+        localStorage.setItem("user", session.username);
+        localStorage.setItem("type", session.type);
+    };
+    AuthenticationService.prototype.getSessionDataAgain = function () {
+        var _this = this;
+        return this.http.get(this.sessionApiEndpoint).toPromise().then(function (session) { return _this.writeSessionToLocalStorage(session); })
+            .catch(function (errorResponse) { return console.log(errorResponse); });
+    };
     AuthenticationService.prototype.logout = function () {
         var _this = this;
         return this.http.post(this.logoutApiEndpoint, {}).toPromise()
@@ -1760,7 +1887,7 @@ var AuthenticationService = /** @class */ (function () {
             window.location.reload(); // User logins correctly, navigates to index and logouts from index
         }
         else if (this.router.url === '/' && this.wasServiceJustInitialized) {
-            // User logins correctly, deletes local storage and request localhost:8080 again
+            // User logins correctly, deletes session cookie and request localhost:8080 again
         }
         else {
             this.router.navigate(['']);

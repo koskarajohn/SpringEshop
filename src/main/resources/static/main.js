@@ -1018,7 +1018,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigationBarComponent", function() { return NavigationBarComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1030,10 +1029,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-
 var NavigationBarComponent = /** @class */ (function () {
-    function NavigationBarComponent(router, authenticationService) {
-        this.router = router;
+    function NavigationBarComponent(authenticationService) {
         this.authenticationService = authenticationService;
         this.greekCategoryNames = ['Βιταμίνες', 'Μέταλλα', 'Ιχθυέλαια', 'Υπερτροφές', 'Αρώματα', 'Σαμπουάν'];
         this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
@@ -1058,15 +1055,7 @@ var NavigationBarComponent = /** @class */ (function () {
         }
     };
     NavigationBarComponent.prototype.logout = function () {
-        this.authenticationService.logout(this.navigateToIndexPage.bind(this));
-    };
-    NavigationBarComponent.prototype.navigateToIndexPage = function () {
-        if (this.router.url === '/') {
-            window.location.reload();
-        }
-        else {
-            this.router.navigate(['']);
-        }
+        this.authenticationService.logout();
     };
     NavigationBarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1074,7 +1063,7 @@ var NavigationBarComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./navigation-bar.component.html */ "./src/app/components/navigation-bar/navigation-bar.component.html"),
             styles: [__webpack_require__(/*! ./navigation-bar.component.css */ "./src/app/components/navigation-bar/navigation-bar.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
+        __metadata("design:paramtypes", [src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
     ], NavigationBarComponent);
     return NavigationBarComponent;
 }());
@@ -1611,6 +1600,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1658,31 +1648,55 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http, cookieService) {
+    function AuthenticationService(http, cookieService, router) {
         this.http = http;
         this.cookieService = cookieService;
+        this.router = router;
         this.isAuthenticated = false;
+        this.wasServiceJustInitialized = false;
         this.validateUserApiEndpoint = '/authentication/validateuser';
         this.sessionApiEndpoint = '/authentication/session';
         this.logoutApiEndpoint = '/authentication/logout';
         this.checkIfUserLoggedInPreviously();
     }
     AuthenticationService.prototype.checkIfUserLoggedInPreviously = function () {
-        var isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
-        var isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
-        var wasLocalStorageDeleted = localStorage.length === 0;
-        if (isAuthenticatedCookieDeletedOrNo) {
-            this.isAuthenticated = false;
-            if (!wasLocalStorageDeleted)
-                localStorage.clear();
-        }
-        else if (isAuthenticatedCookieValueYes && wasLocalStorageDeleted) {
-            this.logoutIfUserDeletesLocalStorage();
-        }
-        else {
-            this.isAuthenticated = true;
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var isAuthenticatedCookieValueYes, isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.wasServiceJustInitialized = true;
+                        isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
+                        isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
+                        wasLocalStorageDeleted = localStorage.length === 0;
+                        if (!(isAuthenticatedCookieDeletedOrNo && !wasLocalStorageDeleted)) return [3 /*break*/, 1];
+                        this.isAuthenticated = false;
+                        if (!wasLocalStorageDeleted)
+                            localStorage.clear();
+                        this.navigateToIndexPage();
+                        return [3 /*break*/, 4];
+                    case 1:
+                        if (!(isAuthenticatedCookieValueYes && wasLocalStorageDeleted)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.logout()];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        if (isAuthenticatedCookieDeletedOrNo) {
+                            this.isAuthenticated = false;
+                        }
+                        else {
+                            this.isAuthenticated = true;
+                        }
+                        _a.label = 4;
+                    case 4:
+                        this.wasServiceJustInitialized = false;
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     AuthenticationService.prototype.login = function (credentials) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1730,25 +1744,33 @@ var AuthenticationService = /** @class */ (function () {
             });
         });
     };
-    AuthenticationService.prototype.logout = function (navigateToIndexPage) {
+    AuthenticationService.prototype.logout = function () {
         var _this = this;
-        this.http.post(this.logoutApiEndpoint, {}).toPromise()
+        return this.http.post(this.logoutApiEndpoint, {}).toPromise()
             .then(function (response) {
             _this.isAuthenticated = false;
-            localStorage.clear();
-            navigateToIndexPage();
+            if (localStorage.length > 0)
+                localStorage.clear();
+            _this.navigateToIndexPage();
         })
             .catch();
     };
-    AuthenticationService.prototype.logoutIfUserDeletesLocalStorage = function () {
-        var _this = this;
-        this.http.post(this.logoutApiEndpoint, {}).toPromise().then(function (response) { return _this.isAuthenticated = false; }).catch();
+    AuthenticationService.prototype.navigateToIndexPage = function () {
+        if (this.router.url === '/' && !this.wasServiceJustInitialized) {
+            window.location.reload(); // User logins correctly, navigates to index and logouts from index
+        }
+        else if (this.router.url === '/' && this.wasServiceJustInitialized) {
+            // User logins correctly, deletes local storage and request localhost:8080 again
+        }
+        else {
+            this.router.navigate(['']);
+        }
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());

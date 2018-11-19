@@ -20,7 +20,7 @@ import { CategorySidebarComponent } from './components/category-sidebar/category
 import { RatingComponent } from './components/rating/rating.component';
 import { FormsModule }   from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthenticationStatusChangeInterceptor } from './authenticationStatusChangeInterceptor';
+import { AuthenticationStatusChangeInterceptor } from './interceptors/authenticationStatusChangeInterceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,6 @@ import { AuthenticationStatusChangeInterceptor } from './authenticationStatusCha
   ],
   providers: [
     CookieService
-    
   ],
   bootstrap: [AppComponent]
 })

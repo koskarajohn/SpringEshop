@@ -4,6 +4,7 @@ import { UserCredentials } from '../models/userCredentials';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { CookieService } from 'ngx-cookie-service';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,28 +12,35 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthenticationService {
 
   public isAuthenticated : boolean = false;
+  private wasServiceJustInitialized = false;
 
   private validateUserApiEndpoint =  '/authentication/validateuser';
   private sessionApiEndpoint =  '/authentication/session';
   private logoutApiEndpoint = '/authentication/logout';
 
-  constructor(private http : HttpClient, private cookieService :  CookieService) {
+  constructor(private http : HttpClient, private cookieService :  CookieService, private router : Router) {
     this.checkIfUserLoggedInPreviously();
   }
 
-  checkIfUserLoggedInPreviously() : void{
+  async checkIfUserLoggedInPreviously(){
+    this.wasServiceJustInitialized = true;
     let isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
     let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
     let wasLocalStorageDeleted = localStorage.length === 0;
 
-    if(isAuthenticatedCookieDeletedOrNo){
+    if(isAuthenticatedCookieDeletedOrNo && !wasLocalStorageDeleted){
       this.isAuthenticated = false;
       if(!wasLocalStorageDeleted) localStorage.clear();
+      this.navigateToIndexPage();
     }else if(isAuthenticatedCookieValueYes && wasLocalStorageDeleted){
-      this.logoutIfUserDeletesLocalStorage();
+      await this.logout();
+    }else if(isAuthenticatedCookieDeletedOrNo){
+      this.isAuthenticated = false;
     }else{
       this.isAuthenticated = true;
     }
+
+    this.wasServiceJustInitialized = false;
   }
 
   async login(credentials : UserCredentials) : Promise<string>{
@@ -66,17 +74,24 @@ export class AuthenticationService {
     return message;
   }
 
-  logout(navigateToIndexPage){
-    this.http.post(this.logoutApiEndpoint, {}).toPromise()
+  logout(){
+    return this.http.post(this.logoutApiEndpoint, {}).toPromise()
                                                     .then(response => {
                                                       this.isAuthenticated = false;
-                                                      localStorage.clear();
-                                                      navigateToIndexPage();
+                                                      if(localStorage.length > 0) localStorage.clear();
+                                                      this.navigateToIndexPage();
                                                     })
                                                     .catch();
   }
 
-  logoutIfUserDeletesLocalStorage(){
-    this.http.post(this.logoutApiEndpoint, {}).toPromise().then(response => this.isAuthenticated = false).catch();
+  navigateToIndexPage(): void{
+    if(this.router.url === '/' && !this.wasServiceJustInitialized){
+      window.location.reload(); // User logins correctly, navigates to index and logouts from index
+    }else if(this.router.url === '/' && this.wasServiceJustInitialized){
+      // User logins correctly, deletes local storage and request localhost:8080 again
+    }else{
+      this.router.navigate(['']);
+    }
+    
   }
 }

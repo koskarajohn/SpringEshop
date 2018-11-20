@@ -4,6 +4,7 @@ public class Session {
 
 	private String id;
 	private String username;
+	private String userid;
 	private String type;
 	
 	public Session() {
@@ -24,6 +25,14 @@ public class Session {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getType() {

@@ -45,9 +45,13 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/authentication/session", method = RequestMethod.GET)
 	public ResponseEntity<?> getSession(Principal principal, HttpSession session){
+		User user = userService.findByUsername(principal.getName());
+		
 		Session userSession = new Session();
 		userSession.setId(session.getId());
 		userSession.setUsername(principal.getName());
+		String userId= user != null ? Integer.toString(user.getId()) : "";
+		userSession.setUserid(userId);
 		String type = principal == null ? "anonymous" : "user";
 		userSession.setType(type);
 		return new ResponseEntity<>(userSession, HttpStatus.OK);
@@ -67,6 +71,7 @@ public class AuthenticationController {
 			Session userSession = new Session();
 			userSession.setId(session.getId());
 			userSession.setUsername("");
+			userSession.setUserid("");
 			userSession.setType("anonymous");
 			return new ResponseEntity<>(userSession, HttpStatus.OK);
 		}

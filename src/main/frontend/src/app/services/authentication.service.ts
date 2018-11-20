@@ -71,6 +71,7 @@ export class AuthenticationService {
   writeSessionToLocalStorage(session : Session) : void{
     localStorage.setItem("session_id", session.id);
     localStorage.setItem("user", session.username);
+    localStorage.setItem("userid", session.userid);
     localStorage.setItem("type", session.type);
   }
 

@@ -1875,6 +1875,7 @@ var AuthenticationService = /** @class */ (function () {
     AuthenticationService.prototype.writeSessionToLocalStorage = function (session) {
         localStorage.setItem("session_id", session.id);
         localStorage.setItem("user", session.username);
+        localStorage.setItem("userid", session.userid);
         localStorage.setItem("type", session.type);
     };
     AuthenticationService.prototype.getSessionDataAgain = function () {

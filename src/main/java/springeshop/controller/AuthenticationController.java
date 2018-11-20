@@ -20,7 +20,6 @@ import springeshop.service.UserService;
 import springeshop.util.ErrorMessage;
 
 @RestController
-@RequestMapping("/authentication")
 public class AuthenticationController {
 	
 	@Autowired
@@ -29,7 +28,7 @@ public class AuthenticationController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@RequestMapping(value = "/validateuser", method = RequestMethod.POST)
+	@RequestMapping(value = "/authentication/validateuser", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody UserCredentials userCredentials){
 		
 		if(!userService.doesEmailExist(userCredentials.getEmail()))
@@ -44,7 +43,7 @@ public class AuthenticationController {
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/session", method = RequestMethod.GET)
+	@RequestMapping(value = "/authentication/session", method = RequestMethod.GET)
 	public ResponseEntity<?> getSession(Principal principal, HttpSession session){
 		Session userSession = new Session();
 		userSession.setId(session.getId());
@@ -54,10 +53,25 @@ public class AuthenticationController {
 		return new ResponseEntity<>(userSession, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/authentication/logout", method = RequestMethod.POST)
 	public ResponseEntity<?> logout(HttpSession session){
 		session.invalidate();
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/anonymous/session", method = RequestMethod.GET)
+	public ResponseEntity<?> getSessionAnonymous(Principal principal, HttpSession session){
+		boolean isAnonymous = principal == null ? true : false;
+		
+		if(isAnonymous){
+			Session userSession = new Session();
+			userSession.setId(session.getId());
+			userSession.setUsername("");
+			userSession.setType("anonymous");
+			return new ResponseEntity<>(userSession, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 	}
 	
 }

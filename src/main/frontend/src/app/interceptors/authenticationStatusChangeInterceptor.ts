@@ -13,22 +13,22 @@ export class AuthenticationStatusChangeInterceptor  implements  HttpInterceptor{
     intercept(request: HttpRequest<any>, next: HttpHandler) :  Observable<HttpEvent<any>>{
 
         let isUserCurrentlyAuthenticated = this.authenticationService.isAuthenticated;
-        let isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
         let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
         let wasLocalStorageDeleted = localStorage.length === 0;
 
-       return  this.handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated, isAuthenticatedCookieValueYes,
-             isAuthenticatedCookieDeletedOrNo, wasLocalStorageDeleted, request, next);
+       return  this.handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated, isAuthenticatedCookieDeletedOrNo, 
+        wasLocalStorageDeleted, request, next);
     }
 
 
 
-    handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated : boolean, isAuthenticatedCookieValueYes : boolean, 
-        isAuthenticatedCookieDeletedOrNo : boolean, wasLocalStorageDeleted : boolean, request: HttpRequest<any>, next: HttpHandler) {
+    handleReqeuestsWhereAuthenticationStatusChanged(isUserCurrentlyAuthenticated : boolean, isAuthenticatedCookieDeletedOrNo : boolean, 
+        wasLocalStorageDeleted : boolean, request: HttpRequest<any>, next: HttpHandler) {
 
             if(isUserCurrentlyAuthenticated && isAuthenticatedCookieDeletedOrNo){
                 this.authenticationService.isAuthenticated = false;
                 if(!wasLocalStorageDeleted) localStorage.clear();
+                this.authenticationService.getAnonymousSession();
                 this.navigateToIndexPage();
                 return empty();
             }

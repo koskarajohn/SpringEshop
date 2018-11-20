@@ -17,6 +17,7 @@ export class AuthenticationService {
   private validateUserApiEndpoint =  '/authentication/validateuser';
   private sessionApiEndpoint =  '/authentication/session';
   private logoutApiEndpoint = '/authentication/logout';
+  private anonymousApiEndpoint = '/anonymous/session';
 
   constructor(private http : HttpClient, private cookieService :  CookieService, private router : Router) {
     this.checkIfUserLoggedInPreviously();
@@ -24,7 +25,6 @@ export class AuthenticationService {
 
   async checkIfUserLoggedInPreviously(){
     this.wasServiceJustInitialized = true;
-    let isAuthenticatedCookieValueYes = this.cookieService.get('IS_AUTHENTICATED') === 'yes';
     let isAuthenticatedCookieDeletedOrNo = this.cookieService.get('IS_AUTHENTICATED') === 'no' || !this.cookieService.check('IS_AUTHENTICATED');
     let wasLocalStorageDeleted = localStorage.length === 0;
 
@@ -74,15 +74,21 @@ export class AuthenticationService {
     localStorage.setItem("type", session.type);
   }
 
-  getSessionDataAgain(){
+  getSessionDataAgain() : Promise<void>{
     return this.http.get<Session>(this.sessionApiEndpoint).toPromise().then( session => this.writeSessionToLocalStorage(session))
                                                                .catch(errorResponse => console.log(errorResponse));
+  }
+
+  getAnonymousSession() : Promise<void>{
+    return this.http.get<Session>(this.anonymousApiEndpoint).toPromise().then( session => console.log(session))
+                                                                .catch(errorResponse => console.log(errorResponse));
   }
 
   logout(){
     return this.http.post(this.logoutApiEndpoint, {}).toPromise()
                                                     .then(response => {
                                                       this.isAuthenticated = false;
+                                                      this.getAnonymousSession();
                                                       if(localStorage.length > 0) localStorage.clear();
                                                       this.navigateToIndexPage();
                                                     })

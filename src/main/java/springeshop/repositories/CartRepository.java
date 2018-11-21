@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
 	List<Cart> findUserCartProducts(@Param("userid") int userid);
 	
 	@Query(value = "delete from Cart cartProduct where cartProduct.user.id = :userid")
+	@Modifying
 	void deleteUserCart(@Param("userid") int userid);
 	
 	@Query("select cartProduct from Cart cartProduct where cartProduct.user.id = :userid and cartProduct.product.id = :productid")
@@ -27,6 +29,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
 	Product findUserCartProduct(@Param("userid") int userid, @Param("productid") int productid);
 	
 	@Query(value = "delete from Cart cartProduct where cartProduct.user.id = :userid and cartProduct.product.id = :productid")
+	@Modifying
 	void deleteUserCartProductRow(@Param("userid") int userid, @Param("productid") int productid);
 	
 	@Query("select cartProduct.quantity from Cart cartProduct where cartProduct.user.id = :userid and cartProduct.product.id = :productid")

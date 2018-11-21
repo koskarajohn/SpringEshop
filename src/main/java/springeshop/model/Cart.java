@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,34 +20,34 @@ import javax.validation.constraints.NotNull;
 @Table(name = "cart")
 public class Cart {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+	
+	@EmbeddedId
+    private CartProduct id;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@MapsId("userId")
 	private User user;
 	
-	@OneToMany(orphanRemoval = true)
-	@JoinColumn(name = "product_id")
-	private List<Product> products = new ArrayList<>();
+	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId("productId")
+	private Product product;
 	
 	@NotNull(message = "Please provide quantity")
 	private int quantity;
 	
 	@NotNull
+	@Column(name ="expiration")
 	private Timestamp expiration;
 	
 	public Cart(){
 		
 	}
 
-	public int getId() {
+	public CartProduct getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(CartProduct id) {
 		this.id = id;
 	}
 
@@ -58,15 +58,13 @@ public class Cart {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 
-	public List<Product> getProducts() {
-		return products;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getQuantity() {

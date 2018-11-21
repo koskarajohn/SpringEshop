@@ -4,6 +4,7 @@ import springeshop.model.User;
 
 public interface UserService {
 
+	User findById(int id);
 	User findByUsername(String userName);
 	User findByEmail(String email);
 	boolean doesEmailExist(User user);

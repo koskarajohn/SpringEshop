@@ -22,7 +22,7 @@ public class Cart {
 
 	
 	@EmbeddedId
-    private CartProduct id;
+    private CartPrimaryKey id;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId("userId")
@@ -33,6 +33,7 @@ public class Cart {
 	private Product product;
 	
 	@NotNull(message = "Please provide quantity")
+	@Column(name = "quantity")
 	private int quantity;
 	
 	@NotNull
@@ -43,11 +44,11 @@ public class Cart {
 		
 	}
 
-	public CartProduct getId() {
+	public CartPrimaryKey getId() {
 		return id;
 	}
 
-	public void setId(CartProduct id) {
+	public void setId(CartPrimaryKey id) {
 		this.id = id;
 	}
 

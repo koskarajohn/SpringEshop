@@ -1,57 +1,57 @@
 package springeshop.model;
 
-import java.io.Serializable;
-import java.util.Objects;
+public class CartProduct {
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
-public class CartProduct implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7753873971616717634L;
-
-    private int userId;
- 
-    private int productId;
-    
-    public CartProduct() {}
-
-	public CartProduct(int userId, int productId) {
-		this.userId = userId;
-		this.productId = productId;
-	}
-    
-	public int getUserId() {
-		return userId;
+	private String name;
+	private String brand;
+	private String imageUrl;
+	private double price;
+	private int quantity;
+	
+	public CartProduct(){
+		
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public String getName() {
+		return name;
 	}
 
-	public int getProductId() {
-		return productId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CartProduct)) return false;
-        CartProduct that = (CartProduct) o;
-        return Objects.equals(getUserId(), that.getUserId()) &&
-                Objects.equals(getProductId(), that.getProductId());
-    }
-
-	@Override
-    public int hashCode() {
-        return Objects.hash(getUserId(), getProductId());
-    }
+	
+	
 }

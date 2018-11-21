@@ -17,15 +17,30 @@ public class CartServiceImpl implements CartService{
 
 	@Autowired
 	private CartRepository cartRepository;
-
+	
 	@Override
-	public List<Product> findUserCart(int userid) {
-		return cartRepository.findUserCart(userid);
+	public List<Cart> findUserCartProducts(int userid) {
+		return cartRepository.findUserCartProducts(userid);
 	}
 	
 	@Override
 	public void deleteUserCart(int userid) {
 		cartRepository.deleteUserCart(userid);
+	}
+
+	@Override
+	public Cart findUserCartRow(int userid, int productid) {
+		return cartRepository.findUserCartProductRow(userid, productid);
+	}
+
+	@Override
+	public void deleteUserCartRow(int userid, int productid) {
+		cartRepository.deleteUserCartProductRow(userid, productid);
+	}
+
+	@Override
+	public Product findUserCartProduct(int userid, int productid) {
+		return findUserCartProduct(userid, productid);
 	}
 
 	@Override
@@ -42,4 +57,12 @@ public class CartServiceImpl implements CartService{
 	public void deleteProductFromCart(int userid, int productid) {
 		cartRepository.deleteProductFromCart(userid, productid);
 	}
+
+	@Override
+	public boolean doesUserCartRowExist(int userid, int productid) {
+		return findUserCartRow(userid, productid) != null;
+	}
+
+	
+	
 }

@@ -1,6 +1,8 @@
 package springeshop.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Cart;
+import springeshop.model.CartPrimaryKey;
 import springeshop.model.CartProduct;
 import springeshop.model.Product;
 import springeshop.model.User;
@@ -45,26 +48,27 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 	
 	@RequestMapping(value = "/carts", method = RequestMethod.POST)
 	public ResponseEntity<?> createCartProduct(@RequestParam(value = "userid") int userid, @RequestParam(value = "productid") int productid, 
-			@RequestParam(value = "quantity") int quantity) throws InterruptedException, ExecutionException{
+			@RequestParam(value = "quantity") int quantity){
 		
 		logger.info("Creating Card Product : {}");
 		
-		if(userid < 1){
-			return new ResponseEntity(new ErrorMessage("Unable to create. User id is not valid"), HttpStatus.BAD_REQUEST);
+		User user = userService.findById(userid);
+		Product product = productService.findById(productid);
+		
+		if(!userService.doesUserExist(user)){
+			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(productid < 1){
-			return new ResponseEntity(new ErrorMessage("Unable to create. Product id is not valid"), HttpStatus.BAD_REQUEST);
+		if(!productService.doesProductExist(product)){
+			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(quantity < 0){
 			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
 		}
 		
-		CartProduct cartProductCompositeId = new CartProduct(userid, productid);
-		Cart cart =  new Cart();
-		User user = userService.findById(userid);
-		Product product = productService.findById(productid);		
+		CartPrimaryKey cartProductCompositeId = new CartPrimaryKey(userid, productid);
+		Cart cart =  new Cart();		
 		Timestamp expiration = new Timestamp(System.currentTimeMillis());
 		
 		cart.setId(cartProductCompositeId);
@@ -73,7 +77,43 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		cart.setQuantity(quantity);
 		cart.setExpiration(expiration);
 		cartService.addProductToCart(cart);
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+		
+		if(!cartService.doesUserCartRowExist(userid, productid))
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		
+		
+	}
+	
+	@RequestMapping(value = "/carts", method = RequestMethod.GET)
+	public ResponseEntity<?> getUserCartProducts(@RequestParam(value = "userid", required = false) int userid){
+		
+		User user = userService.findById(userid);
+		
+		if(!userService.doesUserExist(user)){
+			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		List<Cart> products = cartService.findUserCartProducts(userid);
+		List<CartProduct> cartProducts = new ArrayList<>();
+		
+		if(products == null){
+			logger.error("No products found.");
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		
+		for(Cart cart : products){
+			CartProduct prod = new CartProduct();
+			prod.setName(cart.getProduct().getName());
+			prod.setBrand(cart.getProduct().getBrand().getName());
+			prod.setQuantity(cart.getQuantity());
+			prod.setPrice(cart.getProduct().getPrice());
+			prod.setImageUrl(cart.getProduct().getSmallImageUrl());
+			cartProducts.add(prod);
+		}
+		
+		return new ResponseEntity<List<CartProduct>>(cartProducts, HttpStatus.OK);
 		
 		
 	}

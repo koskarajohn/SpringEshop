@@ -39,18 +39,13 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public Product findUserCartProduct(int userid, int productid) {
-		return findUserCartProduct(userid, productid);
-	}
-
-	@Override
-	public int findProductQuantity(int userid, int productid) {
-		return cartRepository.findProductQuantity(userid, productid);
-	}
-
-	@Override
 	public void addProductToCart(Cart cartProduct) {
 		cartRepository.save(cartProduct);
+	}
+	
+	@Override
+	public void updateCartProduct(int userid, int productid, int quantity) {
+		cartRepository.updateCartProduct(userid, productid, quantity);
 	}
 
 	@Override
@@ -62,7 +57,5 @@ public class CartServiceImpl implements CartService{
 	public boolean doesUserCartRowExist(int userid, int productid) {
 		return findUserCartRow(userid, productid) != null;
 	}
-
-	
 	
 }

@@ -2,6 +2,8 @@ package springeshop.model;
 
 public class CartProduct {
 
+	private int userid;
+	private int productid;
 	private String name;
 	private String brand;
 	private String imageUrl;
@@ -11,6 +13,30 @@ public class CartProduct {
 	public CartProduct(){
 		
 	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+
+
+	public int getProductid() {
+		return productid;
+	}
+
+
+
+	public void setProductid(int productid) {
+		this.productid = productid;
+	}
+
+
 
 	public String getName() {
 		return name;

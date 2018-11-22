@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,11 +57,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		User user = userService.findById(userid);
 		Product product = productService.findById(productid);
 		
-		if(!userService.doesUserExist(user)){
+		if(user == null){
 			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(!productService.doesProductExist(product)){
+		if(product == null){
 			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
@@ -106,6 +107,8 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		
 		for(Cart cart : products){
 			CartProduct prod = new CartProduct();
+			prod.setUserid(cart.getId().getUserId());
+			prod.setProductid(cart.getId().getProductId());
 			prod.setName(cart.getProduct().getName());
 			prod.setBrand(cart.getProduct().getBrand().getName());
 			prod.setQuantity(cart.getQuantity());
@@ -143,8 +146,39 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.PATCH)
+	public ResponseEntity<?> updateCartProduct(@PathVariable(value = "userid", required = true) String userid, @PathVariable(value = "productid", required = true) String productid, 
+			@RequestParam(value = "quantity", required = true) int quantity){
 		
+		int usrId = Integer.parseInt(userid);
+		int prodId = Integer.parseInt(productid);
 		
+		User user = userService.findById(usrId);
+		Product product = productService.findById(prodId);
+		
+		if(user == null){
+			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		if(product == null){
+			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		if(quantity < 0){
+			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
+		}
+		
+		int oldQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
+		if(oldQuantity != quantity){
+			cartService.updateCartProduct(usrId, prodId, quantity);
+			//int updatedQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
+			//if(oldQuantity == updatedQuantity)
+			//  return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value = "/carts/{userid}", method = RequestMethod.DELETE)
@@ -167,7 +201,6 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 		return new ResponseEntity(HttpStatus.OK);
-		
-		
 	}
+	
 }

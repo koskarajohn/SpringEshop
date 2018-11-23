@@ -48,6 +48,7 @@ public class RequestFilter extends OncePerRequestFilter{
 		cookie.setMaxAge(3600000);
 		cookie.setPath("/");
 		cookie.setDomain("localhost");
+		cookie.setSecure(true);
 		response.addCookie(cookie);
 	}
 	
@@ -56,6 +57,7 @@ public class RequestFilter extends OncePerRequestFilter{
 			cookie.setMaxAge(0);
 			cookie.setPath("");
 			cookie.setDomain("localhost");
+			cookie.setSecure(true);
 			response.addCookie(cookie);
 			createCookieIsAuthenticated(request, response);
 	}

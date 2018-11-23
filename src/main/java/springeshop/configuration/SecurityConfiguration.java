@@ -31,8 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		    .antMatchers(HttpMethod.POST, "/authentication/validateuser").permitAll()
 		    .anyRequest().authenticated()
 			.and()
-			.httpBasic().and().csrf().disable();
-			//.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+			.httpBasic()
+			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		
 	}
 	

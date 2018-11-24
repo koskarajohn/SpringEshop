@@ -21,8 +21,10 @@ import springeshop.model.Cart;
 import springeshop.model.CartPrimaryKey;
 import springeshop.model.CartProduct;
 import springeshop.model.Product;
+import springeshop.model.ProductImage;
 import springeshop.model.User;
 import springeshop.service.CartService;
+import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
 import springeshop.service.UserService;
 import springeshop.util.ErrorMessage;
@@ -43,6 +45,9 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductImageService productImageService;
 	
 	@RequestMapping(value = "/carts", method = RequestMethod.POST)
 	public ResponseEntity<?> createCartProduct(@RequestParam(value = "userid") int userid, @RequestParam(value = "productid") int productid, 
@@ -109,7 +114,10 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			prod.setBrand(cart.getProduct().getBrand().getName());
 			prod.setQuantity(cart.getQuantity());
 			prod.setPrice(cart.getProduct().getPrice());
-			prod.setImageUrl(cart.getProduct().getSmallImageUrl());
+			
+			ProductImage productImage = productImageService.findByProductId(prod.getProductid());
+			prod.setImageUrl(productImage.getVerySmallImageurl());
+			
 			cartProducts.add(prod);
 		}
 		

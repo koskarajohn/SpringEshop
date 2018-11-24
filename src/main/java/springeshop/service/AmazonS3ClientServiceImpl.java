@@ -21,6 +21,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import springeshop.util.Constants;
+import springeshop.util.ImageType;
 
 @Component
 public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
@@ -38,13 +39,13 @@ public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
     }
 
 	@Async
-	public CompletableFuture<Boolean> uploadImage(MultipartFile image, String category, boolean isImageSmall) {
+	public CompletableFuture<Boolean> uploadImage(MultipartFile image, String category, ImageType imageType) {
 		
 		boolean isImageUploadSuccess = true;
 
 		try{
 			File imageFile = convertImageToFile(image);
-			uploadImageToS3Bucket(image.getOriginalFilename(), imageFile, category, isImageSmall);
+			uploadImageToS3Bucket(image.getOriginalFilename(), imageFile, category, imageType);
 			imageFile.delete();
 		}catch (IOException | AmazonServiceException ex) {
 			logger.error("error [" + ex.getMessage() + "] occurred while uploading [" + image.getOriginalFilename() + "] ");
@@ -62,13 +63,16 @@ public class AmazonS3ClientServiceImpl implements AmazonS3ClientService{
 		return convertedFile;
 	}
 	
-	private void uploadImageToS3Bucket(String imageName, File imageFile, String category, boolean isImageSmall){
+	private void uploadImageToS3Bucket(String imageName, File imageFile, String category, ImageType imageType){
 		
-		if(isImageSmall){
+		if(imageType == ImageType.SMALL){
 			amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.SMALL_PRODUCTS_PATH + category + "/" + imageName, imageFile)
 					.withCannedAcl(CannedAccessControlList.PublicRead));
-		}else{
+		}else if(imageType == ImageType.LARGE){
 			amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.LARGE_PRODUCTS_PATH + category + "/" + imageName, imageFile)
+					.withCannedAcl(CannedAccessControlList.PublicRead));
+		}else if(imageType == ImageType.VERY_SMALL){
+			amazonS3.putObject(new PutObjectRequest(awsS3AudioBucket, Constants.VERY_SMALL_PRODUCTS_PATH + category + "/" + imageName, imageFile)
 					.withCannedAcl(CannedAccessControlList.PublicRead));
 		}
 	}

@@ -33,6 +33,7 @@ import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
 import springeshop.util.Constants;
 import springeshop.util.ErrorMessage;
+import springeshop.util.ImageType;
 
 @RestController
 @RequestMapping("/api")
@@ -120,7 +121,7 @@ public class ProductApiController {
 	
 	@RequestMapping(value = "/products", method = RequestMethod.POST, consumes = {"multipart/form-data"})
 	public ResponseEntity<?> createProduct(@Valid @RequestPart(value = "product") Product product, @RequestPart (value = "smallImage") MultipartFile smallImage, 
-    		@RequestPart(value = "largeImage") MultipartFile largeImage , UriComponentsBuilder ucBuilder) throws InterruptedException, ExecutionException{
+    		@RequestPart(value = "largeImage") MultipartFile largeImage, @RequestPart (value = "verySmallImage") MultipartFile verySmallImage) throws InterruptedException, ExecutionException{
 		
 		logger.info("Creating Product : {}", product);
 		
@@ -146,13 +147,16 @@ public class ProductApiController {
 		if(product.getId() == 0) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 		CompletableFuture<Boolean> smallImageUploadFuture = this.amazonS3ClientService
-				                                                .uploadImage(smallImage, getCorrectCategoryName(product.getCategory().getName()), true);
+				                                                .uploadImage(smallImage, getCorrectCategoryName(product.getCategory().getName()), ImageType.SMALL);
         CompletableFuture<Boolean> largeImageUploadFuture = this.amazonS3ClientService
-        		                                                .uploadImage(largeImage, getCorrectCategoryName(product.getCategory().getName()), false);
+        		                                                .uploadImage(largeImage, getCorrectCategoryName(product.getCategory().getName()), ImageType.LARGE);
+        CompletableFuture<Boolean> verySmallImageUploadFuture = this.amazonS3ClientService
+                .uploadImage(verySmallImage, getCorrectCategoryName(product.getCategory().getName()), ImageType.VERY_SMALL);
         boolean isSmallImageUploadSuccess = smallImageUploadFuture.get().booleanValue();
         boolean isLargeImageUploadSuccess = largeImageUploadFuture.get().booleanValue();
+        boolean isVerySmallImageUploadSuccess = verySmallImageUploadFuture.get().booleanValue();
         
-        if(!(isSmallImageUploadSuccess && isLargeImageUploadSuccess)) {
+        if(!(isSmallImageUploadSuccess && isLargeImageUploadSuccess && isVerySmallImageUploadSuccess)) {
         	productService.deleteProductById(product.getId());
         	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -171,6 +175,11 @@ public class ProductApiController {
 		productImage.setLargeImageurl(Constants.AMAZON_S3_URL + Constants.LARGE_PRODUCTS_PATH 
                                                               + getCorrectCategoryName(product.getCategory().getName()) + "/"
                                                               + largeImage.getOriginalFilename());
+		
+		productImage.setVerySmallImageurl(Constants.AMAZON_S3_URL + Constants.VERY_SMALL_PRODUCTS_PATH 
+                                                                  + getCorrectCategoryName(product.getCategory().getName()) + "/"
+                                                                  + verySmallImage.getOriginalFilename());
+		
 		productImageService.saveImage(productImage);
 			
 		return new ResponseEntity<String>(HttpStatus.CREATED);
@@ -224,19 +233,5 @@ public class ProductApiController {
         productService.deleteProductById(id);
         return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
-	
-	private int getListsOfFour(int numberOfProducts){
-		return (int) Math.ceil(numberOfProducts / 4.0);
-	}
-	
-	//List<List<Product>> listOfFourProductSublists = new ArrayList<>();
-	//int sublistsNumber = getListsOfFour(products.size());
-	//for(int i=0; i < sublistsNumber; i++){
-	//	listOfFourProductSublists.add(new ArrayList<Product>());
-	//}
-	
-	//for(int i=1; i <=products.size(); i++){
-	//	listOfFourProductSublists.get(getListsOfFour(i) - 1).add(products.get(i - 1));			
-	//}
 	
 }

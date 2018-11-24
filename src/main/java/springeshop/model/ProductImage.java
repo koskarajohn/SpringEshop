@@ -32,6 +32,10 @@ public class ProductImage {
 	@NotNull(message = "Please provide the large image url")
 	private String largeImageurl;
 	
+	@Column(name = "very_small_image_url")
+	@NotNull(message = "Please provide the very small image url")
+	private String verySmallImageurl;
+	
 	public ProductImage(){
 		
 	}
@@ -68,10 +72,17 @@ public class ProductImage {
 		return largeImageurl;
 	}
 
-
 	public void setLargeImageurl(String largeImageurl) {
 		this.largeImageurl = largeImageurl;
 	}
 	
+	public String getVerySmallImageurl() {
+		return verySmallImageurl;
+	}
+
+
+	public void setVerySmallImageurl(String verySmallImageurl) {
+		this.verySmallImageurl = verySmallImageurl;
+	}
 	
 }

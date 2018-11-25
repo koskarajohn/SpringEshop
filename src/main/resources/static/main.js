@@ -1321,7 +1321,7 @@ var ProductPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center;\r\n    min-height: 45px;\r\n    margin-top: 16px;\r\n  }\r\n \r\n.product p{\r\n   font-size: 24px;\r\n   text-align: center;\r\n   font-weight: 600;\r\n }\r\n \r\n.product button{\r\n   display: block;\r\n   font-size: 14px;\r\n   text-align: center;\r\n   margin-left: auto;\r\n   margin-right: auto;\r\n }\r\n \r\n@media (max-width: 768px){\r\n  .product h4{\r\n    min-height: 60px;\r\n  }\r\n\r\n  .product{\r\n    margin-top: 48px;\r\n  }\r\n}"
+module.exports = ".product img{\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.product p.brand{\r\n  font-size: 16px;\r\n  text-align: center;\r\n  font-weight: 300;\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.product p.name{\r\n   font-size: 18px;\r\n   text-align: center;\r\n   font-weight: 400;\r\n   margin-bottom: 8px;\r\n   min-height: 45px;\r\n }\r\n\r\n.product p.price{\r\n  font-size: 20px;\r\n  text-align: center;\r\n  font-weight: 700;\r\n}\r\n\r\n"
 
 /***/ }),
 
@@ -1332,7 +1332,7 @@ module.exports = ".product h4{\r\n    font-size: 16px;\r\n    text-align: center
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"product\">\n  <a routerLink=\"/product/{{product.name}}\"><img class=\"img-fluid d-block mx-auto\" src=\"{{product?.smallImageUrl}}\" alt=\"\"></a>\n  <a routerLink=\"/product/{{product.name}}\"><h4>{{product?.name}}</h4></a>\n  <p>{{product?.price}}€</p>\n  <button type=\"button\" class=\"btn btn-primary\">\n      <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n  </button>\n</div>"
+module.exports = "<div class=\"product\">\n  <a routerLink=\"/product/{{product.name}}\"><img class=\"img-fluid d-block mx-auto\" src=\"{{product?.smallImageUrl}}\" alt=\"\"></a>\n  <a routerLink=\"/product/{{product.name}}\"><p class=\"brand\">{{product?.brand.name}}</p></a>\n  <a routerLink=\"/product/{{product.name}}\"><p class=\"name\">{{product?.name}}</p></a>\n  <p class=\"price\">{{product?.price}}€</p>\n  \n</div>"
 
 /***/ }),
 

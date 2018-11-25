@@ -301,7 +301,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr>\r\n                                      <td><img class=\"d-block mx-auto\" src=\"https://dummyimage.com/50x50/55595c/fff\" /></td>\r\n                                      <td class=\"text-center\">\r\n                                          <div>Now Folic Acid 400mg</div>\r\n                                          <div>Now Foods</div>\r\n                                    </td>\r\n                                      <td>\r\n                                            <div class=\"input-group\">\r\n                                                <button type=\"button\">-</button>\r\n                                                <input type=\"number\"step=\"1\" value=\"1\">\r\n                                                <button type=\"button\">+</button>\r\n                                            </div>\r\n                                      </td>\r\n                                      <td class=\"text-center\">18€</td>\r\n                                      <td class=\"text-center\">18€</td>\r\n                                  </tr>\r\n      \r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">56€</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-center\">\r\n                                          <div>{{product.name}}</div>\r\n                                          <div>Εταιρία : {{product.brand}}</div>\r\n                                    </td>\r\n                                      <td>\r\n                                            <div class=\"input-group\">\r\n                                                <button type=\"button\" (click)=\"decreaseProductQuantity(product)\" [disabled] = \"isProductQuantityOne(product)\" >-</button>\r\n                                                <input type=\"number\"step=\"1\" value=\"{{product.quantity}}\">\r\n                                                <button type=\"button\" (click)=\"increaseProductQuantity(product)\">+</button>\r\n                                            </div>\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
 
 /***/ }),
 
@@ -316,6 +316,8 @@ module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CartPageComponent", function() { return CartPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -326,10 +328,41 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var CartPageComponent = /** @class */ (function () {
-    function CartPageComponent() {
+    function CartPageComponent(authenticationService, cartService) {
+        this.authenticationService = authenticationService;
+        this.cartService = cartService;
+        this.isUserLoggedIn = false;
+        this.isLocalStorageEmpty = localStorage.length === 0;
     }
     CartPageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.cartProducts = [];
+        this.isUserLoggedIn = this.authenticationService.isAuthenticated;
+        if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
+            var userId = localStorage.getItem('userid');
+            this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; });
+        }
+    };
+    CartPageComponent.prototype.increaseProductQuantity = function (product) {
+        product.quantity += 1;
+    };
+    CartPageComponent.prototype.decreaseProductQuantity = function (product) {
+        product.quantity -= 1;
+    };
+    CartPageComponent.prototype.isProductQuantityOne = function (product) {
+        return product.quantity == 1;
+    };
+    CartPageComponent.prototype.getTotalCartPrice = function () {
+        var totalPrice = 0;
+        if (this.cartProducts.length !== 0) {
+            this.cartProducts.forEach(function (product) {
+                totalPrice += product.price * product.quantity;
+            });
+        }
+        return totalPrice;
     };
     CartPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -337,7 +370,7 @@ var CartPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./cart-page.component.html */ "./src/app/components/cart-page/cart-page.component.html"),
             styles: [__webpack_require__(/*! ./cart-page.component.css */ "./src/app/components/cart-page/cart-page.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__["CartService"]])
     ], CartPageComponent);
     return CartPageComponent;
 }());
@@ -957,7 +990,7 @@ module.exports = "/* --- Footer --- */\r\nfooter{\r\n    text-align: left;\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Footer -->\n<footer  class=\"footer\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-4\">\n              <h3>Πληροφοριες</h3>\n              <div class=\"menu\">\n                  <a>Η Εταιρία μας</a>\n                  <a>Όροι Χρήσης</a>\n                  <a>Ασφάλεια συναλλαγών</a>\n                  <a>Προστασία Προσωπικών Δεδομένων</a>\n              </div>\n          </div>\n          <div class=\"col-sm-4\">\n              <h3>Παραγγελιες</h3>\n              <div class=\"menu\">\n                  <a>Τρόποι Παραγγελίας</a>\n                  <a>Τρόποι Πληρωμής</a>\n                  <a>Τρόποι Αποστολής</a>\n                  <a>Επιστροφές Προιόντων</a>\n              </div>\n          </div>\n          <div class=\"col-sm-4\">\n              <h3>Επικοινωνια</h3>\n              <div class=\"menu\">\n                  <a><i class=\"fas fa-map-marker-alt mr-2\"></i>My Company Glasgow D04 89GR</a>\n                  <a><i class=\"fas fa-phone mr-2\"></i>231044444</a>\n                  <a><i class=\"fas fa-envelope mr-2\"></i>livedemo-admin@templatemonster.me</a>\n                  <a><i class=\"fas fa-clock mr-2\"></i>7 days a week from 8:00 am to 5:00 pm</a>\n              </div>\n          </div>\n      </div>\n  </div>  \n</footer>\n\n"
+module.exports = "<!-- Footer -->\r\n<footer  class=\"footer\">\r\n  <div class=\"container\">\r\n      <div class=\"row\">\r\n          <div class=\"col-sm-4\">\r\n              <h3>Πληροφοριες</h3>\r\n              <div class=\"menu\">\r\n                  <a>Η Εταιρία μας</a>\r\n                  <a>Όροι Χρήσης</a>\r\n                  <a>Ασφάλεια συναλλαγών</a>\r\n                  <a>Προστασία Προσωπικών Δεδομένων</a>\r\n              </div>\r\n          </div>\r\n          <div class=\"col-sm-4\">\r\n              <h3>Παραγγελιες</h3>\r\n              <div class=\"menu\">\r\n                  <a>Τρόποι Παραγγελίας</a>\r\n                  <a>Τρόποι Πληρωμής</a>\r\n                  <a>Τρόποι Αποστολής</a>\r\n                  <a>Επιστροφές Προιόντων</a>\r\n              </div>\r\n          </div>\r\n          <div class=\"col-sm-4\">\r\n              <h3>Επικοινωνια</h3>\r\n              <div class=\"menu\">\r\n                  <a><i class=\"fas fa-map-marker-alt mr-2\"></i>My Company Glasgow D04 89GR</a>\r\n                  <a><i class=\"fas fa-phone mr-2\"></i>231044444</a>\r\n                  <a><i class=\"fas fa-envelope mr-2\"></i>livedemo-admin@templatemonster.me</a>\r\n                  <a><i class=\"fas fa-clock mr-2\"></i>7 days a week from 8:00 am to 5:00 pm</a>\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>  \r\n</footer>\r\n\r\n"
 
 /***/ }),
 
@@ -1917,6 +1950,51 @@ var AuthenticationService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], AuthenticationService);
     return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/cart.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/cart.service.ts ***!
+  \******************************************/
+/*! exports provided: CartService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CartService", function() { return CartService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CartService = /** @class */ (function () {
+    function CartService(http) {
+        this.http = http;
+        this.cartApiEndpoint = '/api/carts/';
+        this.productsPath = '/products/';
+    }
+    CartService.prototype.getCartProducts = function (userId) {
+        return this.http.get(this.cartApiEndpoint + userId);
+    };
+    CartService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], CartService);
+    return CartService;
 }());
 
 

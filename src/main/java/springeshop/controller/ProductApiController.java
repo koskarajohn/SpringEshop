@@ -182,7 +182,7 @@ public class ProductApiController {
 		
 		productImageService.saveImage(productImage);
 			
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 		
 		
 	}

@@ -50,13 +50,12 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 	private ProductImageService productImageService;
 	
 	@RequestMapping(value = "/carts", method = RequestMethod.POST)
-	public ResponseEntity<?> createCartProduct(@RequestParam(value = "userid") int userid, @RequestParam(value = "productid") int productid, 
-			@RequestParam(value = "quantity") int quantity){
+	public ResponseEntity<?> createCartProduct(@RequestBody CartProduct cartProduct){
 		
 		logger.info("Creating Card Product : {}");
 		
-		User user = userService.findById(userid);
-		Product product = productService.findById(productid);
+		User user = userService.findById(cartProduct.getUserid());
+		Product product = productService.findById(cartProduct.getProductid());
 		
 		if(user == null){
 			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
@@ -66,25 +65,33 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(quantity < 0){
+		if(cartProduct.getQuantity() < 0){
 			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
 		}
 		
-		CartPrimaryKey cartProductCompositeId = new CartPrimaryKey(userid, productid);
-		Cart cart =  new Cart();		
+		CartPrimaryKey cartProductCompositeId = new CartPrimaryKey(cartProduct.getUserid(), cartProduct.getProductid());
+		Cart cartRow =  new Cart();		
 		Timestamp expiration = new Timestamp(System.currentTimeMillis());
 		
-		cart.setId(cartProductCompositeId);
-		cart.setUser(user);
-		cart.setProduct(product);
-		cart.setQuantity(quantity);
-		cart.setExpiration(expiration);
-		cartService.addProductToCart(cart);
+		cartRow.setId(cartProductCompositeId);
+		cartRow.setUser(user);
+		cartRow.setProduct(product);
+		cartRow.setQuantity(cartProduct.getQuantity());
+		cartRow.setExpiration(expiration);
+		cartService.addProductToCart(cartRow);
 		
-		if(!cartService.doesUserCartRowExist(userid, productid))
+		if(!cartService.doesUserCartRowExist(cartProduct.getUserid(), cartProduct.getProductid()))
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		CartProduct cartProductCreated = new CartProduct();
+		cartProductCreated.setUserid(cartRow.getId().getUserId());
+		cartProductCreated.setProductid(cartRow.getId().getProductId());
+		cartProductCreated.setName(cartRow.getProduct().getName());
+		cartProductCreated.setBrand(cartRow.getProduct().getBrand().getName());
+		cartProductCreated.setQuantity(cartRow.getQuantity());
+		cartProductCreated.setPrice(cartRow.getProduct().getPrice());
+		
+		return new ResponseEntity<>(cartProductCreated, HttpStatus.CREATED);
 		
 		
 	}
@@ -185,7 +192,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.PATCH)
 	public ResponseEntity<?> updateCartProduct(@PathVariable(value = "userid", required = true) String userid, @PathVariable(value = "productid", required = true) String productid, 
-			@RequestParam(value = "quantity", required = true) int quantity){
+			@RequestBody CartProduct cartProduct){
 		
 		int usrId = Integer.parseInt(userid);
 		int prodId = Integer.parseInt(productid);
@@ -201,13 +208,13 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(quantity < 0){
+		if(cartProduct.getQuantity() < 0){
 			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
 		}
 		
 		int oldQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
-		if(oldQuantity != quantity){
-			cartService.updateCartProduct(usrId, prodId, quantity);
+		if(oldQuantity != cartProduct.getQuantity()){
+			cartService.updateCartProduct(usrId, prodId, cartProduct.getQuantity());
 			//int updatedQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
 			//if(oldQuantity == updatedQuantity)
 			//  return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

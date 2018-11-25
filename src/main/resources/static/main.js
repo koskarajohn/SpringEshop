@@ -1186,7 +1186,7 @@ var NavigationBarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  }\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n    display: inline-block;\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.product-details div.input-group input{\r\n    text-align: center;\r\n    width: 96px;\r\n    height: 40px;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  }\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n    display: inline-block;\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.product-details div.input-group input{\r\n    text-align: center;\r\n    width: 96px;\r\n    height: 40px;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
 
 /***/ }),
 
@@ -1197,7 +1197,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n\n<div class=\"container\">\n    <div class=\"row justify-content-center\">\n        <div class=\"col-sm-4 product-image\">\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\n        </div>\n        <div class=\"col-sm-4 product-details\">\n            <h4>{{product?.name}}</h4>\n            <h3>{{product?.price}}€</h3>\n            <p><span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star\"></span>\n            </p>\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\n\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\n                <input type=\"number\"step=\"1\" value=\"{{wantedQuantity}}\">\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\n            </div>\n\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\">\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n            </button>\n        </div>\n    </div>\n</div>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p>{{product?.description}}</p>\n   \n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n\n<div class=\"container\">\n    <div class=\"row justify-content-center\">\n        <div class=\"col-sm-4 product-image\">\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\n        </div>\n        <div class=\"col-sm-4 product-details\">\n            <h4>{{product?.name}}</h4>\n            <h3>{{product?.price}}€</h3>\n            <p><span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star checked\"></span>\n                <span class=\"fa fa-star\"></span>\n            </p>\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\n\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\n                <input type=\"number\"step=\"1\" value=\"{{wantedQuantity}}\">\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\n            </div>\n\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\" [disabled] = \"!isAddProductRequestDone\" (click)=\"addProductToCart()\">\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\n            </button>\n        </div>\n    </div>\n</div>\n\n<i *ngIf=\"!isAddProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<!-- Additional Product Informaition -->\n<section class=\"product-information\">\n  <div class=\"container\">\n      <div class=\"row\">\n          <div class=\"col-sm-12\">\n              <ul class=\"nav nav-pills\">\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\n                  </li>\n                  <li class=\"nav-item\">\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\n                  </li>\n              </ul>\n\n              <div class=\"tab-content\">\n                  <div id=\"description\" class=\"container tab-pane active\">\n                      <br>\n                      <p>{{product?.description}}</p>\n   \n                      \n                  </div> \n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\n                      <br>\n                      <p><strong>Health is one of most important things in our life.</strong> \n                          We think that it is a real luck to have a strong health. \n                          Our way of life doesn’t increase the physiological condition of our body. \n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\n                  </div>\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\n                      <br>\n                      <p>There are no reviews for this product.</p>\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\n                  </div>\n              </div>\n          </div>\n      </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n\n"
 
 /***/ }),
 
@@ -1214,6 +1214,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/product.service */ "./src/app/services/product.service.ts");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1226,18 +1228,26 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ProductPageComponent = /** @class */ (function () {
-    function ProductPageComponent(route, productService) {
+    function ProductPageComponent(route, authenticationService, cartService, productService) {
         this.route = route;
+        this.authenticationService = authenticationService;
+        this.cartService = cartService;
         this.productService = productService;
         this.available = "Σε απόθεμα";
         this.notAvailable = "Δεν είναι διαθέσιμο";
         this.productAvailability = "";
         this.wantedQuantity = 1;
         this.isProductAvailable = false;
+        this.isAddProductRequestDone = true;
+        this.isUserLoggedIn = false;
+        this.isLocalStorageEmpty = localStorage.length === 0;
     }
     ProductPageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.isUserLoggedIn = this.authenticationService.isAuthenticated;
         this.routeSubscription = this.route.params.subscribe(function (params) { return _this.productNameParam = params['name']; });
         this.httpSubscription = this.productService.getSingleProduct(this.productNameParam)
             .subscribe(function (product) {
@@ -1259,13 +1269,43 @@ var ProductPageComponent = /** @class */ (function () {
     ProductPageComponent.prototype.isProductQuantityOne = function () {
         return this.wantedQuantity == 1;
     };
+    ProductPageComponent.prototype.addProductToCart = function () {
+        var _this = this;
+        if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
+            var userId_1 = localStorage.getItem('userid');
+            this.isAddProductRequestDone = false;
+            this.cartService.getCartProduct(Number(userId_1), this.product.id).toPromise()
+                .then(function (cartProduct) {
+                cartProduct.quantity = cartProduct.quantity + _this.wantedQuantity;
+                _this.cartService.updateCartProduct(cartProduct).toPromise()
+                    .then(function (response) {
+                    _this.isAddProductRequestDone = true;
+                })
+                    .catch(function (errorResponse) {
+                    console.log(errorResponse);
+                });
+            })
+                .catch(function (errorResponse) {
+                _this.cartService.addProductTocart(Number(userId_1), _this.product.id, _this.wantedQuantity)
+                    .toPromise()
+                    .then(function (cartProduct) {
+                    _this.isAddProductRequestDone = true;
+                })
+                    .catch(function (errorResponse) {
+                    console.log(errorResponse);
+                    _this.isAddProductRequestDone = true;
+                });
+            });
+        }
+    };
     ProductPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'product-page',
             template: __webpack_require__(/*! ./product-page.component.html */ "./src/app/components/product-page/product-page.component.html"),
             styles: [__webpack_require__(/*! ./product-page.component.css */ "./src/app/components/product-page/product-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
+            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"]])
     ], ProductPageComponent);
     return ProductPageComponent;
 }());
@@ -1994,25 +2034,27 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var CartService = /** @class */ (function () {
     function CartService(http) {
         this.http = http;
-        this.cartApiEndpoint = '/api/carts/';
-        this.productsPath = '/products/';
+        this.cartApiEndpoint = '/api/carts';
+        this.productsPath = '/products';
     }
     CartService.prototype.getCartProducts = function (userId) {
-        return this.http.get(this.cartApiEndpoint + userId);
+        return this.http.get(this.cartApiEndpoint + '/' + userId);
     };
-    CartService.prototype.addProductTocart = function (userId, productId) {
-        var body = { "userid": userId, "productid": productId, quantity: 1 };
-        return this.http.post(this.cartApiEndpoint, body);
+    CartService.prototype.addProductTocart = function (userId, productId, quantity) {
+        var cartProduct = {};
+        cartProduct.userid = userId;
+        cartProduct.productid = productId;
+        cartProduct.quantity = quantity;
+        return this.http.post(this.cartApiEndpoint, cartProduct);
     };
     CartService.prototype.getCartProduct = function (userId, productId) {
-        return this.http.get(this.cartApiEndpoint + userId + this.productsPath + productId);
+        return this.http.get(this.cartApiEndpoint + '/' + userId + this.productsPath + '/' + productId);
     };
     CartService.prototype.deleteCartProduct = function (userId, productId) {
-        return this.http.delete(this.cartApiEndpoint + userId + this.productsPath + productId);
+        return this.http.delete(this.cartApiEndpoint + '/' + userId + this.productsPath + '/' + productId);
     };
-    CartService.prototype.updateCartProduct = function (userId, productId, quantity) {
-        var body = { "quantity": quantity };
-        return this.http.delete(this.cartApiEndpoint + userId + this.productsPath + productId, body);
+    CartService.prototype.updateCartProduct = function (cartProduct) {
+        return this.http.patch(this.cartApiEndpoint + '/' + cartProduct.userid + this.productsPath + '/' + cartProduct.productid, cartProduct);
     };
     CartService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

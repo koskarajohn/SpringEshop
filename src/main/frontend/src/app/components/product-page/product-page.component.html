@@ -26,12 +26,14 @@
                 <button type="button" (click)="increaseProductQuantity()">+</button>
             </div>
 
-            <button *ngIf="isProductAvailable" type="button" class="btn btn-primary">
+            <button *ngIf="isProductAvailable" type="button" class="btn btn-primary" [disabled] = "!isAddProductRequestDone" (click)="addProductToCart()">
                 <i class="fas fa-cart-plus mr-2"></i>Προσθήκη στο καλάθι
             </button>
         </div>
     </div>
 </div>
+
+<i *ngIf="!isAddProductRequestDone" class="fas fa-sync-alt fa-2x fa-spin spinner" ></i>
 
 <!-- Additional Product Informaition -->
 <section class="product-information">

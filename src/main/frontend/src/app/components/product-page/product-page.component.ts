@@ -18,6 +18,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   productAvailability : string = "";
   routeSubscription : Subscription;
   httpSubscription : Subscription;
+  wantedQuantity : number = 1;
+  isProductAvailable : boolean = false;
 
   constructor(private route : ActivatedRoute, private productService : ProductService) { }
 
@@ -26,7 +28,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.httpSubscription = this.productService.getSingleProduct(this.productNameParam)
                                               .subscribe(product => {
                                                 this.product = product;
-                                                this.productAvailability =  product.quantity > 0 ? this.available : this.notAvailable ;
+                                                this.isProductAvailable = product.quantity > 0;
+                                                this.productAvailability =  this.isProductAvailable ? this.available : this.notAvailable ;
                                               });
     
   }
@@ -34,6 +37,18 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.routeSubscription.unsubscribe();
     this.httpSubscription.unsubscribe();
+  }
+
+  increaseProductQuantity() : void{
+    this.wantedQuantity += 1;
+  }
+
+  decreaseProductQuantity() : void{
+    this.wantedQuantity -= 1;
+  }
+
+  isProductQuantityOne() : boolean{
+    return this.wantedQuantity == 1;
   }
 
 }

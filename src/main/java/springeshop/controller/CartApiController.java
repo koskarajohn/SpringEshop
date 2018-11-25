@@ -126,6 +126,37 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		
 	}
 	
+	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.GET)
+	public ResponseEntity<?> getUserCartProduct(@PathVariable(value = "userid", required = true) String userid, 
+			@PathVariable(value = "productid", required = true) String productid){
+		
+		int usrId = Integer.parseInt(userid);
+		int prodId = Integer.parseInt(productid);
+		
+		User user = userService.findById(usrId);
+		Product product = productService.findById(prodId);
+		
+		if(user == null){
+			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		if(!cartService.doesUserCartRowExist(usrId, prodId)){
+			return new ResponseEntity(new ErrorMessage("Product does not exist"), HttpStatus.NOT_FOUND);
+		}
+		
+		Cart cartRow = cartService.findUserCartRow(usrId, prodId);
+		
+		CartProduct cartProduct = new CartProduct();
+		cartProduct.setUserid(cartRow.getId().getUserId());
+		cartProduct.setProductid(cartRow.getId().getProductId());
+		cartProduct.setName(cartRow.getProduct().getName());
+		cartProduct.setBrand(cartRow.getProduct().getBrand().getName());
+		cartProduct.setQuantity(cartRow.getQuantity());
+		cartProduct.setPrice(cartRow.getProduct().getPrice());
+		
+		return new ResponseEntity(cartProduct, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUserCartProduct(@PathVariable(value = "userid", required = true) String userid, 
 			@PathVariable(value = "productid", required = true) String productid){

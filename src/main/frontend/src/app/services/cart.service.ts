@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartProduct } from '../models/cartProduct';
+import { CartProductCount } from '../models/cartProductCount';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,16 @@ export class CartService {
 
   private cartApiEndpoint = '/api/carts';
   private productsPath = '/products';
+  private countPath = '/count';
 
   constructor(private http : HttpClient) { }
 
   getCartProducts(userId : string) : Observable<CartProduct[]>{
     return this.http.get<CartProduct[]>(this.cartApiEndpoint + '/' + userId);
+  }
+
+  getCartProductsCount(userId : string) : Observable<CartProductCount>{
+    return this.http.get<CartProductCount>(this.cartApiEndpoint + '/' + userId + this.countPath);
   }
 
   addProductTocart(userId : number, productId : number, quantity : number) : Observable<CartProduct>{

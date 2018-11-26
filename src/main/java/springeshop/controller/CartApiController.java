@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springeshop.model.Cart;
 import springeshop.model.CartPrimaryKey;
 import springeshop.model.CartProduct;
+import springeshop.model.CartProductCount;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.model.User;
@@ -102,7 +103,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		User user = userService.findById(userid);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		List<Cart> products = cartService.findUserCartProducts(userid);
@@ -129,8 +130,33 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		}
 		
 		return new ResponseEntity<List<CartProduct>>(cartProducts, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/carts/{userid}/count", method = RequestMethod.GET)
+	public ResponseEntity<?> getUserCartProductsCount(@PathVariable(value = "userid", required = true) int userid){
 		
+		User user = userService.findById(userid);
 		
+		if(user == null){
+			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
+		}
+		
+		List<Cart> products = cartService.findUserCartProducts(userid);
+		CartProductCount count = new CartProductCount();
+		
+		if(products == null){
+			count.setCount(0);
+			return new ResponseEntity<CartProductCount>(count, HttpStatus.OK);
+		}
+		
+		int totalProducts = 0;
+		for(Cart cartRow : products){
+			totalProducts += cartRow.getQuantity();
+		}
+		
+		count.setCount(totalProducts);
+		
+		return new ResponseEntity<CartProductCount>(count, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.GET)

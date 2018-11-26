@@ -44,3 +44,29 @@ section.cart{
     height: 40px;
     display: inline-block;
   }
+
+  section.cart table td div.brand{
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  section.cart table td div.name{
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  section.cart table td a.delete{
+    font-size:14px;
+    font-weight: 400;
+    display: inline-block;
+    margin-top: 16px;
+  }
+
+  section.cart a:not([href]):not([tabindex]):hover{
+    color:red;
+    cursor: pointer;
+  }
+
+  section.cart a:not([href]):not([tabindex]){
+    color:red;
+  }

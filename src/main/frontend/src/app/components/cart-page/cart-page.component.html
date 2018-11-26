@@ -27,10 +27,11 @@
                               <tbody>
                                   <tr *ngFor="let product of cartProducts">
                                       <td><img class="d-block mx-auto" src="{{product.imageUrl}}" /></td>
-                                      <td class="text-center">
-                                          <div>{{product.name}}</div>
-                                          <div>Εταιρία : {{product.brand}}</div>
-                                    </td>
+                                      <td class="text-left">
+                                          <div class="brand">{{product.brand}}</div>
+                                          <div class="name">{{product.name}}</div>
+                                          <a class="delete" (click)="deleteProduct(product)" >Αφαίρεση</a>
+                                     </td>
                                       <td>
                                             <div class="input-group">
                                                 <button type="button" (click)="decreaseProductQuantity(product)" [disabled] = "isProductQuantityOne(product)" >-</button>

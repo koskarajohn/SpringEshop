@@ -51,4 +51,15 @@ export class CartPageComponent implements OnInit {
     return totalPrice;
   }
 
+  deleteProduct(product : CartProduct) : void{
+    this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
+                    .then(response => this.removeProductFromArray(product))
+                    .catch(errorResponse => console.log(errorResponse));
+  }
+
+  removeProductFromArray(product : CartProduct) : void{
+    let index = this.cartProducts.indexOf(product);
+    this.cartProducts.splice(index, 1);
+  }
+
 }

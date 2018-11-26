@@ -22,7 +22,7 @@
 
             <div *ngIf="isProductAvailable" class="input-group">
                 <button type="button" (click)="decreaseProductQuantity()" [disabled] = "isProductQuantityOne()" >-</button>
-                <input type="number"step="1" value="{{wantedQuantity}}">
+                <span>{{wantedQuantity}}</span>
                 <button type="button" (click)="increaseProductQuantity()">+</button>
             </div>
 

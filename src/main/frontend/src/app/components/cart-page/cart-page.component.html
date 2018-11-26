@@ -33,11 +33,7 @@
                                           <a class="delete" (click)="deleteProduct(product)" >Αφαίρεση</a>
                                      </td>
                                       <td>
-                                            <div class="input-group">
-                                                <button type="button" (click)="decreaseProductQuantity(product)" [disabled] = "isProductQuantityOne(product)" >-</button>
-                                                <input type="number"step="1" value="{{product.quantity}}">
-                                                <button type="button" (click)="increaseProductQuantity(product)">+</button>
-                                            </div>
+                                          <input type="number" class="form-control" [(ngModel)]="product.quantity" (input)="updateCart(product)">
                                       </td>
                                       <td class="text-center">{{product.price}}€</td>
                                       <td class="text-center">{{product.price * product.quantity}}€</td>
@@ -64,6 +60,8 @@
               </div>
               
       </div>
+
+      <i *ngIf="!isUpdateProductRequestDone" class="fas fa-sync-alt fa-2x fa-spin spinner" ></i>
       
       <div class="row">
           <div class="col-sm-12 col-md-6">

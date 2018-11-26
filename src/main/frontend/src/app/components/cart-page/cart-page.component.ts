@@ -14,6 +14,7 @@ export class CartPageComponent implements OnInit {
   cartProducts : CartProduct[];
   httpSubscription : Subscription;
 
+  private isUpdateProductRequestDone = true;
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
 
@@ -60,6 +61,16 @@ export class CartPageComponent implements OnInit {
   removeProductFromArray(product : CartProduct) : void{
     let index = this.cartProducts.indexOf(product);
     this.cartProducts.splice(index, 1);
+  }
+
+  updateCart(product : CartProduct){
+    if(product.quantity !== null){
+      console.log('updating cart');
+      this.isUpdateProductRequestDone = false;
+      this.cartService.updateCartProduct(product).toPromise()
+                      .then(response => this.isUpdateProductRequestDone =  true)
+                      .catch(erroResponse => this.isUpdateProductRequestDone = true);
+    }
   }
 
 }

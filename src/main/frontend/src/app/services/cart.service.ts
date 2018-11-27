@@ -88,4 +88,11 @@ export class CartService {
 
     this.updateAnonymousUserCart(cart);
   }
+
+  updateUserCartProduct(cartProduct : CartProduct){
+    let cart = this.getAnonymousUserCart();
+    let existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);
+    existingProduct.quantity = cartProduct.quantity;
+    this.updateAnonymousUserCart(cart);
+  }
 }

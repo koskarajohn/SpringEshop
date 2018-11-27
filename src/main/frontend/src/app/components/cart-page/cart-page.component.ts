@@ -26,20 +26,10 @@ export class CartPageComponent implements OnInit {
     if(this.isUserLoggedIn && !this.isLocalStorageEmpty){
       let userId = localStorage.getItem('userid');
       this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(cartProducts => this.cartProducts = cartProducts);
+    }else if(!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist){
+      this.cartProducts = this.cartService.getAnonymousUserCart();
     }
     
-  }
-
-  increaseProductQuantity(product : CartProduct) : void{
-    product.quantity += 1;
-  }
-
-  decreaseProductQuantity(product : CartProduct) : void{
-    product.quantity -= 1;
-  }
-
-  isProductQuantityOne(product : CartProduct) : boolean{
-    return product.quantity == 1;
   }
 
   getTotalCartPrice() : number{
@@ -53,9 +43,15 @@ export class CartPageComponent implements OnInit {
   }
 
   deleteProduct(product : CartProduct) : void{
-    this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
+    if(this.isUserLoggedIn){
+      this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
                     .then(response => this.removeProductFromArray(product))
                     .catch(errorResponse => console.log(errorResponse));
+    }else{
+      this.removeProductFromArray(product);
+      this.cartService.updateAnonymousUserCart(this.cartProducts);
+    }
+    
   }
 
   removeProductFromArray(product : CartProduct) : void{
@@ -65,12 +61,21 @@ export class CartPageComponent implements OnInit {
 
   updateCart(product : CartProduct){
     if(product.quantity !== null){
+
       console.log('updating cart');
-      this.isUpdateProductRequestDone = false;
-      this.cartService.updateCartProduct(product).toPromise()
+
+      if(this.isUserLoggedIn){
+        this.isUpdateProductRequestDone = false;
+        this.cartService.updateCartProduct(product).toPromise()
                       .then(response => this.isUpdateProductRequestDone =  true)
                       .catch(erroResponse => this.isUpdateProductRequestDone = true);
+      }else{
+        this.cartService.updateUserCartProduct(product);
+        this.cartProducts = this.cartService.getAnonymousUserCart();
+      }
+      
     }
+
   }
 
 }

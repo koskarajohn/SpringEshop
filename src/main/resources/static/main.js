@@ -351,15 +351,9 @@ var CartPageComponent = /** @class */ (function () {
             var userId = localStorage.getItem('userid');
             this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; });
         }
-    };
-    CartPageComponent.prototype.increaseProductQuantity = function (product) {
-        product.quantity += 1;
-    };
-    CartPageComponent.prototype.decreaseProductQuantity = function (product) {
-        product.quantity -= 1;
-    };
-    CartPageComponent.prototype.isProductQuantityOne = function (product) {
-        return product.quantity == 1;
+        else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist) {
+            this.cartProducts = this.cartService.getAnonymousUserCart();
+        }
     };
     CartPageComponent.prototype.getTotalCartPrice = function () {
         var totalPrice = 0;
@@ -372,9 +366,15 @@ var CartPageComponent = /** @class */ (function () {
     };
     CartPageComponent.prototype.deleteProduct = function (product) {
         var _this = this;
-        this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
-            .then(function (response) { return _this.removeProductFromArray(product); })
-            .catch(function (errorResponse) { return console.log(errorResponse); });
+        if (this.isUserLoggedIn) {
+            this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
+                .then(function (response) { return _this.removeProductFromArray(product); })
+                .catch(function (errorResponse) { return console.log(errorResponse); });
+        }
+        else {
+            this.removeProductFromArray(product);
+            this.cartService.updateAnonymousUserCart(this.cartProducts);
+        }
     };
     CartPageComponent.prototype.removeProductFromArray = function (product) {
         var index = this.cartProducts.indexOf(product);
@@ -384,10 +384,16 @@ var CartPageComponent = /** @class */ (function () {
         var _this = this;
         if (product.quantity !== null) {
             console.log('updating cart');
-            this.isUpdateProductRequestDone = false;
-            this.cartService.updateCartProduct(product).toPromise()
-                .then(function (response) { return _this.isUpdateProductRequestDone = true; })
-                .catch(function (erroResponse) { return _this.isUpdateProductRequestDone = true; });
+            if (this.isUserLoggedIn) {
+                this.isUpdateProductRequestDone = false;
+                this.cartService.updateCartProduct(product).toPromise()
+                    .then(function (response) { return _this.isUpdateProductRequestDone = true; })
+                    .catch(function (erroResponse) { return _this.isUpdateProductRequestDone = true; });
+            }
+            else {
+                this.cartService.updateUserCartProduct(product);
+                this.cartProducts = this.cartService.getAnonymousUserCart();
+            }
         }
     };
     CartPageComponent = __decorate([
@@ -2150,6 +2156,12 @@ var CartService = /** @class */ (function () {
         else {
             cart.push(cartProduct);
         }
+        this.updateAnonymousUserCart(cart);
+    };
+    CartService.prototype.updateUserCartProduct = function (cartProduct) {
+        var cart = this.getAnonymousUserCart();
+        var existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);
+        existingProduct.quantity = cartProduct.quantity;
         this.updateAnonymousUserCart(cart);
     };
     CartService = __decorate([

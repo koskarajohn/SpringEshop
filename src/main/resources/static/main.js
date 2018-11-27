@@ -139,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var _services_cart_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/cart.service */ "./src/app/services/cart.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -150,14 +151,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(authenticationService) {
+    function AppComponent(authenticationService, cartService) {
         this.authenticationService = authenticationService;
+        this.cartService = cartService;
         this.title = 'frontend';
     }
     AppComponent.prototype.ngOnInit = function () {
-        if (!this.authenticationService.isAuthenticated)
+        if (!this.authenticationService.isAuthenticated) {
             this.authenticationService.getAnonymousSession();
+            this.cartService.createAnonymousUserCart();
+        }
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -165,7 +170,7 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"], _services_cart_service__WEBPACK_IMPORTED_MODULE_2__["CartService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -1333,6 +1338,16 @@ var ProductPageComponent = /** @class */ (function () {
                 });
             });
         }
+        else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist()) {
+            var cartProduct = {};
+            cartProduct.productid = this.product.id;
+            cartProduct.name = this.product.name;
+            cartProduct.brand = this.product.brand.name;
+            cartProduct.price = this.product.price;
+            cartProduct.quantity = this.wantedQuantity;
+            cartProduct.imageUrl = this.product.verySmallImageUrl;
+            this.cartService.addProductToAnonymousUserCart(cartProduct);
+        }
     };
     ProductPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1867,6 +1882,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _cart_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cart.service */ "./src/app/services/cart.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1915,10 +1931,12 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http, cookieService, router) {
+    function AuthenticationService(http, cookieService, cartService, router) {
         this.http = http;
         this.cookieService = cookieService;
+        this.cartService = cartService;
         this.router = router;
         this.isAuthenticated = false;
         this.wasServiceJustInitialized = false;
@@ -1937,7 +1955,7 @@ var AuthenticationService = /** @class */ (function () {
                 wasLocalStorageDeleted = localStorage.length === 0;
                 if (isAuthenticatedCookieDeletedOrNo) {
                     this.isAuthenticated = false;
-                    if (!wasLocalStorageDeleted)
+                    if (!wasLocalStorageDeleted && !this.cartService.doesAnonymousUserCartExist)
                         localStorage.clear();
                     this.navigateToIndexPage();
                 }
@@ -2035,7 +2053,7 @@ var AuthenticationService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());
@@ -2095,6 +2113,44 @@ var CartService = /** @class */ (function () {
     };
     CartService.prototype.updateCartProduct = function (cartProduct) {
         return this.http.patch(this.cartApiEndpoint + '/' + cartProduct.userid + this.productsPath + '/' + cartProduct.productid, cartProduct);
+    };
+    //Anonymous
+    CartService.prototype.createAnonymousUserCart = function () {
+        if (!this.doesAnonymousUserCartExist()) {
+            var cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+    };
+    CartService.prototype.updateAnonymousUserCart = function (cart) {
+        if (this.doesAnonymousUserCartExist()) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+    };
+    CartService.prototype.getAnonymousUserCart = function () {
+        var cart = JSON.parse(localStorage.getItem('cart'));
+        return cart;
+    };
+    CartService.prototype.doesAnonymousUserCartExist = function () {
+        return localStorage.getItem('cart') !== null;
+    };
+    CartService.prototype.getAnonymousUserCartProduct = function (cart, productid) {
+        var index = cart.findIndex(function (x) { return x.productid === productid; });
+        return cart[index];
+    };
+    CartService.prototype.doesAnonymousUserCartContaintProduct = function (productid) {
+        var cart = this.getAnonymousUserCart();
+        return cart.find(function (x) { return x.productid === productid; }) !== undefined;
+    };
+    CartService.prototype.addProductToAnonymousUserCart = function (cartProduct) {
+        var cart = this.getAnonymousUserCart();
+        if (this.doesAnonymousUserCartContaintProduct(cartProduct.productid)) {
+            var existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);
+            existingProduct.quantity += cartProduct.quantity;
+        }
+        else {
+            cart.push(cartProduct);
+        }
+        this.updateAnonymousUserCart(cart);
     };
     CartService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

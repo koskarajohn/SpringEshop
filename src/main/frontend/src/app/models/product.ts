@@ -13,4 +13,5 @@ export class Product{
     is_favorite : boolean
     smallImageUrl : string
     largeImageUrl : string
+    verySmallImageUrl : string
 }

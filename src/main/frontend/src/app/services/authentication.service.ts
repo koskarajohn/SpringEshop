@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthenticationService {
   private logoutApiEndpoint = '/authentication/logout';
   private anonymousApiEndpoint = '/anonymous/session';
 
-  constructor(private http : HttpClient, private cookieService :  CookieService, private router : Router) {
+  constructor(private http : HttpClient, private cookieService :  CookieService, private cartService : CartService ,private router : Router) {
     this.checkIfUserLoggedInPreviously();
   }
 
@@ -30,7 +31,7 @@ export class AuthenticationService {
 
     if(isAuthenticatedCookieDeletedOrNo){
       this.isAuthenticated = false;
-      if(!wasLocalStorageDeleted) localStorage.clear();
+      if(!wasLocalStorageDeleted && !this.cartService.doesAnonymousUserCartExist) localStorage.clear();
       this.navigateToIndexPage();
     }else{
       this.isAuthenticated = true;

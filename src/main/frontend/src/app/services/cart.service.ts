@@ -42,4 +42,50 @@ export class CartService {
   updateCartProduct(cartProduct : CartProduct) : Observable<any>{
     return this.http.patch(this.cartApiEndpoint + '/' + cartProduct.userid + this.productsPath + '/' + cartProduct.productid, cartProduct);
   }
+
+  //Anonymous
+
+  createAnonymousUserCart() : void{
+    if(!this.doesAnonymousUserCartExist()){
+      let cart : CartProduct[] = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }
+
+  updateAnonymousUserCart(cart : CartProduct[]) : void{
+    if(this.doesAnonymousUserCartExist()){
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }
+
+  getAnonymousUserCart() : CartProduct[]{
+    let cart = JSON.parse(localStorage.getItem('cart')) as CartProduct[];
+    return cart;
+  }
+
+  doesAnonymousUserCartExist() : boolean{
+    return localStorage.getItem('cart') !== null;
+  }
+
+  getAnonymousUserCartProduct(cart : CartProduct[], productid : number) : CartProduct{
+    let index = cart.findIndex(x => x.productid === productid);
+    return cart[index];
+  }
+
+  doesAnonymousUserCartContaintProduct(productid : number) : boolean{
+    let cart = this.getAnonymousUserCart();
+    return cart.find(x => x.productid === productid) !== undefined;
+  }
+
+  addProductToAnonymousUserCart(cartProduct : CartProduct){
+    let cart = this.getAnonymousUserCart();
+    if(this.doesAnonymousUserCartContaintProduct(cartProduct.productid)){
+      let existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);
+      existingProduct.quantity += cartProduct.quantity;
+    }else{
+      cart.push(cartProduct);
+    }
+
+    this.updateAnonymousUserCart(cart);
+  }
 }

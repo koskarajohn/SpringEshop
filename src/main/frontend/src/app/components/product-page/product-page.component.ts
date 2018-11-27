@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartService } from 'src/app/services/cart.service';
+import { CartProduct } from 'src/app/models/cartProduct';
 
 @Component({
   selector: 'product-page',
@@ -85,6 +86,15 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                                            this.isAddProductRequestDone = true;
                                           });
                       });
+    }else if(!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist()){
+      let cartProduct = {} as CartProduct;
+      cartProduct.productid = this.product.id;
+      cartProduct.name = this.product.name;
+      cartProduct.brand= this.product.brand.name;
+      cartProduct.price = this.product.price;
+      cartProduct.quantity = this.wantedQuantity;
+      cartProduct.imageUrl = this.product.verySmallImageUrl;
+      this.cartService.addProductToAnonymousUserCart(cartProduct);
     }
   }
 

@@ -64,8 +64,8 @@ public class Product {
 	@Transient
 	private String largeImageUrl;
 	
-	
-	
+	@Transient
+	private String verySmallImageUrl;
 
 	public Product(){
 		
@@ -164,4 +164,14 @@ public class Product {
 	public void setIs_new(boolean is_new) {
 		this.is_new = is_new;
 	}
+
+	public String getVerySmallImageUrl() {
+		return verySmallImageUrl;
+	}
+
+	public void setVerySmallImageUrl(String verySmallImageUrl) {
+		this.verySmallImageUrl = verySmallImageUrl;
+	}
+	
+	
 }

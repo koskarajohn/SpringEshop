@@ -92,6 +92,7 @@ public class ProductApiController {
 			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
+	        product.setVerySmallImageUrl(productImage.getVerySmallImageurl());
 	        
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);
@@ -112,6 +113,7 @@ public class ProductApiController {
         ProductImage productImage = productImageService.findByProductId(product.getId());
         product.setSmallImageUrl(productImage.getSmallImageurl());
         product.setLargeImageUrl(productImage.getLargeImageurl());
+        product.setVerySmallImageUrl(productImage.getVerySmallImageurl());
         
         int productQuantity = inventoryService.findProductQuantity(product.getId());
         product.setQuantity(productQuantity);

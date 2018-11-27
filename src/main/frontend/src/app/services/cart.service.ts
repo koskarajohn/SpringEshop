@@ -67,6 +67,15 @@ export class CartService {
     return localStorage.getItem('cart') !== null;
   }
 
+  getAnonymousUserCartCount() : number{
+    let count = 0;
+    if(!this.doesAnonymousUserCartExist) 
+       return count;
+
+    this.getAnonymousUserCart().forEach(cartProduct => count += cartProduct.quantity);
+    return count;
+  }
+
   getAnonymousUserCartProduct(cart : CartProduct[], productid : number) : CartProduct{
     let index = cart.findIndex(x => x.productid === productid);
     return cart[index];

@@ -1168,17 +1168,21 @@ var NavigationBarComponent = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this.isUserLoggedIn = this.authenticationService.isAuthenticated;
-                        if (!this.isUserLoggedIn) return [3 /*break*/, 3];
+                        if (!this.isUserLoggedIn) return [3 /*break*/, 4];
                         if (!!this.isLocalStorageEmpty) return [3 /*break*/, 1];
                         this.storeUserName();
-                        this.getCartCount(this.userId);
+                        this.setCartCount(this.userId);
                         return [3 /*break*/, 3];
                     case 1: return [4 /*yield*/, this.authenticationService.getSessionDataAgain()];
                     case 2:
                         _a.sent();
                         this.storeUserName();
                         _a.label = 3;
-                    case 3:
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
+                        this.setAnonymousUserCartCount();
+                        _a.label = 5;
+                    case 5:
                         this.initialiseCategories();
                         return [2 /*return*/];
                 }
@@ -1205,11 +1209,14 @@ var NavigationBarComponent = /** @class */ (function () {
     NavigationBarComponent.prototype.logout = function () {
         this.authenticationService.logout();
     };
-    NavigationBarComponent.prototype.getCartCount = function (userId) {
+    NavigationBarComponent.prototype.setCartCount = function (userId) {
         var _this = this;
         this.cartService.getCartProductsCount(userId).toPromise()
             .then(function (cartProductCount) { return _this.cartProductCount = cartProductCount.count; })
             .catch(function (errorResponse) { return console.log(errorResponse); });
+    };
+    NavigationBarComponent.prototype.setAnonymousUserCartCount = function () {
+        this.cartProductCount = this.cartService.getAnonymousUserCartCount();
     };
     NavigationBarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2138,6 +2145,13 @@ var CartService = /** @class */ (function () {
     };
     CartService.prototype.doesAnonymousUserCartExist = function () {
         return localStorage.getItem('cart') !== null;
+    };
+    CartService.prototype.getAnonymousUserCartCount = function () {
+        var count = 0;
+        if (!this.doesAnonymousUserCartExist)
+            return count;
+        this.getAnonymousUserCart().forEach(function (cartProduct) { return count += cartProduct.quantity; });
+        return count;
     };
     CartService.prototype.getAnonymousUserCartProduct = function (cart, productid) {
         var index = cart.findIndex(function (x) { return x.productid === productid; });

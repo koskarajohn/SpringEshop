@@ -30,13 +30,15 @@ export class NavigationBarComponent implements OnInit{
 
       if(!this.isLocalStorageEmpty){
         this.storeUserName()
-        this.getCartCount(this.userId);
+        this.setCartCount(this.userId);
 
       }else{
 
         await this.authenticationService.getSessionDataAgain();
         this.storeUserName(); 
       }
+    }else{
+      this.setAnonymousUserCartCount();
     }
 
     this.initialiseCategories();
@@ -63,10 +65,14 @@ export class NavigationBarComponent implements OnInit{
     this.authenticationService.logout();
   }
 
-  getCartCount(userId : string) : void{
+  setCartCount(userId : string) : void{
     this.cartService.getCartProductsCount(userId).toPromise()
                     .then(cartProductCount => this.cartProductCount = cartProductCount.count)
                     .catch(errorResponse => console.log(errorResponse));
+  }
+
+  setAnonymousUserCartCount() : void{
+    this.cartProductCount = this.cartService.getAnonymousUserCartCount();
   }
 
 }

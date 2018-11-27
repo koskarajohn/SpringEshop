@@ -306,7 +306,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <div class=\"brand\">{{product.brand}}</div>\r\n                                          <div class=\"name\">{{product.name}}</div>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <div class=\"brand\">{{product.brand}}</div>\r\n                                          <div class=\"name\">{{product.name}}</div>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\" (click)=\"navigateToIndex()\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
 
 /***/ }),
 
@@ -323,6 +323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -335,8 +337,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var CartPageComponent = /** @class */ (function () {
-    function CartPageComponent(authenticationService, cartService) {
+    function CartPageComponent(router, authenticationService, cartService) {
+        this.router = router;
         this.authenticationService = authenticationService;
         this.cartService = cartService;
         this.isUpdateProductRequestDone = true;
@@ -374,6 +379,7 @@ var CartPageComponent = /** @class */ (function () {
         else {
             this.removeProductFromArray(product);
             this.cartService.updateAnonymousUserCart(this.cartProducts);
+            this.navigationBar.setAnonymousUserCartCount();
         }
     };
     CartPageComponent.prototype.removeProductFromArray = function (product) {
@@ -393,16 +399,24 @@ var CartPageComponent = /** @class */ (function () {
             else {
                 this.cartService.updateUserCartProduct(product);
                 this.cartProducts = this.cartService.getAnonymousUserCart();
+                this.navigationBar.setAnonymousUserCartCount();
             }
         }
     };
+    CartPageComponent.prototype.navigateToIndex = function () {
+        this.router.navigate(['']);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_3__["NavigationBarComponent"]),
+        __metadata("design:type", _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_3__["NavigationBarComponent"])
+    ], CartPageComponent.prototype, "navigationBar", void 0);
     CartPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'cart-page',
             template: __webpack_require__(/*! ./cart-page.component.html */ "./src/app/components/cart-page/cart-page.component.html"),
             styles: [__webpack_require__(/*! ./cart-page.component.css */ "./src/app/components/cart-page/cart-page.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__["CartService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__["CartService"]])
     ], CartPageComponent);
     return CartPageComponent;
 }());
@@ -1270,6 +1284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/product.service */ "./src/app/services/product.service.ts");
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
+/* harmony import */ var _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1279,6 +1294,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1360,8 +1376,13 @@ var ProductPageComponent = /** @class */ (function () {
             cartProduct.quantity = this.wantedQuantity;
             cartProduct.imageUrl = this.product.verySmallImageUrl;
             this.cartService.addProductToAnonymousUserCart(cartProduct);
+            this.navigationBar.setAnonymousUserCartCount();
         }
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_5__["NavigationBarComponent"]),
+        __metadata("design:type", _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_5__["NavigationBarComponent"])
+    ], ProductPageComponent.prototype, "navigationBar", void 0);
     ProductPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'product-page',

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RoutesController {
 
-	@RequestMapping({ "/login", "/register", "/cart", "/product", "/checkout" })
+	@RequestMapping({ "/login", "/register", "/cart/**", "/product/**", "/category/**", "/checkout" })
 	public String index() {
 	     return "forward:/index.html";
 	}

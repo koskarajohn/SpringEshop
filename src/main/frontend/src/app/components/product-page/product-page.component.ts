@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartService } from 'src/app/services/cart.service';
 import { CartProduct } from 'src/app/models/cartProduct';
+import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
 
 @Component({
   selector: 'product-page',
@@ -25,6 +26,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   isProductAvailable : boolean = false;
   isAddProductRequestDone : boolean = true;
 
+  @ViewChild(NavigationBarComponent) navigationBar : NavigationBarComponent;
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
 
@@ -95,6 +97,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       cartProduct.quantity = this.wantedQuantity;
       cartProduct.imageUrl = this.product.verySmallImageUrl;
       this.cartService.addProductToAnonymousUserCart(cartProduct);
+      this.navigationBar.setAnonymousUserCartCount();
     }
   }
 

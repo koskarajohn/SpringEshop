@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CartProduct } from 'src/app/models/cartProduct';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cart-page',
@@ -17,8 +19,9 @@ export class CartPageComponent implements OnInit {
   private isUpdateProductRequestDone = true;
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
+  @ViewChild(NavigationBarComponent) navigationBar : NavigationBarComponent;
 
-  constructor(private authenticationService : AuthenticationService, private cartService : CartService) { }
+  constructor(private router : Router, private authenticationService : AuthenticationService, private cartService : CartService) { }
 
   ngOnInit() {
     this.cartProducts = [];
@@ -50,6 +53,7 @@ export class CartPageComponent implements OnInit {
     }else{
       this.removeProductFromArray(product);
       this.cartService.updateAnonymousUserCart(this.cartProducts);
+      this.navigationBar.setAnonymousUserCartCount();
     }
     
   }
@@ -72,10 +76,15 @@ export class CartPageComponent implements OnInit {
       }else{
         this.cartService.updateUserCartProduct(product);
         this.cartProducts = this.cartService.getAnonymousUserCart();
+        this.navigationBar.setAnonymousUserCartCount();
       }
       
     }
 
+  }
+
+  navigateToIndex() : void{
+    this.router.navigate(['']);
   }
 
 }

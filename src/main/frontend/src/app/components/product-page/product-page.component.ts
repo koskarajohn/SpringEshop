@@ -71,6 +71,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                         cartProduct.quantity = cartProduct.quantity + this.wantedQuantity;
                         this.cartService.updateCartProduct(cartProduct).toPromise()
                         .then(response => {
+                          this.navigationBar.setCartCount(this.navigationBar.userId);
                           this.isAddProductRequestDone = true;
                         })
                         .catch(errorResponse => {
@@ -81,6 +82,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                          this.cartService.addProductTocart(Number(userId), this.product.id, this.wantedQuantity)
                                          .toPromise()
                                          .then(cartProduct => {
+                                           this.navigationBar.setCartCount(this.navigationBar.userId);
                                            this.isAddProductRequestDone = true;
                                           })
                                          .catch(errorResponse => {

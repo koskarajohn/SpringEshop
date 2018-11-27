@@ -28,8 +28,8 @@
                                   <tr *ngFor="let product of cartProducts">
                                       <td><img class="d-block mx-auto" src="{{product.imageUrl}}" /></td>
                                       <td class="text-left">
-                                          <div class="brand">{{product.brand}}</div>
-                                          <div class="name">{{product.name}}</div>
+                                          <a routerLink="/product/{{product.name}}" class="brand">{{product.brand}}</a>
+                                          <a routerLink="/product/{{product.name}}" class="name">{{product.name}}</a>
                                           <a class="delete" (click)="deleteProduct(product)" >Αφαίρεση</a>
                                      </td>
                                       <td>

@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnChanges } from '@angular/core';
 import { NavigationCategory } from 'src/app/models/navigationCategory';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 
 @Component({
@@ -20,11 +19,12 @@ export class NavigationBarComponent implements OnInit{
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
   private user : string = '';
-  private userId : string = '';
+  public userId : string = '';
 
   constructor( private authenticationService : AuthenticationService, private cartService : CartService) { }
 
   async ngOnInit() {
+    this.initialiseCategories();
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
     if(this.isUserLoggedIn){
 
@@ -41,7 +41,6 @@ export class NavigationBarComponent implements OnInit{
       this.setAnonymousUserCartCount();
     }
 
-    this.initialiseCategories();
   }
 
   storeUserName() : void{

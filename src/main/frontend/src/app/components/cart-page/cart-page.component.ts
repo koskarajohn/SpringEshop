@@ -48,7 +48,10 @@ export class CartPageComponent implements OnInit {
   deleteProduct(product : CartProduct) : void{
     if(this.isUserLoggedIn){
       this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
-                    .then(response => this.removeProductFromArray(product))
+                    .then(response => {
+                      this.navigationBar.setCartCount(this.navigationBar.userId);
+                      this.removeProductFromArray(product);
+                    })
                     .catch(errorResponse => console.log(errorResponse));
     }else{
       this.removeProductFromArray(product);
@@ -71,7 +74,10 @@ export class CartPageComponent implements OnInit {
       if(this.isUserLoggedIn){
         this.isUpdateProductRequestDone = false;
         this.cartService.updateCartProduct(product).toPromise()
-                      .then(response => this.isUpdateProductRequestDone =  true)
+                      .then(response => {
+                        this.navigationBar.setCartCount(this.navigationBar.userId);
+                        this.isUpdateProductRequestDone =  true;
+                      })
                       .catch(erroResponse => this.isUpdateProductRequestDone = true);
       }else{
         this.cartService.updateUserCartProduct(product);

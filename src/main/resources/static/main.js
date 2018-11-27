@@ -295,7 +295,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\n/* --- Shopping Cart --- */\r\n\r\nsection.cart{\r\n    margin-top: 16px;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\nsection.cart .table-content{\r\n    margin-top: 64px;\r\n  }\r\n\r\nsection.cart table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\r\n  }\r\n\r\nsection.cart table td input.form-control{\r\n    width: 75%;\r\n    text-align: center;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\nsection.cart table td div.brand{\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n  }\r\n\r\nsection.cart table td div.name{\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n  }\r\n\r\nsection.cart table td a.delete{\r\n    font-size:14px;\r\n    font-weight: 400;\r\n    display: inline-block;\r\n    margin-top: 16px;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]):hover{\r\n    color:red;\r\n    cursor: pointer;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]){\r\n    color:red;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Shopping Cart --- */\r\n\r\nsection.cart{\r\n    margin-top: 16px;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\nsection.cart .table-content{\r\n    margin-top: 64px;\r\n  }\r\n\r\nsection.cart table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\r\n  }\r\n\r\nsection.cart table td input.form-control{\r\n    width: 75%;\r\n    text-align: center;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\nsection.cart table td a.brand{\r\n    display: block;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.brand:hover, section.cart table td a.name:hover{\r\n    -webkit-text-decoration-style: none;\r\n            text-decoration-style: none;\r\n  }\r\n\r\nsection.cart table td a.name{\r\n    display: block;\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.delete{\r\n    font-size:14px;\r\n    font-weight: 400;\r\n    display: inline-block;\r\n    margin-top: 16px;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]):hover{\r\n    color:red;\r\n    cursor: pointer;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]){\r\n    color:red;\r\n  }"
 
 /***/ }),
 
@@ -306,7 +306,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <div class=\"brand\">{{product.brand}}</div>\r\n                                          <div class=\"name\">{{product.name}}</div>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\" (click)=\"navigateToIndex()\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n      Cart\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"brand\">{{product.brand}}</a>\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"name\">{{product.name}}</a>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Μεταφορικά</td>\r\n                                      <td class=\"text-center\">6€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\" (click)=\"navigateToIndex()\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\">Ολοκλήρωση αγοράς</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
 
 /***/ }),
 
@@ -373,7 +373,10 @@ var CartPageComponent = /** @class */ (function () {
         var _this = this;
         if (this.isUserLoggedIn) {
             this.cartService.deleteCartProduct(product.userid, product.productid).toPromise()
-                .then(function (response) { return _this.removeProductFromArray(product); })
+                .then(function (response) {
+                _this.navigationBar.setCartCount(_this.navigationBar.userId);
+                _this.removeProductFromArray(product);
+            })
                 .catch(function (errorResponse) { return console.log(errorResponse); });
         }
         else {
@@ -393,7 +396,10 @@ var CartPageComponent = /** @class */ (function () {
             if (this.isUserLoggedIn) {
                 this.isUpdateProductRequestDone = false;
                 this.cartService.updateCartProduct(product).toPromise()
-                    .then(function (response) { return _this.isUpdateProductRequestDone = true; })
+                    .then(function (response) {
+                    _this.navigationBar.setCartCount(_this.navigationBar.userId);
+                    _this.isUpdateProductRequestDone = true;
+                })
                     .catch(function (erroResponse) { return _this.isUpdateProductRequestDone = true; });
             }
             else {
@@ -432,7 +438,7 @@ var CartPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\nul{\r\n    position: absolute;\r\n    bottom: 0px;\r\n    left : 50%;\r\n}\r\n\r\n.page-link{\r\n    color:#04BF00;\r\n    background : #fff;\r\n    border-color : #dee2e6;\r\n}\r\n\r\n.page-link:focus{\r\n    box-shadow: none;\r\n}\r\n\r\n.page-item.active .page-link{\r\n    color:white;\r\n    background : #04BF00;\r\n    border-color : #04BF00;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\nul{\r\n    position: absolute;\r\n    bottom: 0px;\r\n    left : 50%;\r\n}\r\n\r\n.page-link{\r\n    color:#04BF00;\r\n    background : #fff;\r\n    border-color : #dee2e6;\r\n}\r\n\r\n.page-link:focus{\r\n    box-shadow: none;\r\n}\r\n\r\n.page-item.active .page-link{\r\n    color:white;\r\n    background : #04BF00;\r\n    border-color : #04BF00;\r\n}"
 
 /***/ }),
 
@@ -876,7 +882,7 @@ var IndexPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\n/* --- Login --- */\r\n\r\nsection.login{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.login h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.login form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.login form .submit{\r\n  text-align: center;\r\n  margin-top: 32px\r\n}\r\n\r\nsection.login form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  margin-right: 16px;\r\n}\r\n\r\nsection.login form .submit a{\r\n  text-decoration: underline;\r\n}\r\n\r\nsection.login form .submit a:hover{\r\n  text-decoration: none;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Login --- */\r\n\r\nsection.login{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.login h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.login form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.login form .submit{\r\n  text-align: center;\r\n  margin-top: 32px\r\n}\r\n\r\nsection.login form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  margin-right: 16px;\r\n}\r\n\r\nsection.login form .submit a{\r\n  text-decoration: underline;\r\n}\r\n\r\nsection.login form .submit a:hover{\r\n  text-decoration: none;\r\n}"
 
 /***/ }),
 
@@ -1181,6 +1187,7 @@ var NavigationBarComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        this.initialiseCategories();
                         this.isUserLoggedIn = this.authenticationService.isAuthenticated;
                         if (!this.isUserLoggedIn) return [3 /*break*/, 4];
                         if (!!this.isLocalStorageEmpty) return [3 /*break*/, 1];
@@ -1196,9 +1203,7 @@ var NavigationBarComponent = /** @class */ (function () {
                     case 4:
                         this.setAnonymousUserCartCount();
                         _a.label = 5;
-                    case 5:
-                        this.initialiseCategories();
-                        return [2 /*return*/];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
@@ -1254,7 +1259,7 @@ var NavigationBarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n  }\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
 
 /***/ }),
 
@@ -1349,6 +1354,7 @@ var ProductPageComponent = /** @class */ (function () {
                 cartProduct.quantity = cartProduct.quantity + _this.wantedQuantity;
                 _this.cartService.updateCartProduct(cartProduct).toPromise()
                     .then(function (response) {
+                    _this.navigationBar.setCartCount(_this.navigationBar.userId);
                     _this.isAddProductRequestDone = true;
                 })
                     .catch(function (errorResponse) {
@@ -1359,6 +1365,7 @@ var ProductPageComponent = /** @class */ (function () {
                 _this.cartService.addProductTocart(Number(userId_1), _this.product.id, _this.wantedQuantity)
                     .toPromise()
                     .then(function (cartProduct) {
+                    _this.navigationBar.setCartCount(_this.navigationBar.userId);
                     _this.isAddProductRequestDone = true;
                 })
                     .catch(function (errorResponse) {
@@ -1406,7 +1413,7 @@ var ProductPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".product img{\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.product p.brand{\r\n  font-size: 16px;\r\n  text-align: center;\r\n  font-weight: 300;\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.product p.name{\r\n   font-size: 18px;\r\n   text-align: center;\r\n   font-weight: 400;\r\n   margin-bottom: 8px;\r\n   min-height: 52px;\r\n }\r\n\r\n.product p.price{\r\n  font-size: 20px;\r\n  text-align: center;\r\n  font-weight: 700;\r\n}\r\n\r\n"
+module.exports = ".product img{\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.product a:hover{\r\n  text-decoration: none;\r\n}\r\n\r\n.product p.brand{\r\n  font-size: 16px;\r\n  text-align: center;\r\n  font-weight: 300;\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.product p.name{\r\n   font-size: 18px;\r\n   text-align: center;\r\n   font-weight: 400;\r\n   margin-bottom: 8px;\r\n   min-height: 52px;\r\n }\r\n\r\n.product p.price{\r\n  font-size: 20px;\r\n  text-align: center;\r\n  font-weight: 700;\r\n}\r\n\r\n"
 
 /***/ }),
 
@@ -1659,7 +1666,7 @@ var RatingComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 32px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\n/* --- Register --- */\r\n\r\nsection.register{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.register h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.register form h4{\r\n  margin-top:32px;\r\n  margin-bottom: 16px;\r\n}\r\n\r\nsection.register form .submit p{\r\n  display: inline;\r\n}\r\n\r\nsection.register form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.register form .submit{\r\n  text-align: center;\r\n  margin-top: 32px\r\n}\r\n\r\nsection.register form .submit button{\r\npadding-left: 24px;\r\npadding-right: 24px;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Register --- */\r\n\r\nsection.register{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.register h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.register form h4{\r\n  margin-top:32px;\r\n  margin-bottom: 16px;\r\n}\r\n\r\nsection.register form .submit p{\r\n  display: inline;\r\n}\r\n\r\nsection.register form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.register form .submit{\r\n  text-align: center;\r\n  margin-top: 32px\r\n}\r\n\r\nsection.register form .submit button{\r\npadding-left: 24px;\r\npadding-right: 24px;\r\n}"
 
 /***/ }),
 

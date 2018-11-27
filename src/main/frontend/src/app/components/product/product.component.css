@@ -2,12 +2,17 @@
   margin-bottom: 16px;
 }
 
+.product a:hover{
+  text-decoration: none;
+}
+
 .product p.brand{
   font-size: 16px;
   text-align: center;
   font-weight: 300;
   margin-bottom: 8px;
 }
+
  .product p.name{
    font-size: 18px;
    text-align: center;

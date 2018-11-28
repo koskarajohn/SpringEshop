@@ -1381,7 +1381,7 @@ var ProductPageComponent = /** @class */ (function () {
                 });
             });
         }
-        else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist()) {
+        else if (!this.isUserLoggedIn) {
             var cartProduct = {};
             cartProduct.productid = this.product.id;
             cartProduct.name = this.product.name;
@@ -1844,6 +1844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var _services_cart_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/cart.service */ "./src/app/services/cart.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1858,9 +1859,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AuthenticationStatusChangeInterceptor = /** @class */ (function () {
-    function AuthenticationStatusChangeInterceptor(authenticationService, cookieService, router) {
+    function AuthenticationStatusChangeInterceptor(authenticationService, cartService, cookieService, router) {
         this.authenticationService = authenticationService;
+        this.cartService = cartService;
         this.cookieService = cookieService;
         this.router = router;
     }
@@ -1875,6 +1878,7 @@ var AuthenticationStatusChangeInterceptor = /** @class */ (function () {
             this.authenticationService.isAuthenticated = false;
             if (!wasLocalStorageDeleted)
                 localStorage.clear();
+            this.cartService.createAnonymousUserCart();
             this.authenticationService.getAnonymousSession();
             this.navigateToIndexPage();
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["empty"])();
@@ -1891,7 +1895,7 @@ var AuthenticationStatusChangeInterceptor = /** @class */ (function () {
     };
     AuthenticationStatusChangeInterceptor = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"], _services_cart_service__WEBPACK_IMPORTED_MODULE_5__["CartService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_2__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], AuthenticationStatusChangeInterceptor);
     return AuthenticationStatusChangeInterceptor;
 }());
@@ -2037,11 +2041,57 @@ var AuthenticationService = /** @class */ (function () {
                                             headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
                                             headers = headers.append('Authorization', 'Basic ' + btoa(user.username + ':' + credentials.password));
                                             return [4 /*yield*/, this.http.get(this.sessionApiEndpoint, { headers: headers }).toPromise()
-                                                    .then(function (session) {
-                                                    message = "Επιτυχημένη είσοδος χρήστη";
-                                                    _this.writeSessionToLocalStorage(session);
-                                                    _this.isAuthenticated = true;
-                                                })
+                                                    .then(function (session) { return __awaiter(_this, void 0, void 0, function () {
+                                                    var _this = this;
+                                                    return __generator(this, function (_a) {
+                                                        switch (_a.label) {
+                                                            case 0:
+                                                                message = "Επιτυχημένη είσοδος χρήστη";
+                                                                this.writeSessionToLocalStorage(session);
+                                                                this.isAuthenticated = true;
+                                                                if (!(this.cartService.doesAnonymousUserCartExist() && this.cartService.getAnonymousUserCartCount() > 0)) return [3 /*break*/, 2];
+                                                                return [4 /*yield*/, this.cartService.deleteUserCart(Number(session.userid)).toPromise()
+                                                                        .then(function (response) { return __awaiter(_this, void 0, void 0, function () {
+                                                                        var cartProducts;
+                                                                        return __generator(this, function (_a) {
+                                                                            switch (_a.label) {
+                                                                                case 0:
+                                                                                    cartProducts = this.cartService.getAnonymousUserCart();
+                                                                                    this.addUserToCartProducts(cartProducts, Number(session.userid));
+                                                                                    return [4 /*yield*/, this.cartService.addMultipleProductsTocart(cartProducts).toPromise()
+                                                                                            .then(function (response) { return console.log('products added successfuly'); })
+                                                                                            .catch(function (errorResponse) { return console.log(errorResponse); })];
+                                                                                case 1:
+                                                                                    _a.sent();
+                                                                                    return [2 /*return*/];
+                                                                            }
+                                                                        });
+                                                                    }); })
+                                                                        .catch(function (errorResponse) { return __awaiter(_this, void 0, void 0, function () {
+                                                                        var cartProducts;
+                                                                        return __generator(this, function (_a) {
+                                                                            switch (_a.label) {
+                                                                                case 0:
+                                                                                    if (!(errorResponse.status === 400)) return [3 /*break*/, 2];
+                                                                                    cartProducts = this.cartService.getAnonymousUserCart();
+                                                                                    this.addUserToCartProducts(cartProducts, Number(session.userid));
+                                                                                    return [4 /*yield*/, this.cartService.addMultipleProductsTocart(cartProducts).toPromise()
+                                                                                            .then(function (response) { return console.log('products added successfuly'); })
+                                                                                            .catch(function (errorResponse) { return console.log(errorResponse); })];
+                                                                                case 1:
+                                                                                    _a.sent();
+                                                                                    _a.label = 2;
+                                                                                case 2: return [2 /*return*/];
+                                                                            }
+                                                                        });
+                                                                    }); })];
+                                                            case 1:
+                                                                _a.sent();
+                                                                _a.label = 2;
+                                                            case 2: return [2 /*return*/];
+                                                        }
+                                                    });
+                                                }); })
                                                     .catch(function (errorResponse) {
                                                     message = "Κάτι πήγε στραβά";
                                                     _this.isAuthenticated = false;
@@ -2062,6 +2112,9 @@ var AuthenticationService = /** @class */ (function () {
                 }
             });
         });
+    };
+    AuthenticationService.prototype.addUserToCartProducts = function (cartProducts, userid) {
+        cartProducts.forEach(function (cartProduct) { return cartProduct.userid = userid; });
     };
     AuthenticationService.prototype.writeSessionToLocalStorage = function (session) {
         localStorage.setItem("session_id", session.id);
@@ -2086,6 +2139,7 @@ var AuthenticationService = /** @class */ (function () {
             _this.getAnonymousSession();
             if (localStorage.length > 0)
                 localStorage.clear();
+            _this.cartService.createAnonymousUserCart();
             _this.navigateToIndexPage();
         })
             .catch();
@@ -2126,6 +2180,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CartService", function() { return CartService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2135,6 +2191,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 var CartService = /** @class */ (function () {
@@ -2147,6 +2205,9 @@ var CartService = /** @class */ (function () {
     CartService.prototype.getCartProducts = function (userId) {
         return this.http.get(this.cartApiEndpoint + '/' + userId);
     };
+    CartService.prototype.deleteUserCart = function (userId) {
+        return this.http.delete(this.cartApiEndpoint + '/' + userId);
+    };
     CartService.prototype.getCartProductsCount = function (userId) {
         return this.http.get(this.cartApiEndpoint + '/' + userId + this.countPath);
     };
@@ -2156,6 +2217,10 @@ var CartService = /** @class */ (function () {
         cartProduct.productid = productId;
         cartProduct.quantity = quantity;
         return this.http.post(this.cartApiEndpoint, cartProduct);
+    };
+    CartService.prototype.addMultipleProductsTocart = function (cartProducts) {
+        var _this = this;
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(cartProducts).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (cartProduct) { return _this.http.post(_this.cartApiEndpoint, cartProduct); }));
     };
     CartService.prototype.getCartProduct = function (userId, productId) {
         return this.http.get(this.cartApiEndpoint + '/' + userId + this.productsPath + '/' + productId);
@@ -2201,6 +2266,8 @@ var CartService = /** @class */ (function () {
         return cart.find(function (x) { return x.productid === productid; }) !== undefined;
     };
     CartService.prototype.addProductToAnonymousUserCart = function (cartProduct) {
+        if (!this.doesAnonymousUserCartExist())
+            this.createAnonymousUserCart();
         var cart = this.getAnonymousUserCart();
         if (this.doesAnonymousUserCartContaintProduct(cartProduct.productid)) {
             var existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);

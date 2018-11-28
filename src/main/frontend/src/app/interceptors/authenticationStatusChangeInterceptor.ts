@@ -4,11 +4,12 @@ import { Observable, empty} from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { CartService } from '../services/cart.service';
 
 @Injectable()
 export class AuthenticationStatusChangeInterceptor  implements  HttpInterceptor{
 
-    constructor(private authenticationService : AuthenticationService, private cookieService : CookieService, private router : Router){}
+    constructor(private authenticationService : AuthenticationService, private cartService : CartService, private cookieService : CookieService, private router : Router){}
 
     intercept(request: HttpRequest<any>, next: HttpHandler) :  Observable<HttpEvent<any>>{
 
@@ -28,6 +29,7 @@ export class AuthenticationStatusChangeInterceptor  implements  HttpInterceptor{
             if(isUserCurrentlyAuthenticated && isAuthenticatedCookieDeletedOrNo){
                 this.authenticationService.isAuthenticated = false;
                 if(!wasLocalStorageDeleted) localStorage.clear();
+                this.cartService.createAnonymousUserCart();
                 this.authenticationService.getAnonymousSession();
                 this.navigateToIndexPage();
                 return empty();

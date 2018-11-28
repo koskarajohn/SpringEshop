@@ -100,7 +100,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                                            this.isAddProductRequestDone = true;
                                           });
                       });
-    }else if(!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist()){
+    }else if(!this.isUserLoggedIn){
       let cartProduct = {} as CartProduct;
       cartProduct.productid = this.product.id;
       cartProduct.name = this.product.name;

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Session } from '../models/session';
 import { UserCredentials } from '../models/userCredentials';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../models/user';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { CartService } from './cart.service';
+import { CartProduct } from '../models/cartProduct';
 
 @Injectable({
   providedIn: 'root'
@@ -49,10 +50,31 @@ export class AuthenticationService {
                                 headers = headers.append('Authorization', 'Basic ' + btoa(user.username + ':' + credentials.password));
 
                                 await this.http.get<Session>(this.sessionApiEndpoint, {headers : headers}).toPromise()
-                                    .then( session => {
+                                    .then(async session => {
                                       message = "Επιτυχημένη είσοδος χρήστη";
                                       this.writeSessionToLocalStorage(session);
                                       this.isAuthenticated = true;
+
+                                      if(this.cartService.doesAnonymousUserCartExist() && this.cartService.getAnonymousUserCartCount() > 0){
+                                        await this.cartService.deleteUserCart(Number(session.userid)).toPromise()
+                                                  .then(async response => {
+                                                    let cartProducts = this.cartService.getAnonymousUserCart();
+                                                    this.addUserToCartProducts(cartProducts, Number(session.userid));
+                                                    await this.cartService.addMultipleProductsTocart(cartProducts).toPromise()
+                                                              .then(response => console.log('products added successfuly'))
+                                                              .catch(errorResponse => console.log(errorResponse));
+
+                                                  })
+                                                  .catch(async errorResponse => {
+                                                    if(errorResponse.status === 400){
+                                                      let cartProducts = this.cartService.getAnonymousUserCart();
+                                                      this.addUserToCartProducts(cartProducts, Number(session.userid));
+                                                      await this.cartService.addMultipleProductsTocart(cartProducts).toPromise()
+                                                              .then(response => console.log('products added successfuly'))
+                                                              .catch(errorResponse => console.log(errorResponse));
+                                                    }
+                                                  });
+                                      }
                                     })
 
                                     .catch(errorResponse => {
@@ -67,6 +89,10 @@ export class AuthenticationService {
                              });
 
     return message;
+  }
+  
+  addUserToCartProducts(cartProducts : CartProduct[], userid : number) : void{
+    cartProducts.forEach(cartProduct => cartProduct.userid = userid);
   }
 
   writeSessionToLocalStorage(session : Session) : void{
@@ -92,6 +118,7 @@ export class AuthenticationService {
                                                       this.isAuthenticated = false;
                                                       this.getAnonymousSession();
                                                       if(localStorage.length > 0) localStorage.clear();
+                                                      this.cartService.createAnonymousUserCart();
                                                       this.navigateToIndexPage();
                                                     })
                                                     .catch();

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { mergeMap} from 'rxjs/operators';
 import { CartProduct } from '../models/cartProduct';
 import { CartProductCount } from '../models/cartProductCount';
 
@@ -19,6 +20,10 @@ export class CartService {
     return this.http.get<CartProduct[]>(this.cartApiEndpoint + '/' + userId);
   }
 
+  deleteUserCart(userId : number) : Observable<any>{
+    return this.http.delete(this.cartApiEndpoint + '/' + userId);
+  }
+
   getCartProductsCount(userId : string) : Observable<CartProductCount>{
     return this.http.get<CartProductCount>(this.cartApiEndpoint + '/' + userId + this.countPath);
   }
@@ -29,6 +34,10 @@ export class CartService {
     cartProduct.productid = productId;
     cartProduct.quantity = quantity;
     return this.http.post<CartProduct>(this.cartApiEndpoint, cartProduct);
+  }
+
+  addMultipleProductsTocart(cartProducts : CartProduct[]) : Observable<CartProduct>{
+    return from(cartProducts).pipe(mergeMap(cartProduct => <Observable<CartProduct>> this.http.post<CartProduct>(this.cartApiEndpoint, cartProduct)));
   }
 
   getCartProduct(userId : number, productId : number) : Observable<CartProduct>{
@@ -87,6 +96,10 @@ export class CartService {
   }
 
   addProductToAnonymousUserCart(cartProduct : CartProduct){
+
+    if(!this.doesAnonymousUserCartExist())
+       this.createAnonymousUserCart();
+
     let cart = this.getAnonymousUserCart();
     if(this.doesAnonymousUserCartContaintProduct(cartProduct.productid)){
       let existingProduct = this.getAnonymousUserCartProduct(cart, cartProduct.productid);

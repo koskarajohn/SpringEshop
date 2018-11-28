@@ -3,7 +3,11 @@
 .breadcrumbs{
     padding-top: 8px;
     padding-bottom: 16px;
-  }
+}
+
+.breadcrumbs a.route:hover{
+  text-decoration: none;
+}
 
    /* --- Product --- */
 

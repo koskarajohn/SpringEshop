@@ -1,5 +1,13 @@
 <navigation-bar></navigation-bar>
 
+<!-- Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <a routerLink="/"><i class="fas fa-home mr-1"></i></a>
+        / <a routerLink="/category/{{categoryRoute}}" class="route" [queryParams]="{ page: pageParam}">{{productCategory}}</a>
+        / {{product?.name}}
+    </div>
+  </div>
 
 <div class="container">
     <div class="row justify-content-center">

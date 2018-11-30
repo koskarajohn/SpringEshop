@@ -35,11 +35,11 @@ public class ShippingInfo {
 	
 	@Column(name = "street_number")
 	@NotNull(message = "Please provide street number")
-	private int street_number;
+	private String street_number;
 	
 	@Column(name = "post_code")
 	@NotNull(message = "Please provide post code")
-	private int post_code;
+	private String post_code;
 	
 	@Column(name = "city")
 	@NotNull(message = "Please provide city")
@@ -91,19 +91,19 @@ public class ShippingInfo {
 		this.street_name = street_name;
 	}
 
-	public int getStreet_number() {
+	public String getStreet_number() {
 		return street_number;
 	}
 
-	public void setStreet_number(int street_number) {
+	public void setStreet_number(String street_number) {
 		this.street_number = street_number;
 	}
 
-	public int getPost_code() {
+	public String getPost_code() {
 		return post_code;
 	}
 
-	public void setPost_code(int post_code) {
+	public void setPost_code(String post_code) {
 		this.post_code = post_code;
 	}
 
@@ -130,6 +130,7 @@ public class ShippingInfo {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 	
 	
 }

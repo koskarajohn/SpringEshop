@@ -39,7 +39,7 @@ import springeshop.util.ImageType;
 @RequestMapping("/api")
 public class ProductApiController {
 
-	public static final Logger logger = LoggerFactory.getLogger(CategoryApiController.class);
+	public static final Logger logger = LoggerFactory.getLogger(ProductApiController.class);
 	
 	@Autowired
 	private ProductService productService;

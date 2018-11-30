@@ -10,6 +10,6 @@ import springeshop.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Integer>{
 
-	@Query("select orders from Order order where order.user.id = :userid")
+	@Query("select order from Order order where order.user.id = :userid")
 	List<Order> findUserOrders(@Param("userid") int userid);
 }

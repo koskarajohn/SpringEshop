@@ -32,7 +32,7 @@ public class RegisterApiController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	public static final Logger logger = LoggerFactory.getLogger(CategoryApiController.class);
+	public static final Logger logger = LoggerFactory.getLogger(RegisterApiController.class);
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@Valid @RequestBody User user){

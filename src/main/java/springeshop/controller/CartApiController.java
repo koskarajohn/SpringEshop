@@ -240,10 +240,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		
 		int oldQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
 		if(oldQuantity != cartProduct.getQuantity()){
-			cartService.updateCartProduct(usrId, prodId, cartProduct.getQuantity());
-			//int updatedQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
-			//if(oldQuantity == updatedQuantity)
-			//  return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+			if(cartService.updateCartProductAndIsSuccess(usrId, prodId, cartProduct.getQuantity())){	
+				return new ResponseEntity<>(HttpStatus.OK);	
+			}else{
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	
+			}
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);	
@@ -263,12 +264,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity(new ErrorMessage("Unable to delete. Cart is empty"), HttpStatus.BAD_REQUEST);
 		}
 		
-		cartService.deleteUserCart(usrId);
+		if(cartService.deleteUserCartAndIsSuccess(usrId)){
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 		
-		if(!cartService.findUserCartProducts(usrId).isEmpty())
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

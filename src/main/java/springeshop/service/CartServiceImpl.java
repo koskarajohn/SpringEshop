@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,18 @@ public class CartServiceImpl implements CartService{
 	}
 	
 	@Override
-	public void deleteUserCart(int userid) {
-		cartRepository.deleteUserCart(userid);
+	public boolean deleteUserCartAndIsSuccess(int userid) {
+		boolean isSuccess = false;
+		
+		try {
+			cartRepository.deleteUserCart(userid);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 
 	@Override
@@ -44,8 +55,18 @@ public class CartServiceImpl implements CartService{
 	}
 	
 	@Override
-	public void updateCartProduct(int userid, int productid, int quantity) {
-		cartRepository.updateCartProduct(userid, productid, quantity);
+	public boolean updateCartProductAndIsSuccess(int userid, int productid, int quantity) {
+        boolean isSuccess = false;
+		
+		try {
+			cartRepository.updateCartProduct(userid, productid, quantity);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 
 	@Override

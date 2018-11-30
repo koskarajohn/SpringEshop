@@ -208,12 +208,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 			return new ResponseEntity(new ErrorMessage("Unable to delete. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
-		cartService.deleteUserCartRow(usrId, prodId);
+		if(cartService.deleteUserCartRowAndIsSuccess(usrId, prodId)){
+			return new ResponseEntity(HttpStatus.OK);
+		}
 		
-		if(cartService.doesUserCartRowExist(usrId, prodId))
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.PATCH)

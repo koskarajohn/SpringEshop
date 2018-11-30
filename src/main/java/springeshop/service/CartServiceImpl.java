@@ -45,8 +45,18 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public void deleteUserCartRow(int userid, int productid) {
-		cartRepository.deleteUserCartProductRow(userid, productid);
+	public boolean deleteUserCartRowAndIsSuccess(int userid, int productid) {
+        boolean isSuccess = false;
+		
+		try {
+			cartRepository.deleteUserCartProductRow(userid, productid);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 
 	@Override
@@ -67,11 +77,6 @@ public class CartServiceImpl implements CartService{
 		}
 		
 		return isSuccess;
-	}
-
-	@Override
-	public void deleteProductFromCart(int userid, int productid) {
-		cartRepository.deleteProductFromCart(userid, productid);
 	}
 
 	@Override

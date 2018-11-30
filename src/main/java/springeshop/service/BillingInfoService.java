@@ -4,5 +4,5 @@ import springeshop.model.BillingInfo;
 
 public interface BillingInfoService {
 
-	void saveBillingInfo(BillingInfo billingInfo);
+	boolean saveBillingInfoAndIsSuccess(BillingInfo billingInfo);
 }

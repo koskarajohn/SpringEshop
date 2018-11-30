@@ -1,6 +1,7 @@
 package springeshop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void addUser(User user) {
-		userRepository.save(user);
+	public boolean addUserAndIsSuccess(User user) {
+		boolean isSuccess = false;
+		
+		try {
+			userRepository.save(user);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 
 	@Override

@@ -50,16 +50,17 @@ public class RegisterApiController {
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setIs_active(true);
-		userService.addUser(user);
-		if(userService.doesUserExist(user)){
+		
+		if(userService.addUserAndIsSuccess(user)){
 			Authority authority = new Authority();
 			authority.setUser(user);
 			authority.setRole("ROLE_USER");
-			authorityService.saveAuthority(authority);
-		}else {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			if(authorityService.saveAuthorityAndIsSuccess(authority)){
+				return new ResponseEntity<>(user, HttpStatus.CREATED);
+			}
 		}
+
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 }

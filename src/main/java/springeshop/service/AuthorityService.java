@@ -5,6 +5,5 @@ import springeshop.model.User;
 
 public interface AuthorityService {
 
-	void saveAuthority(Authority authority);
-	boolean doesAuthorityExist(User user);
+	boolean saveAuthorityAndIsSuccess(Authority authority);
 }

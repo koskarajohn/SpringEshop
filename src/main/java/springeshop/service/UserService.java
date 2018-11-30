@@ -11,5 +11,5 @@ public interface UserService {
 	boolean doesEmailExist(String userEmail);
 	boolean doesUserExist(User user);
 	boolean doesUserExist(String username);
-	void addUser(User user);
+	boolean addUserAndIsSuccess(User user);
 }

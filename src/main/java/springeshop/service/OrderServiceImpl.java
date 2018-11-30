@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import springeshop.model.Order;
@@ -18,8 +19,18 @@ public class OrderServiceImpl implements OrderService{
 	private OrderRepository orderRepository;
 
 	@Override
-	public void saveOrder(Order order) {
-		orderRepository.save(order);
+	public boolean saveOrderAndIsSuccess(Order order) {
+        boolean isSuccess = false;
+		
+		try {
+			orderRepository.save(order);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 
 	@Override

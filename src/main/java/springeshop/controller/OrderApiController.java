@@ -52,40 +52,31 @@ public class OrderApiController {
 	public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDetails orderDetails, Principal principal){
 		logger.info("Creating order ");
 		
-		//boolean isAnonymous = principal == null ? true : false;
-		
-		//if(isAnonymous && orderDetails.getEmail() == null){
-		//	return new ResponseEntity<>(new ErrorMessage("Email was not provided"), HttpStatus.BAD_REQUEST);
-		//}
-		boolean swag = false;
-		try{
-			swag = true;
-			repository.deleteById(10);
-			
-		}catch(DataAccessException ex){
-			System.out.println(ex);
+		boolean isAnonymous = principal == null ? true : false;
+		if(isAnonymous && orderDetails.getEmail() == null){
+			return new ResponseEntity<>(new ErrorMessage("Email was not provided"), HttpStatus.BAD_REQUEST);
 		}
 		
-		System.out.println(swag);
+		if(shippingInfoService.saveShippingInfoAndIsSuccess(orderDetails.getShipping_info()) && 
+				billingInfoService.saveBillingInfoAndIsSuccess(orderDetails.getBilling_info())){
+			
+			Order order = new Order();
+			if(!isAnonymous){
+				User user = userService.findByUsername(principal.getName());
+				order.setUser(user);
+			}
+			
+			order.setStatus("Created");
+			Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+			order.setOrder_date(currentDate);
+			order.setShippingInfo(orderDetails.getShipping_info());
+			order.setBillingInfo(orderDetails.getBilling_info());
+			
+			if(orderService.saveOrderAndIsSuccess(order)){
+				return new ResponseEntity<>( HttpStatus.CREATED);
+			}
+		}
 		
-		//shippingInfoService.saveShippingInfo(orderDetails.getShipping_info());
-		//billingInfoService.saveBillingInfo(orderDetails.getBilling_info());
-		
-		//Order order = new Order();
-		
-		//if(!isAnonymous){
-		//	User user = userService.findByUsername(principal.getName());
-		//	order.setUser(user);
-		//}
-		
-		//.setStatus("Created");
-		//Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-		//order.setOrder_date(currentDate);
-		//order.setShippingInfo(orderDetails.getShipping_info());
-		//order.setBillingInfo(orderDetails.getBilling_info());
-		
-		//orderService.saveOrder(order);
-		
-		return new ResponseEntity<>( HttpStatus.CREATED);
+		return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

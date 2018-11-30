@@ -5,7 +5,7 @@ import springeshop.model.Order;
 
 public interface OrderService {
 
-	void saveOrder(Order order);
+	boolean saveOrderAndIsSuccess(Order order);
 	List<Order> findUserOrders(int userid);
 	
 }

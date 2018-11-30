@@ -59,15 +59,15 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		Product product = productService.findById(cartProduct.getProductid());
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(product == null){
-			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(cartProduct.getQuantity() < 0){
-			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
 		}
 		
 		CartPrimaryKey cartProductCompositeId = new CartPrimaryKey(cartProduct.getUserid(), cartProduct.getProductid());
@@ -101,7 +101,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		User user = userService.findById(userid);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		List<Cart> products = cartService.findUserCartProducts(userid);
@@ -109,7 +109,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		
 		if(products == null){
 			logger.error("No products found.");
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		for(Cart cart : products){
@@ -136,7 +136,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		User user = userService.findById(userid);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		List<Cart> products = cartService.findUserCartProducts(userid);
@@ -168,11 +168,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		Product product = productService.findById(prodId);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(!cartService.doesUserCartRowExist(usrId, prodId)){
-			return new ResponseEntity(new ErrorMessage("Product does not exist"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ErrorMessage("Product does not exist"), HttpStatus.NOT_FOUND);
 		}
 		
 		Cart cartRow = cartService.findUserCartRow(usrId, prodId);
@@ -185,7 +185,7 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		cartProduct.setQuantity(cartRow.getQuantity());
 		cartProduct.setPrice(cartRow.getProduct().getPrice());
 		
-		return new ResponseEntity(cartProduct, HttpStatus.OK);
+		return new ResponseEntity<CartProduct>(cartProduct, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.DELETE)
@@ -199,18 +199,18 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		Product product = productService.findById(prodId);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("Unable to delete. User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to delete. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(!cartService.doesUserCartRowExist(usrId, prodId)){
-			return new ResponseEntity(new ErrorMessage("Unable to delete. Product does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to delete. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(cartService.deleteUserCartRowAndIsSuccess(usrId, prodId)){
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
-		return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(value = "/carts/{userid}/products/{productid}", method = RequestMethod.PATCH)
@@ -224,15 +224,15 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		Product product = productService.findById(prodId);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(product == null){
-			return new ResponseEntity(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Product does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(cartProduct.getQuantity() < 0){
-			return new ResponseEntity(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Quantity cannot be negative"), HttpStatus.BAD_REQUEST);
 		}
 		
 		int oldQuantity = cartService.findUserCartRow(usrId, prodId).getQuantity();
@@ -254,11 +254,11 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		User user = userService.findById(usrId);
 		
 		if(user == null){
-			return new ResponseEntity(new ErrorMessage("Unable to delete. User does not exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to delete. User does not exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(cartService.findUserCartProducts(usrId).isEmpty()){
-			return new ResponseEntity(new ErrorMessage("Unable to delete. Cart is empty"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to delete. Cart is empty"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(cartService.deleteUserCartAndIsSuccess(usrId)){

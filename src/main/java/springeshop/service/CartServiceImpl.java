@@ -60,8 +60,18 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public void addProductToCart(Cart cartProduct) {
-		cartRepository.save(cartProduct);
+	public boolean addProductToCartAndIsSuccess(Cart cartProduct) {
+        boolean isSuccess = false;
+		
+		try {
+			cartRepository.save(cartProduct);
+			isSuccess = true;
+		} catch (DataAccessException exception) {
+			System.out.println(exception);
+			isSuccess = false;
+		}
+		
+		return isSuccess;
 	}
 	
 	@Override

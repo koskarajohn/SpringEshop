@@ -79,22 +79,20 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		cartRow.setProduct(product);
 		cartRow.setQuantity(cartProduct.getQuantity());
 		cartRow.setExpiration(expiration);
-		cartService.addProductToCart(cartRow);
 		
-		if(!cartService.doesUserCartRowExist(cartProduct.getUserid(), cartProduct.getProductid()))
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		CartProduct cartProductCreated = new CartProduct();
-		cartProductCreated.setUserid(cartRow.getId().getUserId());
-		cartProductCreated.setProductid(cartRow.getId().getProductId());
-		cartProductCreated.setName(cartRow.getProduct().getName());
-		cartProductCreated.setBrand(cartRow.getProduct().getBrand().getName());
-		cartProductCreated.setQuantity(cartRow.getQuantity());
-		cartProductCreated.setPrice(cartRow.getProduct().getPrice());
-		
-		return new ResponseEntity<>(cartProductCreated, HttpStatus.CREATED);
-		
-		
+		if(cartService.addProductToCartAndIsSuccess(cartRow)){
+			CartProduct cartProductCreated = new CartProduct();
+			cartProductCreated.setUserid(cartRow.getId().getUserId());
+			cartProductCreated.setProductid(cartRow.getId().getProductId());
+			cartProductCreated.setName(cartRow.getProduct().getName());
+			cartProductCreated.setBrand(cartRow.getProduct().getBrand().getName());
+			cartProductCreated.setQuantity(cartRow.getQuantity());
+			cartProductCreated.setPrice(cartRow.getProduct().getPrice());
+			
+			return new ResponseEntity<>(cartProductCreated, HttpStatus.CREATED);
+		}
+				
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(value = "/carts/{userid}", method = RequestMethod.GET)

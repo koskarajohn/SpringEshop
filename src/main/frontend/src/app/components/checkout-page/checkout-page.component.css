@@ -32,7 +32,7 @@
 
   section.checkout div.billing-method{
     padding: 0.75rem;
-    border: 1px solid #dee2e6;
+    border: 1px solid #E0E0E0;
   }
 
   section.checkout div.billing-method span{
@@ -42,4 +42,44 @@
   section.checkout div.same-address{
     padding-top: 16px;
     padding-bottom: 16px;
+  }
+
+  section.checkout .summary div{
+    margin-bottom: 16px;
+  }
+
+  section.checkout .summary div span.title{
+    float: left;
+  }
+
+  section.checkout .summary div span.price{
+    float: right;
+  }
+
+  section.checkout .summary #total{
+    font-weight: 600;
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+
+  section.checkout .summary div::after{
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  section.checkout h5{
+    text-align: center;
+    padding: 12px;
+    margin-top: 24px;
+    margin-bottom: 0;
+    background-color: #E0E0E0;
+  }
+
+  section.checkout div.cart-item{
+    border: 1.5px solid #E0E0E0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 0 ;
+    margin-right : 0 ;
   }

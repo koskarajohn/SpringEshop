@@ -1,8 +1,8 @@
 /* --- Breadcrumbs --- */
 
 .breadcrumbs{
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 8px;
+    padding-bottom: 16px;
 }
 
  /* --- Checkout --- */
@@ -10,4 +10,36 @@
   section.checkout{
     margin-top: 16px;
     margin-bottom: 48px;
+  }
+
+  section.checkout .form-group input{
+    background:	#E0E0E0;
+  }
+
+  section.checkout table tbody tr td.radio-button{
+    padding-right: 0;
+  }
+
+  section.checkout table tbody tr td.shipping-price{
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  section.checkout table tbody tr td.shipping-method{
+    padding-left: 0;
+  }
+
+  section.checkout div.billing-method{
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+  }
+
+  section.checkout div.billing-method span{
+    padding-left: 24px;
+  }
+
+  section.checkout div.same-address{
+    padding-top: 16px;
+    padding-bottom: 16px;
   }

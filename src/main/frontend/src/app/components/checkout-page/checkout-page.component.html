@@ -12,12 +12,100 @@
 <section  class="checkout">
 <div class="container">
   <h1 class="text-center">Ολοκλήρωση Αγοράς</h1>
-  <div class="row">
+  <div class="row mt-5">
+    <div class="col-sm-8">
+        <h4>Email</h4>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <h4 class="mt-4 mb-3">Διεύθυνση αποστολής</h4>
+
+        <div class="form-group">
+            <label>Όνομα</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+            <label>Επίθετο</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+            <label>Διεύθυνση</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+            <label>Ταχυδρομικός κώδικας</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+            <label>Τηλέφωνο</label>
+            <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <h4 class="mt-4 mb-3">Μέθοδοι αποστολής</h4>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td class="radio-button"><input type="radio" name="gender"></td>
+                    <td class="shipping-price">2,00E</td>
+                    <td class="shipping-method">Courier</td>
+                </tr>
+                <tr>
+                    <td class="radio-button"><input type="radio" name="gender" ></td>
+                    <td class="shipping-price">0,00E</td>
+                    <td class="shipping-method">Παραλαβή από το κατάστημα</td>
+                </tr>
+            </tbody>
+       </table> 
+       
+       <h4 class="mt-4 mb-3">Μέθοδοι πληρωμής</h4>
+
+       <div class="billing-method"><input type="radio" checked="checked"><span>Αντικαταβολή</span></div>
+
+       <h4 class="mt-4 mb-3">Διεύθυνση πληρωμής</h4>
+
+       <div class="same-address"><input type="checkbox" [checked] = "isSameAddressChecked" (change)="isSameAddressChecked = !isSameAddressChecked"> Η διεύθυνση πληρωμής είναι ίδια με την διεύθυνση αποστολής</div>
+
+       <section *ngIf="!isSameAddressChecked" class="billing-address">
+        <div class="form-group">
+          <label>Όνομα</label>
+          <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+          <label>Επίθετο</label>
+          <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+          <label>Διεύθυνση</label>
+          <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+          <label>Ταχυδρομικός κώδικας</label>
+           <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+
+        <div class="form-group">
+          <label>Τηλέφωνο</label>
+          <input type="text" name="username" class="form-control" required minlength="2">
+        </div>
+      </section>
+
+    </div>
+    <div class="col-sm-4">
       
+    </div>
   </div>
 </div>  
 </section>
 
-<my-footer></my-footer><p>
-  checkout-page works!
-</p>
+<my-footer></my-footer>

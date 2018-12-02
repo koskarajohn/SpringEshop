@@ -28,14 +28,10 @@ public class BillingInfo {
 	@Size(min = 2, max = 200, message = "Last name must be between 2 and 200 characters")
 	private String last_name;
 	
-	@Column(name = "street_name")
+	@Column(name = "street")
 	@NotNull(message = "Please provide street name")
 	@Size(min = 2, max = 200, message = "Stret name must be between 2 and 200 characters")
-	private String street_name;
-	
-	@Column(name = "street_number")
-	@NotNull(message = "Please provide street number")
-	private String street_number;
+	private String street;
 	
 	@Column(name = "post_code")
 	@NotNull(message = "Please provide post code")
@@ -45,11 +41,6 @@ public class BillingInfo {
 	@NotNull(message = "Please provide city")
 	@Size(min = 2, max = 200, message = "City must be between 2 and 200 characters")
 	private String city;
-	
-	@Column(name = "country")
-	@NotNull(message = "Please provide country")
-	@Size(min = 2, max = 200, message = "Country must be between 2 and 200 characters")
-	private String country;
 	
 	@Column(name = "phone")
 	@NotNull(message = "Please provide phone")
@@ -83,20 +74,12 @@ public class BillingInfo {
 		this.last_name = last_name;
 	}
 
-	public String getStreet_name() {
-		return street_name;
+	public String getStreet() {
+		return street;
 	}
 
-	public void setStreet_name(String street_name) {
-		this.street_name = street_name;
-	}
-
-	public String getStreet_number() {
-		return street_number;
-	}
-
-	public void setStreet_number(String street_number) {
-		this.street_number = street_number;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public String getPost_code() {
@@ -113,14 +96,6 @@ public class BillingInfo {
 
 	public void setCity(String city) {
 		this.city = city;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 	public String getPhone() {

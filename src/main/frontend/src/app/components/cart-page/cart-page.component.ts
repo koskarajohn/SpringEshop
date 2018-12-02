@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CartProduct } from 'src/app/models/cartProduct';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './cart-page.component.html',
   styleUrls: ['./cart-page.component.css']
 })
-export class CartPageComponent implements OnInit {
+export class CartPageComponent implements OnInit, OnDestroy {
 
   cartProducts : CartProduct[];
   httpSubscription : Subscription;
@@ -95,6 +95,10 @@ export class CartPageComponent implements OnInit {
 
   navigateToCheckout() : void{
     this.router.navigate(['/checkout']);
+  }
+
+  ngOnDestroy(): void {
+    if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
   }
 
 }

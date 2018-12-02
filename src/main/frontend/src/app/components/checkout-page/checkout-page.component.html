@@ -54,13 +54,13 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="radio-button"><input type="radio" name="gender"></td>
-                    <td class="shipping-price">2,00E</td>
+                    <td class="radio-button"><input type="radio" name="shipping-cost" [checked] ="isCourierChecked" (change)="changeShippingCost()"></td>
+                    <td class="shipping-price">2€</td>
                     <td class="shipping-method">Courier</td>
                 </tr>
                 <tr>
-                    <td class="radio-button"><input type="radio" name="gender" ></td>
-                    <td class="shipping-price">0,00E</td>
+                    <td class="radio-button"><input type="radio" name="shipping-cost" [checked] ="!isCourierChecked" (change)="changeShippingCost()"></td>
+                    <td class="shipping-price">0€</td>
                     <td class="shipping-method">Παραλαβή από το κατάστημα</td>
                 </tr>
             </tbody>
@@ -107,30 +107,22 @@
         <h4 class="text-center">Περίληψη Παραγγελίας</h4>
 
         <div class="summary mt-4">
-            <div><span class="title ">Υποσύνολο</span> <span class="price">35.5€</span></div>
-            <div><span class="title">Μεταφορικά</span> <span class="price">5€</span></div>
+            <div><span class="title ">Υποσύνολο</span> <span class="price">{{getTotalCartPrice()}}€</span></div>
+            <div><span class="title">Μεταφορικά</span> <span class="price">{{shippingCost}}€</span></div>
             <div id="total"><span class="title">Συνολο</span> <span class="price">40.5€</span></div>
         </div>
         <button class="btn btn-block btn-primary mt-2">Ολοκλήρωση αγοράς</button>
 
         <h5>Καλάθι</h5>
 
-        <div class="row cart-item">
+        <div *ngFor="let cartProduct of cartProducts" class="row cart-item">
             <div class="col-sm-4">
+                <img class="d-block mx-auto" src="{{cartProduct?.imageUrl}}" alt="img"/>
             </div>
             <div class="col-sm-8">
-                <div>Super Nutrition - Simply One 50+ Men Triple Power Multivitamins - 90 Tablets</div>
-                <div>30,77 €</div>
-                <div>Qty: 1</div>
-            </div>
-        </div>
-        <div class="row cart-item">
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-8">
-                <div>Super Nutrition - Simply One 50+ Men Triple Power Multivitamins - 90 Tablets</div>
-                <div>30,77 €</div>
-                <div>Qty: 1</div>
+                <div class="product-name">{{cartProduct?.name}}</div>
+                <div class="product-price">{{cartProduct?.price}} €</div>
+                <div class="product-quantity">Ποσότητα : <span>{{cartProduct?.quantity}}</span></div>
             </div>
         </div>
     </div>

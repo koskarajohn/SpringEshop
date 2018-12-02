@@ -83,3 +83,19 @@
     margin-left: 0 ;
     margin-right : 0 ;
   }
+
+  section.checkout div.cart-item div.product-name{
+    font-weight: 300;
+    font-size: 18px;
+  }
+
+  section.checkout div.cart-item div.product-price{
+    font-weight: 600;
+  }
+
+  section.checkout div.cart-item div.product-quantity span{
+    font-weight: 600;
+  }
+
+  
+

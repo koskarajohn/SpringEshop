@@ -14,6 +14,8 @@ public class OrderDetails {
 	@Valid
 	private BillingInfo billing_info;
 	
+	private boolean isBillingAddressSameWithShippingAddress;
+	
 	public OrderDetails(){
 		
 	}
@@ -40,6 +42,14 @@ public class OrderDetails {
 
 	public void setBilling_info(BillingInfo billing_info) {
 		this.billing_info = billing_info;
+	}
+
+	public boolean isBillingAddressSameWithShippingAddress() {
+		return isBillingAddressSameWithShippingAddress;
+	}
+
+	public void setBillingAddressSameWithShippingAddress(boolean isBillingAddressSameWithShippingAddress) {
+		this.isBillingAddressSameWithShippingAddress = isBillingAddressSameWithShippingAddress;
 	}
 	
 		

@@ -3,6 +3,9 @@ import { CartProduct } from 'src/app/models/cartProduct';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartService } from 'src/app/services/cart.service';
 import { Subscription } from 'rxjs';
+import { ShippingInfo } from 'src/app/models/shippingInfo';
+import { BillingInfo } from 'src/app/models/billingInfo';
+import { OrderDetails } from 'src/app/models/orderDetails';
 
 @Component({
   selector: 'checkout-page',
@@ -10,6 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./checkout-page.component.css']
 })
 export class CheckoutPageComponent implements OnInit, OnDestroy {
+
+  private orderDetails = {} as OrderDetails;
 
   private isSameAddressChecked = true;
   private isCourierChecked = true;
@@ -22,6 +27,8 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   constructor(private authenticationService : AuthenticationService, private cartService : CartService) { }
 
   ngOnInit() {
+    this.orderDetails.isShippingAddressSameWithBillingAddress = true;
+
     this.shippingCost = this.isCourierChecked ? 2 : 0;
     this.cartProducts = [];
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
@@ -33,8 +40,8 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
+  onSubmit(): void {
+    console.log('submitted');
   }
 
   getTotalCartPrice() : number{
@@ -44,11 +51,15 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
         totalPrice += product.price * product.quantity
       });
     }
-    return totalPrice + this.shippingCost;
+    return totalPrice;
   }
 
   changeShippingCost() : void{
     this.isCourierChecked = !this.isCourierChecked;
     this.shippingCost = this.isCourierChecked ? 2 : 0;
+  }
+
+  ngOnDestroy(): void {
+    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
   }
 }

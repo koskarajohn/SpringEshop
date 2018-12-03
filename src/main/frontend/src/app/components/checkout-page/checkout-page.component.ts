@@ -43,7 +43,21 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log('submitted');
+    this.orderDetails.cartProducts = this.cartProducts;
+    this.orderDetails.shippingInfo.method = this.isCourierChecked ? 'Courier' : 'Takeaway';
+    this.orderDetails.billingInfo.method =  'Cash On Delivery' ;
+    if(this.orderDetails.isShippingAddressSameWithBillingAddress)
+       this.copyShippingInfoToBillingInfo();
+    console.log(this.orderDetails);
+  }
+
+  copyShippingInfoToBillingInfo() : void{
+    this.orderDetails.billingInfo.first_name = this.orderDetails.shippingInfo.first_name;
+    this.orderDetails.billingInfo.last_name = this.orderDetails.shippingInfo.last_name;
+    this.orderDetails.billingInfo.street = this.orderDetails.shippingInfo.street;
+    this.orderDetails.billingInfo.post_code = this.orderDetails.shippingInfo.post_code;
+    this.orderDetails.billingInfo.city = this.orderDetails.shippingInfo.city;
+    this.orderDetails.billingInfo.phone= this.orderDetails.shippingInfo.phone;
   }
 
   getTotalCartPrice() : number{
@@ -59,6 +73,13 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   changeShippingCost() : void{
     this.isCourierChecked = !this.isCourierChecked;
     this.shippingCost = this.isCourierChecked ? 2 : 0;
+  }
+
+  changeisShippingAddressSameWithBillingAddress() : void{
+    this.orderDetails.isShippingAddressSameWithBillingAddress = !this.orderDetails.isShippingAddressSameWithBillingAddress;
+    if(!this.orderDetails.isShippingAddressSameWithBillingAddress){
+      this.orderDetails.billingInfo = {} as BillingInfo;
+    }
   }
 
   ngOnDestroy(): void {

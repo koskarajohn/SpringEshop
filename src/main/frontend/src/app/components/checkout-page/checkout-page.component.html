@@ -58,12 +58,20 @@
 
             <div class="form-group">
                <label>Ταχυδρομικός κώδικας</label>
-               <input type="text" name="postcode" class="form-control" [(ngModel)]="orderDetails.shippingInfo.post_code" #postcode="ngModel" [ngClass]="{'is-invalid' : f.submitted && postcode.invalid}" required>
+               <input type="number" name="postcode" class="form-control" [(ngModel)]="orderDetails.shippingInfo.post_code" #postcode="ngModel" [ngClass]="{'is-invalid' : f.submitted && postcode.invalid}" required>
                <div *ngIf="f.submitted && postcode.invalid" class="invalid-feedback">
-                <div *ngIf="postcode.errors.required">Πρέπει να συμπληρώσετε την διέυθυνση</div>
-                <div *ngIf="postcode.errors.minlength">Η διεύθυνση πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                 <div *ngIf="postcode.errors.required">Πρέπει να συμπληρώσετε τον ταχυδρομικό κώδικα</div>
               </div>
            </div>
+
+           <div class="form-group">
+               <label>Πόλη</label>
+               <input type="text" name="city" class="form-control" [(ngModel)]="orderDetails.shippingInfo.city" #city="ngModel" [ngClass]="{'is-invalid' : f.submitted && city.invalid}" required minlength="2">
+               <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+                <div *ngIf="city.errors.required">Πρέπει να συμπληρώσετε την πόλη</div>
+                <div *ngIf="city.errors.minlength">Η πόλη πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+              </div>
+            </div>
 
             <div class="form-group">
                <label>Τηλέφωνο</label>
@@ -71,7 +79,7 @@
                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                 <div *ngIf="phone.errors.required">Πρέπει να συμπληρώσετε το τηλέφωνο</div>
                 <div *ngIf="phone.errors.phone">Το τηλέφωνο πρέπει να έχει τη σωστή μορφή</div>
-            </div>
+               </div>
            </div>
 
            <h4 class="mt-4 mb-3">Μέθοδοι αποστολής</h4>
@@ -98,33 +106,61 @@
            <h4 class="mt-4 mb-3">Διεύθυνση πληρωμής</h4>
 
            <div class="same-address"><input type="checkbox" [checked] = "orderDetails.isShippingAddressSameWithBillingAddress" 
-            (change)="orderDetails.isShippingAddressSameWithBillingAddress = !orderDetails.isShippingAddressSameWithBillingAddress"> 
+            (change)="changeisShippingAddressSameWithBillingAddress()"> 
             Η διεύθυνση πληρωμής είναι ίδια με την διεύθυνση αποστολής</div>
 
             <section *ngIf="!orderDetails.isShippingAddressSameWithBillingAddress" class="billing-address">
                     <div class="form-group">
                       <label>Όνομα</label>
-                      <input type="text" name="username" class="form-control" required minlength="2">
+                      <input type="text" name="bfirstname" class="form-control" [(ngModel)]="orderDetails.billingInfo.first_name" #bfirstname="ngModel" [ngClass]="{'is-invalid' : f.submitted && bfirstname.invalid}" required minlength="2">
+                      <div *ngIf="f.submitted && bfirstname.invalid" class="invalid-feedback">
+                        <div *ngIf="bfirstname.errors.required">Πρέπει να συμπληρώσετε το όνομα</div>
+                        <div *ngIf="bfirstname.errors.minlength">Το όνομα πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                      </div>
                     </div>
             
                     <div class="form-group">
                       <label>Επίθετο</label>
-                      <input type="text" name="username" class="form-control" required minlength="2">
+                      <input type="text" name="blastname" class="form-control" [(ngModel)]="orderDetails.billingInfo.last_name" #blastname="ngModel" [ngClass]="{'is-invalid' : f.submitted && blastname.invalid}" required minlength="2">
+                      <div *ngIf="f.submitted && blastname.invalid" class="invalid-feedback">
+                        <div *ngIf="blastname.errors.required">Πρέπει να συμπληρώσετε το επίθετο</div>
+                        <div *ngIf="blastname.errors.minlength">Το επίθετο πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                      </div>
                     </div>
             
                     <div class="form-group">
                       <label>Διεύθυνση</label>
-                      <input type="text" name="username" class="form-control" required minlength="2">
+                      <input type="text" name="bstreet" class="form-control" [(ngModel)]="orderDetails.billingInfo.street" #bstreet="ngModel" [ngClass]="{'is-invalid' : f.submitted && bstreet.invalid}" required minlength="2">
+                      <div *ngIf="f.submitted && bstreet.invalid" class="invalid-feedback">
+                        <div *ngIf="bstreet.errors.required">Πρέπει να συμπληρώσετε την διέυθυνση</div>
+                        <div *ngIf="bstreet.errors.minlength">Η διεύθυνση πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                      </div>
                     </div>
             
                     <div class="form-group">
                       <label>Ταχυδρομικός κώδικας</label>
-                       <input type="text" name="username" class="form-control" required minlength="2">
+                       <input type="number" name="bpostcode" class="form-control" [(ngModel)]="orderDetails.billingInfo.post_code" #bpostcode="ngModel" [ngClass]="{'is-invalid' : f.submitted && bpostcode.invalid}" required>
+                       <div *ngIf="f.submitted && bpostcode.invalid" class="invalid-feedback">
+                        <div *ngIf="bpostcode.errors.required">Πρέπει να συμπληρώσετε τον ταχυδρομικό κώδικα</div>
+                      </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Πόλη</label>
+                        <input type="text" name="bcity" class="form-control" [(ngModel)]="orderDetails.billingInfo.city" #bcity="ngModel" [ngClass]="{'is-invalid' : f.submitted && bcity.invalid}" required minlength="2">
+                        <div *ngIf="f.submitted && bcity.invalid" class="invalid-feedback">
+                         <div *ngIf="bcity.errors.required">Πρέπει να συμπληρώσετε την πόλη</div>
+                         <div *ngIf="bcity.errors.minlength">Η πόλη πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
+                       </div>
+                     </div>
             
                     <div class="form-group">
                       <label>Τηλέφωνο</label>
-                      <input type="text" name="username" class="form-control" required minlength="2">
+                      <input type="number" name="bphone" class="form-control" [(ngModel)]="orderDetails.billingInfo.phone" #bphone="ngModel" [ngClass]="{'is-invalid' : f.submitted && bphone.invalid}" required tel>
+                      <div *ngIf="f.submitted && bphone.invalid" class="invalid-feedback">
+                        <div *ngIf="bphone.errors.required">Πρέπει να συμπληρώσετε το τηλέφωνο</div>
+                        <div *ngIf="bphone.errors.phone">Το τηλέφωνο πρέπει να έχει τη σωστή μορφή</div>
+                      </div>
                     </div>
             </section>
         </form>   

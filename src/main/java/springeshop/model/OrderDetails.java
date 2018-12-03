@@ -1,5 +1,7 @@
 package springeshop.model;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
@@ -15,6 +17,8 @@ public class OrderDetails {
 	private BillingInfo billing_info;
 	
 	private boolean isBillingAddressSameWithShippingAddress;
+	
+	private List<CartProduct> cartProducts;
 	
 	public OrderDetails(){
 		
@@ -50,6 +54,14 @@ public class OrderDetails {
 
 	public void setBillingAddressSameWithShippingAddress(boolean isBillingAddressSameWithShippingAddress) {
 		this.isBillingAddressSameWithShippingAddress = isBillingAddressSameWithShippingAddress;
+	}
+
+	public List<CartProduct> getCartProducts() {
+		return cartProducts;
+	}
+
+	public void setCartProducts(List<CartProduct> cartProducts) {
+		this.cartProducts = cartProducts;
 	}
 	
 		

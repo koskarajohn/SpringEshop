@@ -46,6 +46,10 @@ public class ShippingInfo {
 	@NotNull(message = "Please provide phone")
 	private String phone;
 	
+	@Column(name = "method")
+	@NotNull(message = "Please provide shipping method")
+	private String method;
+	
 	public ShippingInfo(){
 		
 	}
@@ -105,7 +109,13 @@ public class ShippingInfo {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
 	
 }

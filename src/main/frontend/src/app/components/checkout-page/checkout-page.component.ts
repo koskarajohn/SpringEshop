@@ -28,6 +28,8 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orderDetails.isShippingAddressSameWithBillingAddress = true;
+    this.orderDetails.shippingInfo = {} as ShippingInfo;
+    this.orderDetails.billingInfo = {} as BillingInfo;
 
     this.shippingCost = this.isCourierChecked ? 2 : 0;
     this.cartProducts = [];

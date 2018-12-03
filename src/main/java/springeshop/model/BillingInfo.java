@@ -46,6 +46,10 @@ public class BillingInfo {
 	@NotNull(message = "Please provide phone")
 	private String phone;
 	
+	@Column(name = "method")
+	@NotNull(message = "Please provide billing method")
+	private String method;
+	
 	public BillingInfo(){
 		
 	}
@@ -104,6 +108,14 @@ public class BillingInfo {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 	
 	

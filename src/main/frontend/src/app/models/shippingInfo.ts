@@ -5,4 +5,5 @@ export class ShippingInfo{
     post_code : string
     city : string
     phone : string
+    method : string
 }

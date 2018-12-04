@@ -21,6 +21,8 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   private isCourierChecked = true;
   private shippingCost : number;
   private cartProducts : CartProduct[];
+  private isAddOrderRequestDone : boolean = true;
+
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0; 
   private httpSubscription : Subscription; 
@@ -44,6 +46,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.isAddOrderRequestDone =  false;
     this.orderDetails.cartProducts = this.cartProducts;
     this.orderDetails.shipping_info.method = this.isCourierChecked ? 'Courier' : 'Takeaway';
     this.orderDetails.billing_info.method =  'Cash On Delivery' ;
@@ -51,8 +54,13 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
        this.copyShippingInfoToBillingInfo();
     
     this.checkoutService.addOrder(this.orderDetails).toPromise()
-                        .then(order => console.log(order))
-                        .catch(errorResponse => console.log(errorResponse));
+                        .then(order => {
+                          this.isAddOrderRequestDone =  true;
+                          console.log(order);
+                          })
+                        .catch(errorResponse => {
+                          console.log(errorResponse)
+                          this.isAddOrderRequestDone =  true;});
   }
 
   copyShippingInfoToBillingInfo() : void{

@@ -21,6 +21,7 @@ import { RatingComponent } from './components/rating/rating.component';
 import { FormsModule }   from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationStatusChangeInterceptor } from './interceptors/authenticationStatusChangeInterceptor';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AuthenticationStatusChangeInterceptor } from './interceptors/authentica
     ProductsCarouselComponent,
     CategorySidebarComponent,
     RatingComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

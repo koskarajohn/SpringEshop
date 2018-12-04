@@ -1,0 +1,42 @@
+/* --- Breadcrumbs --- */
+
+.breadcrumbs{
+    padding-top: 8px;
+    padding-bottom: 32px;
+}
+
+section.order .table-content{
+    margin-top: 32px;
+  }
+
+  section.order .table-responsive{
+    overflow-x: hidden;
+  }
+
+  section.order table tr, section.cart table tr{
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+  }
+
+  section.order table tr td{
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  section.order table td a.brand{
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom:8px;
+  }
+
+  section.order table td a.brand:hover, section.cart table td a.name:hover{
+    text-decoration-style: none;
+  }
+
+  section.order table td a.name{
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom:8px;
+  }

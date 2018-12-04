@@ -16,9 +16,18 @@ section.cart{
     margin-top: 64px;
   }
 
+  section.cart .table-responsive{
+    overflow-x: hidden;
+  }
+
   section.cart table tr td{
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+  }
+
+  section.cart table tr, section.cart table tr{
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
   }
 
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {

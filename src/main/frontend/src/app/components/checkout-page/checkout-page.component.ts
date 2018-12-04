@@ -7,6 +7,8 @@ import { ShippingInfo } from 'src/app/models/shippingInfo';
 import { BillingInfo } from 'src/app/models/billingInfo';
 import { OrderDetails } from 'src/app/models/orderDetails';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { Router } from '@angular/router';
+import { Order } from 'src/app/models/order';
 
 @Component({
   selector: 'checkout-page',
@@ -27,7 +29,8 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   private isLocalStorageEmpty : boolean = localStorage.length === 0; 
   private httpSubscription : Subscription; 
 
-  constructor(private authenticationService : AuthenticationService, private cartService : CartService, private checkoutService : CheckoutService) { }
+  constructor(private authenticationService : AuthenticationService, private cartService : CartService
+             , private checkoutService : CheckoutService, private router : Router) { }
 
   ngOnInit() {
     this.orderDetails.isShippingAddressSameWithBillingAddress = true;
@@ -56,7 +59,9 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
     this.checkoutService.addOrder(this.orderDetails).toPromise()
                         .then(order => {
                           this.isAddOrderRequestDone =  true;
-                          console.log(order);
+                          this.checkoutService.order = order;
+                          this.checkoutService.setOrderProducts(this.cartProducts);
+                          this.router.navigate(['/order', order.id]) ;
                           })
                         .catch(errorResponse => {
                           console.log(errorResponse)

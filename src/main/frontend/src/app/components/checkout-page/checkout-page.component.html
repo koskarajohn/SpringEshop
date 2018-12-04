@@ -14,7 +14,7 @@
   <h1 class="text-center">Ολοκλήρωση Αγοράς</h1>
 
   <div class="row mt-5">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <form (ngSubmit)="f.form.valid && onSubmit()" id="ngForm" #f="ngForm" novalidate>
             <h4>Email</h4>
 
@@ -167,7 +167,7 @@
 
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <h4 class="text-center">Περίληψη Παραγγελίας</h4>
 
         <div class="summary mt-4">
@@ -175,7 +175,7 @@
             <div><span class="title">Μεταφορικά</span> <span class="price">{{shippingCost}}€</span></div>
             <div id="total"><span class="title">Συνολο</span> <span class="price">{{getTotalCartPrice() + shippingCost}}€</span></div>
         </div>
-        <button class="btn btn-block btn-primary mt-2" form="ngForm">Ολοκλήρωση αγοράς</button>
+        <button class="btn btn-block btn-primary mt-2" form="ngForm" [disabled] = "!isAddOrderRequestDone" >Ολοκλήρωση αγοράς</button>
 
         <h5>Καλάθι</h5>
 

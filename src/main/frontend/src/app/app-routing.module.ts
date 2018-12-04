@@ -7,6 +7,7 @@ import { CheckoutPageComponent } from './components/checkout-page/checkout-page.
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { IndexPageComponent } from './components/index-page/index-page.component';
+import { OrderComponent } from './components/order/order.component';
 
 export const appRoutes: Routes = [
   { path: '', 
@@ -32,6 +33,10 @@ export const appRoutes: Routes = [
   {
     path: 'category/:name',
     component:CategoryPageComponent
+  },
+  {
+    path: 'order/:id',
+    component:OrderComponent
   },
   {
     path: 'product/:name',

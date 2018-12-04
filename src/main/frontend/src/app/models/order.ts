@@ -7,9 +7,9 @@ export class Order{
     user : User
     status : string
     email : string
-    order_date : Date
-    payment_date : Date  
-    shipping_date : Date
+    order_date : any
+    payment_date : any  
+    shipping_date : any
     shippingInfo : ShippingInfo
     billingInfo :  BillingInfo
 }

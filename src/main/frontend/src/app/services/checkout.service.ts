@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService {
+export class CheckoutService {
 
   private orderApiEndpoint = '/api/orders';
 

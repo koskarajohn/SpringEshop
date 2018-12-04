@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ShippingInfo } from 'src/app/models/shippingInfo';
 import { BillingInfo } from 'src/app/models/billingInfo';
 import { OrderDetails } from 'src/app/models/orderDetails';
+import { CheckoutService } from 'src/app/services/checkout.service';
 
 @Component({
   selector: 'checkout-page',
@@ -24,12 +25,12 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   private isLocalStorageEmpty : boolean = localStorage.length === 0; 
   private httpSubscription : Subscription; 
 
-  constructor(private authenticationService : AuthenticationService, private cartService : CartService) { }
+  constructor(private authenticationService : AuthenticationService, private cartService : CartService, private checkoutService : CheckoutService) { }
 
   ngOnInit() {
     this.orderDetails.isShippingAddressSameWithBillingAddress = true;
-    this.orderDetails.shippingInfo = {} as ShippingInfo;
-    this.orderDetails.billingInfo = {} as BillingInfo;
+    this.orderDetails.shipping_info = {} as ShippingInfo;
+    this.orderDetails.billing_info = {} as BillingInfo;
 
     this.shippingCost = this.isCourierChecked ? 2 : 0;
     this.cartProducts = [];
@@ -44,20 +45,23 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.orderDetails.cartProducts = this.cartProducts;
-    this.orderDetails.shippingInfo.method = this.isCourierChecked ? 'Courier' : 'Takeaway';
-    this.orderDetails.billingInfo.method =  'Cash On Delivery' ;
+    this.orderDetails.shipping_info.method = this.isCourierChecked ? 'Courier' : 'Takeaway';
+    this.orderDetails.billing_info.method =  'Cash On Delivery' ;
     if(this.orderDetails.isShippingAddressSameWithBillingAddress)
        this.copyShippingInfoToBillingInfo();
-    console.log(this.orderDetails);
+    
+    this.checkoutService.addOrder(this.orderDetails).toPromise()
+                        .then(order => console.log(order))
+                        .catch(errorResponse => console.log(errorResponse));
   }
 
   copyShippingInfoToBillingInfo() : void{
-    this.orderDetails.billingInfo.first_name = this.orderDetails.shippingInfo.first_name;
-    this.orderDetails.billingInfo.last_name = this.orderDetails.shippingInfo.last_name;
-    this.orderDetails.billingInfo.street = this.orderDetails.shippingInfo.street;
-    this.orderDetails.billingInfo.post_code = this.orderDetails.shippingInfo.post_code;
-    this.orderDetails.billingInfo.city = this.orderDetails.shippingInfo.city;
-    this.orderDetails.billingInfo.phone= this.orderDetails.shippingInfo.phone;
+    this.orderDetails.billing_info.first_name = this.orderDetails.shipping_info.first_name;
+    this.orderDetails.billing_info.last_name = this.orderDetails.shipping_info.last_name;
+    this.orderDetails.billing_info.street = this.orderDetails.shipping_info.street;
+    this.orderDetails.billing_info.post_code = this.orderDetails.shipping_info.post_code;
+    this.orderDetails.billing_info.city = this.orderDetails.shipping_info.city;
+    this.orderDetails.billing_info.phone= this.orderDetails.shipping_info.phone;
   }
 
   getTotalCartPrice() : number{
@@ -78,7 +82,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   changeisShippingAddressSameWithBillingAddress() : void{
     this.orderDetails.isShippingAddressSameWithBillingAddress = !this.orderDetails.isShippingAddressSameWithBillingAddress;
     if(!this.orderDetails.isShippingAddressSameWithBillingAddress){
-      this.orderDetails.billingInfo = {} as BillingInfo;
+      this.orderDetails.billing_info = {} as BillingInfo;
     }
   }
 

@@ -17,7 +17,7 @@ public class OrderProduct {
     private OrderProductPrimaryKey id;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@MapsId("userId")
+	@MapsId("orderId")
 	private Order order;
 	
 	@OneToOne(fetch = FetchType.LAZY)

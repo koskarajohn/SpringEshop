@@ -3,6 +3,8 @@ package springeshop.controller;
 import java.io.Console;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,12 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import springeshop.model.CartProduct;
 import springeshop.model.Order;
 import springeshop.model.OrderDetails;
+import springeshop.model.OrderProduct;
+import springeshop.model.OrderProductPrimaryKey;
 import springeshop.model.User;
 import springeshop.repositories.ShippingInfoRepository;
 import springeshop.service.BillingInfoService;
+import springeshop.service.OrderProductService;
 import springeshop.service.OrderService;
+import springeshop.service.ProductService;
 import springeshop.service.ShippingInfoService;
 import springeshop.service.UserService;
 import springeshop.util.ErrorMessage;
@@ -35,6 +42,12 @@ public class OrderApiController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private OrderProductService orderProductService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private UserService userService;
@@ -66,6 +79,7 @@ public class OrderApiController {
 				order.setUser(user);
 			}
 			
+			order.setEmail(orderDetails.getEmail());
 			order.setStatus("Created");
 			Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 			order.setOrder_date(currentDate);
@@ -73,7 +87,22 @@ public class OrderApiController {
 			order.setBillingInfo(orderDetails.getBilling_info());
 			
 			if(orderService.saveOrderAndIsSuccess(order)){
-				return new ResponseEntity<>( HttpStatus.CREATED);
+				
+				List<OrderProduct> orderProducts = new ArrayList<>();
+				for(CartProduct cartProduct : orderDetails.getCartProducts()){
+					OrderProduct orderProduct = new OrderProduct();
+					OrderProductPrimaryKey id = new OrderProductPrimaryKey(order.getId(), cartProduct.getProductid());
+					orderProduct.setId(id);
+					orderProduct.setOrder(order);
+					orderProduct.setProduct(productService.findById(cartProduct.getProductid()));
+					orderProduct.setQuantity(cartProduct.getQuantity());
+					orderProducts.add(orderProduct);
+				}
+					
+				if(orderProductService.saveOrderProducts(orderProducts)){
+					return new ResponseEntity<Order>(order,  HttpStatus.CREATED);
+				}
+				
 			}
 		}
 		

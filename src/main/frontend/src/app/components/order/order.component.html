@@ -17,7 +17,7 @@
     <p><strong>Αριθμός : </strong> {{order.id}}</p>
     <p><strong>Κατάσταση : </strong>{{order.status}}</p>
 
-    <div class="row table-content">
+    <div class="row order-products">
             <div class="col-12">
                     <div class="table-responsive">
                         <table class="table">
@@ -63,6 +63,33 @@
                     </div>
             </div>    
     </div>
+
+    <div class="row order-info">
+        <div class="col-sm-6 shipping-info">
+            <h3>Πληροφορίες αποστολής</h3>
+            <div>{{order.shippingInfo.first_name}} {{order.shippingInfo.last_name}}</div>
+            <div>{{order.shippingInfo.email}}</div>
+            <div>{{order.shippingInfo.street}}</div>
+            <div>{{order.shippingInfo.post_code}}</div>
+            <div>{{order.shippingInfo.city}}</div>
+            <div>{{order.shippingInfo.phone}}</div>
+            <div><strong>Μέθοδος αποστολής : </strong>{{order.shippingInfo.method}}</div>
+        </div>
+
+        <div class="col-sm-6 billing-info">
+            <h3>Πληροφορίες χρέωσης</h3>
+            <div>{{order.billingInfo.first_name}} {{order.billingInfo.last_name}}</div>
+            <div>{{order.billingInfo.email}}</div>
+            <div>{{order.billingInfo.street}}</div>
+            <div>{{order.billingInfo.post_code}}</div>
+            <div>{{order.billingInfo.city}}</div>
+            <div>{{order.billingInfo.phone}}</div>
+            <div><strong>Μέθοδος χρέωσης : </strong>{{order.billingInfo.method}}</div>
+        </div>
+
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="navigateToIndex()">Επιστροφή στην αρχική</button>
 </section>
 
 <my-footer></my-footer>

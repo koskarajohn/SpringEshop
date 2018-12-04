@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Order } from 'src/app/models/order';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { CartProduct } from 'src/app/models/cartProduct';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'order',
@@ -18,7 +19,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   private shippingCost : number;
   private routeSubscription : Subscription;
 
-  constructor(private checkoutService : CheckoutService) { }
+  constructor(private router : Router, private checkoutService : CheckoutService) { }
 
   ngOnInit() {
     this.order = this.checkoutService.getCurrentOrder();
@@ -47,5 +48,9 @@ export class OrderComponent implements OnInit, OnDestroy {
       });
     }
     return totalPrice + this.shippingCost;
+  }
+
+  navigateToIndex() : void{
+    this.router.navigate[''];
   }
 }

@@ -51,6 +51,6 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   navigateToIndex() : void{
-    this.router.navigate[''];
+    this.router.navigate(['/']);
   }
 }

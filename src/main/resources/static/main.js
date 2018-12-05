@@ -780,12 +780,24 @@ var CheckoutPageComponent = /** @class */ (function () {
             _this.isAddOrderRequestDone = true;
             _this.checkoutService.order = order;
             _this.checkoutService.setOrderProducts(_this.cartProducts);
+            _this.deleteUserCart();
             _this.router.navigate(['/order', order.id]);
         })
             .catch(function (errorResponse) {
             console.log(errorResponse);
             _this.isAddOrderRequestDone = true;
         });
+    };
+    CheckoutPageComponent.prototype.deleteUserCart = function () {
+        if (this.isUserLoggedIn) {
+            var userId = localStorage.getItem('userid');
+            this.cartService.deleteUserCart(Number(userId)).toPromise()
+                .then()
+                .catch(function (errorResponse) { return console.log(errorResponse); });
+        }
+        else {
+            this.cartService.updateAnonymousUserCart([]);
+        }
     };
     CheckoutPageComponent.prototype.copyShippingInfoToBillingInfo = function () {
         this.orderDetails.billing_info.first_name = this.orderDetails.shipping_info.first_name;
@@ -1359,7 +1371,7 @@ var NavigationBarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection.order .order-products{\r\n    margin-top: 32px;\r\n  }\r\n\r\nsection.order .table-responsive{\r\n    overflow-x: hidden;\r\n  }\r\n\r\nsection.order table tr, section.cart table tr{\r\n    border-left: 1px solid #dee2e6;\r\n    border-right: 1px solid #dee2e6;\r\n  }\r\n\r\nsection.order table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\nsection.order table td a.brand{\r\n    display: block;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.order table td a.brand:hover, section.cart table td a.name:hover{\r\n    -webkit-text-decoration-style: none;\r\n            text-decoration-style: none;\r\n  }\r\n\r\nsection.order table td a.name{\r\n    display: block;\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.order div.order-info{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n    margin-top : 8px;\r\n  }\r\n\r\nsection.order div.order-info h3{\r\n    margin-bottom: 16px;\r\n  }\r\n\r\nsection.order div.order-info div{\r\n    font-size: 18px;\r\n    font-weight: 300;\r\n  }\r\n\r\nsection.order div.shipping-info{\r\n    border-right: 1px solid black;\r\n  }\r\n\r\nsection.order button{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 32px;\r\n}\r\n\r\nsection.order .order-products{\r\n    margin-top: 32px;\r\n  }\r\n\r\nsection.order .table-responsive{\r\n    overflow-x: hidden;\r\n  }\r\n\r\nsection.order table tr, section.cart table tr{\r\n    border-left: 1px solid #dee2e6;\r\n    border-right: 1px solid #dee2e6;\r\n  }\r\n\r\nsection.order table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\nsection.order table td a.brand{\r\n    display: block;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.order table td a.brand:hover, section.cart table td a.name:hover{\r\n    -webkit-text-decoration-style: none;\r\n            text-decoration-style: none;\r\n  }\r\n\r\nsection.order table td a.name{\r\n    display: block;\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.order div.order-info{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n    margin-top : 8px;\r\n  }\r\n\r\nsection.order div.order-info h3{\r\n    margin-bottom: 16px;\r\n  }\r\n\r\nsection.order div.order-info div{\r\n    font-size: 18px;\r\n    font-weight: 300;\r\n  }\r\n\r\nsection.order div.shipping-info{\r\n    border-right: 1px solid black;\r\n  }\r\n\r\nsection.order button{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }"
 
 /***/ }),
 
@@ -1433,7 +1445,7 @@ var OrderComponent = /** @class */ (function () {
         return totalPrice + this.shippingCost;
     };
     OrderComponent.prototype.navigateToIndex = function () {
-        this.router.navigate[''];
+        this.router.navigate(['/']);
     };
     OrderComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

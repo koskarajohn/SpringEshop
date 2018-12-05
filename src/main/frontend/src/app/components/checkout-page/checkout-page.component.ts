@@ -61,6 +61,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
                           this.isAddOrderRequestDone =  true;
                           this.checkoutService.order = order;
                           this.checkoutService.setOrderProducts(this.cartProducts);
+                          this.deleteUserCart();
                           this.router.navigate(['/order', order.id]) ;
                           })
                         .catch(errorResponse => {
@@ -68,6 +69,16 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
                           this.isAddOrderRequestDone =  true;});
   }
 
+  deleteUserCart() {
+    if(this.isUserLoggedIn){
+      let userId = localStorage.getItem('userid');
+      this.cartService.deleteUserCart(Number(userId)).toPromise()
+                      .then()
+                      .catch(errorResponse => console.log(errorResponse));
+    }else{
+      this.cartService.updateAnonymousUserCart([]);
+    }
+  }
   copyShippingInfoToBillingInfo() : void{
     this.orderDetails.billing_info.first_name = this.orderDetails.shipping_info.first_name;
     this.orderDetails.billing_info.last_name = this.orderDetails.shipping_info.last_name;

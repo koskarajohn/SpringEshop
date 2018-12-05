@@ -18,9 +18,8 @@
         <div class="mb-5">
           <span class="mx-4">Προιόντα 1-10 από 40</span>
           <span>Κατάταξη ως προς:</span>
-          <select class="ml-2">
-            <option>Αύξουσα Τιμή</option>
-            <option>Φθίνουσα Τιμή</option>
+          <select class="ml-2" [(ngModel)]="selectedValue" (ngModelChange)="onOrderChange($event)">
+            <option *ngFor="let option of selectOptions;" [value]="option.value">{{option.name}}</option>
           </select>
         </div>
 

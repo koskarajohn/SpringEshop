@@ -465,7 +465,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\">\r\n            <option>Αύξουσα Τιμή</option>\r\n            <option>Φθίνουσα Τιμή</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -507,14 +507,25 @@ var CategoryPageComponent = /** @class */ (function () {
             fragrances: 'Αρώματα',
             shampoos: 'Σαμπουάν'
         };
+        this.selectOptions = [
+            {
+                name: 'Αύξουσα Τιμή',
+                value: 'asc'
+            },
+            {
+                name: 'Φθίνουσα Τιμή',
+                value: 'desc'
+            }
+        ];
     }
     CategoryPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.paramRouteSubscription = this.route.params.subscribe(function (params) {
+            _this.selectedValue = 'asc';
             _this.category = params['name'];
             _this.currentPage = _this.route.snapshot.queryParams['page'];
             _this.categoryTitle = params['name'] === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[params['name']];
-            _this.httpSubscription = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+            _this.httpSubscription = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue).subscribe(function (productPage) {
                 _this.pageNumbers = [];
                 _this.productPage = productPage;
                 _this.products = productPage.content;
@@ -528,12 +539,21 @@ var CategoryPageComponent = /** @class */ (function () {
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
             if (oldCategory === _this.category && _this.currentPage != oldPage) {
-                _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage).subscribe(function (productPage) {
+                _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue).subscribe(function (productPage) {
                     _this.productPage = productPage;
                     _this.products = productPage.content;
                 });
             }
         });
+    };
+    CategoryPageComponent.prototype.onOrderChange = function (order) {
+        var _this = this;
+        this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order).toPromise()
+            .then(function (productPage) {
+            _this.productPage = productPage;
+            _this.products = productPage.content;
+        })
+            .catch(function (errorResponse) { return console.log(errorResponse); });
     };
     CategoryPageComponent.prototype.initializePageNumberArray = function (pageNumbers, pageCount) {
         for (var i = 0; i < pageCount; i++) {
@@ -581,7 +601,7 @@ module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let currentBrand of numberOfProductsPerBrand\">\n        <input type=\"checkbox\" class=\"mr-2\">{{currentBrand?.brand}}\n        <span>({{currentBrand?.number}})</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\n      <input type=\"checkbox\" class=\"mr-2\">{{priceRange?.min}}€ - {{priceRange?.max}}€\n      <span>({{priceRange?.number}})</span>\n    </li>\n</ul>\n\n<h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n"
+module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let currentBrand of numberOfProductsPerBrand\">\n        <input type=\"checkbox\" class=\"mr-2\">{{currentBrand?.brand}}\n        <span>({{currentBrand?.number}})</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\n      <input type=\"checkbox\" class=\"mr-2\">{{priceRange?.min}}€ - {{priceRange?.max}}€\n      <span>({{priceRange?.number}})</span>\n    </li>\n</ul>\n\n<!-- <h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n-->\n"
 
 /***/ }),
 
@@ -2545,9 +2565,10 @@ var CategoryService = /** @class */ (function () {
         this.minParameter = "?min=";
         this.maxParameter = "&max=";
         this.pageParameter = "?page=";
+        this.orderParameter = "&order=";
     }
-    CategoryService.prototype.getCategoryProductsPage = function (category, page) {
-        return this.http.get(this.categoryProductsApi + category + this.pageParameter + page);
+    CategoryService.prototype.getCategoryProductsPage = function (category, page, order) {
+        return this.http.get(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
     };
     CategoryService.prototype.getCategoryBrands = function (category) {
         return this.http.get(this.categoryBrands + this.categoryParameter + category);

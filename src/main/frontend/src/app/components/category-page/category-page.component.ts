@@ -22,6 +22,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   queryParamRouteSubscription : Subscription;
   httpSubscription : Subscription;
   httpSubscription2 : Subscription;
+
   greekCategories = {
     vitamins : 'Βιταμίνες',
     minerals : 'Μέταλλα',
@@ -31,14 +32,28 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
     shampoos : 'Σαμπουάν'
   };
 
+  selectOptions = [
+    {
+      name : 'Αύξουσα Τιμή',
+      value : 'asc'
+    },
+    {
+      name : 'Φθίνουσα Τιμή',
+      value : 'desc'
+    }
+  ];
+
+  private selectedValue : string;
+
   constructor(private route : ActivatedRoute, private categoryService : CategoryService) { }
 
   ngOnInit() {
     this.paramRouteSubscription = this.route.params.subscribe(params => {
+      this.selectedValue = 'asc';
       this.category = params['name'];
       this.currentPage =  this.route.snapshot.queryParams['page'];
       this.categoryTitle = params['name'] === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[params['name']];
-      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage).subscribe(productPage => {
+      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;  
@@ -53,12 +68,21 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
       if(oldCategory === this.category && this.currentPage != oldPage){
-        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage).subscribe(productPage => {
+        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue).subscribe(productPage => {
           this.productPage = productPage;
           this.products = productPage.content; 
         });
       }
     });
+  }
+
+  onOrderChange(order : any){
+     this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order).toPromise()
+                         .then(productPage => {
+                            this.productPage = productPage;
+                            this.products = productPage.content; 
+                         })
+                         .catch(errorResponse => console.log(errorResponse));
   }
 
   initializePageNumberArray(pageNumbers : number[], pageCount : number) : void{

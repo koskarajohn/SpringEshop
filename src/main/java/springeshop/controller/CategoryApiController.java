@@ -53,7 +53,11 @@ public class CategoryApiController {
 	private ProductImageService productImageService;
 	
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = false) int page){
+	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = true) int page, 
+			@RequestParam(value = "order", required = true) String order){
+		
+		Page<Product> products;
+		
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
 		
@@ -62,7 +66,14 @@ public class CategoryApiController {
 			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		Page<Product> products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
+		if(order.equals("asc")){
+			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
+		}else if(order.equals("desc")){
+			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.DESC, "price"));
+		}else{
+			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
+		}
+		
 		
 		if(products == null){
 			logger.error("No products found.");
@@ -153,39 +164,6 @@ public class CategoryApiController {
 		headers.setLocation(ucBuilder.path("/api/categories/{id}").buildAndExpand(category.getId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
-	
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateCategory(@PathVariable("id") int id, @Valid @RequestBody Category category){
-		logger.info("Updating Category with id {}", id);
-		
-		Category currentCategory = categoryService.findById(id);
-		
-		if (currentCategory == null) {
-            logger.error("Unable to update. Category with id {} not found.", id);
-            return new ResponseEntity(new ErrorMessage("Unable to update. Category with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-		
-		currentCategory.setName(category.getName());
-		
-		categoryService.updateCategory(currentCategory);
-		return new ResponseEntity<Category>(currentCategory, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") int id) {
-        logger.info("Fetching & Deleting Category with id {}", id);
- 
-        Category category = categoryService.findById(id);
-        if (category == null) {
-            logger.error("Unable to delete. User with id {} not found.", id);
-            return new ResponseEntity(new ErrorMessage("Unable to delete. Category with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-        
-        categoryService.deleteCategoryById(id);
-        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
-    }
 	
 	
  }

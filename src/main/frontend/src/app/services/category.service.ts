@@ -21,11 +21,12 @@ export class CategoryService {
   private minParameter = "?min=";
   private maxParameter ="&max=";
   private pageParameter = "?page=";
+  private orderParameter = "&order=";
 
   constructor(private http : HttpClient) { }
 
-  getCategoryProductsPage(category : string, page : number) : Observable<ProductPage>{
-    return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page);
+  getCategoryProductsPage(category : string, page : number, order : string) : Observable<ProductPage>{
+    return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
   }
 
   getCategoryBrands(category : string) : Observable<Brand[]>{

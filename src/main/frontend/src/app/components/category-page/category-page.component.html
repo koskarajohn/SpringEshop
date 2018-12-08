@@ -12,7 +12,7 @@
   <h1>{{categoryTitle}}</h1>
   <div class="row category-content">
     <div class="col-md-3 sidebar">
-        <category-sidebar [category] = "category" [currentPage] = "currentPage"></category-sidebar>
+        <category-sidebar [category] = "category"></category-sidebar>
     </div>
     <div class="col-md-9">
         <div class="mb-5">
@@ -31,7 +31,7 @@
 
         <ul class="pagination">
             <li *ngFor="let page of pageNumbers; let i = index;" [ngClass] = " i == currentPage ? 'page-item active' : 'page-item'">
-              <a class="page-link" routerLink="/category/{{category}}" [queryParams]="{ page: i}">{{page}}</a>
+              <a class="page-link" routerLink="/category/{{category}}" [queryParams]="{ page: i , brand : brandParameters}">{{page}}</a>
             </li>
         </ul> 
     </div>

@@ -16,7 +16,6 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   
 
   @Input() category : string;
-  @Input() currentPage : number;
   categoryBrands : Brand[];
   numberOfProductsPerBrand: ProductsPerBrand[];
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
@@ -35,11 +34,8 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    if('category' in changes){
-      this.getBrands();
-      this.getPriceRanges(); 
-    }
-    
+    this.getBrands();
+    this.getPriceRanges(); 
   }
 
   getBrands() : void{
@@ -96,7 +92,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
 
-    this.router.navigate(['/category', this.category], {queryParams : { page : this.currentPage, brand : selectedBrands}});
+    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : selectedBrands}});
   }
 
 }

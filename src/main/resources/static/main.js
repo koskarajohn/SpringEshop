@@ -465,7 +465,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\" [currentPage] = \"currentPage\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , brand : brandParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -550,7 +550,7 @@ var CategoryPageComponent = /** @class */ (function () {
             }
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
-            if ((oldCategory === _this.category && _this.currentPage != oldPage) || (oldCategory === _this.category && _this.currentPage === oldPage && didBrandParametersChange)) {
+            if ((oldCategory === _this.category && _this.currentPage != oldPage) || (oldCategory === _this.category && didBrandParametersChange)) {
                 _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters).subscribe(function (productPage) {
                     _this.pageNumbers = [];
                     _this.productPage = productPage;
@@ -655,10 +655,8 @@ var CategorySidebarComponent = /** @class */ (function () {
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
     };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
-        if ('category' in changes) {
-            this.getBrands();
-            this.getPriceRanges();
-        }
+        this.getBrands();
+        this.getPriceRanges();
     };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
@@ -711,16 +709,12 @@ var CategorySidebarComponent = /** @class */ (function () {
         var selectedBrands = this.numberOfProductsPerBrand
             .filter(function (brandOption) { return brandOption.checked; })
             .map(function (brandOption) { return brandOption.brand; });
-        this.router.navigate(['/category', this.category], { queryParams: { page: this.currentPage, brand: selectedBrands } });
+        this.router.navigate(['/category', this.category], { queryParams: { page: 0, brand: selectedBrands } });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", String)
     ], CategorySidebarComponent.prototype, "category", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], CategorySidebarComponent.prototype, "currentPage", void 0);
     CategorySidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'category-sidebar',

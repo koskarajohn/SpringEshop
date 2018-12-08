@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Brand } from 'src/app/models/brand';
-import { Subscription } from 'rxjs';
 import { Rating } from 'src/app/models/rating';
 import { PriceRange } from 'src/app/models/priceRange';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductsPerBrand } from 'src/app/models/productsPerBrand';
 import { ProductsPerPriceRange } from 'src/app/models/productsPerPriceRange';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'category-sidebar',
@@ -16,16 +16,18 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   
 
   @Input() category : string;
+  @Input() currentPage : number;
   categoryBrands : Brand[];
   numberOfProductsPerBrand: ProductsPerBrand[];
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
   priceRanges : PriceRange[];
   ratings : Rating[];
 
-  constructor(private categoryService : CategoryService) { }
+  constructor(private categoryService : CategoryService, private router : Router) { }
 
   ngOnInit() {                            
     this.initializeRatings();
+    
   }
 
   ngOnDestroy(){
@@ -84,6 +86,14 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.priceRanges.push(tenToTwenty);
     this.priceRanges.push(TwentyToThirty);
     this.priceRanges.push(ThirtyToFifty);
+  }
+
+  onSelectedBrands() : void{
+    let selectedBrands = this.numberOfProductsPerBrand
+                             .filter(brandOption => brandOption.checked)
+                             .map(brandOption => brandOption.brand);
+
+    this.router.navigate(['/category', this.category], {queryParams : { page : this.currentPage, brand : selectedBrands}});
   }
 
 }

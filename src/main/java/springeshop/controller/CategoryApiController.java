@@ -1,13 +1,18 @@
 package springeshop.controller;
 
+import java.awt.print.Pageable;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import springeshop.model.Brand;
 import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
@@ -54,9 +60,12 @@ public class CategoryApiController {
 	
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = true) int page, 
-			@RequestParam(value = "order", required = true) String order){
+			@RequestParam(value = "order", required = false) String order, @RequestParam(value = "brand", required = false) String[] brands,
+			@RequestParam(value = "ranges", required = false) String[] ranges){
 		
 		Page<Product> products;
+		
+		Direction sortDirection = order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
@@ -66,15 +75,14 @@ public class CategoryApiController {
 			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		if(order.equals("asc")){
-			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
-		}else if(order.equals("desc")){
-			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.DESC, "price"));
+		if(brands == null){
+			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, sortDirection, "price"));
 		}else{
-			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, Sort.Direction.ASC, "price"));
+			List<Brand> brandList =  brandService.findSpecificBrands(brands);
+			return new ResponseEntity<>(productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, null, page, order), HttpStatus.OK);
 		}
 		
-		
+				
 		if(products == null){
 			logger.error("No products found.");
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -89,7 +97,7 @@ public class CategoryApiController {
 	        product.setQuantity(productQuantity);
 		}
 		
-		return new ResponseEntity<Page<Product>>(products, HttpStatus.OK);
+		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 	
 	private String getCorrectCategoryName(String categoryName){

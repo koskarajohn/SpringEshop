@@ -1,16 +1,27 @@
 package springeshop.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import springeshop.model.Brand;
+import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
+import springeshop.model.ProductPage;
 import springeshop.repositories.ProductRepository;
 
 @Service("productService")
@@ -20,6 +31,9 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private EntityManager entityManager;
+	
 	@Override
 	public Product findById(int id) {
 		return productRepository.findById(id);
@@ -97,6 +111,40 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findNewProducts(pageable);
 	}
 
-	
+	@Override
+	public ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands , String[] priceRanges, int page, String order) {
+		ProductPage productPage = new ProductPage();
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	 
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    List<Predicate> predicateList = new ArrayList<>();
+	    
+	    Predicate categoryPredicate = criteriaBuilder.equal(productsRoot.get("category"), category);
+	    Order orderCriterion = order.equals("asc") ? criteriaBuilder.asc(productsRoot.get("price")) : criteriaBuilder.desc(productsRoot.get("price"));
+	    
+	    for(int i=0; i < brands.size(); i++){
+	    	predicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
+	    }
+	    
+	    Predicate[] brandsPredicateArray = new Predicate[predicateList.size()];
+	    predicateList.toArray(brandsPredicateArray);
+	    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
+	    
+	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate));
+	    criteriaQuery.orderBy(orderCriterion);
+	    
+	    int totalProducts = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    int startProductPosition = page * 6;
+	    productPage.setTotalElements(totalProducts);
+	    productPage.setTotalPages(getProductPages(totalProducts));
+	    productPage.setContent(entityManager.createQuery(criteriaQuery).setFirstResult(startProductPosition).setMaxResults(6).getResultList());
+	    return productPage;
+	}
+
+	private int getProductPages(int numberOfProducts){
+		return (int) Math.ceil(numberOfProducts / 6.0);
+	}
 
 }

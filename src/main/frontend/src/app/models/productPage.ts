@@ -7,6 +7,4 @@ export class ProductPage{
     number : number
     numberOfElements : number
     size : number
-    first : boolean
-    last : boolean
 }

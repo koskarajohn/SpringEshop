@@ -18,6 +18,8 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   products : Product[];
   productPage : ProductPage;
   pageNumbers : number[];
+  brandParameters = [] as string[];
+
   paramRouteSubscription : Subscription;
   queryParamRouteSubscription : Subscription;
   httpSubscription : Subscription;
@@ -49,11 +51,12 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.paramRouteSubscription = this.route.params.subscribe(params => {
+      this.brandParameters= [];
       this.selectedValue = 'asc';
       this.category = params['name'];
       this.currentPage =  this.route.snapshot.queryParams['page'];
       this.categoryTitle = params['name'] === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[params['name']];
-      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue).subscribe(productPage => {
+      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;  
@@ -64,11 +67,23 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
     this.queryParamRouteSubscription =  this.route.queryParams.subscribe(queryParams => {
       let oldCategory = this.category;
       let oldPage = this.currentPage;
+      let oldBrandParametersLength = this.brandParameters.length;
+      let newBrandParametersLength;
       this.currentPage = queryParams['page'];
+      if( queryParams['brand'] !== undefined){
+        this.brandParameters = queryParams['brand'];
+        newBrandParametersLength = this.brandParameters.length;
+      } 
+      let didBrandParametersChange = false;
+
+      if(newBrandParametersLength !== undefined){
+        didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
+      }
+      
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
-      if(oldCategory === this.category && this.currentPage != oldPage){
-        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue).subscribe(productPage => {
+      if( (oldCategory === this.category && this.currentPage != oldPage) || (oldCategory === this.category && this.currentPage === oldPage && didBrandParametersChange) ){
+        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters).subscribe(productPage => {
           this.productPage = productPage;
           this.products = productPage.content; 
         });
@@ -77,7 +92,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   }
 
   onOrderChange(order : any){
-     this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order).toPromise()
+     this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order, this.brandParameters).toPromise()
                          .then(productPage => {
                             this.productPage = productPage;
                             this.products = productPage.content; 

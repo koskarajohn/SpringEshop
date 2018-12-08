@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import springeshop.model.Brand;
+import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
+import springeshop.model.ProductPage;
 
 public interface ProductService {
 
@@ -20,6 +22,7 @@ public interface ProductService {
 	
 	ProductImage findByProductId(int id);
 	Page<Product> findByCategoryId(int id, Pageable pageable);
+	ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands, String[] priceRanges, int page, String order);
 	Page<Product> findFavoriteProducts(Pageable pageable);
     Page<Product> findNewProducts(Pageable pageable);
 	List<Brand> findCategoryBrands(int id);

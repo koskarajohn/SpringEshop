@@ -35,8 +35,11 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    this.getBrands();
-    this.getPriceRanges(); 
+    if('category' in changes){
+      this.getBrands();
+      this.getPriceRanges(); 
+    }
+    
   }
 
   getBrands() : void{

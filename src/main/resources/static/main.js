@@ -655,8 +655,10 @@ var CategorySidebarComponent = /** @class */ (function () {
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
     };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
-        this.getBrands();
-        this.getPriceRanges();
+        if ('category' in changes) {
+            this.getBrands();
+            this.getPriceRanges();
+        }
     };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;

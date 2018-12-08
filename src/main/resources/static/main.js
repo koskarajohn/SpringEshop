@@ -552,8 +552,10 @@ var CategoryPageComponent = /** @class */ (function () {
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
             if ((oldCategory === _this.category && _this.currentPage != oldPage) || (oldCategory === _this.category && _this.currentPage === oldPage && didBrandParametersChange)) {
                 _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters).subscribe(function (productPage) {
+                    _this.pageNumbers = [];
                     _this.productPage = productPage;
                     _this.products = productPage.content;
+                    _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
                 });
             }
         });
@@ -2587,13 +2589,22 @@ var CategoryService = /** @class */ (function () {
         this.countPath = "/count";
         this.categoryParameter = "?category=";
         this.brandParameter = "?brand=";
+        this.brandParameterAnd = '&brand=';
         this.minParameter = "?min=";
         this.maxParameter = "&max=";
         this.pageParameter = "?page=";
         this.orderParameter = "&order=";
     }
     CategoryService.prototype.getCategoryProductsPage = function (category, page, order, brandParameters) {
-        return this.http.get(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
+        var _this = this;
+        if (brandParameters.length === 0) {
+            return this.http.get(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
+        }
+        else {
+            var brandParamString_1 = '';
+            brandParameters.forEach(function (brand) { return brandParamString_1 = brandParamString_1 + _this.brandParameterAnd + brand; });
+            return this.http.get(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order + brandParamString_1);
+        }
     };
     CategoryService.prototype.getCategoryBrands = function (category) {
         return this.http.get(this.categoryBrands + this.categoryParameter + category);

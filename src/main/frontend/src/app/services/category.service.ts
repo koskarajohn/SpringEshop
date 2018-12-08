@@ -18,6 +18,7 @@ export class CategoryService {
   private countPath = "/count";
   private categoryParameter = "?category=";
   private brandParameter = "?brand=";
+  private brandParameterAnd = '&brand=';
   private minParameter = "?min=";
   private maxParameter ="&max=";
   private pageParameter = "?page=";
@@ -26,7 +27,14 @@ export class CategoryService {
   constructor(private http : HttpClient) { }
 
   getCategoryProductsPage(category : string, page : number, order : string, brandParameters : string[]) : Observable<ProductPage>{
-    return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
+    if(brandParameters.length === 0){
+      return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
+    }else{
+      let brandParamString = '';
+      brandParameters.forEach(brand => brandParamString = brandParamString + this.brandParameterAnd + brand);
+      return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order + brandParamString);
+    }
+    
   }
 
   getCategoryBrands(category : string) : Observable<Brand[]>{

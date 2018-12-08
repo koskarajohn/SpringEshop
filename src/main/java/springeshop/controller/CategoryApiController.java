@@ -1,5 +1,7 @@
 package springeshop.controller;
 
+import static org.assertj.core.api.Assertions.filter;
+
 import java.awt.print.Pageable;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import springeshop.model.Brand;
 import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
+import springeshop.model.ProductPage;
 import springeshop.model.ProductsPerBrand;
 import springeshop.model.ProductsPerPriceRange;
 import springeshop.service.BrandService;
@@ -64,7 +67,7 @@ public class CategoryApiController {
 			@RequestParam(value = "ranges", required = false) String[] ranges){
 		
 		Page<Product> products;
-		
+		ProductPage filteredProductPage = new ProductPage();
 		Direction sortDirection = order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		
 		logger.info("Fetching Category with name {}", name);
@@ -77,17 +80,32 @@ public class CategoryApiController {
 		
 		if(brands == null){
 			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, sortDirection, "price"));
+			addImagesAndQuantityToProducts(products.getContent());
+			
+			if(products == null){
+				logger.error("No products found.");
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			return new ResponseEntity<>(products, HttpStatus.OK);
+			
 		}else{
 			List<Brand> brandList =  brandService.findSpecificBrands(brands);
-			return new ResponseEntity<>(productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, null, page, order), HttpStatus.OK);
+			filteredProductPage = productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, null, page, order);
+			
+			if(filteredProductPage.getContent().isEmpty()){
+				logger.error("No products found.");
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			addImagesAndQuantityToProducts(filteredProductPage.getContent());
+			
+			return new ResponseEntity<>(filteredProductPage, HttpStatus.OK);
 		}
 		
-				
-		if(products == null){
-			logger.error("No products found.");
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		
+	}
+	
+	private void addImagesAndQuantityToProducts(List<Product> products){
 		for(Product product : products){
 			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
@@ -96,8 +114,6 @@ public class CategoryApiController {
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);
 		}
-		
-		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 	
 	private String getCorrectCategoryName(String categoryName){

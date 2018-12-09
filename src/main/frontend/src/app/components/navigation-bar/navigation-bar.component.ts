@@ -15,6 +15,8 @@ export class NavigationBarComponent implements OnInit{
   greekCategoryNames : string[ ] = ['Βιταμίνες','Μέταλλα','Ιχθυέλαια','Υπερτροφές','Αρώματα','Σαμπουάν'];
   englishCategoryNames : string[ ] = ['vitamins','minerals','fish-oils','superfoods','fragrances','shampoos'];
   pageParam : number = 0;
+  brandParams : string[] = [];
+  rangeParams : string[] = [];
   private cartProductCount : number = 0;
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  

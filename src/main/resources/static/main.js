@@ -536,6 +536,9 @@ var CategoryPageComponent = /** @class */ (function () {
                 _this.products = productPage.content;
                 _this.isGetCategoryProductsRequestDone = true;
                 _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
+            }, function (error) {
+                console.log(error);
+                _this.isGetCategoryProductsRequestDone = true;
             });
         });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
@@ -572,6 +575,9 @@ var CategoryPageComponent = /** @class */ (function () {
                     _this.products = productPage.content;
                     _this.isGetCategoryProductsRequestDone = true;
                     _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
+                }, function (error) {
+                    console.log(error);
+                    _this.isGetCategoryProductsRequestDone = true;
                 });
             }
         });
@@ -585,7 +591,10 @@ var CategoryPageComponent = /** @class */ (function () {
             _this.products = productPage.content;
             _this.isGetCategoryProductsRequestDone = true;
         })
-            .catch(function (errorResponse) { return console.log(errorResponse); });
+            .catch(function (errorResponse) {
+            console.log(errorResponse);
+            _this.isGetCategoryProductsRequestDone = true;
+        });
     };
     CategoryPageComponent.prototype.initializePageNumberArray = function (pageNumbers, pageCount) {
         for (var i = 0; i < pageCount; i++) {
@@ -672,11 +681,11 @@ var CategorySidebarComponent = /** @class */ (function () {
     CategorySidebarComponent.prototype.ngOnInit = function () {
         this.initializeRatings();
     };
-    CategorySidebarComponent.prototype.ngOnDestroy = function () {
-    };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
         this.getBrands();
         this.getPriceRanges();
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
     };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
@@ -695,7 +704,7 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.numberOfProductsPerPriceRange = [];
         this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
-            _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.rangeId > b.rangeId) ? 1 : ((b.rangeId > a.rangeId) ? 1 : 0); });
+            //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
         });
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {
@@ -732,6 +741,8 @@ var CategorySidebarComponent = /** @class */ (function () {
             .filter(function (priceRangeOption) { return priceRangeOption.checked; })
             .map(function (priceRangeOption) { return priceRangeOption.rangeId; });
         this.router.navigate(['/category', this.category], { queryParams: { page: 0, brand: this.selectedBrands, range: this.selectedPriceRanges } });
+    };
+    CategorySidebarComponent.prototype.ngOnDestroy = function () {
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1282,7 +1293,7 @@ module.exports = "/* --- First Navbar --- */\r\n\r\n#firstNavbar{\r\n    padding
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-lg\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">\r\n                           <i class=\"fas fa-search\"></i>\r\n                        </button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item user-info\">\r\n                  <div>Καλώς ήρθες,</div>\r\n                  <div class=\"username\">{{user}}</div>\r\n               </li>\r\n\r\n               <li class=\"nav-item\">\r\n                 <div class=\"row\">\r\n                    <div class=\"col-sm-3\">\r\n                        <a class=\"nav-link\" routerLink=\"/cart\">\r\n                          <i class=\"fas fa-shopping-cart\"></i>\r\n                        </a>\r\n                    </div>\r\n\r\n                    <div class=\"col-sm-9\">\r\n                        <div><a class=\"nav-link cart-name\" routerLink=\"/cart\">Καλάθι</a></div>\r\n                        <div class=\"cart-items\">{{cartProductCount}} προιόντα</div>\r\n                    </div>\r\n                </div>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item\">\r\n                 <a class=\"nav-link logout\" (click)=\"logout()\">Αποσύνδεση</a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\" [queryParams]=\"{ page: pageParam}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
+module.exports = "<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-lg\" id=\"firstNavbar\">\r\n  <div class=\"container\">\r\n      <a class=\"navbar-brand\" routerLink=\"/\"> <span>Super</span>Pharmacy</a>\r\n\r\n      <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\">\r\n           Menu<i class=\"fa fa-bars\"></i>\r\n      </button>\r\n\r\n      <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\r\n\r\n           <form class=\"form-inline mx-auto\">\r\n               <div class=\"input-group\">\r\n                   <input class=\"form-control\" type=\"text\" placeholder=\"\">\r\n                   <div class=\"input-group-append\">\r\n                       <button type=\"button\" class=\"btn btn-primary\">\r\n                           <i class=\"fas fa-search\"></i>\r\n                        </button>\r\n                   </div>\r\n               </div>    \r\n           </form>\r\n\r\n          <ul class=\"navbar-nav\">\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/register\">Εγγραφή</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"!isUserLoggedIn\" class=\"nav-item\">\r\n                   <a class=\"nav-link\" routerLink=\"/login\">Είσοδος</a>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item user-info\">\r\n                  <div>Καλώς ήρθες,</div>\r\n                  <div class=\"username\">{{user}}</div>\r\n               </li>\r\n\r\n               <li class=\"nav-item\">\r\n                 <div class=\"row\">\r\n                    <div class=\"col-sm-3\">\r\n                        <a class=\"nav-link\" routerLink=\"/cart\">\r\n                          <i class=\"fas fa-shopping-cart\"></i>\r\n                        </a>\r\n                    </div>\r\n\r\n                    <div class=\"col-sm-9\">\r\n                        <div><a class=\"nav-link cart-name\" routerLink=\"/cart\">Καλάθι</a></div>\r\n                        <div class=\"cart-items\">{{cartProductCount}} προιόντα</div>\r\n                    </div>\r\n                </div>\r\n               </li>\r\n\r\n               <li *ngIf=\"isUserLoggedIn\" class=\"nav-item\">\r\n                 <a class=\"nav-link logout\" (click)=\"logout()\">Αποσύνδεση</a>\r\n               </li>\r\n          </ul>\r\n      </div>\r\n  </div>\r\n</nav>\r\n\r\n<!-- Navigation -->\r\n<nav class=\"navbar navbar-expand-md\" id=\"secondNavbar\">\r\n  <div class=\"container\">\r\n      <ul class=\"navbar-nav mx-md-auto\">\r\n          <li *ngFor=\"let category of categories\" class=\"nav-item\">\r\n              <a class=\"nav-link\" routerLink=\"/category/{{category.englishName}}\" [queryParams]=\"{ page: pageParam, brand : brandParams, range : rangeParams}\">{{category.greekName}}</a>\r\n          </li>\r\n      </ul>\r\n  </div>\r\n</nav>\r\n"
 
 /***/ }),
 
@@ -1353,6 +1364,8 @@ var NavigationBarComponent = /** @class */ (function () {
         this.greekCategoryNames = ['Βιταμίνες', 'Μέταλλα', 'Ιχθυέλαια', 'Υπερτροφές', 'Αρώματα', 'Σαμπουάν'];
         this.englishCategoryNames = ['vitamins', 'minerals', 'fish-oils', 'superfoods', 'fragrances', 'shampoos'];
         this.pageParam = 0;
+        this.brandParams = [];
+        this.rangeParams = [];
         this.cartProductCount = 0;
         this.isUserLoggedIn = false;
         this.isLocalStorageEmpty = localStorage.length === 0;
@@ -2638,7 +2651,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["concatMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

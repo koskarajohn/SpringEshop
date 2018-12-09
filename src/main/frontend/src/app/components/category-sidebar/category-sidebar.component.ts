@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { ProductsPerBrand } from 'src/app/models/productsPerBrand';
 import { ProductsPerPriceRange } from 'src/app/models/productsPerPriceRange';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'category-sidebar',
@@ -24,20 +25,20 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   selectedBrands : string[] = [];
   selectedPriceRanges : number[] = [];
 
+  httpSubscription : Subscription;
+  httpSubscription2 : Subscription;
+
   constructor(private categoryService : CategoryService, private router : Router) { }
 
   ngOnInit() {                            
     this.initializeRatings();
-    
-  }
-
-  ngOnDestroy(){
-    
   }
 
   ngOnChanges(changes : SimpleChanges): void {
     this.getBrands();
     this.getPriceRanges(); 
+    this.selectedBrands = [];
+    this.selectedPriceRanges = [];
   }
 
   getBrands() : void{
@@ -56,7 +57,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.numberOfProductsPerPriceRange = [];
     this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
-      this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
+      //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
     });
   }
 
@@ -99,5 +100,9 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                              .map(priceRangeOption => priceRangeOption.rangeId);
 
     this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
+  }
+
+  ngOnDestroy(){
+    
   }
 }

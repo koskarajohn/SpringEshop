@@ -65,6 +65,10 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
         this.products = productPage.content;
         this.isGetCategoryProductsRequestDone = true;  
         this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
+      }, 
+      error => {
+        console.log(error);
+        this.isGetCategoryProductsRequestDone = true;
       });
     });
 
@@ -107,6 +111,10 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
           this.products = productPage.content; 
           this.isGetCategoryProductsRequestDone = true;
           this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
+        },
+        error => {
+          console.log(error);
+          this.isGetCategoryProductsRequestDone = true;
         });
       }
     });
@@ -120,7 +128,10 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
                             this.products = productPage.content; 
                             this.isGetCategoryProductsRequestDone = true;
                          })
-                         .catch(errorResponse => console.log(errorResponse));
+                         .catch(errorResponse => {
+                           console.log(errorResponse);
+                           this.isGetCategoryProductsRequestDone = true;
+                          });
   }
 
   initializePageNumberArray(pageNumbers : number[], pageCount : number) : void{

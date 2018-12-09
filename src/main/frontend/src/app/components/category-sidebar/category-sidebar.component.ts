@@ -47,7 +47,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
       this.categoryBrands = brands;
       this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands).subscribe(item => {
         this.numberOfProductsPerBrand.push(item);
-        this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
+        //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
       });
     });
   }
@@ -55,7 +55,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   getPriceRanges() : void{
     this.initializePriceRanges();
     this.numberOfProductsPerPriceRange = [];
-    this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
+    this.httpSubscription =  this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
       //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
     });
@@ -103,6 +103,6 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(){
-    
+    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
   }
 }

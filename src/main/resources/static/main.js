@@ -694,7 +694,7 @@ var CategorySidebarComponent = /** @class */ (function () {
             _this.categoryBrands = brands;
             _this.categoryService.getCategoryProductsNumberByBrand(_this.category, _this.categoryBrands).subscribe(function (item) {
                 _this.numberOfProductsPerBrand.push(item);
-                _this.numberOfProductsPerBrand.sort(function (a, b) { return (a.brand > b.brand) ? 1 : ((b.brand > a.brand) ? 1 : 0); });
+                //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
             });
         });
     };
@@ -2647,7 +2647,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByBrand = function (category, brands) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["concatMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;

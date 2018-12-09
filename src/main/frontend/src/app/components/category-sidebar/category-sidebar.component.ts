@@ -54,7 +54,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.numberOfProductsPerPriceRange = [];
     this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
-      this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.min > b.min) ? 1 : ( (b.min > a.min) ? 1 : 0);});
+      this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
     });
   }
 
@@ -73,14 +73,10 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     let tenToTwenty= {} as PriceRange;
     let TwentyToThirty= {} as PriceRange;
     let ThirtyToFifty= {} as PriceRange;
-    zeroToTen.min = 0;
-    zeroToTen.max = 10;
-    tenToTwenty.min = 10;
-    tenToTwenty.max = 20;
-    TwentyToThirty.min = 20;
-    TwentyToThirty.max = 30;
-    ThirtyToFifty.min = 30;
-    ThirtyToFifty.max = 50;
+    zeroToTen.id = 1;
+    tenToTwenty.id = 2 ;
+    TwentyToThirty.id = 3;
+    ThirtyToFifty.id = 4;
     this.priceRanges.push(zeroToTen);
     this.priceRanges.push(tenToTwenty);
     this.priceRanges.push(TwentyToThirty);

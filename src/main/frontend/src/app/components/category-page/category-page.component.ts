@@ -82,7 +82,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
-      if( (oldCategory === this.category && this.currentPage != oldPage) || (oldCategory === this.category && didBrandParametersChange) ){
+      if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange) ){
         this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters).subscribe(productPage => {
           this.pageNumbers = [];
           this.productPage = productPage;

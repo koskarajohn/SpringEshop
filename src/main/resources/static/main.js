@@ -550,7 +550,7 @@ var CategoryPageComponent = /** @class */ (function () {
             }
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
-            if ((oldCategory === _this.category && _this.currentPage != oldPage) || (oldCategory === _this.category && didBrandParametersChange)) {
+            if (oldCategory === _this.category && (_this.currentPage != oldPage || didBrandParametersChange)) {
                 _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters).subscribe(function (productPage) {
                     _this.pageNumbers = [];
                     _this.productPage = productPage;
@@ -615,7 +615,7 @@ module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h4 >Εταιρίες</h4>\n<ul class=\"list-group\">\n      <li class=\"list-group-item\" *ngFor=\"let currentBrand of numberOfProductsPerBrand\">\n        <input type=\"checkbox\" class=\"mr-2\" value=\"{{currentBrand?.brand}}\" [(ngModel)]=\"currentBrand.checked\" (change)=\"onSelectedBrands()\">{{currentBrand?.brand}}\n        <span>({{currentBrand?.number}})</span>\n      </li>\n</ul>\n\n<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\n      <input type=\"checkbox\" class=\"mr-2\">{{priceRange?.min}}€ - {{priceRange?.max}}€\n      <span>({{priceRange?.number}})</span>\n    </li>\n</ul>\n\n<!-- <h4>Αξιολογήσεις</h4>\n<ul class=\"list-group\">\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\n  </li>\n</ul>\n-->\n"
+module.exports = "<h4 >Εταιρίες</h4>\r\n<ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let currentBrand of numberOfProductsPerBrand\">\r\n        <input type=\"checkbox\" class=\"mr-2\" value=\"{{currentBrand?.brand}}\" [(ngModel)]=\"currentBrand.checked\" (change)=\"onSelectedBrands()\">{{currentBrand?.brand}}\r\n        <span>({{currentBrand?.number}})</span>\r\n      </li>\r\n</ul>\r\n\r\n<h4>Τιμή</h4>\r\n<ul class=\"list-group\">\r\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\r\n      <input type=\"checkbox\" class=\"mr-2\" value=\"{{priceRange?.rangeId}}\" [(ngModel)]=\"priceRange.checked\">{{priceRange?.min}}€ - {{priceRange?.max}}€\r\n      <span>({{priceRange?.number}})</span>\r\n    </li>\r\n</ul>\r\n\r\n<!-- <h4>Αξιολογήσεις</h4>\r\n<ul class=\"list-group\">\r\n  <li *ngFor=\"let currentRating of ratings\" class=\"list-group-item\">\r\n      <rating [uncheckedStars] = \"currentRating.uncheckedStars\"></rating>\r\n  </li>\r\n</ul>\r\n-->\r\n"
 
 /***/ }),
 
@@ -675,7 +675,7 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.numberOfProductsPerPriceRange = [];
         this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
-            _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.min > b.min) ? 1 : ((b.min > a.min) ? 1 : 0); });
+            _this.numberOfProductsPerPriceRange.sort(function (a, b) { return (a.rangeId > b.rangeId) ? 1 : ((b.rangeId > a.rangeId) ? 1 : 0); });
         });
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {
@@ -692,14 +692,10 @@ var CategorySidebarComponent = /** @class */ (function () {
         var tenToTwenty = {};
         var TwentyToThirty = {};
         var ThirtyToFifty = {};
-        zeroToTen.min = 0;
-        zeroToTen.max = 10;
-        tenToTwenty.min = 10;
-        tenToTwenty.max = 20;
-        TwentyToThirty.min = 20;
-        TwentyToThirty.max = 30;
-        ThirtyToFifty.min = 30;
-        ThirtyToFifty.max = 50;
+        zeroToTen.id = 1;
+        tenToTwenty.id = 2;
+        TwentyToThirty.id = 3;
+        ThirtyToFifty.id = 4;
         this.priceRanges.push(zeroToTen);
         this.priceRanges.push(tenToTwenty);
         this.priceRanges.push(TwentyToThirty);
@@ -2586,8 +2582,7 @@ var CategoryService = /** @class */ (function () {
         this.categoryParameter = "?category=";
         this.brandParameter = "?brand=";
         this.brandParameterAnd = '&brand=';
-        this.minParameter = "?min=";
-        this.maxParameter = "&max=";
+        this.rangeParameter = "?range=";
         this.pageParameter = "?page=";
         this.orderParameter = "&order=";
     }
@@ -2611,7 +2606,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.minParameter + range.min + _this.maxParameter + range.max); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["concatMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

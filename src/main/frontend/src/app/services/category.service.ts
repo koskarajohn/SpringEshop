@@ -19,8 +19,7 @@ export class CategoryService {
   private categoryParameter = "?category=";
   private brandParameter = "?brand=";
   private brandParameterAnd = '&brand=';
-  private minParameter = "?min=";
-  private maxParameter ="&max=";
+  private rangeParameter = "?range=";
   private pageParameter = "?page=";
   private orderParameter = "&order=";
 
@@ -46,6 +45,6 @@ export class CategoryService {
   }
 
   getCategoryProductsNumberByPriceRange(category : string, priceRanges : PriceRange[]) : Observable<ProductsPerPriceRange>{
-    return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.countPath + this.minParameter + range.min + this.maxParameter + range.max)));
+    return from(priceRanges).pipe(concatMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.countPath + this.rangeParameter + range.id)));
   }
 }

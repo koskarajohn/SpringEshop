@@ -38,6 +38,7 @@ import springeshop.service.CategoryService;
 import springeshop.service.InventoryService;
 import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
+import springeshop.util.Constants;
 import springeshop.util.ErrorMessage;
 
 @RestController
@@ -129,8 +130,7 @@ public class CategoryApiController {
 	
 	@RequestMapping(value = "/categories/{name}/count", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProductsNumber(@PathVariable("name") String name, @RequestParam(value = "brand", required = false) String brand,
-			                                           @RequestParam(value = "min", defaultValue = "-1", required = false) double min, 
-			                                           @RequestParam(value = "max", defaultValue = "-1", required = false) double max){
+			                                           @RequestParam(value = "range", defaultValue = "-1", required = false) int range){
 		
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
@@ -142,7 +142,7 @@ public class CategoryApiController {
 		
 		int productsNumber = 0;
 		
-		if(brand != null && min == -1.0 && max == -1.0){
+		if(brand != null &&  range == -1.0){
 			
 			if(!brandService.doesBrandExist(brand)){
 				logger.error("Unable to create. Brand with name {} does not  exist", brand);
@@ -156,21 +156,36 @@ public class CategoryApiController {
 			pNumber.setBrand(brand);
 			
 			return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
-		}else if(brand == null && min != -1 && max != -1){
-            productsNumber = productService.findNumberOfProductsWithinPriceRange(category.getId(), min, max);
+		}else if(brand == null && range != -1){
 			
 			ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();
-			ppNumber.setNumber(productsNumber);
-			ppNumber.setMin(min);
-			ppNumber.setMax(max);
+			setRangeProductsNumber(category.getId(), range, ppNumber);
 			
 			return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
 		}else{
 			  return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	private void setRangeProductsNumber(int categoryId,  int range, ProductsPerPriceRange ppNumber){
 		
-		
+		if(range == 1){
+			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_ZERO_TO_TEN[0], Constants.PRICE_RANGE_ZERO_TO_TEN[1], ppNumber);
+		}else if(range == 2){
+			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_TEN_TO_TWENTY[0], Constants.PRICE_RANGE_TEN_TO_TWENTY[1], ppNumber);
+		}else if(range == 3){
+			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_TWENTY_TO_THIRTY[0], Constants.PRICE_RANGE_TWENTY_TO_THIRTY[1], ppNumber);
+		}else if(range == 4){
+			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_THIRTY_TO_FIFTY[0], Constants.PRICE_RANGE_THIRTY_TO_FIFTY[1], ppNumber);
+		}
+	}
+	
+	private void setRangeObjectValues(int categoryId, int range, double min, double max, ProductsPerPriceRange ppNumber){
+		ppNumber.setNumber(productService.findNumberOfProductsWithinPriceRange(categoryId, min, max));
+		ppNumber.setMin(min);
+		ppNumber.setMax(max);
+		ppNumber.setRangeId(range);
 	}
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)

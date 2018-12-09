@@ -3,6 +3,7 @@ package springeshop.controller;
 import static org.assertj.core.api.Assertions.filter;
 
 import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -65,7 +66,7 @@ public class CategoryApiController {
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = true) int page, 
 			@RequestParam(value = "order", required = false) String order, @RequestParam(value = "brand", required = false) String[] brands,
-			@RequestParam(value = "ranges", required = false) String[] ranges){
+			@RequestParam(value = "range", required = false) String[] ranges){
 		
 		Page<Product> products;
 		ProductPage filteredProductPage = new ProductPage();
@@ -79,7 +80,7 @@ public class CategoryApiController {
 			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		if(brands == null){
+		if(brands == null && ranges == null){
 			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, sortDirection, "price"));
 			addImagesAndQuantityToProducts(products.getContent());
 			
@@ -91,8 +92,12 @@ public class CategoryApiController {
 			return new ResponseEntity<>(products, HttpStatus.OK);
 			
 		}else{
-			List<Brand> brandList =  brandService.findSpecificBrands(brands);
-			filteredProductPage = productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, null, page, order);
+			List<Brand> brandList = new ArrayList<>();
+			if(brands != null){
+				brandList = brandService.findSpecificBrands(brands);
+			}
+			
+			filteredProductPage = productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, ranges, page, order);
 			
 			if(filteredProductPage.getContent().isEmpty()){
 				logger.error("No products found.");

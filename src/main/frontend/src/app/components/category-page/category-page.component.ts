@@ -19,6 +19,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   productPage : ProductPage;
   pageNumbers : number[];
   brandParameters = [] as string[];
+  rangeParameters : string[] = [];
 
   paramRouteSubscription : Subscription;
   queryParamRouteSubscription : Subscription;
@@ -56,7 +57,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.category = params['name'];
       this.currentPage =  this.route.snapshot.queryParams['page'];
       this.categoryTitle = params['name'] === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[params['name']];
-      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters).subscribe(productPage => {
+      this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;  
@@ -67,9 +68,10 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
     this.queryParamRouteSubscription =  this.route.queryParams.subscribe(queryParams => {
       let oldCategory = this.category;
       let oldPage = this.currentPage;
+      this.currentPage = queryParams['page'];
+
       let oldBrandParametersLength = this.brandParameters.length;
       let newBrandParametersLength;
-      this.currentPage = queryParams['page'];
       if( queryParams['brand'] !== undefined){
         this.brandParameters = queryParams['brand'];
         newBrandParametersLength = this.brandParameters.length;
@@ -79,11 +81,23 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       if(newBrandParametersLength !== undefined){
         didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
       }
+
+      let oldRangeParametersLength = this.rangeParameters.length;
+      let newRangeParametersLength;
+      if( queryParams['range'] !== undefined){
+        this.rangeParameters = queryParams['range'];
+        newRangeParametersLength = this.rangeParameters.length;
+      } 
+      let didRangeParametersChange = false;
+
+      if(newRangeParametersLength !== undefined){
+        didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength  ? true : false;
+      }
       
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
-      if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange) ){
-        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters).subscribe(productPage => {
+      if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange) ){
+        this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
           this.pageNumbers = [];
           this.productPage = productPage;
           this.products = productPage.content; 
@@ -94,7 +108,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   }
 
   onOrderChange(order : any){
-     this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order, this.brandParameters).toPromise()
+     this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order, this.brandParameters, this.rangeParameters).toPromise()
                          .then(productPage => {
                             this.productPage = productPage;
                             this.products = productPage.content; 

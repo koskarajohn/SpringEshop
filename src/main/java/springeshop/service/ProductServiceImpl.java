@@ -23,6 +23,7 @@ import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.model.ProductPage;
 import springeshop.repositories.ProductRepository;
+import springeshop.util.Constants;
 
 @Service("productService")
 @Transactional
@@ -124,13 +125,21 @@ public class ProductServiceImpl implements ProductService{
 	    Predicate categoryPredicate = criteriaBuilder.equal(productsRoot.get("category"), category);
 	    Order orderCriterion = order.equals("asc") ? criteriaBuilder.asc(productsRoot.get("price")) : criteriaBuilder.desc(productsRoot.get("price"));
 	    
-	    for(int i=0; i < brands.size(); i++){
-	    	predicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
+	    if(!brands.isEmpty()){
+	    	for(int i=0; i < brands.size(); i++){
+		    	predicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
+		    }
 	    }
 	    
-	    Predicate[] brandsPredicateArray = new Predicate[predicateList.size()];
-	    predicateList.toArray(brandsPredicateArray);
-	    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
+	    if(priceRanges != null){
+	    	for(String range : priceRanges){
+	    		predicateList.add(criteriaBuilder.between(productsRoot.get("price"), getRangeMin(range), getRangeMax(range)));
+	    	}
+	    }
+	    
+	    Predicate[] brandsAndRangesPredicateArray = new Predicate[predicateList.size()];
+	    predicateList.toArray(brandsAndRangesPredicateArray);
+	    Predicate brandsPredicate = criteriaBuilder.or(brandsAndRangesPredicateArray);
 	    
 	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate));
 	    criteriaQuery.orderBy(orderCriterion);
@@ -141,6 +150,38 @@ public class ProductServiceImpl implements ProductService{
 	    productPage.setTotalPages(getProductPages(totalProducts));
 	    productPage.setContent(entityManager.createQuery(criteriaQuery).setFirstResult(startProductPosition).setMaxResults(6).getResultList());
 	    return productPage;
+	}
+	
+	private double getRangeMin(String range){
+		double min = 0.0;
+		
+		if(range.equals("1")){
+			min = Constants.PRICE_RANGE_ZERO_TO_TEN[0];
+		}else if(range.equals("2")){
+			min = Constants.PRICE_RANGE_TEN_TO_TWENTY[0];
+		}else if(range.equals("3")){
+			min = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[0];
+		}else if(range.equals("4")){
+			min = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[0];
+		}
+		
+		return min;
+	}
+	
+	private double getRangeMax(String range){
+		double max = 0.0;
+		
+		if(range.equals("1")){
+			max = Constants.PRICE_RANGE_ZERO_TO_TEN[1];
+		}else if(range.equals("2")){
+			max = Constants.PRICE_RANGE_TEN_TO_TWENTY[1];
+		}else if(range.equals("3")){
+			max = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[1];
+		}else if(range.equals("4")){
+			max = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[1];
+		}
+		
+		return max;
 	}
 
 	private int getProductPages(int numberOfProducts){

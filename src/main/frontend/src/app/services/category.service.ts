@@ -20,18 +20,28 @@ export class CategoryService {
   private brandParameter = "?brand=";
   private brandParameterAnd = '&brand=';
   private rangeParameter = "?range=";
+  private rangeParameterAnd = "&range=";
   private pageParameter = "?page=";
   private orderParameter = "&order=";
 
   constructor(private http : HttpClient) { }
 
-  getCategoryProductsPage(category : string, page : number, order : string, brandParameters : string[]) : Observable<ProductPage>{
-    if(brandParameters.length === 0){
+  getCategoryProductsPage(category : string, page : number, order : string, brandParameters : string[], rangeParameters : string[]) : Observable<ProductPage>{
+
+    if(brandParameters.length === 0 && rangeParameters.length === 0){
       return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order);
     }else{
-      let brandParamString = '';
-      brandParameters.forEach(brand => brandParamString = brandParamString + this.brandParameterAnd + brand);
-      return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order + brandParamString);
+      let paramString = '';
+
+      if(brandParameters.length > 0){
+        brandParameters.forEach(brand => paramString = paramString + this.brandParameterAnd + brand);
+      }
+
+      if(rangeParameters.length > 0){
+        rangeParameters.forEach(range => paramString = paramString + this.rangeParameterAnd + range);
+      }
+      
+      return this.http.get<ProductPage>(this.categoryProductsApi + category + this.pageParameter + page + this.orderParameter + order + paramString);
     }
     
   }

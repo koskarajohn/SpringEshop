@@ -31,7 +31,7 @@
 
         <ul class="pagination">
             <li *ngFor="let page of pageNumbers; let i = index;" [ngClass] = " i == currentPage ? 'page-item active' : 'page-item'">
-              <a class="page-link" routerLink="/category/{{category}}" [queryParams]="{ page: i , brand : brandParameters}">{{page}}</a>
+              <a class="page-link" routerLink="/category/{{category}}" [queryParams]="{ page: i , brand : brandParameters, range : rangeParameters}">{{page}}</a>
             </li>
         </ul> 
     </div>

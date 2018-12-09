@@ -1,7 +1,7 @@
 <h4 >Εταιρίες</h4>
 <ul class="list-group">
       <li class="list-group-item" *ngFor="let currentBrand of numberOfProductsPerBrand">
-        <input type="checkbox" class="mr-2" value="{{currentBrand?.brand}}" [(ngModel)]="currentBrand.checked" (change)="onSelectedBrands()">{{currentBrand?.brand}}
+        <input type="checkbox" class="mr-2" value="{{currentBrand?.brand}}" [(ngModel)]="currentBrand.checked" (change)="onSelectedBrand()">{{currentBrand?.brand}}
         <span>({{currentBrand?.number}})</span>
       </li>
 </ul>
@@ -9,7 +9,7 @@
 <h4>Τιμή</h4>
 <ul class="list-group">
     <li class="list-group-item"  *ngFor="let priceRange of numberOfProductsPerPriceRange">
-      <input type="checkbox" class="mr-2" value="{{priceRange?.rangeId}}" [(ngModel)]="priceRange.checked">{{priceRange?.min}}€ - {{priceRange?.max}}€
+      <input type="checkbox" class="mr-2" value="{{priceRange?.rangeId}}" [(ngModel)]="priceRange.checked" (change)="onSelectedPriceRange()" [disabled] = "priceRange?.number === 0">{{priceRange?.min}}€ - {{priceRange?.max}}€
       <span>({{priceRange?.number}})</span>
     </li>
 </ul>

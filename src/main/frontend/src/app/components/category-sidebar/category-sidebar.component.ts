@@ -21,6 +21,8 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
   priceRanges : PriceRange[];
   ratings : Rating[];
+  selectedBrands : string[] = [];
+  selectedPriceRanges : number[] = [];
 
   constructor(private categoryService : CategoryService, private router : Router) { }
 
@@ -83,12 +85,19 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.priceRanges.push(ThirtyToFifty);
   }
 
-  onSelectedBrands() : void{
-    let selectedBrands = this.numberOfProductsPerBrand
+  onSelectedBrand() : void{
+    this.selectedBrands = this.numberOfProductsPerBrand
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
 
-    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : selectedBrands}});
+    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
   }
 
+  onSelectedPriceRange() : void{
+    this.selectedPriceRanges = this.numberOfProductsPerPriceRange
+                             .filter(priceRangeOption => priceRangeOption.checked)
+                             .map(priceRangeOption => priceRangeOption.rangeId);
+
+    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
+  }
 }

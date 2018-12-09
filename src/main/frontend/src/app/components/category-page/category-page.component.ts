@@ -20,6 +20,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   pageNumbers : number[];
   brandParameters = [] as string[];
   rangeParameters : string[] = [];
+  isGetCategoryProductsRequestDone : boolean = true;
 
   paramRouteSubscription : Subscription;
   queryParamRouteSubscription : Subscription;
@@ -52,6 +53,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.paramRouteSubscription = this.route.params.subscribe(params => {
+      this.isGetCategoryProductsRequestDone = false;
       this.brandParameters= [];
       this.selectedValue = 'asc';
       this.category = params['name'];
@@ -60,12 +62,14 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
-        this.products = productPage.content;  
+        this.products = productPage.content;
+        this.isGetCategoryProductsRequestDone = true;  
         this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
       });
     });
 
     this.queryParamRouteSubscription =  this.route.queryParams.subscribe(queryParams => {
+      this.isGetCategoryProductsRequestDone = false;
       let oldCategory = this.category;
       let oldPage = this.currentPage;
       this.currentPage = queryParams['page'];
@@ -101,6 +105,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
           this.pageNumbers = [];
           this.productPage = productPage;
           this.products = productPage.content; 
+          this.isGetCategoryProductsRequestDone = true;
           this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
         });
       }
@@ -108,10 +113,12 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   }
 
   onOrderChange(order : any){
+    this.isGetCategoryProductsRequestDone = false;
      this.categoryService.getCategoryProductsPage(this.category, this.currentPage, order, this.brandParameters, this.rangeParameters).toPromise()
                          .then(productPage => {
                             this.productPage = productPage;
                             this.products = productPage.content; 
+                            this.isGetCategoryProductsRequestDone = true;
                          })
                          .catch(errorResponse => console.log(errorResponse));
   }

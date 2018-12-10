@@ -1,17 +1,13 @@
 package springeshop.configuration;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -47,11 +43,11 @@ public class RequestFilter extends OncePerRequestFilter{
 		Cookie cookie = new  Cookie("IS_AUTHENTICATED", isAuthenticated);
 		cookie.setMaxAge(3600000);
 		cookie.setPath("/");
-		cookie.setDomain("localhost");
+		//cookie.setDomain("localhost");
 		
 		//Heroku
-		//cookie.setDomain("springeshop.herokuapp.com");
-		//cookie.setSecure(true); 
+		cookie.setDomain("springeshop.herokuapp.com");
+		cookie.setSecure(true); 
 		
 		response.addCookie(cookie);
 	}
@@ -60,11 +56,11 @@ public class RequestFilter extends OncePerRequestFilter{
 			cookie.setValue(null);
 			cookie.setMaxAge(0);
 			cookie.setPath("/");
-			cookie.setDomain("localhost");
+			//cookie.setDomain("localhost");
 			
 			//Heroku
-			//cookie.setDomain("springeshop.herokuapp.com");
-			//cookie.setSecure(true);
+			cookie.setDomain("springeshop.herokuapp.com");
+			cookie.setSecure(true);
 			
 			response.addCookie(cookie);
 			createCookieIsAuthenticated(request, response);

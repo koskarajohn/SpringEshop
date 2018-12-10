@@ -712,13 +712,22 @@ var CategorySidebarComponent = /** @class */ (function () {
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
         this.numberOfProductsPerBrand = [];
-        this.categoryService.getCategoryBrands(this.category).subscribe(function (brands) {
+        this.categoryService.getCategoryBrands(this.category).toPromise()
+            .then(function (brands) {
             _this.categoryBrands = brands;
-            _this.categoryService.getCategoryProductsNumberByBrand(_this.category, _this.categoryBrands).subscribe(function (item) {
+            _this.httpSubscription2 = _this.categoryService.getCategoryProductsNumberByBrand(_this.category, _this.categoryBrands).subscribe(function (item) {
                 _this.numberOfProductsPerBrand.push(item);
                 //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
+                _this.numberOfProductsPerBrand.sort(function (a, b) {
+                    var aIndex = brands.findIndex(function (brand) { return brand.name === a.brand; });
+                    var bIndex = brands.findIndex(function (brand) { return brand.name === b.brand; });
+                    return aIndex - bIndex;
+                });
+            }, function (error) {
+                console.log(error);
             });
-        });
+        })
+            .catch(function (error) { return console.log(error); });
     };
     CategorySidebarComponent.prototype.getPriceRanges = function () {
         var _this = this;
@@ -726,7 +735,13 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.numberOfProductsPerPriceRange = [];
         this.httpSubscription = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
-            //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
+            _this.numberOfProductsPerPriceRange.sort(function (a, b) {
+                var aIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === a.rangeId; });
+                var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
+                return aIndex - bIndex;
+            });
+        }, function (error) {
+            console.log(error);
         });
     };
     CategorySidebarComponent.prototype.initializeRatings = function () {
@@ -751,6 +766,7 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.priceRanges.push(tenToTwenty);
         this.priceRanges.push(TwentyToThirty);
         this.priceRanges.push(ThirtyToFifty);
+        this.priceRanges.sort(function (a, b) { return a.id - b.id; });
     };
     CategorySidebarComponent.prototype.onSelectedBrand = function () {
         this.selectedBrands = this.numberOfProductsPerBrand
@@ -767,6 +783,8 @@ var CategorySidebarComponent = /** @class */ (function () {
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
         if (this.httpSubscription !== undefined)
             this.httpSubscription.unsubscribe();
+        if (this.httpSubscription2 !== undefined)
+            this.httpSubscription2.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -2675,7 +2693,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["concatMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

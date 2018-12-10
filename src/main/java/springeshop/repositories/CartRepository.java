@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import springeshop.model.Cart;
-import springeshop.model.Product;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer>{

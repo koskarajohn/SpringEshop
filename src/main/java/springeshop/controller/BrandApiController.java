@@ -45,9 +45,12 @@ public class BrandApiController {
 		}
 		
 		List<Brand> brands = productService.findCategoryBrands(requestedCategory.getId());
+		
 		if(brands.isEmpty()){
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
+		
+		brands.sort((Brand brand1, Brand brand2) -> brand1.getName().compareTo(brand2.getName()));
 		
 		return new ResponseEntity<List<Brand>>(brands, HttpStatus.OK);
 	}

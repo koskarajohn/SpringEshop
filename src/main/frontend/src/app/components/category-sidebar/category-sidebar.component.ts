@@ -48,13 +48,26 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
 
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
-    this.categoryService.getCategoryBrands(this.category).subscribe(brands => {
-      this.categoryBrands = brands;
-      this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands).subscribe(item => {
-        this.numberOfProductsPerBrand.push(item);
-        //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
-      });
-    });
+
+    this.categoryService.getCategoryBrands(this.category).toPromise()
+                        .then(brands => {
+                          this.categoryBrands = brands;
+                           this.httpSubscription2 = this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands).subscribe(item => {
+                            this.numberOfProductsPerBrand.push(item);
+                            //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
+                            this.numberOfProductsPerBrand.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
+                              const aIndex = brands.findIndex(brand => brand.name === a.brand);
+                              const bIndex = brands.findIndex(brand => brand.name === b.brand);
+                              return aIndex - bIndex;
+                           });
+                          }, 
+                          error => {
+                            console.log(error);
+                          });
+
+                        })
+                        .catch(error => console.log(error));
+
   }
 
   getPriceRanges() : void{
@@ -62,7 +75,14 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.numberOfProductsPerPriceRange = [];
     this.httpSubscription =  this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
-      //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
+      this.numberOfProductsPerPriceRange.sort((a: ProductsPerPriceRange, b: ProductsPerPriceRange) => {
+        const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
+        const bIndex = this.priceRanges.findIndex(priceRange => priceRange.id === b.rangeId);
+        return aIndex - bIndex;
+     });
+    },
+    error => {
+      console.log(error);
     });
   }
 
@@ -89,6 +109,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.priceRanges.push(tenToTwenty);
     this.priceRanges.push(TwentyToThirty);
     this.priceRanges.push(ThirtyToFifty);
+    this.priceRanges.sort( (a : PriceRange, b : PriceRange ) => a.id - b.id);
   }
 
   onSelectedBrand() : void{
@@ -109,5 +130,6 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(){
     if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
+    if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
   }
 }

@@ -7,6 +7,8 @@ public class ProductPage {
 	private List<Product> content;
 	private int totalElements;
 	private int totalPages;
+	private int number;
+	private int numberOfElements;
 	
 	public ProductPage(){
 		
@@ -35,6 +37,20 @@ public class ProductPage {
 	public void setTotalPages(int totalPages) {
 		this.totalPages = totalPages;
 	}
-	
-	
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public int getNumberOfElements() {
+		return numberOfElements;
+	}
+
+	public void setNumberOfElements(int numberOfElements) {
+		this.numberOfElements = numberOfElements;
+	}
 }

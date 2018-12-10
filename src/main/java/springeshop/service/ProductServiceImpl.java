@@ -148,7 +148,11 @@ public class ProductServiceImpl implements ProductService{
 	    int startProductPosition = page * 6;
 	    productPage.setTotalElements(totalProducts);
 	    productPage.setTotalPages(getProductPages(totalProducts));
-	    productPage.setContent(entityManager.createQuery(criteriaQuery).setFirstResult(startProductPosition).setMaxResults(6).getResultList());
+	    
+	    List<Product> wantedProducts = entityManager.createQuery(criteriaQuery).setFirstResult(startProductPosition).setMaxResults(6).getResultList();
+	    productPage.setContent(wantedProducts);
+	    productPage.setNumber(page);
+	    productPage.setNumberOfElements(wantedProducts.size());
 	    return productPage;
 	}
 	

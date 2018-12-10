@@ -465,7 +465,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα 1-10 από 40</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage.totalElements}}</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -536,6 +536,7 @@ var CategoryPageComponent = /** @class */ (function () {
                 _this.pageNumbers = [];
                 _this.productPage = productPage;
                 _this.products = productPage.content;
+                _this.setProductRange(_this.productPage.number, _this.productPage.numberOfElements);
                 _this.isGetCategoryProductsRequestDone = true;
                 _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
             }, function (error) {
@@ -578,6 +579,7 @@ var CategoryPageComponent = /** @class */ (function () {
                     _this.pageNumbers = [];
                     _this.productPage = productPage;
                     _this.products = productPage.content;
+                    _this.setProductRange(_this.productPage.number, _this.productPage.numberOfElements);
                     _this.isGetCategoryProductsRequestDone = true;
                     _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
                 }, function (error) {
@@ -605,6 +607,10 @@ var CategoryPageComponent = /** @class */ (function () {
         for (var i = 0; i < pageCount; i++) {
             pageNumbers[i] = i + 1;
         }
+    };
+    CategoryPageComponent.prototype.setProductRange = function (pageNumber, pageNumberOfElements) {
+        this.productNumberLow = pageNumber * 6 + 1;
+        this.productNumberHigh = this.productNumberLow + pageNumberOfElements - 1;
     };
     CategoryPageComponent.prototype.ngOnDestroy = function () {
         this.paramRouteSubscription.unsubscribe();

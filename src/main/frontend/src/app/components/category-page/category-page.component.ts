@@ -24,6 +24,9 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   rangeParameters : string[] = [];
   isGetCategoryProductsRequestDone : boolean = true;
 
+  productNumberLow : number ;
+  productNumberHigh : number;
+
   paramRouteSubscription : Subscription;
   queryParamRouteSubscription : Subscription;
   httpSubscription : Subscription;
@@ -65,6 +68,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
         this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;
+        this.setProductRange(this.productPage.number, this.productPage.numberOfElements);
         this.isGetCategoryProductsRequestDone = true;  
         this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
       }, 
@@ -115,6 +119,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
           this.pageNumbers = [];
           this.productPage = productPage;
           this.products = productPage.content; 
+          this.setProductRange(this.productPage.number, this.productPage.numberOfElements);
           this.isGetCategoryProductsRequestDone = true;
           this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
         },
@@ -144,6 +149,11 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
     for(let i=0; i<pageCount; i++){
       pageNumbers[i] = i + 1;
     }
+  }
+
+  setProductRange(pageNumber : number, pageNumberOfElements : number) : void{
+    this.productNumberLow = pageNumber * 6 + 1;
+    this.productNumberHigh = this.productNumberLow + pageNumberOfElements - 1;
   }
 
   ngOnDestroy(){

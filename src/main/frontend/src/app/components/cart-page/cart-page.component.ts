@@ -35,6 +35,10 @@ export class CartPageComponent implements OnInit, OnDestroy {
     
   }
 
+  isUserCartEmpty() : boolean{
+    return this.cartProducts.length === 0;
+  }
+
   getTotalCartPrice() : number{
     let totalPrice = 0;
     if(this.cartProducts.length !== 0){

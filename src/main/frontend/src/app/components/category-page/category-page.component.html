@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-9">
         <div class="mb-5">
-          <span class="mx-4">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage.totalElements}}</span>
+          <span class="mx-4">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>
           <span>Κατάταξη ως προς:</span>
           <select class="ml-2" [(ngModel)]="selectedValue" (ngModelChange)="onOrderChange($event)">
             <option *ngFor="let option of selectOptions;" [value]="option.value">{{option.name}}</option>

@@ -482,6 +482,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/category.service */ "./src/app/services/category.service.ts");
+/* harmony import */ var _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -491,6 +492,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -569,6 +571,9 @@ var CategoryPageComponent = /** @class */ (function () {
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
             if (oldCategory === _this.category && (_this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange)) {
+                if ((didBrandParametersChange || didRangeParametersChange) && (_this.brandParameters.length === 0 && _this.rangeParameters.length === 0)) {
+                    _this.sidebar.deselectCheckboxes();
+                }
                 _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                     _this.pageNumbers = [];
                     _this.productPage = productPage;
@@ -609,6 +614,10 @@ var CategoryPageComponent = /** @class */ (function () {
         if (this.httpSubscription2 !== undefined)
             this.httpSubscription2.unsubscribe();
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["CategorySidebarComponent"]),
+        __metadata("design:type", _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["CategorySidebarComponent"])
+    ], CategoryPageComponent.prototype, "sidebar", void 0);
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'category-page',
@@ -687,6 +696,10 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.selectedBrands = [];
         this.selectedPriceRanges = [];
     };
+    CategorySidebarComponent.prototype.deselectCheckboxes = function () {
+        this.numberOfProductsPerBrand.forEach(function (brandOption) { return brandOption.checked = false; });
+        this.numberOfProductsPerPriceRange.forEach(function (priceRangeOption) { return priceRangeOption.checked = false; });
+    };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
         this.numberOfProductsPerBrand = [];
@@ -702,7 +715,7 @@ var CategorySidebarComponent = /** @class */ (function () {
         var _this = this;
         this.initializePriceRanges();
         this.numberOfProductsPerPriceRange = [];
-        this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
+        this.httpSubscription = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
             //this.numberOfProductsPerPriceRange.sort(function(a,b) {return (a.rangeId > b.rangeId) ? 1 : ( (b.rangeId > a.rangeId) ? 1 : 0);});
         });
@@ -743,6 +756,8 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.router.navigate(['/category', this.category], { queryParams: { page: 0, brand: this.selectedBrands, range: this.selectedPriceRanges } });
     };
     CategorySidebarComponent.prototype.ngOnDestroy = function () {
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -2647,7 +2662,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByBrand = function (category, brands) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["concatMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;

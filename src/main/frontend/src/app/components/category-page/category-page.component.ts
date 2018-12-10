@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { Product } from 'src/app/models/product';
 import { ProductPage } from 'src/app/models/productPage';
+import { CategorySidebarComponent } from '../category-sidebar/category-sidebar.component';
 
 @Component({
   selector: 'category-page',
@@ -12,6 +13,7 @@ import { ProductPage } from 'src/app/models/productPage';
 })
 export class CategoryPageComponent implements OnInit, OnDestroy {
 
+  @ViewChild(CategorySidebarComponent) sidebar : CategorySidebarComponent;
   category : string;
   categoryTitle : string;
   currentPage : number = 0;
@@ -105,6 +107,10 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
       if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange) ){
+        if( (didBrandParametersChange || didRangeParametersChange) && (this.brandParameters.length === 0 && this.rangeParameters.length === 0)){
+          this.sidebar.deselectCheckboxes();
+        }
+
         this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
           this.pageNumbers = [];
           this.productPage = productPage;

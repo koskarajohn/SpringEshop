@@ -41,6 +41,11 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedPriceRanges = [];
   }
 
+  deselectCheckboxes() : void{
+    this.numberOfProductsPerBrand.forEach(brandOption => brandOption.checked = false);
+    this.numberOfProductsPerPriceRange.forEach(priceRangeOption => priceRangeOption.checked = false);
+  }
+
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
     this.categoryService.getCategoryBrands(this.category).subscribe(brands => {

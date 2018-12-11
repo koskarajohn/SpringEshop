@@ -173,15 +173,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int findNumberOfSpecificBrandsProductsWithinPriceRange(Category category, double min, double max, String[] brands) {
+	public int findNumberOfSpecificBrandsProductsWithinPriceRange(Category category, double min, double max, List<Brand> brands) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 	    
 	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
 	    List<Predicate> brandPredicateList = new ArrayList<>();
 	    
-	    for(int i=0; i < brands.length; i++){
-    		brandPredicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands[i]));
+	    for(int i=0; i < brands.size(); i++){
+    		brandPredicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
 	    }
 	    
 	    Predicate[] brandsPredicateArray = new Predicate[brandPredicateList.size()];

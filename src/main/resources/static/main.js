@@ -700,14 +700,16 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.initializeRatings();
     };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
-        this.getBrands();
-        this.getPriceRanges();
         this.selectedBrands = [];
         this.selectedPriceRanges = [];
+        this.getBrands();
+        this.getPriceRanges();
     };
     CategorySidebarComponent.prototype.deselectCheckboxes = function () {
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
+        this.getPriceRanges();
         this.numberOfProductsPerBrand.forEach(function (brandOption) { return brandOption.checked = false; });
-        this.numberOfProductsPerPriceRange.forEach(function (priceRangeOption) { return priceRangeOption.checked = false; });
     };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;
@@ -733,13 +735,32 @@ var CategorySidebarComponent = /** @class */ (function () {
         var _this = this;
         this.initializePriceRanges();
         this.numberOfProductsPerPriceRange = [];
-        this.httpSubscription = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(function (range) {
+        this.httpSubscription = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, this.selectedBrands).subscribe(function (range) {
             _this.numberOfProductsPerPriceRange.push(range);
             _this.numberOfProductsPerPriceRange.sort(function (a, b) {
                 var aIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === a.rangeId; });
                 var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
                 return aIndex - bIndex;
             });
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    CategorySidebarComponent.prototype.updatePriceRanges = function () {
+        var _this = this;
+        this.initializePriceRanges();
+        var numberOfProdsArray = [];
+        this.httpSubscription3 = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, this.selectedBrands)
+            .subscribe(function (range) {
+            numberOfProdsArray.push(range);
+            numberOfProdsArray.sort(function (a, b) {
+                var aIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === a.rangeId; });
+                var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
+                return aIndex - bIndex;
+            });
+            if (numberOfProdsArray.length === 4) {
+                _this.numberOfProductsPerPriceRange = numberOfProdsArray;
+            }
         }, function (error) {
             console.log(error);
         });
@@ -773,6 +794,7 @@ var CategorySidebarComponent = /** @class */ (function () {
             .filter(function (brandOption) { return brandOption.checked; })
             .map(function (brandOption) { return brandOption.brand; });
         this.router.navigate(['/category', this.category], { queryParams: { page: 0, brand: this.selectedBrands, range: this.selectedPriceRanges } });
+        this.updatePriceRanges();
     };
     CategorySidebarComponent.prototype.onSelectedPriceRange = function () {
         this.selectedPriceRanges = this.numberOfProductsPerPriceRange
@@ -785,6 +807,8 @@ var CategorySidebarComponent = /** @class */ (function () {
             this.httpSubscription.unsubscribe();
         if (this.httpSubscription2 !== undefined)
             this.httpSubscription2.unsubscribe();
+        if (this.httpSubscription3 !== undefined)
+            this.httpSubscription3.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -2664,6 +2688,7 @@ var CategoryService = /** @class */ (function () {
         this.rangesPath = '/ranges';
         this.productsPath = '/products';
         this.categoryParameter = "?category=";
+        this.brandParameter = '?brand=';
         this.brandParameterAnd = '&brand=';
         this.rangeParameterAnd = "&range=";
         this.pageParameter = "?page=";
@@ -2692,9 +2717,18 @@ var CategoryService = /** @class */ (function () {
         var _this = this;
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.brandsPath + '/' + brand.name + _this.productsPath + _this.countPath); }));
     };
-    CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
+    CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges, brandParameters) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath); }));
+        if (brandParameters.length === 0) {
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath); }));
+        }
+        else {
+            var paramString_2 = '';
+            brandParameters.forEach(function (brand, index) {
+                paramString_2 = index === 0 ? paramString_2 + _this.brandParameter + brand : paramString_2 + _this.brandParameterAnd + brand;
+            });
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString_2); }));
+        }
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

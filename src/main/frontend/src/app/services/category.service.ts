@@ -19,8 +19,8 @@ export class CategoryService {
   private brandsPath = '/brands';
   private rangesPath = '/ranges';
   private productsPath = '/products';
-  
   private categoryParameter = "?category=";
+  private brandParameter = '?brand=';
   private brandParameterAnd = '&brand=';
   private rangeParameterAnd = "&range=";
   private pageParameter = "?page=";
@@ -56,7 +56,18 @@ export class CategoryService {
     return from(brands).pipe(mergeMap(brand => <Observable<ProductsPerBrand>> this.http.get<ProductsPerBrand>(this.categoryProductsApi + category + this.brandsPath + '/' +brand.name + this.productsPath + this.countPath)));
   }
 
-  getCategoryProductsNumberByPriceRange(category : string, priceRanges : PriceRange[]) : Observable<ProductsPerPriceRange>{
-    return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.rangesPath + '/' + range.id + this.productsPath + this.countPath)));
+  getCategoryProductsNumberByPriceRange(category : string, priceRanges : PriceRange[], brandParameters : string[]) : Observable<ProductsPerPriceRange>{
+    if(brandParameters.length === 0){
+      return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.rangesPath + '/' + range.id + this.productsPath + this.countPath)));
+    }else{
+      let paramString = '';
+
+      brandParameters.forEach((brand, index) => {
+        paramString =  index === 0 ? paramString + this.brandParameter + brand : paramString + this.brandParameterAnd + brand;
+      });
+
+      return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.rangesPath + '/' + range.id + this.productsPath + this.countPath + paramString)));
+    }
+    
   }
 }

@@ -184,7 +184,9 @@ public class CategoryApiController {
 		if(brands == null){
 			ppNumber.setNumber(productService.findNumberOfProductsWithinPriceRange(category, getRangeMin(rangeid), getRangeMax(rangeid)));
 		}else{
-			ppNumber.setNumber(productService.findNumberOfSpecificBrandsProductsWithinPriceRange(category, getRangeMin(rangeid), getRangeMax(rangeid), brands));
+			List<Brand> brandList = new ArrayList<>();
+            brandList = brandService.findSpecificBrands(brands);
+			ppNumber.setNumber(productService.findNumberOfSpecificBrandsProductsWithinPriceRange(category, getRangeMin(rangeid), getRangeMax(rangeid), brandList));
 		}
 			
 		ppNumber.setMin(getRangeMin(rangeid));

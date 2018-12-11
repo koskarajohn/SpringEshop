@@ -27,6 +27,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
 
   httpSubscription : Subscription;
   httpSubscription2 : Subscription;
+  httpSubscription3 : Subscription;
 
   constructor(private categoryService : CategoryService, private router : Router) { }
 
@@ -35,15 +36,17 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    this.getBrands();
-    this.getPriceRanges(); 
     this.selectedBrands = [];
     this.selectedPriceRanges = [];
+    this.getBrands();
+    this.getPriceRanges(); 
   }
 
   deselectCheckboxes() : void{
+    this.selectedBrands = [];
+    this.selectedPriceRanges = [];
+    this.getPriceRanges();
     this.numberOfProductsPerBrand.forEach(brandOption => brandOption.checked = false);
-    this.numberOfProductsPerPriceRange.forEach(priceRangeOption => priceRangeOption.checked = false);
   }
 
   getBrands() : void{
@@ -73,7 +76,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   getPriceRanges() : void{
     this.initializePriceRanges();
     this.numberOfProductsPerPriceRange = [];
-    this.httpSubscription =  this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges).subscribe(range => {
+    this.httpSubscription =  this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, this.selectedBrands).subscribe(range => {
       this.numberOfProductsPerPriceRange.push(range);
       this.numberOfProductsPerPriceRange.sort((a: ProductsPerPriceRange, b: ProductsPerPriceRange) => {
         const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
@@ -84,6 +87,26 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     error => {
       console.log(error);
     });
+  }
+
+  updatePriceRanges() : void{
+    this.initializePriceRanges();
+    let numberOfProdsArray :  ProductsPerPriceRange[] = [];
+    this.httpSubscription3 = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, this.selectedBrands)
+                        .subscribe(range => {
+                          numberOfProdsArray.push(range);
+                          numberOfProdsArray.sort((a: ProductsPerPriceRange, b: ProductsPerPriceRange) => {
+                            const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
+                            const bIndex = this.priceRanges.findIndex(priceRange => priceRange.id === b.rangeId);
+                            return aIndex - bIndex;
+                          });
+                          if(numberOfProdsArray.length === 4){
+                            this.numberOfProductsPerPriceRange = numberOfProdsArray;
+                          }
+                        }, 
+                        error => {
+                          console.log(error);
+                        });
   }
 
   initializeRatings() : void{
@@ -118,6 +141,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                              .map(brandOption => brandOption.brand);
 
     this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
+    this.updatePriceRanges();
   }
 
   onSelectedPriceRange() : void{
@@ -131,5 +155,6 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(){
     if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
+    if(this.httpSubscription3 !== undefined) this.httpSubscription3.unsubscribe();
   }
 }

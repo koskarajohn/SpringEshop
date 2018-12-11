@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Deal;
 import springeshop.model.DealImage;
+import springeshop.service.DealImageService;
 import springeshop.service.DealService;
 
 @RestController
@@ -21,6 +22,9 @@ public class DealApiController {
 	
 	@Autowired
 	private DealService dealService;
+	
+	@Autowired
+	private DealImageService dealImageService;
 
 	public static final Logger logger = LoggerFactory.getLogger(DealApiController.class);
 	
@@ -33,7 +37,7 @@ public class DealApiController {
 		}
 		
 		for(Deal deal : deals){
-			DealImage dealImage = dealService.findByDealId(deal.getId());
+			DealImage dealImage = dealImageService.findByDeal(deal);
 			deal.setImageUrl(dealImage.getUrl());
 		}
 		

@@ -19,21 +19,6 @@ public class DealServiceImpl implements DealService{
 	private DealRepository dealRepository;
 
 	@Override
-	public Deal findById(int id) {
-		return dealRepository.findById(id);
-	}
-
-	@Override
-	public Deal findByName(String name) {
-		return dealRepository.findByName(name);
-	}
-
-	@Override
-	public DealImage findByDealId(int id) {
-		return dealRepository.findByDealId(id);
-	}
-
-	@Override
 	public List<Deal> findAllDeals() {
 		return dealRepository.findAll();
 	}

@@ -12,11 +12,9 @@ import javax.persistence.criteria.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import springeshop.model.Brand;
 import springeshop.model.Category;
 import springeshop.model.Product;
@@ -120,28 +118,45 @@ public class ProductServiceImpl implements ProductService{
 	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 	 
 	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
-	    List<Predicate> predicateList = new ArrayList<>();
+	    List<Predicate> brandPredicateList = new ArrayList<>();
+	    List<Predicate> priceRangePredicateList = new ArrayList<>();
 	    
 	    Predicate categoryPredicate = criteriaBuilder.equal(productsRoot.get("category"), category);
 	    Order orderCriterion = order.equals("asc") ? criteriaBuilder.asc(productsRoot.get("price")) : criteriaBuilder.desc(productsRoot.get("price"));
 	    
 	    if(!brands.isEmpty()){
 	    	for(int i=0; i < brands.size(); i++){
-		    	predicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
+	    		brandPredicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
 		    }
 	    }
 	    
 	    if(priceRanges != null){
 	    	for(String range : priceRanges){
-	    		predicateList.add(criteriaBuilder.between(productsRoot.get("price"), getRangeMin(range), getRangeMax(range)));
+	    		priceRangePredicateList.add(criteriaBuilder.between(productsRoot.get("price"), getRangeMin(range), getRangeMax(range)));
 	    	}
 	    }
 	    
-	    Predicate[] brandsAndRangesPredicateArray = new Predicate[predicateList.size()];
-	    predicateList.toArray(brandsAndRangesPredicateArray);
-	    Predicate brandsPredicate = criteriaBuilder.or(brandsAndRangesPredicateArray);
+	    Predicate[] brandsPredicateArray = new Predicate[brandPredicateList.size()];
+	    brandPredicateList.toArray(brandsPredicateArray);
 	    
-	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate));
+	    Predicate[] priceRangePredicateArray = new Predicate[priceRangePredicateList.size()];
+	    priceRangePredicateList.toArray(priceRangePredicateArray);
+	    
+	    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
+	    Predicate priceRangePredicate = criteriaBuilder.or(priceRangePredicateArray);
+	    Predicate brandsPriceRangeAndPredicate = criteriaBuilder.and(brandsPredicate, priceRangePredicate); 
+	    
+	    if(!brands.isEmpty() && priceRanges != null){
+	    	criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPriceRangeAndPredicate));
+	    }else{
+	    	if(brands.isEmpty()){
+	    		criteriaQuery.where(criteriaBuilder.and(categoryPredicate, priceRangePredicate));
+	    	}else{
+	    		criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate));
+	    	}
+	    }
+	    
+	    
 	    criteriaQuery.orderBy(orderCriterion);
 	    
 	    int totalProducts = entityManager.createQuery(criteriaQuery).getResultList().size();

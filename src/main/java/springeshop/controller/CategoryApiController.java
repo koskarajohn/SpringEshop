@@ -156,9 +156,8 @@ public class CategoryApiController {
 		return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/categories/{name}/count", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryProductsNumber(@PathVariable("name") String name, @RequestParam(value = "brand", required = false) String brand,
-			                                           @RequestParam(value = "range", defaultValue = "-1", required = false) int range){
+	@RequestMapping(value = "/categories/{name}/ranges/{rangeid}/products/count", method = RequestMethod.GET)
+	public 	ResponseEntity<?> getCategoryRangeProductsNumber(@PathVariable("name") String name, @PathVariable("rangeid") String rangeid){
 		
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
@@ -168,32 +167,11 @@ public class CategoryApiController {
 			return new ResponseEntity<>(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
-		int productsNumber = 0;
-		
-		if(brand != null &&  range == -1.0){
+		ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();
+		setRangeProductsNumber(category.getId(), Integer.parseInt(rangeid), ppNumber);
 			
-			if(!brandService.doesBrandExist(brand)){
-				logger.error("Unable to create. Brand with name {} does not  exist", brand);
-				return new ResponseEntity(new ErrorMessage("Unable to create. Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
-			}
-			
-			productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brand).getId());
-			
-			ProductsPerBrand pNumber =  new ProductsPerBrand();
-			pNumber.setNumber(productsNumber);
-			pNumber.setBrand(brand);
-			
-			return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
-		}else if(brand == null && range != -1){
-			
-			ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();
-			setRangeProductsNumber(category.getId(), range, ppNumber);
-			
-			return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
-		}else{
-			  return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
-		
+		return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
+	
 	}
 	
 	private void setRangeProductsNumber(int categoryId,  int range, ProductsPerPriceRange ppNumber){

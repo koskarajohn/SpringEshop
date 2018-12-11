@@ -17,11 +17,11 @@ export class CategoryService {
   private categoryBrands = "/api/brands";
   private countPath = "/count";
   private brandsPath = '/brands';
+  private rangesPath = '/ranges';
   private productsPath = '/products';
+  
   private categoryParameter = "?category=";
-  private brandParameter = "?brand=";
   private brandParameterAnd = '&brand=';
-  private rangeParameter = "?range=";
   private rangeParameterAnd = "&range=";
   private pageParameter = "?page=";
   private orderParameter = "&order=";
@@ -57,6 +57,6 @@ export class CategoryService {
   }
 
   getCategoryProductsNumberByPriceRange(category : string, priceRanges : PriceRange[]) : Observable<ProductsPerPriceRange>{
-    return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.countPath + this.rangeParameter + range.id)));
+    return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.categoryProductsApi + category + this.rangesPath + '/' + range.id + this.productsPath + this.countPath)));
   }
 }

@@ -2661,11 +2661,10 @@ var CategoryService = /** @class */ (function () {
         this.categoryBrands = "/api/brands";
         this.countPath = "/count";
         this.brandsPath = '/brands';
+        this.rangesPath = '/ranges';
         this.productsPath = '/products';
         this.categoryParameter = "?category=";
-        this.brandParameter = "?brand=";
         this.brandParameterAnd = '&brand=';
-        this.rangeParameter = "?range=";
         this.rangeParameterAnd = "&range=";
         this.pageParameter = "?page=";
         this.orderParameter = "&order=";
@@ -2695,7 +2694,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.rangeParameter + range.id); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.categoryProductsApi + category + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath); }));
     };
     CategoryService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

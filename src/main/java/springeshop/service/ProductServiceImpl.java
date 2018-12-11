@@ -89,11 +89,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int findNumberOfProductsWithinPriceRange(int categoryid, double min, double max) {
-		return productRepository.findNumberOfProductsWithinPriceRange(categoryid, min, max);
+	public int findNumberOfProductsWithinPriceRange(Category category, double min, double max) {
+		return productRepository.findNumberOfProductsWithinPriceRange(category, min, max);
 	}
-
-
 
 	@Override
 	public int findNumberOfProductsInCategory(int categoryid) {
@@ -111,7 +109,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands , String[] priceRanges, int page, String order) {
+	public ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands , List<double[]> priceRanges, int page, String order) {
 		ProductPage productPage = new ProductPage();
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -130,9 +128,9 @@ public class ProductServiceImpl implements ProductService{
 		    }
 	    }
 	    
-	    if(priceRanges != null){
-	    	for(String range : priceRanges){
-	    		priceRangePredicateList.add(criteriaBuilder.between(productsRoot.get("price"), getRangeMin(range), getRangeMax(range)));
+	    if(!priceRanges.isEmpty()){
+	    	for(double[] range : priceRanges){
+	    		priceRangePredicateList.add(criteriaBuilder.between(productsRoot.get("price"), range[0], range[1]));
 	    	}
 	    }
 	    
@@ -146,7 +144,7 @@ public class ProductServiceImpl implements ProductService{
 	    Predicate priceRangePredicate = criteriaBuilder.or(priceRangePredicateArray);
 	    Predicate brandsPriceRangeAndPredicate = criteriaBuilder.and(brandsPredicate, priceRangePredicate); 
 	    
-	    if(!brands.isEmpty() && priceRanges != null){
+	    if(!brands.isEmpty() && !priceRanges.isEmpty()){
 	    	criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPriceRangeAndPredicate));
 	    }else{
 	    	if(brands.isEmpty()){
@@ -155,8 +153,7 @@ public class ProductServiceImpl implements ProductService{
 	    		criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate));
 	    	}
 	    }
-	    
-	    
+	      
 	    criteriaQuery.orderBy(orderCriterion);
 	    
 	    int totalProducts = entityManager.createQuery(criteriaQuery).getResultList().size();
@@ -170,41 +167,36 @@ public class ProductServiceImpl implements ProductService{
 	    productPage.setNumberOfElements(wantedProducts.size());
 	    return productPage;
 	}
-	
-	private double getRangeMin(String range){
-		double min = 0.0;
-		
-		if(range.equals("1")){
-			min = Constants.PRICE_RANGE_ZERO_TO_TEN[0];
-		}else if(range.equals("2")){
-			min = Constants.PRICE_RANGE_TEN_TO_TWENTY[0];
-		}else if(range.equals("3")){
-			min = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[0];
-		}else if(range.equals("4")){
-			min = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[0];
-		}
-		
-		return min;
-	}
-	
-	private double getRangeMax(String range){
-		double max = 0.0;
-		
-		if(range.equals("1")){
-			max = Constants.PRICE_RANGE_ZERO_TO_TEN[1];
-		}else if(range.equals("2")){
-			max = Constants.PRICE_RANGE_TEN_TO_TWENTY[1];
-		}else if(range.equals("3")){
-			max = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[1];
-		}else if(range.equals("4")){
-			max = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[1];
-		}
-		
-		return max;
-	}
 
 	private int getProductPages(int numberOfProducts){
 		return (int) Math.ceil(numberOfProducts / 6.0);
+	}
+
+	@Override
+	public int findNumberOfSpecificBrandsProductsWithinPriceRange(Category category, double min, double max, String[] brands) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    List<Predicate> brandPredicateList = new ArrayList<>();
+	    
+	    for(int i=0; i < brands.length; i++){
+    		brandPredicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands[i]));
+	    }
+	    
+	    Predicate[] brandsPredicateArray = new Predicate[brandPredicateList.size()];
+	    brandPredicateList.toArray(brandsPredicateArray);
+	    
+	    Predicate categoryPredicate = criteriaBuilder.equal(productsRoot.get("category"), category);
+	    Predicate priceRangePredicate = criteriaBuilder.between(productsRoot.get("price"), min, max);
+	    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
+	    
+	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, priceRangePredicate, brandsPredicate));
+	    
+	    int number = 0;
+	    number = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    
+		return number;
 	}
 
 }

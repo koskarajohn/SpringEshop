@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import springeshop.model.Brand;
+import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 
@@ -44,6 +45,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	@Query("select Count (prod) from Product prod where prod.category.id = :categoryid and prod.brand.id = :brandid")
 	int findNumberOfProductsOfBrandInCategory(@Param("categoryid") int categoryid, @Param("brandid") int brandid);
 	
-	@Query("select Count (prod) from Product prod where prod.category.id = :categoryid and prod.price between :min and :max")
-	int findNumberOfProductsWithinPriceRange(@Param("categoryid") int categoryid, @Param("min") double min, @Param("max") double max);
+	@Query("select Count (prod) from Product prod where prod.category = :category and prod.price between :min and :max")
+	int findNumberOfProductsWithinPriceRange(@Param("category") Category category, @Param("min") double min, @Param("max") double max);
 }

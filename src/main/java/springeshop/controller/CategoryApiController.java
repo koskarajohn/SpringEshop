@@ -89,11 +89,22 @@ public class CategoryApiController {
 			
 		}else{
 			List<Brand> brandList = new ArrayList<>();
+			List<double[]> priceRangeList = new ArrayList<>();
+			
 			if(brands != null){
 				brandList = brandService.findSpecificBrands(brands);
 			}
 			
-			filteredProductPage = productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, ranges, page, order);
+			if(ranges != null){
+				for(String range : ranges){
+					double[] rangeValues = new double[2];
+					rangeValues[0] = getRangeMin(range);
+					rangeValues[1] = getRangeMax(range);
+					priceRangeList.add(rangeValues);
+				}
+			}
+			
+			filteredProductPage = productService.findByCategoryIdWithBrandAndPriceRange(category, brandList, priceRangeList, page, order);
 			
 			if(filteredProductPage.getContent().isEmpty()){
 				logger.error("No products found.");
@@ -157,7 +168,8 @@ public class CategoryApiController {
 	}
 	
 	@RequestMapping(value = "/categories/{name}/ranges/{rangeid}/products/count", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryRangeProductsNumber(@PathVariable("name") String name, @PathVariable("rangeid") String rangeid){
+	public 	ResponseEntity<?> getCategoryRangeProductsNumber(@PathVariable("name") String name, @PathVariable("rangeid") String rangeid,
+			                                                        @RequestParam(value = "brand", required = false) String[] brands){
 		
 		logger.info("Fetching Category with name {}", name);
 		Category category = categoryService.findByName(getCorrectCategoryName(name));
@@ -168,31 +180,53 @@ public class CategoryApiController {
 		}
 		
 		ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();
-		setRangeProductsNumber(category.getId(), Integer.parseInt(rangeid), ppNumber);
+		
+		if(brands == null){
+			ppNumber.setNumber(productService.findNumberOfProductsWithinPriceRange(category, getRangeMin(rangeid), getRangeMax(rangeid)));
+		}else{
+			ppNumber.setNumber(productService.findNumberOfSpecificBrandsProductsWithinPriceRange(category, getRangeMin(rangeid), getRangeMax(rangeid), brands));
+		}
+			
+		ppNumber.setMin(getRangeMin(rangeid));
+		ppNumber.setMax(getRangeMax(rangeid));
+		ppNumber.setRangeId(Integer.parseInt(rangeid));
 			
 		return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
 	
 	}
 	
-	private void setRangeProductsNumber(int categoryId,  int range, ProductsPerPriceRange ppNumber){
+	private double getRangeMin(String range){
+		double min = 0.0;
 		
-		if(range == 1){
-			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_ZERO_TO_TEN[0], Constants.PRICE_RANGE_ZERO_TO_TEN[1], ppNumber);
-		}else if(range == 2){
-			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_TEN_TO_TWENTY[0], Constants.PRICE_RANGE_TEN_TO_TWENTY[1], ppNumber);
-		}else if(range == 3){
-			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_TWENTY_TO_THIRTY[0], Constants.PRICE_RANGE_TWENTY_TO_THIRTY[1], ppNumber);
-		}else if(range == 4){
-			setRangeObjectValues(categoryId, range, Constants.PRICE_RANGE_THIRTY_TO_FIFTY[0], Constants.PRICE_RANGE_THIRTY_TO_FIFTY[1], ppNumber);
+		if(range.equals("1")){
+			min = Constants.PRICE_RANGE_ZERO_TO_TEN[0];
+		}else if(range.equals("2")){
+			min = Constants.PRICE_RANGE_TEN_TO_TWENTY[0];
+		}else if(range.equals("3")){
+			min = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[0];
+		}else if(range.equals("4")){
+			min = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[0];
 		}
+		
+		return min;
 	}
 	
-	private void setRangeObjectValues(int categoryId, int range, double min, double max, ProductsPerPriceRange ppNumber){
-		ppNumber.setNumber(productService.findNumberOfProductsWithinPriceRange(categoryId, min, max));
-		ppNumber.setMin(min);
-		ppNumber.setMax(max);
-		ppNumber.setRangeId(range);
+	private double getRangeMax(String range){
+		double max = 0.0;
+		
+		if(range.equals("1")){
+			max = Constants.PRICE_RANGE_ZERO_TO_TEN[1];
+		}else if(range.equals("2")){
+			max = Constants.PRICE_RANGE_TEN_TO_TWENTY[1];
+		}else if(range.equals("3")){
+			max = Constants.PRICE_RANGE_TWENTY_TO_THIRTY[1];
+		}else if(range.equals("4")){
+			max = Constants.PRICE_RANGE_THIRTY_TO_FIFTY[1];
+		}
+		
+		return max;
 	}
+	
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public ResponseEntity<?> createCategory(@Valid @RequestBody Category category, UriComponentsBuilder ucBuilder){
@@ -200,7 +234,7 @@ public class CategoryApiController {
 		
 		if(categoryService.doesCategoryExist(category)){
 			logger.error("Unable to create. A Category with name {} already exist", category.getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. A Category with name " + category.getName() + " already exists."), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. A Category with name " + category.getName() + " already exists."), HttpStatus.CONFLICT);
 		}
 		
 		categoryService.saveCategory(category);

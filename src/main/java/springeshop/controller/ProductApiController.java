@@ -66,7 +66,7 @@ public class ProductApiController {
 			Page<Product> favoriteProducts = productService.findFavoriteProducts(PageRequest.of(page, 4));
 			
 			if(favoriteProducts.getTotalElements() == 0){
-				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			addImagesAndQuantityToProducts(favoriteProducts);
@@ -75,13 +75,13 @@ public class ProductApiController {
 			Page<Product> newProducts = productService.findNewProducts(PageRequest.of(page, 4));
 			
 			if(newProducts.getTotalElements() == 0){
-				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			addImagesAndQuantityToProducts(newProducts);
 			return new ResponseEntity<Page<Product>>(newProducts, HttpStatus.OK);
 		}else 
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 		
 	}

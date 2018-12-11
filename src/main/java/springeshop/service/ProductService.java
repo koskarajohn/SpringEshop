@@ -22,12 +22,16 @@ public interface ProductService {
 	
 	ProductImage findByProductId(int id);
 	Page<Product> findByCategoryId(int id, Pageable pageable);
-	ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands, String[] priceRanges, int page, String order);
+	
+	ProductPage findByCategoryIdWithBrandAndPriceRange(Category category, List<Brand> brands,  List<double[]> priceRanges, int page, String order);
 	Page<Product> findFavoriteProducts(Pageable pageable);
     Page<Product> findNewProducts(Pageable pageable);
+    
 	List<Brand> findCategoryBrands(int id);
 	List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId);
 	int findNumberOfProductsInCategory(int categoryid);
 	int findNumberOfProductsOfBrandInCategory(int categoryid, int brandid);
-	int findNumberOfProductsWithinPriceRange(int categoryid, double min, double max);
+	
+	int findNumberOfProductsWithinPriceRange(Category category, double min, double max);
+	int findNumberOfSpecificBrandsProductsWithinPriceRange(Category category,  double min, double max, String[] brands);
 }

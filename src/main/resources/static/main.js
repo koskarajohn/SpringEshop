@@ -2660,6 +2660,8 @@ var CategoryService = /** @class */ (function () {
         this.categoryProductsApi = '/api/categories/';
         this.categoryBrands = "/api/brands";
         this.countPath = "/count";
+        this.brandsPath = '/brands';
+        this.productsPath = '/products';
         this.categoryParameter = "?category=";
         this.brandParameter = "?brand=";
         this.brandParameterAnd = '&brand=';
@@ -2689,7 +2691,7 @@ var CategoryService = /** @class */ (function () {
     };
     CategoryService.prototype.getCategoryProductsNumberByBrand = function (category, brands) {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.countPath + _this.brandParameter + brand.name); }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.categoryProductsApi + category + _this.brandsPath + '/' + brand.name + _this.productsPath + _this.countPath); }));
     };
     CategoryService.prototype.getCategoryProductsNumberByPriceRange = function (category, priceRanges) {
         var _this = this;

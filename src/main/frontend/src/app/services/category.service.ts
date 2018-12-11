@@ -16,6 +16,8 @@ export class CategoryService {
   private categoryProductsApi = '/api/categories/';
   private categoryBrands = "/api/brands";
   private countPath = "/count";
+  private brandsPath = '/brands';
+  private productsPath = '/products';
   private categoryParameter = "?category=";
   private brandParameter = "?brand=";
   private brandParameterAnd = '&brand=';
@@ -51,7 +53,7 @@ export class CategoryService {
   }
 
   getCategoryProductsNumberByBrand(category : string, brands : Brand[]) : Observable<ProductsPerBrand>{
-    return from(brands).pipe(mergeMap(brand => <Observable<ProductsPerBrand>> this.http.get<ProductsPerBrand>(this.categoryProductsApi + category + this.countPath + this.brandParameter + brand.name)));
+    return from(brands).pipe(mergeMap(brand => <Observable<ProductsPerBrand>> this.http.get<ProductsPerBrand>(this.categoryProductsApi + category + this.brandsPath + '/' +brand.name + this.productsPath + this.countPath)));
   }
 
   getCategoryProductsNumberByPriceRange(category : string, priceRanges : PriceRange[]) : Observable<ProductsPerPriceRange>{

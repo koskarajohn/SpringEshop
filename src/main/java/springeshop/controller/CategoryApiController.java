@@ -73,7 +73,7 @@ public class CategoryApiController {
 		
 		if(category == null){
 			logger.error("Category with name {} not found.", name);
-			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
 		if(brands == null && ranges == null){
@@ -82,7 +82,7 @@ public class CategoryApiController {
 			
 			if(products == null){
 				logger.error("No products found.");
-				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			return new ResponseEntity<>(products, HttpStatus.OK);
@@ -129,6 +129,33 @@ public class CategoryApiController {
 		return categoryName.substring(0,1).toUpperCase() + categoryName.substring(1);
 	}
 	
+	@RequestMapping(value = "/categories/{categoryname}/brands/{brandname}/products/count", method = RequestMethod.GET)
+	public 	ResponseEntity<?> getCategoryBrandProductsNumber(@PathVariable("categoryname") String categoryname, @PathVariable("brandname") String brandname){
+		
+		logger.info("Fetching Category with name {}", categoryname);
+		Category category = categoryService.findByName(getCorrectCategoryName(categoryname));
+		
+		if(category == null){
+			logger.error("Category with name {} not found.", categoryname);
+			return new ResponseEntity<>(new ErrorMessage("Category with name " + categoryname + " not found"),HttpStatus.NOT_FOUND);
+		}
+		
+		int productsNumber = 0;
+		
+		if(!brandService.doesBrandExist(brandname)){
+			logger.error("Brand with name {} does not  exist", brandname);
+				return new ResponseEntity<>(new ErrorMessage("Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+		}
+			
+		productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brandname).getId());
+			
+		ProductsPerBrand pNumber =  new ProductsPerBrand();
+		pNumber.setNumber(productsNumber);
+		pNumber.setBrand(brandname);
+			
+		return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/categories/{name}/count", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProductsNumber(@PathVariable("name") String name, @RequestParam(value = "brand", required = false) String brand,
 			                                           @RequestParam(value = "range", defaultValue = "-1", required = false) int range){
@@ -138,7 +165,7 @@ public class CategoryApiController {
 		
 		if(category == null){
 			logger.error("Category with name {} not found.", name);
-			return new ResponseEntity(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ErrorMessage("Category with name " + name + " not found"),HttpStatus.NOT_FOUND);
 		}
 		
 		int productsNumber = 0;

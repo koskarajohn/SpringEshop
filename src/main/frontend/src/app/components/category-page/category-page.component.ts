@@ -23,6 +23,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   brandParameters = [] as string[];
   rangeParameters : string[] = [];
   isGetCategoryProductsRequestDone : boolean = true;
+  isClickFromNavigationBar : boolean = false;
 
   productNumberLow : number ;
   productNumberHigh : number;
@@ -82,6 +83,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.isGetCategoryProductsRequestDone = false;
       let oldCategory = this.category;
       let oldPage = this.currentPage;
+      let isClickFromNavigationBarParam = queryParams['fn'] === 'yes';
       this.currentPage = queryParams['page'];
 
       let oldBrandParametersLength = this.brandParameters.length;
@@ -111,8 +113,8 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
       if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange) ){
-        if( (didBrandParametersChange || didRangeParametersChange) && (this.brandParameters.length === 0 && this.rangeParameters.length === 0)){
-          this.sidebar.deselectCheckboxes();
+        if(isClickFromNavigationBarParam && (didBrandParametersChange || didRangeParametersChange) && (this.brandParameters.length === 0 && this.rangeParameters.length === 0)){
+          this.sidebar.updateSidebar();
         }
 
         this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {

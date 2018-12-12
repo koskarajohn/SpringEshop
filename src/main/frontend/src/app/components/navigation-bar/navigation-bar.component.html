@@ -62,7 +62,7 @@
   <div class="container">
       <ul class="navbar-nav mx-md-auto">
           <li *ngFor="let category of categories" class="nav-item">
-              <a class="nav-link" routerLink="/category/{{category.englishName}}" [queryParams]="{ page: pageParam, brand : brandParams, range : rangeParams}">{{category.greekName}}</a>
+              <a class="nav-link" routerLink="/category/{{category.englishName}}" [queryParams]="{ page: pageParam, fn : 'yes',  brand : brandParams, range : rangeParams}">{{category.greekName}}</a>
           </li>
       </ul>
   </div>

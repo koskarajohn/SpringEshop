@@ -141,7 +141,8 @@ public class CategoryApiController {
 	}
 	
 	@RequestMapping(value = "/categories/{categoryname}/brands/{brandname}/products/count", method = RequestMethod.GET)
-	public 	ResponseEntity<?> getCategoryBrandProductsNumber(@PathVariable("categoryname") String categoryname, @PathVariable("brandname") String brandname){
+	public 	ResponseEntity<?> getCategoryBrandProductsNumber(@PathVariable("categoryname") String categoryname, @PathVariable("brandname") String brandname
+			                                                , @RequestParam(value = "range", required = false) String[] ranges){
 		
 		logger.info("Fetching Category with name {}", categoryname);
 		Category category = categoryService.findByName(getCorrectCategoryName(categoryname));
@@ -158,7 +159,20 @@ public class CategoryApiController {
 				return new ResponseEntity<>(new ErrorMessage("Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
 		}
 			
-		productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brandname).getId());
+		if(ranges == null){
+			productsNumber = productService.findNumberOfProductsOfBrandInCategory(category.getId(), brandService.findByName(brandname).getId());
+		}else{
+			List<double[]> priceRangeList = new ArrayList<>();
+			for(String range : ranges){
+				double[] rangeValues = new double[2];
+				rangeValues[0] = getRangeMin(range);
+				rangeValues[1] = getRangeMax(range);
+				priceRangeList.add(rangeValues);
+			}
+			
+			productsNumber = productService.findNumberOfBrandProductsWithinSpecificRangesInCategory(category, brandService.findByName(brandname), priceRangeList);
+		}
+		
 			
 		ProductsPerBrand pNumber =  new ProductsPerBrand();
 		pNumber.setNumber(productsNumber);

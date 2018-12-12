@@ -21,7 +21,6 @@ import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.model.ProductPage;
 import springeshop.repositories.ProductRepository;
-import springeshop.util.Constants;
 
 @Service("productService")
 @Transactional
@@ -192,6 +191,33 @@ public class ProductServiceImpl implements ProductService{
 	    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
 	    
 	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, priceRangePredicate, brandsPredicate));
+	    
+	    int number = 0;
+	    number = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    
+		return number;
+	}
+
+	@Override
+	public int findNumberOfBrandProductsWithinSpecificRangesInCategory(Category category, Brand brand, List<double[]> priceRanges) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    List<Predicate> priceRangePredicateList = new ArrayList<>();
+	    
+	    for(double[] range : priceRanges){
+	    	priceRangePredicateList.add(criteriaBuilder.between(productsRoot.get("price"), range[0], range[1]));
+	    }
+	    
+	    Predicate[] priceRangePredicateArray = new Predicate[priceRangePredicateList.size()];
+	    priceRangePredicateList.toArray(priceRangePredicateArray);
+	    
+	    Predicate categoryPredicate = criteriaBuilder.equal(productsRoot.get("category"), category);
+	    Predicate brandsPredicate = criteriaBuilder.equal(productsRoot.get("brand"), brand);
+	    Predicate priceRangePredicate = criteriaBuilder.or(priceRangePredicateArray);
+	    
+	    criteriaQuery.where(criteriaBuilder.and(categoryPredicate, brandsPredicate, priceRangePredicate));
 	    
 	    int number = 0;
 	    number = entityManager.createQuery(criteriaQuery).getResultList().size();

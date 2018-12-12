@@ -28,6 +28,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   httpSubscription : Subscription;
   httpSubscription2 : Subscription;
   httpSubscription3 : Subscription;
+  httpSubscription4 : Subscription;
 
   constructor(private categoryService : CategoryService, private router : Router) { }
 
@@ -36,28 +37,23 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    this.selectedBrands = [];
-    this.selectedPriceRanges = [];
-    this.getBrands();
-    this.getPriceRanges(); 
+    this.updateSidebar();
   }
 
-  deselectCheckboxes() : void{
+  updateSidebar() : void{
     this.selectedBrands = [];
     this.selectedPriceRanges = [];
     this.getPriceRanges();
-    this.numberOfProductsPerBrand.forEach(brandOption => brandOption.checked = false);
+    this.getBrands();
   }
 
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
-
     this.categoryService.getCategoryBrands(this.category).toPromise()
                         .then(brands => {
                           this.categoryBrands = brands;
-                           this.httpSubscription2 = this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands).subscribe(item => {
+                           this.httpSubscription2 = this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands, this.selectedPriceRanges).subscribe(item => {
                             this.numberOfProductsPerBrand.push(item);
-                            //this.numberOfProductsPerBrand.sort(function(a,b) {return (a.brand > b.brand) ? 1 : ( (b.brand > a.brand) ? 1 : 0);});
                             this.numberOfProductsPerBrand.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
                               const aIndex = brands.findIndex(brand => brand.name === a.brand);
                               const bIndex = brands.findIndex(brand => brand.name === b.brand);
@@ -71,6 +67,26 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                         })
                         .catch(error => console.log(error));
 
+  }
+
+  updateBrands() : void{
+    let numberOfProdsPerBrandArray :  ProductsPerBrand[] = [];
+    this.httpSubscription4 = this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands, this.selectedPriceRanges)
+                                                 .subscribe(item => {
+                                                   item.checked = this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(x => x.brand === item.brand)].checked;
+                                                  numberOfProdsPerBrandArray.push(item);
+                                                  numberOfProdsPerBrandArray.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
+                                                    const aIndex = this.categoryBrands.findIndex(brand => brand.name === a.brand);
+                                                    const bIndex = this.categoryBrands.findIndex(brand => brand.name === b.brand);
+                                                    return aIndex - bIndex;
+                                                 });
+                                                 if(numberOfProdsPerBrandArray.length === this.categoryBrands.length){
+                                                  this.numberOfProductsPerBrand = numberOfProdsPerBrandArray;
+                                                 }
+                                                 },
+                                                 error => {
+                                                   console.log(error);
+                                                 });
   }
 
   getPriceRanges() : void{
@@ -94,6 +110,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     let numberOfProdsArray :  ProductsPerPriceRange[] = [];
     this.httpSubscription3 = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, this.selectedBrands)
                         .subscribe(range => {
+                          range.checked = this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(x => x.rangeId === range.rangeId)].checked;
                           numberOfProdsArray.push(range);
                           numberOfProdsArray.sort((a: ProductsPerPriceRange, b: ProductsPerPriceRange) => {
                             const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
@@ -140,7 +157,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
 
-    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
+    this.router.navigate(['/category', this.category], {queryParams : { page : 0, fn : 'no', brand : this.selectedBrands, range : this.selectedPriceRanges}});
     this.updatePriceRanges();
   }
 
@@ -149,12 +166,14 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                              .filter(priceRangeOption => priceRangeOption.checked)
                              .map(priceRangeOption => priceRangeOption.rangeId);
 
-    this.router.navigate(['/category', this.category], {queryParams : { page : 0, brand : this.selectedBrands, range : this.selectedPriceRanges}});
+    this.router.navigate(['/category', this.category], {queryParams : { page : 0, fn : 'no',  brand : this.selectedBrands, range : this.selectedPriceRanges}});
+    this.updateBrands();
   }
 
   ngOnDestroy(){
     if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
     if(this.httpSubscription3 !== undefined) this.httpSubscription3.unsubscribe();
+    if(this.httpSubscription4 !== undefined) this.httpSubscription4.unsubscribe();
   }
 }

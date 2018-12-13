@@ -43,6 +43,7 @@ public class RequestFilter extends OncePerRequestFilter{
 		Cookie cookie = new  Cookie("IS_AUTHENTICATED", isAuthenticated);
 		cookie.setMaxAge(3600000);
 		cookie.setPath("/");
+		
 		//cookie.setDomain("localhost");
 		
 		//Heroku

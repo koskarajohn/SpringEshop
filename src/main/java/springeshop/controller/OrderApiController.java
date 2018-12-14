@@ -25,6 +25,7 @@ import springeshop.model.OrderProductPrimaryKey;
 import springeshop.model.User;
 import springeshop.repositories.ShippingInfoRepository;
 import springeshop.service.BillingInfoService;
+import springeshop.service.EmailService;
 import springeshop.service.OrderProductService;
 import springeshop.service.OrderService;
 import springeshop.service.ProductService;
@@ -54,10 +55,10 @@ public class OrderApiController {
 	private ShippingInfoService shippingInfoService;
 	
 	@Autowired
-	private ShippingInfoRepository repository;
+	private BillingInfoService billingInfoService;
 	
 	@Autowired
-	private BillingInfoService billingInfoService;
+	private EmailService emailService;
 	
 	@RequestMapping(value = "/orders", method = RequestMethod.POST)
 	public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDetails orderDetails, Principal principal){
@@ -98,6 +99,7 @@ public class OrderApiController {
 				}
 					
 				if(orderProductService.saveOrderProducts(orderProducts)){
+					emailService.sendEmail(order, orderDetails.getCartProducts());
 					return new ResponseEntity<Order>(order,  HttpStatus.CREATED);
 				}
 				

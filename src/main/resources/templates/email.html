@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+      /* --- Shop name --- */
+
+      body{
+        font-size : 18px;
+        color: #333333;
+      }
+
+      h1{
+        text-align:center;
+        font-size:55px;
+        margin-bottom: 8px;
+      }
+
+      h1 a{
+        color: #333333;
+        text-decoration: none;
+        font-weight:400;
+      }
+
+      h1 a span{
+        color: #04BF00;
+        font-weight: 700;
+      }
+
+      /* --- Hr --- */
+      hr{
+        color : #333333;
+        width:100%;
+        border-bottom: 10px solid #333333;
+      }
+
+      /* --- Content --- */
+
+      section.content{
+        margin-top:16px;
+        margin-left:16px;
+      }
+
+      h3{
+        font-size : 32px;
+        text-align:center;
+        text-transform : uppercase;
+        margin-top: 32px;
+        margin-bottom: 8px;
+      }
+
+      /* --- Table --- */
+
+      table{
+        width:100%;
+        table-layout: fixed;
+        border-collapse : collapse;
+        margin-top:16px;
+        margin-bottom : 48px;
+      }
+
+      table td, table th{
+        padding:8px;
+      }
+
+      table th{
+        font-size : 20px;
+        background-color : lightgray;
+        text-transform : uppercase;
+      }
+
+      table td{
+        background-color : #F5F5F5;
+        text-align : center;
+      }
+
+      table.order-info tr td{
+        padding-bottom : 0;
+      }
+      
+      table.cart{
+        margin-bottom : 0;
+      }
+      
+      table.sum{
+        margin-top : 0;
+      }
+
+      section.content p.end{
+        min-width: 100%;
+        text-align : center;
+      }
+      
+    </style>
+    
+    <title>Email</title>
+  </head>
+  <body>  
+     <h1>
+       <a href="https://springeshop.herokuapp.com"><span>Super</span>Pharmacy</a>
+     </h1>
+
+     <hr>
+
+     <section class="content">
+        <p>Αγαπητέ <span th:text="${userFullName != null} ? ${userFullName} : 'χρήστη'"></span>,</p>
+
+        <p>Η παραγγελία σας με αριθμό <span th:text="${order.id}"></span>, καταχωρήθηκε επιτυχώς! Θα ενημερωθείτε σύντομα στο email που δηλώσατε, για την εξέλιξη της παραγγελίας σας.</p>
+
+        <p>Για οποιαδήποτε περαιτέρω πληροφορία ή διευκρίνιση, παρακαλώ μη διστάσετε να επικοινωνήσετε μαζί μας στο τηλέφωνο 2310000000</p>
+
+        <h3>Λεπτομερειες Παραγγελιας</h3>
+
+        <div><strong>Ημερομηνία</strong> : 18 Απρ 2018</div>
+        <div><strong>Αριθμός Παραγγελίας</strong> : <span th:text="${order.id}"></span></div>
+        <div><strong>Κατάσταση Παραγγελίας</strong> : <span th:text="${order.status}"></span></div>
+
+        <table class="cart">
+           <tr>
+             <th>Προιόν</th>
+             <th>Ποσότητα</th>
+             <th>Τιμή</th>
+           </tr>
+           <tr th:each="product : ${cartProducts}" th:with="eachProductTotalPrice=${product.price * product.quantity}">
+             <td th:text="${product.name}"></td>
+             <td th:text="${product.quantity}"></td>
+             <td th:text="${eachProductTotalPrice}"></td>
+           </tr>
+        </table>
+        
+        <table class="sum">
+           <tr>
+              <td></td>
+              <td></td>
+              <td><strong>Σύνολο : <span th:text="${totalCartPrice}"></span> </strong></td>
+           </tr>
+        </table>
+
+        <table class="order-info">
+           <tr>
+             <th>Πληροφοριες Χρεωσης</th>
+             <th>Πληροφοριες Αποστολης</th>
+           </tr>
+
+           <tr>
+              <td th:text="${billingInfoFullName}"></td>
+              <td th:text="${shippingInfoFullName}"></td>
+           </tr>
+
+           <tr>
+              <td th:text="${order.billingInfo.street}"></td>
+              <td th:text="${order.shippingInfo.street}"></td>
+           </tr>
+
+           <tr>
+              <td th:text="${order.billingInfo.city}"></td>
+              <td th:text="${order.shippingInfo.city}"></td>
+           </tr>
+
+           <tr>
+              <td th:text="${order.billingInfo.phone}"></td>
+              <td th:text="${order.shippingInfo.phone}"></td>
+           </tr>
+
+        </table>
+
+        <table class="method-info">
+           <tr>
+             <th>Μέθοδος Χρεωσης</th>
+             <th>Μέθοδος Αποστολης</th>
+           </tr>
+
+           <tr>
+              <td th:text="${order.billingInfo.method}"></td>
+              <td th:text="${order.shippingInfo.method}"></td>
+           </tr>
+
+        </table>
+
+        <p class="end">Σας ευχαριστούμε που μας προτιμήσατε για τις αγορές σας!</p>
+     </section>
+  </body>
+</html>
+

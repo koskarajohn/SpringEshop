@@ -1,5 +1,8 @@
 package springeshop.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -47,6 +50,7 @@ public class EmailServiceImpl implements EmailService{
         Context context = new Context();
         context.setVariable("order", order);
         context.setVariable("userFullName", getUserName(order));
+        context.setVariable("date", getDate(order.getOrder_date()));
         context.setVariable("billingInfoFullName", order.getBillingInfo().getFirst_name() + " " + order.getBillingInfo().getLast_name());
         context.setVariable("shippingInfoFullName", order.getShippingInfo().getFirst_name() + " " + order.getShippingInfo().getLast_name());
         context.setVariable("cartProducts", cartProducts);
@@ -66,5 +70,10 @@ public class EmailServiceImpl implements EmailService{
 
 	private String getUserName(Order order){
 		return order.getUser() == null ? null : order.getUser().getFirst_name() + ' ' + order.getUser().getLast_name();
+	}
+	
+	private String getDate(Timestamp date){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return dateFormat.format(new Date());
 	}
 }

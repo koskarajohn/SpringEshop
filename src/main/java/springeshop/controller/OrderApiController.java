@@ -23,7 +23,6 @@ import springeshop.model.OrderDetails;
 import springeshop.model.OrderProduct;
 import springeshop.model.OrderProductPrimaryKey;
 import springeshop.model.User;
-import springeshop.repositories.ShippingInfoRepository;
 import springeshop.service.BillingInfoService;
 import springeshop.service.EmailService;
 import springeshop.service.OrderProductService;

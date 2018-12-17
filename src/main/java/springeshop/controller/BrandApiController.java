@@ -1,6 +1,5 @@
 package springeshop.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -41,13 +40,13 @@ public class BrandApiController {
 		Category requestedCategory = categoryService.findByName(getCorrectCategoryName(category));
 		
 		if(requestedCategory == null){
-			return new ResponseEntity(new ErrorMessage("Category does not exist"),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Category does not exist"),HttpStatus.BAD_REQUEST);
 		}
 		
 		List<Brand> brands = productService.findCategoryBrands(requestedCategory.getId());
 		
 		if(brands.isEmpty()){
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		brands.sort((Brand brand1, Brand brand2) -> brand1.getName().compareTo(brand2.getName()));

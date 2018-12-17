@@ -32,13 +32,13 @@ public class AuthenticationController {
 	public ResponseEntity<?> login(@RequestBody UserCredentials userCredentials){
 		
 		if(!userService.doesEmailExist(userCredentials.getEmail()))
-			return new ResponseEntity(new ErrorMessage("Δεν υπάρχει λογαριασμός με αυτό το email"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ErrorMessage("Δεν υπάρχει λογαριασμός με αυτό το email"),HttpStatus.NOT_FOUND);
 		
 		User user = userService.findByEmail(userCredentials.getEmail());
 		boolean doPasswordsMatch = passwordEncoder.matches(userCredentials.getPassword(), user.getPassword());
 		
 		if(!doPasswordsMatch)
-			return new ResponseEntity(new ErrorMessage("Ο κωδικός δεν είναι σωστός"),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Ο κωδικός δεν είναι σωστός"),HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

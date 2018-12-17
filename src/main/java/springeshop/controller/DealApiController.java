@@ -29,11 +29,11 @@ public class DealApiController {
 	public static final Logger logger = LoggerFactory.getLogger(DealApiController.class);
 	
 	@RequestMapping(value = "/deals", method = RequestMethod.GET)
-	public ResponseEntity<?> listDeals(){
+	public ResponseEntity<?> getDeals(){
 		List<Deal> deals = dealService.findAllDeals();
 		
 		if(deals.isEmpty()){
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 		for(Deal deal : deals){

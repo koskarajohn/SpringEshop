@@ -18,7 +18,6 @@ import org.thymeleaf.context.Context;
 
 import springeshop.model.CartProduct;
 import springeshop.model.Order;
-import springeshop.model.OrderDetails;
 
 @Component
 public class EmailServiceImpl implements EmailService{

@@ -26,16 +26,13 @@ public class BrandApiController {
 	public static final Logger logger = LoggerFactory.getLogger(BrandApiController.class);
 	
 	@Autowired
-	private BrandService brandService;
-	
-	@Autowired
 	private CategoryService categoryService;
 	
 	@Autowired
 	private ProductService productService;
 	
 	@RequestMapping(value = "/brands", method = RequestMethod.GET)
-	public ResponseEntity<?> listCategoryBrands(@RequestParam(value ="category", required = false) String category){
+	public ResponseEntity<?> getCategoryBrands(@RequestParam(value ="category", required = false) String category){
 		
 		Category requestedCategory = categoryService.findByName(getCorrectCategoryName(category));
 		

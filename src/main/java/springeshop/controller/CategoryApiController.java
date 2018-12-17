@@ -108,7 +108,7 @@ public class CategoryApiController {
 			
 			if(filteredProductPage.getContent().isEmpty()){
 				logger.error("No products found.");
-				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			addImagesAndQuantityToProducts(filteredProductPage.getContent());

@@ -106,7 +106,7 @@ public class ProductApiController {
         
         if(product == null){
         	logger.error("Product with name {} not found.", name);
-			return new ResponseEntity(new ErrorMessage("Product with name " + name + " not found"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ErrorMessage("Product with name " + name + " not found"),HttpStatus.NOT_FOUND);
         }
         
         ProductImage productImage = productImageService.findByProductId(product.getId());
@@ -128,17 +128,17 @@ public class ProductApiController {
 		
 		if(productService.doesProductExist(product)){
 			logger.error("Unable to create. A Product with name {} already exist", product.getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. A  Product with name " + product.getName() + " already exist."), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. A  Product with name " + product.getName() + " already exist."), HttpStatus.CONFLICT);
 		}
 		
 		if(!categoryService.doesCategoryExist(product.getCategory())){
 			logger.error("Unable to create. Category with name {} does not  exist", product.getCategory().getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. Category with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Category with name {} does not  exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(!brandService.doesBrandExist(product.getBrand())){
 			logger.error("Unable to create. Brand with name {} does not  exist", product.getBrand().getName());
-			return new ResponseEntity(new ErrorMessage("Unable to create. Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorMessage("Unable to create. Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		product.getBrand().setId(brandService.findByName(product.getBrand().getName()).getId());
@@ -207,7 +207,7 @@ public class ProductApiController {
 		
 		if (currentProduct == null) {
             logger.error("Unable to update. Product with id {} not found.", id);
-            return new ResponseEntity(new ErrorMessage("Unable to update. Product with id " + id + " not found."),
+            return new ResponseEntity<>(new ErrorMessage("Unable to update. Product with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 		
@@ -227,7 +227,7 @@ public class ProductApiController {
         Product product = productService.findById(id);
         if (product == null) {
             logger.error("Unable to delete. Product with id {} not found.", id);
-            return new ResponseEntity(new ErrorMessage("Unable to delete. Product with id " + id + " not found."),
+            return new ResponseEntity<>(new ErrorMessage("Unable to delete. Product with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         

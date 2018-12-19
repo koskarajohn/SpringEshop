@@ -114,8 +114,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.routeSubscription.unsubscribe();
-    this.httpSubscription.unsubscribe();
+    if(this.routeSubscription !== undefined) this.routeSubscription.unsubscribe();
+    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
   }
 
 }

@@ -17,11 +17,12 @@ export class DiscountCarouselComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.httpSubscription = this.dealService.getDeals()
-        .subscribe(deals => this.deals = deals);
+        .subscribe(deals => this.deals = deals
+        ,error => console.log(error));
   }
 
   ngOnDestroy(){
-    this.httpSubscription.unsubscribe();
+    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
   }
 
 }

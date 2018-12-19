@@ -32,8 +32,8 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private categoryService : CategoryService, private router : Router) { }
 
-  ngOnInit() {                            
-    this.initializeRatings();
+  ngOnInit() {            
+    
   }
 
   ngOnChanges(changes : SimpleChanges): void {

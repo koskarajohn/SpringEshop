@@ -28,7 +28,9 @@ export class CartPageComponent implements OnInit, OnDestroy {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
     if(this.isUserLoggedIn && !this.isLocalStorageEmpty){
       let userId = localStorage.getItem('userid');
-      this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(cartProducts => this.cartProducts = cartProducts);
+      this.httpSubscription = this.cartService.getCartProducts(userId)
+                                              .subscribe(cartProducts => this.cartProducts = cartProducts
+                                                , error => console.log(error));
     }else if(!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist){
       this.cartProducts = this.cartService.getAnonymousUserCart();
     }

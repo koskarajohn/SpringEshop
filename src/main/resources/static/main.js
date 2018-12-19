@@ -363,7 +363,8 @@ var CartPageComponent = /** @class */ (function () {
         this.isUserLoggedIn = this.authenticationService.isAuthenticated;
         if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
             var userId = localStorage.getItem('userid');
-            this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; });
+            this.httpSubscription = this.cartService.getCartProducts(userId)
+                .subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; }, function (error) { return console.log(error); });
         }
         else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist) {
             this.cartProducts = this.cartService.getAnonymousUserCart();
@@ -699,7 +700,6 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.selectedPriceRanges = [];
     }
     CategorySidebarComponent.prototype.ngOnInit = function () {
-        this.initializeRatings();
     };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
         this.updateSidebar();
@@ -1061,10 +1061,11 @@ var DiscountCarouselComponent = /** @class */ (function () {
     DiscountCarouselComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.httpSubscription = this.dealService.getDeals()
-            .subscribe(function (deals) { return _this.deals = deals; });
+            .subscribe(function (deals) { return _this.deals = deals; }, function (error) { return console.log(error); });
     };
     DiscountCarouselComponent.prototype.ngOnDestroy = function () {
-        this.httpSubscription.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
     };
     DiscountCarouselComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1769,8 +1770,10 @@ var ProductPageComponent = /** @class */ (function () {
         }
     };
     ProductPageComponent.prototype.ngOnDestroy = function () {
-        this.routeSubscription.unsubscribe();
-        this.httpSubscription.unsubscribe();
+        if (this.routeSubscription !== undefined)
+            this.routeSubscription.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_5__["NavigationBarComponent"]),

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import springeshop.model.Brand;
-import springeshop.model.Product;
 import springeshop.repositories.BrandRepository;
 
 @Service("brandService")

@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,7 +20,7 @@ public class Category {
 	
 	@Column(name = "name")
 	@NotNull(message = "Please provide category name")
-	@Size(min = 3, max = 200, message = "Name must be between 1 and 200 characters")
+	@Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
 	private String name;
 	
 	public Category(){

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Brand;
 import springeshop.model.Category;
-import springeshop.service.BrandService;
 import springeshop.service.CategoryService;
 import springeshop.service.ProductService;
 import springeshop.util.ErrorMessage;

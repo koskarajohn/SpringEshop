@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import springeshop.model.Deal;
-import springeshop.model.DealImage;
 import springeshop.repositories.DealRepository;
 
 @Service("dealService")

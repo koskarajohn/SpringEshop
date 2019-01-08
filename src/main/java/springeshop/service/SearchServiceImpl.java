@@ -1,0 +1,65 @@
+package springeshop.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import springeshop.model.Product;
+import springeshop.model.ProductPage;
+
+@Service("searchService")
+@Transactional
+public class SearchServiceImpl implements SearchService{
+	
+	@Autowired
+	private EntityManager entityManager;
+
+	@Override
+	public ProductPage findBySearchTerms(String[] searchTerms, int page) {
+		ProductPage productPage = new ProductPage();
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    List<Predicate> searchPredicatesList = new ArrayList<>();
+	    
+	    if(searchTerms.length > 0){
+	    	for(String term : searchTerms){
+	    		searchPredicatesList.add(criteriaBuilder.like(productsRoot.get("name"), "%" + term +"%"));
+	    	}
+	    }
+	    
+	    Predicate[] searchPredicatesArray = new Predicate[searchPredicatesList.size()];
+	    searchPredicatesList.toArray(searchPredicatesArray);
+	    
+	    Predicate searchPredicate = criteriaBuilder.or(searchPredicatesArray);
+	    criteriaQuery.where(searchPredicate);
+	    criteriaQuery.orderBy(criteriaBuilder.asc(productsRoot.get("price"))); 
+	    
+	    int totalProducts = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    int startProductPosition = page * 6;
+	    productPage.setTotalElements(totalProducts);
+	    productPage.setTotalPages(getProductPages(totalProducts));
+	    
+	    List<Product> wantedProducts = entityManager.createQuery(criteriaQuery).setFirstResult(startProductPosition).setMaxResults(6).getResultList();
+	    productPage.setContent(wantedProducts);
+	    productPage.setNumber(page);
+	    productPage.setNumberOfElements(wantedProducts.size());
+		return productPage;
+	}
+	
+	private int getProductPages(int numberOfProducts){
+		return (int) Math.ceil(numberOfProducts / 6.0);
+	}
+
+}

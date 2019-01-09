@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, OnChanges } from '@angular/core';
 import { NavigationCategory } from 'src/app/models/navigationCategory';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartService } from 'src/app/services/cart.service';
+import { SearchService } from 'src/app/services/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navigation-bar',
@@ -23,7 +25,10 @@ export class NavigationBarComponent implements OnInit{
   private user : string = '';
   public userId : string = '';
 
-  constructor( private authenticationService : AuthenticationService, private cartService : CartService) { }
+  private searchText : string ="";
+
+  constructor( private authenticationService : AuthenticationService, 
+    private cartService : CartService, private searchService : SearchService, private router: Router) { }
 
   async ngOnInit() {
     this.initialiseCategories();
@@ -74,6 +79,12 @@ export class NavigationBarComponent implements OnInit{
 
   setAnonymousUserCartCount() : void{
     this.cartProductCount = this.cartService.getAnonymousUserCartCount();
+  }
+
+  onSearchClicked() : void{
+    var regularExpression = /[^0-9^a-z]+/;
+    var keywords = this.searchText.split(regularExpression);
+    this.router.navigate(['/search'], {queryParams : { keyword : keywords,  page : 0}});
   }
 
 }

@@ -11,9 +11,9 @@
 
            <form class="form-inline mx-auto">
                <div class="input-group">
-                   <input class="form-control" type="text" placeholder="">
+                   <input class="form-control" type="text" [(ngModel)]="searchText" name="search">
                    <div class="input-group-append">
-                       <button type="button" class="btn btn-primary">
+                       <button type="button" class="btn btn-primary" (click)="onSearchClicked()">
                            <i class="fas fa-search"></i>
                         </button>
                    </div>

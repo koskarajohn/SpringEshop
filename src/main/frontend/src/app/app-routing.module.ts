@@ -8,6 +8,7 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { IndexPageComponent } from './components/index-page/index-page.component';
 import { OrderComponent } from './components/order/order.component';
+import { SearchComponent } from './components/search/search.component';
 
 export const appRoutes: Routes = [
   { path: '', 
@@ -41,6 +42,10 @@ export const appRoutes: Routes = [
   {
     path: 'product/:name',
     component:ProductPageComponent
+  },
+  {
+    path: 'search',
+    component:SearchComponent
   }
 ];
 

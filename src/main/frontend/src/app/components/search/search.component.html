@@ -1,0 +1,32 @@
+<navigation-bar></navigation-bar>
+
+<!-- Content -->
+<section class="container">
+
+  <h2>Αναζήτηση για : {{userSearchString}}</h2>
+
+  <div class="row category-content">
+
+    <div class="col-md-3 sidebar">
+    </div>
+
+    <div class="col-md-9">
+        <div class="mb-5">
+          <span class="mx-4">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>
+          <span>Κατάταξη ως προς:</span>
+          <select class="ml-2" [(ngModel)]="selectedValue" (ngModelChange)="onOrderChange($event)">
+            <option *ngFor="let option of selectOptions;" [value]="option.value">{{option.name}}</option>
+          </select>
+        </div>
+
+        <div class="row product-content">
+            <div class="col-sm-6 col-md-6 col-lg-4 mb-5" *ngFor="let productItem of products">
+                 <product-item [product] = "productItem"></product-item>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
+<my-footer></my-footer>

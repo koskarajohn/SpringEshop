@@ -22,6 +22,7 @@ import { FormsModule }   from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationStatusChangeInterceptor } from './interceptors/authenticationStatusChangeInterceptor';
 import { OrderComponent } from './components/order/order.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { OrderComponent } from './components/order/order.component';
     CategorySidebarComponent,
     RatingComponent,
     OrderComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

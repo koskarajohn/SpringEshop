@@ -38,11 +38,11 @@ public class SearchApiController {
 	
 	public static final Logger logger = LoggerFactory.getLogger(SearchApiController.class);
 
-	@RequestMapping(value = "/search/{term}", method = RequestMethod.GET)
-	public ResponseEntity<?> getSearchProducts(@PathVariable("term") String terms, @RequestParam(value = "page", required = false) int page){
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<?> getSearchProducts(@RequestParam(value = "page") int page, @RequestParam(value = "keyword") String[] keywords){
 	
 		ProductPage productPage = new ProductPage();
-		productPage = searchService.findBySearchTerms(getSplittedSearchTerms(terms), page);
+		productPage = searchService.findBySearchTerms(keywords, page);
 		
 		if(productPage.getContent().isEmpty()){
 			logger.error("No products found.");
@@ -63,10 +63,5 @@ public class SearchApiController {
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);
 		}
-	}
-	
-	private String[] getSplittedSearchTerms(String termsString){
-		String[] terms = termsString.toLowerCase().split("[^0-9^a-z]+");
-		return terms;
 	}
 }

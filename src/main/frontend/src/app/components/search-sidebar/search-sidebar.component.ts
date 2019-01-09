@@ -28,6 +28,14 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.getPriceRanges();
+    this.getBrands();
+  }
+
+  getBrands() : void{
+    this.numberOfProductsPerBrand = [];
+    this.searchService.getSearchBrands(this.searchTerms).toPromise()
+                      .then(brands => console.log(brands))
+                      .catch(error => console.log(error));
   }
 
   getPriceRanges() : void{

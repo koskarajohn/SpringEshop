@@ -2222,6 +2222,13 @@ var SearchSidebarComponent = /** @class */ (function () {
     }
     SearchSidebarComponent.prototype.ngOnInit = function () {
         this.getPriceRanges();
+        this.getBrands();
+    };
+    SearchSidebarComponent.prototype.getBrands = function () {
+        this.numberOfProductsPerBrand = [];
+        this.searchService.getSearchBrands(this.searchTerms).toPromise()
+            .then(function (brands) { return console.log(brands); })
+            .catch(function (error) { return console.log(error); });
     };
     SearchSidebarComponent.prototype.getPriceRanges = function () {
         var _this = this;
@@ -3279,11 +3286,13 @@ var SearchService = /** @class */ (function () {
     function SearchService(http) {
         this.http = http;
         this.searchApi = '/api/search';
+        this.brandsPath = '/brands';
         this.countPath = '/count';
         this.brandParam = '&brand=';
         this.rangeParam = '?rangeid=';
         this.pageParam = "?page=";
         this.searchParam = "&keyword=";
+        this.searchParamQuestion = '?keyword=';
     }
     SearchService.prototype.getSearchProducts = function (searchParameters, page) {
         var _this = this;
@@ -3294,9 +3303,7 @@ var SearchService = /** @class */ (function () {
     SearchService.prototype.getSearchProductsNumberByPriceRange = function (searchTerms, priceRanges, brandParameters) {
         var _this = this;
         var paramString = '';
-        searchTerms.forEach(function (term, index) {
-            paramString = paramString + _this.searchParam + term;
-        });
+        searchTerms.forEach(function (term) { return paramString = paramString + _this.searchParam + term; });
         if (brandParameters.length === 0) {
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
         }
@@ -3306,6 +3313,14 @@ var SearchService = /** @class */ (function () {
             });
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
         }
+    };
+    SearchService.prototype.getSearchBrands = function (searchParameters) {
+        var _this = this;
+        var paramString = '';
+        searchParameters.forEach(function (keyword, index) {
+            paramString = index === 0 ? paramString = paramString + _this.searchParamQuestion + keyword : paramString = paramString + _this.searchParam + keyword;
+        });
+        return this.http.get(this.searchApi + this.brandsPath + paramString);
     };
     SearchService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

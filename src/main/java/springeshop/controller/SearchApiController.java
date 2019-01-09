@@ -3,6 +3,7 @@ package springeshop.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,18 @@ public class SearchApiController {
 		ppNumber.setRangeId(Integer.parseInt(rangeid));
 			
 		return new ResponseEntity<ProductsPerPriceRange>(ppNumber, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/search/brands", method = RequestMethod.GET)
+	public ResponseEntity<?> getSearchProductsNumbersByRange(@RequestParam(value = "keyword") String[] keywords){
+		
+		List<Brand> brands = searchService.findSearchBrands(keywords);
+		
+		if(brands.isEmpty()){
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+			
+		return new ResponseEntity<List<Brand>>(brands, HttpStatus.OK);
 	}
 	
 	private double getRangeMin(String range){

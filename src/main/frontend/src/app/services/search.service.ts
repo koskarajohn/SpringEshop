@@ -5,6 +5,7 @@ import { ProductPage } from '../models/productPage';
 import { ProductsPerPriceRange } from '../models/productsPerPriceRange';
 import { mergeMap } from 'rxjs/operators';
 import { PriceRange } from '../models/priceRange';
+import { Brand } from '../models/brand';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,14 @@ import { PriceRange } from '../models/priceRange';
 export class SearchService {
 
   private searchApi = '/api/search';
+  private brandsPath = '/brands';
   private countPath = '/count';
+
   private brandParam = '&brand=';
   private rangeParam = '?rangeid=';
   private pageParam = "?page=";
   private searchParam = "&keyword=";
+  private searchParamQuestion =  '?keyword=';
   constructor(private http : HttpClient) { }
 
   getSearchProducts(searchParameters : string[], page : number) : Observable<ProductPage>{
@@ -29,9 +33,7 @@ export class SearchService {
   getSearchProductsNumberByPriceRange(searchTerms : string[], priceRanges : PriceRange[], brandParameters : string[]) : Observable<ProductsPerPriceRange>{
     let paramString = '';
 
-    searchTerms.forEach((term, index) => {
-      paramString =  paramString + this.searchParam + term;
-    });
+    searchTerms.forEach((term) => paramString =  paramString + this.searchParam + term);
 
     if(brandParameters.length === 0){
       return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.searchApi +  this.countPath + this.rangeParam + range.id + paramString)));
@@ -44,5 +46,13 @@ export class SearchService {
       return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.searchApi + this.countPath + this.rangeParam + range.id + paramString)));
     }
     
+  }
+
+  getSearchBrands(searchParameters : string[]) : Observable<Brand[]>{
+    let paramString = '';
+    searchParameters.forEach((keyword, index) => {
+      paramString = index === 0 ? paramString = paramString + this.searchParamQuestion + keyword : paramString = paramString + this.searchParam + keyword;
+    });
+    return this.http.get<Brand[]>(this.searchApi + this.brandsPath + paramString);
   }
 }

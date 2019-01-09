@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import springeshop.model.Brand;
 import springeshop.model.Product;
 import springeshop.model.ProductPage;
 
@@ -60,6 +61,49 @@ public class SearchServiceImpl implements SearchService{
 	
 	private int getProductPages(int numberOfProducts){
 		return (int) Math.ceil(numberOfProducts / 6.0);
+	}
+
+	@Override
+	public int findSearchProductsNumberByRange(String[] searchTerms, double min, double max, List<Brand> brands) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    
+	    Predicate priceRangePredicate = criteriaBuilder.between(productsRoot.get("price"), min, max);
+        List<Predicate> searchPredicatesList = new ArrayList<>();
+	    
+	    if(searchTerms.length > 0){
+	    	for(String term : searchTerms){
+	    		searchPredicatesList.add(criteriaBuilder.like(productsRoot.get("name"), "%" + term +"%"));
+	    	}
+	    }
+	    
+	    Predicate[] searchPredicatesArray = new Predicate[searchPredicatesList.size()];
+	    searchPredicatesList.toArray(searchPredicatesArray);
+	    
+	    Predicate searchPredicate = criteriaBuilder.or(searchPredicatesArray);
+	    
+	    if(!brands.isEmpty()){
+	    	List<Predicate> brandPredicateList = new ArrayList<>();
+	    	
+	    	for(int i=0; i < brands.size(); i++){
+	    		brandPredicateList.add(criteriaBuilder.equal(productsRoot.get("brand"), brands.get(i)));
+		    }
+	    	
+	    	Predicate[] brandsPredicateArray = new Predicate[brandPredicateList.size()];
+		    brandPredicateList.toArray(brandsPredicateArray);
+		    
+		    Predicate brandsPredicate = criteriaBuilder.or(brandsPredicateArray);
+		    criteriaQuery.where(criteriaBuilder.and(searchPredicate, priceRangePredicate, brandsPredicate));
+	    }else{
+	    	criteriaQuery.where(criteriaBuilder.and(searchPredicate, priceRangePredicate));
+	    }
+	    
+	    int number = 0;
+	    number = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    
+		return number;
 	}
 
 }

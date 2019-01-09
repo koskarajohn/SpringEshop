@@ -8,6 +8,7 @@
   <div class="row category-content">
 
     <div class="col-md-3 sidebar">
+        <search-sidebar [searchTerms] = "keywords"></search-sidebar>
     </div>
 
     <div class="col-md-9">
@@ -25,8 +26,16 @@
             </div>
         </div>
 
+        <ul class="pagination">
+            <li *ngFor="let page of pageNumbers; let i = index;" [ngClass] = " i == currentPage ? 'page-item active' : 'page-item'">
+              <a class="page-link" routerLink="/search" [queryParams]="{ keyword : keywords, page: i}">{{page}}</a>
+            </li>
+        </ul> 
+
     </div>
   </div>
 </section>
+
+<i *ngIf="!isGetSearchProductsRequestDone" class="fas fa-sync-alt fa-2x fa-spin spinner" ></i>
 
 <my-footer></my-footer>

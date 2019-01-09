@@ -23,6 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationStatusChangeInterceptor } from './interceptors/authenticationStatusChangeInterceptor';
 import { OrderComponent } from './components/order/order.component';
 import { SearchComponent } from './components/search/search.component';
+import { SearchSidebarComponent } from './components/search-sidebar/search-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SearchComponent } from './components/search/search.component';
     RatingComponent,
     OrderComponent,
     SearchComponent,
+    SearchSidebarComponent,
   ],
   imports: [
     BrowserModule,

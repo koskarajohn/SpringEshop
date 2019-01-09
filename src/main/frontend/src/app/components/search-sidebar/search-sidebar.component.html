@@ -1,0 +1,7 @@
+<h4>Τιμή</h4>
+<ul class="list-group">
+    <li class="list-group-item"  *ngFor="let priceRange of numberOfProductsPerPriceRange">
+      <input type="checkbox" class="mr-2" value="{{priceRange?.rangeId}}" [(ngModel)]="priceRange.checked" (change)="onSelectedPriceRange()" [disabled] = "priceRange?.number === 0">{{priceRange?.min}}€ - {{priceRange?.max}}€
+      <span>({{priceRange?.number}})</span>
+    </li>
+</ul>

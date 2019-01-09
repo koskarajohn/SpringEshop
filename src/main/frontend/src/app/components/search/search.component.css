@@ -3,3 +3,38 @@ section h2{
     margin-bottom: 48px;
     margin-top: 48px;
 }
+
+.sidebar{
+    border-right: 1px solid #333333;
+}
+
+.category-content{
+    margin-bottom:48px;
+}
+
+.product-content{
+    margin-bottom:48px;
+}
+
+.page-link{
+    color:#04BF00;
+    background : #fff;
+    border-color : #dee2e6;
+}
+
+.page-link:focus{
+    box-shadow: none;
+}
+
+.page-item.active .page-link{
+    color:white;
+    background : #04BF00;
+    border-color : #04BF00;
+}
+
+.spinner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+}

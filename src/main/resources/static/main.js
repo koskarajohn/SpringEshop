@@ -226,12 +226,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _interceptors_authenticationStatusChangeInterceptor__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./interceptors/authenticationStatusChangeInterceptor */ "./src/app/interceptors/authenticationStatusChangeInterceptor.ts");
 /* harmony import */ var _components_order_order_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/order/order.component */ "./src/app/components/order/order.component.ts");
 /* harmony import */ var _components_search_search_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/search/search.component */ "./src/app/components/search/search.component.ts");
+/* harmony import */ var _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/search-sidebar/search-sidebar.component */ "./src/app/components/search-sidebar/search-sidebar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -281,6 +283,7 @@ var AppModule = /** @class */ (function () {
                 _components_rating_rating_component__WEBPACK_IMPORTED_MODULE_19__["RatingComponent"],
                 _components_order_order_component__WEBPACK_IMPORTED_MODULE_23__["OrderComponent"],
                 _components_search_search_component__WEBPACK_IMPORTED_MODULE_24__["SearchComponent"],
+                _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__["SearchSidebarComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -478,7 +481,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , fn : 'no', brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"keywords\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , fn : 'no', brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2166,6 +2169,122 @@ var RegisterPageComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/search-sidebar/search-sidebar.component.css":
+/*!************************************************************************!*\
+  !*** ./src/app/components/search-sidebar/search-sidebar.component.css ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "ul{\r\n    margin-top: 8px;\r\n    margin-bottom: 48px;\r\n}\r\n\r\nspan{\r\n    margin-left: 8px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/search-sidebar/search-sidebar.component.html":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/search-sidebar/search-sidebar.component.html ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h4>Τιμή</h4>\n<ul class=\"list-group\">\n    <li class=\"list-group-item\"  *ngFor=\"let priceRange of numberOfProductsPerPriceRange\">\n      <input type=\"checkbox\" class=\"mr-2\" value=\"{{priceRange?.rangeId}}\" [(ngModel)]=\"priceRange.checked\" (change)=\"onSelectedPriceRange()\" [disabled] = \"priceRange?.number === 0\">{{priceRange?.min}}€ - {{priceRange?.max}}€\n      <span>({{priceRange?.number}})</span>\n    </li>\n</ul>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/search-sidebar/search-sidebar.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/search-sidebar/search-sidebar.component.ts ***!
+  \***********************************************************************/
+/*! exports provided: SearchSidebarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchSidebarComponent", function() { return SearchSidebarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_search_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/search.service */ "./src/app/services/search.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SearchSidebarComponent = /** @class */ (function () {
+    function SearchSidebarComponent(searchService) {
+        this.searchService = searchService;
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
+    }
+    SearchSidebarComponent.prototype.ngOnInit = function () {
+        this.getPriceRanges();
+    };
+    SearchSidebarComponent.prototype.getPriceRanges = function () {
+        var _this = this;
+        this.initializePriceRanges();
+        this.numberOfProductsPerPriceRange = [];
+        this.httpSubscription = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, this.selectedBrands).subscribe(function (range) {
+            _this.numberOfProductsPerPriceRange.push(range);
+            _this.numberOfProductsPerPriceRange.sort(function (a, b) {
+                var aIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === a.rangeId; });
+                var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
+                return aIndex - bIndex;
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    SearchSidebarComponent.prototype.initializePriceRanges = function () {
+        this.priceRanges = [];
+        var zeroToTen = {};
+        var tenToTwenty = {};
+        var TwentyToThirty = {};
+        var ThirtyToFifty = {};
+        zeroToTen.id = 1;
+        tenToTwenty.id = 2;
+        TwentyToThirty.id = 3;
+        ThirtyToFifty.id = 4;
+        this.priceRanges.push(zeroToTen);
+        this.priceRanges.push(tenToTwenty);
+        this.priceRanges.push(TwentyToThirty);
+        this.priceRanges.push(ThirtyToFifty);
+        this.priceRanges.sort(function (a, b) { return a.id - b.id; });
+    };
+    SearchSidebarComponent.prototype.onSelectedPriceRange = function () {
+    };
+    SearchSidebarComponent.prototype.ngOnDestroy = function () {
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
+        if (this.httpSubscription2 !== undefined)
+            this.httpSubscription2.unsubscribe();
+        if (this.httpSubscription3 !== undefined)
+            this.httpSubscription3.unsubscribe();
+        if (this.httpSubscription4 !== undefined)
+            this.httpSubscription4.unsubscribe();
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], SearchSidebarComponent.prototype, "searchTerms", void 0);
+    SearchSidebarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'search-sidebar',
+            template: __webpack_require__(/*! ./search-sidebar.component.html */ "./src/app/components/search-sidebar/search-sidebar.component.html"),
+            styles: [__webpack_require__(/*! ./search-sidebar.component.css */ "./src/app/components/search-sidebar/search-sidebar.component.css")]
+        }),
+        __metadata("design:paramtypes", [src_app_services_search_service__WEBPACK_IMPORTED_MODULE_1__["SearchService"]])
+    ], SearchSidebarComponent);
+    return SearchSidebarComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/search/search.component.css":
 /*!********************************************************!*\
   !*** ./src/app/components/search/search.component.css ***!
@@ -2173,7 +2292,7 @@ var RegisterPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n    margin-top: 24px;\r\n}"
+module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n    margin-top: 48px;\r\n}\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.page-link{\r\n    color:#04BF00;\r\n    background : #fff;\r\n    border-color : #dee2e6;\r\n}\r\n\r\n.page-link:focus{\r\n    box-shadow: none;\r\n}\r\n\r\n.page-item.active .page-link{\r\n    color:white;\r\n    background : #04BF00;\r\n    border-color : #04BF00;\r\n}\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n}"
 
 /***/ }),
 
@@ -2184,7 +2303,7 @@ module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n    </div>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -2218,6 +2337,7 @@ var SearchComponent = /** @class */ (function () {
         this.route = route;
         this.searchService = searchService;
         this.currentPage = 0;
+        this.isGetSearchProductsRequestDone = true;
         this.keywords = [];
         this.userSearchString = '';
         this.selectOptions = [
@@ -2234,6 +2354,7 @@ var SearchComponent = /** @class */ (function () {
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
+            _this.isGetSearchProductsRequestDone = false;
             _this.currentPage = queryParams['page'];
             _this.keywords = queryParams['keyword'];
             _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
@@ -2243,8 +2364,10 @@ var SearchComponent = /** @class */ (function () {
                 _this.productPage = productPage;
                 _this.products = productPage.content;
                 _this.setProductRange(_this.productPage.number, _this.productPage.numberOfElements);
-                //this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
+                _this.isGetSearchProductsRequestDone = true;
+                _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
             }, function (error) {
+                _this.isGetSearchProductsRequestDone = true;
                 console.log(error);
             });
         });
@@ -2259,6 +2382,12 @@ var SearchComponent = /** @class */ (function () {
     SearchComponent.prototype.setProductRange = function (pageNumber, pageNumberOfElements) {
         this.productNumberLow = pageNumber * 6 + 1;
         this.productNumberHigh = this.productNumberLow + pageNumberOfElements - 1;
+    };
+    SearchComponent.prototype.ngOnDestroy = function () {
+        this.queryParamRouteSubscription.unsubscribe();
+        if (this.httpSubscription !== undefined)
+            this.httpSubscription.unsubscribe();
+        // /if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
     };
     SearchComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -3131,6 +3260,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchService", function() { return SearchService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3142,10 +3273,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var SearchService = /** @class */ (function () {
     function SearchService(http) {
         this.http = http;
         this.searchApi = '/api/search';
+        this.countPath = '/count';
+        this.brandParam = '&brand=';
+        this.rangeParam = '?rangeid=';
         this.pageParam = "?page=";
         this.searchParam = "&keyword=";
     }
@@ -3154,6 +3290,22 @@ var SearchService = /** @class */ (function () {
         var paramString = this.pageParam + page;
         searchParameters.forEach(function (keyword) { return paramString = paramString + _this.searchParam + keyword; });
         return this.http.get(this.searchApi + paramString);
+    };
+    SearchService.prototype.getSearchProductsNumberByPriceRange = function (searchTerms, priceRanges, brandParameters) {
+        var _this = this;
+        var paramString = '';
+        searchTerms.forEach(function (term, index) {
+            paramString = paramString + _this.searchParam + term;
+        });
+        if (brandParameters.length === 0) {
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
+        }
+        else {
+            brandParameters.forEach(function (brand) {
+                paramString = paramString + _this.brandParam + brand;
+            });
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
+        }
     };
     SearchService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

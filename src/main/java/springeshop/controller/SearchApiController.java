@@ -3,12 +3,9 @@ package springeshop.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,10 +46,29 @@ public class SearchApiController {
 	public static final Logger logger = LoggerFactory.getLogger(SearchApiController.class);
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<?> getSearchProducts(@RequestParam(value = "page") int page, @RequestParam(value = "keyword") String[] keywords){
+	public ResponseEntity<?> getSearchProducts(@RequestParam(value = "page") int page, @RequestParam(value = "keyword") String[] keywords
+			, @RequestParam(value = "brand", required = false) String[] brands, @RequestParam(value = "range", required = false) String[] ranges,
+			@RequestParam(value = "order", required = false) String order){
 	
 		ProductPage productPage = new ProductPage();
-		productPage = searchService.findBySearchTerms(keywords, page);
+		
+		List<Brand> brandList = new ArrayList<>();
+		List<double[]> priceRangeList = new ArrayList<>();
+		
+		if(brands != null){
+			brandList = brandService.findSpecificBrands(brands);
+		}
+		
+		if(ranges != null){
+			for(String range : ranges){
+				double[] rangeValues = new double[2];
+				rangeValues[0] = getRangeMin(range);
+				rangeValues[1] = getRangeMax(range);
+				priceRangeList.add(rangeValues);
+			}
+		}
+		
+		productPage = searchService.findBySearchTerms(keywords, page, brandList, priceRangeList, order);
 		
 		if(productPage.getContent().isEmpty()){
 			logger.error("No products found.");

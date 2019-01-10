@@ -1478,6 +1478,8 @@ var NavigationBarComponent = /** @class */ (function () {
         this.user = '';
         this.userId = '';
         this.searchText = "";
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
     }
     NavigationBarComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -1537,7 +1539,7 @@ var NavigationBarComponent = /** @class */ (function () {
     NavigationBarComponent.prototype.onSearchClicked = function () {
         var regularExpression = /[^0-9^a-z]+/;
         var keywords = this.searchText.split(regularExpression);
-        this.router.navigate(['/search'], { queryParams: { keyword: keywords, page: 0 } });
+        this.router.navigate(['/search'], { queryParams: { keyword: keywords, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
     };
     NavigationBarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2203,6 +2205,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchSidebarComponent", function() { return SearchSidebarComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_services_search_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/search.service */ "./src/app/services/search.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2214,17 +2217,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var SearchSidebarComponent = /** @class */ (function () {
-    function SearchSidebarComponent(searchService) {
+    function SearchSidebarComponent(searchService, router) {
         this.searchService = searchService;
+        this.router = router;
         this.selectedBrands = [];
         this.selectedPriceRanges = [];
     }
     SearchSidebarComponent.prototype.ngOnInit = function () {
-    };
-    SearchSidebarComponent.prototype.ngOnChanges = function (changes) {
         this.getPriceRanges();
         this.getBrands();
+    };
+    SearchSidebarComponent.prototype.ngOnChanges = function (changes) {
     };
     SearchSidebarComponent.prototype.getBrands = function () {
         var _this = this;
@@ -2319,12 +2324,14 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedBrands = this.numberOfProductsPerBrand
             .filter(function (brandOption) { return brandOption.checked; })
             .map(function (brandOption) { return brandOption.brand; });
+        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
         this.updatePriceRanges();
     };
     SearchSidebarComponent.prototype.onSelectedPriceRange = function () {
         this.selectedPriceRanges = this.numberOfProductsPerPriceRange
             .filter(function (priceRangeOption) { return priceRangeOption.checked; })
             .map(function (priceRangeOption) { return priceRangeOption.rangeId; });
+        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
         this.updateBrands();
     };
     SearchSidebarComponent.prototype.ngOnDestroy = function () {
@@ -2347,7 +2354,7 @@ var SearchSidebarComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./search-sidebar.component.html */ "./src/app/components/search-sidebar/search-sidebar.component.html"),
             styles: [__webpack_require__(/*! ./search-sidebar.component.css */ "./src/app/components/search-sidebar/search-sidebar.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_services_search_service__WEBPACK_IMPORTED_MODULE_1__["SearchService"]])
+        __metadata("design:paramtypes", [src_app_services_search_service__WEBPACK_IMPORTED_MODULE_1__["SearchService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], SearchSidebarComponent);
     return SearchSidebarComponent;
 }());
@@ -2374,7 +2381,7 @@ module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -2411,6 +2418,8 @@ var SearchComponent = /** @class */ (function () {
         this.isGetSearchProductsRequestDone = true;
         this.keywords = [];
         this.userSearchString = '';
+        this.brandParameters = [];
+        this.rangeParameters = [];
         this.selectOptions = [
             {
                 name: 'Αύξουσα Τιμή',
@@ -2424,13 +2433,17 @@ var SearchComponent = /** @class */ (function () {
     }
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.selectedValue = 'asc';
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
             _this.isGetSearchProductsRequestDone = false;
             _this.currentPage = queryParams['page'];
             _this.keywords = queryParams['keyword'];
-            _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
-            _this.selectedValue = 'asc';
-            _this.httpSubscription = _this.searchService.getSearchProducts(_this.keywords, _this.currentPage).subscribe(function (productPage) {
+            _this.brandParameters = queryParams['brand'];
+            _this.rangeParameters = queryParams['range'];
+            if (_this.userSearchString === '') {
+                _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
+            }
+            _this.httpSubscription = _this.searchService.getSearchProducts(_this.keywords, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                 _this.pageNumbers = [];
                 _this.productPage = productPage;
                 _this.products = productPage.content;
@@ -3355,15 +3368,24 @@ var SearchService = /** @class */ (function () {
         this.productsPath = '/products';
         this.rangesPath = '/ranges';
         this.brandParam = '&brand=';
+        this.brandParameterAnd = '&brand=';
         this.pageParam = "?page=";
         this.searchParam = "?keyword=";
         this.searchParamAnd = '&keyword=';
         this.rangeParameterAnd = '&range=';
+        this.orderParam = '&order=';
     }
-    SearchService.prototype.getSearchProducts = function (searchParameters, page) {
+    SearchService.prototype.getSearchProducts = function (searchParameters, page, order, brandParameters, rangeParameters) {
         var _this = this;
         var paramString = this.pageParam + page;
         searchParameters.forEach(function (keyword) { return paramString = paramString + _this.searchParamAnd + keyword; });
+        if (brandParameters.length > 0) {
+            brandParameters.forEach(function (brand) { return paramString = paramString + _this.brandParameterAnd + brand; });
+        }
+        if (rangeParameters.length > 0) {
+            rangeParameters.forEach(function (range) { return paramString = paramString + _this.rangeParameterAnd + range; });
+        }
+        paramString = paramString + this.orderParam + order;
         return this.http.get(this.searchApi + paramString);
     };
     SearchService.prototype.getSearchProductsNumberByPriceRange = function (searchTerms, priceRanges, brandParameters) {

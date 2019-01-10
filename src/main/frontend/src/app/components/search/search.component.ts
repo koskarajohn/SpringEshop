@@ -20,6 +20,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   keywords : string[] = [];
   userSearchString : string = '';
+  brandParameters = [] as string[];
+  rangeParameters : string[] = [];
 
   productNumberLow : number ;
   productNumberHigh : number;
@@ -44,14 +46,19 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(private route : ActivatedRoute, private searchService : SearchService) { }
 
   ngOnInit() {
+    this.selectedValue = 'asc';
     this.queryParamRouteSubscription = this.route.queryParams.subscribe(queryParams => {
       this.isGetSearchProductsRequestDone = false;
       this.currentPage = queryParams['page'];
       this.keywords = queryParams['keyword'];
-      this.keywords.forEach(keyword => this.userSearchString = this.userSearchString + ' ' + keyword);
-      this.selectedValue = 'asc';
+      this.brandParameters = queryParams['brand'];
+      this.rangeParameters = queryParams['range'];
 
-      this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage).subscribe(productPage => {
+      if(this.userSearchString === ''){
+        this.keywords.forEach(keyword => this.userSearchString = this.userSearchString + ' ' + keyword);
+      }
+          
+      this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
         this.products = productPage.content;

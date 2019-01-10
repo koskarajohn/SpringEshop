@@ -21,16 +21,29 @@ export class SearchService {
   private rangesPath = '/ranges';
 
   private brandParam = '&brand=';
+  private brandParameterAnd = '&brand=';
   private pageParam = "?page=";
   private searchParam = "?keyword=";
   private searchParamAnd =  '&keyword=';
   private rangeParameterAnd = '&range=';
+  private orderParam = '&order=';
 
   constructor(private http : HttpClient) { }
 
-  getSearchProducts(searchParameters : string[], page : number) : Observable<ProductPage>{
+  getSearchProducts(searchParameters : string[], page : number, order : string, brandParameters : string[], rangeParameters : string[]) : Observable<ProductPage>{
     let paramString = this.pageParam + page;
     searchParameters.forEach(keyword => paramString = paramString + this.searchParamAnd + keyword);
+
+    if(brandParameters.length > 0){
+      brandParameters.forEach(brand => paramString = paramString + this.brandParameterAnd + brand);
+    }
+
+    if(rangeParameters.length > 0){
+      rangeParameters.forEach(range => paramString = paramString + this.rangeParameterAnd + range);
+    }
+
+    paramString = paramString + this.orderParam + order;
+
     return this.http.get<ProductPage>(this.searchApi + paramString);
   }
 

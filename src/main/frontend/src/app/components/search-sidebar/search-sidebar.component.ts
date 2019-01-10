@@ -5,6 +5,7 @@ import { ProductsPerBrand } from 'src/app/models/productsPerBrand';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
 import { Brand } from 'src/app/models/brand';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'search-sidebar',
@@ -27,15 +28,15 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   httpSubscription3 : Subscription;
   httpSubscription4 : Subscription;
   
-  constructor(private searchService : SearchService) { }
+  constructor(private searchService : SearchService, private router : Router) { }
 
   ngOnInit() {
-    
+    this.getPriceRanges();
+    this.getBrands();
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    this.getPriceRanges();
-    this.getBrands();
+    
   }
 
   getBrands() : void{
@@ -137,6 +138,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
 
+    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});
     this.updatePriceRanges();
   }
 
@@ -145,6 +147,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                              .filter(priceRangeOption => priceRangeOption.checked)
                              .map(priceRangeOption => priceRangeOption.rangeId);
 
+    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});                       
     this.updateBrands();
   }
 

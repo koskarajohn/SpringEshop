@@ -27,6 +27,9 @@ export class NavigationBarComponent implements OnInit{
 
   private searchText : string ="";
 
+  selectedBrands : string[] = [];
+  selectedPriceRanges : number[] = [];
+
   constructor( private authenticationService : AuthenticationService, 
     private cartService : CartService, private searchService : SearchService, private router: Router) { }
 
@@ -84,7 +87,7 @@ export class NavigationBarComponent implements OnInit{
   onSearchClicked() : void{
     var regularExpression = /[^0-9^a-z]+/;
     var keywords = this.searchText.split(regularExpression);
-    this.router.navigate(['/search'], {queryParams : { keyword : keywords,  page : 0}});
+    this.router.navigate(['/search'], {queryParams : { keyword : keywords, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});
   }
 
 }

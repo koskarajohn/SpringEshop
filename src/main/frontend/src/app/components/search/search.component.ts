@@ -69,13 +69,22 @@ export class SearchComponent implements OnInit, OnDestroy {
       error => {
         this.isGetSearchProductsRequestDone = true;
         console.log(error);
-      })
+      });
 
     });
   }
 
   onOrderChange(order : any){
-    
+    this.isGetSearchProductsRequestDone = false;
+    this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, order, this.brandParameters, this.rangeParameters).subscribe(productPage => {
+      this.productPage = productPage;
+      this.products = productPage.content;
+      this.isGetSearchProductsRequestDone = true;
+    },
+    error => {
+      this.isGetSearchProductsRequestDone = true;
+      console.log(error);
+    });
   }
 
   initializePageNumberArray(pageNumbers : number[], pageCount : number) : void{
@@ -92,7 +101,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.queryParamRouteSubscription.unsubscribe();
     if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
-    // /if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
+    if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
   }
 
 }

@@ -2286,7 +2286,6 @@ var SearchSidebarComponent = /** @class */ (function () {
     };
     SearchSidebarComponent.prototype.updatePriceRanges = function () {
         var _this = this;
-        this.initializePriceRanges();
         var numberOfProdsArray = [];
         this.httpSubscription4 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, this.selectedBrands)
             .subscribe(function (range) {
@@ -2457,6 +2456,16 @@ var SearchComponent = /** @class */ (function () {
         });
     };
     SearchComponent.prototype.onOrderChange = function (order) {
+        var _this = this;
+        this.isGetSearchProductsRequestDone = false;
+        this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, order, this.brandParameters, this.rangeParameters).subscribe(function (productPage) {
+            _this.productPage = productPage;
+            _this.products = productPage.content;
+            _this.isGetSearchProductsRequestDone = true;
+        }, function (error) {
+            _this.isGetSearchProductsRequestDone = true;
+            console.log(error);
+        });
     };
     SearchComponent.prototype.initializePageNumberArray = function (pageNumbers, pageCount) {
         for (var i = 0; i < pageCount; i++) {
@@ -2471,7 +2480,8 @@ var SearchComponent = /** @class */ (function () {
         this.queryParamRouteSubscription.unsubscribe();
         if (this.httpSubscription !== undefined)
             this.httpSubscription.unsubscribe();
-        // /if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
+        if (this.httpSubscription2 !== undefined)
+            this.httpSubscription2.unsubscribe();
     };
     SearchComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

@@ -96,7 +96,6 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   }
   
   updatePriceRanges() : void{
-    this.initializePriceRanges();
     let numberOfProdsArray :  ProductsPerPriceRange[] = [];
     this.httpSubscription4 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, this.selectedBrands)
                         .subscribe(range => {

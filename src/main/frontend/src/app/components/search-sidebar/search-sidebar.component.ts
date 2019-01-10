@@ -93,6 +93,27 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
       console.log(error);
     });
   }
+  
+  updatePriceRanges() : void{
+    this.initializePriceRanges();
+    let numberOfProdsArray :  ProductsPerPriceRange[] = [];
+    this.httpSubscription4 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, this.selectedBrands)
+                        .subscribe(range => {
+                          range.checked = this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(x => x.rangeId === range.rangeId)].checked;
+                          numberOfProdsArray.push(range);
+                          numberOfProdsArray.sort((a: ProductsPerPriceRange, b: ProductsPerPriceRange) => {
+                            const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
+                            const bIndex = this.priceRanges.findIndex(priceRange => priceRange.id === b.rangeId);
+                            return aIndex - bIndex;
+                          });
+                          if(numberOfProdsArray.length === 4){
+                            this.numberOfProductsPerPriceRange = numberOfProdsArray;
+                          }
+                        }, 
+                        error => {
+                          console.log(error);
+                        });
+  }
 
   initializePriceRanges() : void{
     this.priceRanges = [];
@@ -115,6 +136,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
     this.selectedBrands = this.numberOfProductsPerBrand
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
+
+    this.updatePriceRanges();
   }
 
   onSelectedPriceRange() : void{

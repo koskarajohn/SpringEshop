@@ -41,17 +41,13 @@ export class SearchService {
       paramString = index === 0 ? paramString = paramString + this.searchParam + keyword : paramString = paramString + this.searchParamAnd + keyword;
     });
 
-    if(brandParameters.length === 0){
-      return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.searchApi + this.rangesPath + '/' + range.id + this.productsPath + this.countPath + paramString)));
-    }else{
-
+    if(brandParameters.length > 0){
       brandParameters.forEach((brand) => {
         paramString =  paramString + this.brandParam + brand;
       });
-
-      return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.searchApi + this.rangesPath + '/' + range.id + this.productsPath + this.countPath + paramString)));
     }
     
+    return from(priceRanges).pipe(mergeMap(range => <Observable<ProductsPerPriceRange>> this.http.get<ProductsPerPriceRange>(this.searchApi + this.rangesPath + '/' + range.id + this.productsPath + this.countPath + paramString)));
   }
 
   getSearchBrands(searchParameters : string[]) : Observable<Brand[]>{

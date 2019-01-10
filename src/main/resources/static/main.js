@@ -2279,6 +2279,26 @@ var SearchSidebarComponent = /** @class */ (function () {
             console.log(error);
         });
     };
+    SearchSidebarComponent.prototype.updatePriceRanges = function () {
+        var _this = this;
+        this.initializePriceRanges();
+        var numberOfProdsArray = [];
+        this.httpSubscription4 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, this.selectedBrands)
+            .subscribe(function (range) {
+            range.checked = _this.numberOfProductsPerPriceRange[_this.numberOfProductsPerPriceRange.findIndex(function (x) { return x.rangeId === range.rangeId; })].checked;
+            numberOfProdsArray.push(range);
+            numberOfProdsArray.sort(function (a, b) {
+                var aIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === a.rangeId; });
+                var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
+                return aIndex - bIndex;
+            });
+            if (numberOfProdsArray.length === 4) {
+                _this.numberOfProductsPerPriceRange = numberOfProdsArray;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
     SearchSidebarComponent.prototype.initializePriceRanges = function () {
         this.priceRanges = [];
         var zeroToTen = {};
@@ -2299,6 +2319,7 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedBrands = this.numberOfProductsPerBrand
             .filter(function (brandOption) { return brandOption.checked; })
             .map(function (brandOption) { return brandOption.brand; });
+        this.updatePriceRanges();
     };
     SearchSidebarComponent.prototype.onSelectedPriceRange = function () {
         this.selectedPriceRanges = this.numberOfProductsPerPriceRange
@@ -3351,15 +3372,12 @@ var SearchService = /** @class */ (function () {
         searchTerms.forEach(function (keyword, index) {
             paramString = index === 0 ? paramString = paramString + _this.searchParam + keyword : paramString = paramString + _this.searchParamAnd + keyword;
         });
-        if (brandParameters.length === 0) {
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString); }));
-        }
-        else {
+        if (brandParameters.length > 0) {
             brandParameters.forEach(function (brand) {
                 paramString = paramString + _this.brandParam + brand;
             });
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString); }));
         }
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString); }));
     };
     SearchService.prototype.getSearchBrands = function (searchParameters) {
         var _this = this;

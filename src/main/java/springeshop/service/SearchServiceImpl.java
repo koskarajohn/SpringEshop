@@ -127,6 +127,7 @@ public class SearchServiceImpl implements SearchService{
 	    
 	    criteriaQuery.select(productsRoot.get("brand")).distinct(true);
 	    criteriaQuery.where(criteriaBuilder.and(searchPredicate));
+	    criteriaQuery.orderBy(criteriaBuilder.asc(productsRoot.get("brand").get("name")));
 	    
 	    List<Brand> brands = entityManager.createQuery(criteriaQuery).getResultList();
 		return brands;

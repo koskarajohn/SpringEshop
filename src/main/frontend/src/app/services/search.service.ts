@@ -6,6 +6,7 @@ import { ProductsPerPriceRange } from '../models/productsPerPriceRange';
 import { mergeMap } from 'rxjs/operators';
 import { PriceRange } from '../models/priceRange';
 import { Brand } from '../models/brand';
+import { ProductsPerBrand } from '../models/productsPerBrand';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,15 @@ export class SearchService {
       paramString = index === 0 ? paramString = paramString + this.searchParam + keyword : paramString = paramString + this.searchParamAnd + keyword;
     });
     return this.http.get<Brand[]>(this.searchApi + this.brandsPath + paramString);
+  }
+
+  getSearchProductsNumberByBrand(searchTerms : string[], brands : Brand[]) : Observable<ProductsPerBrand>{
+    let paramString = '';
+
+    searchTerms.forEach((keyword, index) => {
+      paramString = index === 0 ? paramString = paramString + this.searchParam + keyword : paramString = paramString + this.searchParamAnd + keyword;
+    });
+    
+    return from(brands).pipe(mergeMap(brand => <Observable<ProductsPerBrand>> this.http.get<ProductsPerBrand>(this.searchApi + this.brandsPath + '/' + brand.name + this.productsPath + this.countPath + paramString)));
   }
 }

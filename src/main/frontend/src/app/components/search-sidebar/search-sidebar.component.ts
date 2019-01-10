@@ -4,6 +4,7 @@ import { ProductsPerPriceRange } from 'src/app/models/productsPerPriceRange';
 import { ProductsPerBrand } from 'src/app/models/productsPerBrand';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
+import { Brand } from 'src/app/models/brand';
 
 @Component({
   selector: 'search-sidebar',
@@ -13,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class SearchSidebarComponent implements OnInit, OnDestroy{
 
   @Input() searchTerms : string[];
+  searchBrands : Brand[];
   priceRanges : PriceRange[];
   numberOfProductsPerBrand: ProductsPerBrand[];
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
@@ -34,7 +36,20 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
     this.searchService.getSearchBrands(this.searchTerms).toPromise()
-                      .then(brands => console.log(brands))
+                      .then(brands => {
+                        this.searchBrands = brands;
+                        this.httpSubscription2 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands).subscribe(item => {
+                          this.numberOfProductsPerBrand.push(item);
+                          this.numberOfProductsPerBrand.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
+                            const aIndex = brands.findIndex(brand => brand.name === a.brand);
+                            const bIndex = brands.findIndex(brand => brand.name === b.brand);
+                            return aIndex - bIndex;
+                         });
+                        }, 
+                        error => {
+                          console.log(error);
+                        });
+                      })
                       .catch(error => console.log(error));
   }
 

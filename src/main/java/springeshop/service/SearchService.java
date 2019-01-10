@@ -9,6 +9,6 @@ public interface SearchService {
 
 	ProductPage findBySearchTerms(String[] searchTerms, int page);
 	int findSearchProductsNumberByRange(String[] searchTerms, double min, double max, List<Brand> brands);
-	int findSearchProductsNumberByBrand(String[] searchTerms, Brand brand);
+	int findSearchProductsNumberByBrand(String[] searchTerms, Brand brand, List<double[]> priceRanges);
 	List<Brand> findSearchBrands(String[] searchTerms);
 }

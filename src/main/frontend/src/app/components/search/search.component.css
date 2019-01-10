@@ -16,6 +16,12 @@ section h2{
     margin-bottom:48px;
 }
 
+ul{
+    position: absolute;
+    bottom: 0px;
+    left : 50%;
+}
+
 .page-link{
     color:#04BF00;
     background : #fff;

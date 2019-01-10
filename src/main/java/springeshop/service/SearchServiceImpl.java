@@ -134,7 +134,7 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public int findSearchProductsNumberByBrand(String[] searchTerms, Brand brand) {
+	public int findSearchProductsNumberByBrand(String[] searchTerms, Brand brand, List<double[]> priceRanges) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 	    
@@ -153,7 +153,23 @@ public class SearchServiceImpl implements SearchService{
 	    Predicate searchPredicate = criteriaBuilder.or(searchPredicatesArray);
 	    Predicate brandPredicate = criteriaBuilder.equal(productsRoot.get("brand"), brand);
 	    
-	    criteriaQuery.where(criteriaBuilder.and(searchPredicate, brandPredicate));
+	    if(priceRanges.isEmpty()){
+	    	criteriaQuery.where(criteriaBuilder.and(searchPredicate, brandPredicate));
+	    }else{
+	    	List<Predicate> priceRangePredicateList = new ArrayList<>();
+		    
+		    for(double[] range : priceRanges){
+		    	priceRangePredicateList.add(criteriaBuilder.between(productsRoot.get("price"), range[0], range[1]));
+		    }
+		    
+		    Predicate[] priceRangePredicateArray = new Predicate[priceRangePredicateList.size()];
+		    priceRangePredicateList.toArray(priceRangePredicateArray);
+		    Predicate priceRangePredicate = criteriaBuilder.or(priceRangePredicateArray);
+		    
+		    criteriaQuery.where(criteriaBuilder.and(searchPredicate, brandPredicate, priceRangePredicate));
+	    }
+	    
+	    
 	    int number = 0;
 	    number = entityManager.createQuery(criteriaQuery).getResultList().size();
 	    

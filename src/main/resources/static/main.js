@@ -2230,7 +2230,7 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.searchService.getSearchBrands(this.searchTerms).toPromise()
             .then(function (brands) {
             _this.searchBrands = brands;
-            _this.httpSubscription2 = _this.searchService.getSearchProductsNumberByBrand(_this.searchTerms, _this.searchBrands).subscribe(function (item) {
+            _this.httpSubscription2 = _this.searchService.getSearchProductsNumberByBrand(_this.searchTerms, _this.searchBrands, _this.selectedPriceRanges).subscribe(function (item) {
                 _this.numberOfProductsPerBrand.push(item);
                 _this.numberOfProductsPerBrand.sort(function (a, b) {
                     var aIndex = brands.findIndex(function (brand) { return brand.name === a.brand; });
@@ -2274,7 +2274,15 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.priceRanges.push(ThirtyToFifty);
         this.priceRanges.sort(function (a, b) { return a.id - b.id; });
     };
+    SearchSidebarComponent.prototype.onSelectedBrand = function () {
+        this.selectedBrands = this.numberOfProductsPerBrand
+            .filter(function (brandOption) { return brandOption.checked; })
+            .map(function (brandOption) { return brandOption.brand; });
+    };
     SearchSidebarComponent.prototype.onSelectedPriceRange = function () {
+        this.selectedPriceRanges = this.numberOfProductsPerPriceRange
+            .filter(function (priceRangeOption) { return priceRangeOption.checked; })
+            .map(function (priceRangeOption) { return priceRangeOption.rangeId; });
     };
     SearchSidebarComponent.prototype.ngOnDestroy = function () {
         if (this.httpSubscription !== undefined)
@@ -2312,7 +2320,7 @@ var SearchSidebarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n    margin-top: 48px;\r\n}\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.page-link{\r\n    color:#04BF00;\r\n    background : #fff;\r\n    border-color : #dee2e6;\r\n}\r\n\r\n.page-link:focus{\r\n    box-shadow: none;\r\n}\r\n\r\n.page-item.active .page-link{\r\n    color:white;\r\n    background : #04BF00;\r\n    border-color : #04BF00;\r\n}\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n}"
+module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 48px;\r\n    margin-top: 48px;\r\n}\r\n\r\n.sidebar{\r\n    border-right: 1px solid #333333;\r\n}\r\n\r\n.category-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\n.product-content{\r\n    margin-bottom:48px;\r\n}\r\n\r\nul{\r\n    position: absolute;\r\n    bottom: 0px;\r\n    left : 50%;\r\n}\r\n\r\n.page-link{\r\n    color:#04BF00;\r\n    background : #fff;\r\n    border-color : #dee2e6;\r\n}\r\n\r\n.page-link:focus{\r\n    box-shadow: none;\r\n}\r\n\r\n.page-item.active .page-link{\r\n    color:white;\r\n    background : #04BF00;\r\n    border-color : #04BF00;\r\n}\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n}"
 
 /***/ }),
 
@@ -3307,6 +3315,7 @@ var SearchService = /** @class */ (function () {
         this.pageParam = "?page=";
         this.searchParam = "?keyword=";
         this.searchParamAnd = '&keyword=';
+        this.rangeParameterAnd = '&range=';
     }
     SearchService.prototype.getSearchProducts = function (searchParameters, page) {
         var _this = this;
@@ -3338,12 +3347,17 @@ var SearchService = /** @class */ (function () {
         });
         return this.http.get(this.searchApi + this.brandsPath + paramString);
     };
-    SearchService.prototype.getSearchProductsNumberByBrand = function (searchTerms, brands) {
+    SearchService.prototype.getSearchProductsNumberByBrand = function (searchTerms, brands, rangeParameters) {
         var _this = this;
         var paramString = '';
         searchTerms.forEach(function (keyword, index) {
             paramString = index === 0 ? paramString = paramString + _this.searchParam + keyword : paramString = paramString + _this.searchParamAnd + keyword;
         });
+        if (rangeParameters.length > 0) {
+            rangeParameters.forEach(function (range) {
+                paramString = paramString + _this.rangeParameterAnd + range;
+            });
+        }
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(brands).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (brand) { return _this.http.get(_this.searchApi + _this.brandsPath + '/' + brand.name + _this.productsPath + _this.countPath + paramString); }));
     };
     SearchService = __decorate([

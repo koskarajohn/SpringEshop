@@ -18,6 +18,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
   priceRanges : PriceRange[];
   numberOfProductsPerBrand: ProductsPerBrand[];
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
+
   selectedBrands : string[] = [];
   selectedPriceRanges : number[] = [];
 
@@ -38,7 +39,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
     this.searchService.getSearchBrands(this.searchTerms).toPromise()
                       .then(brands => {
                         this.searchBrands = brands;
-                        this.httpSubscription2 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands).subscribe(item => {
+                        this.httpSubscription2 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, this.selectedPriceRanges).subscribe(item => {
                           this.numberOfProductsPerBrand.push(item);
                           this.numberOfProductsPerBrand.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
                             const aIndex = brands.findIndex(brand => brand.name === a.brand);
@@ -86,9 +87,16 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
     this.priceRanges.sort( (a : PriceRange, b : PriceRange ) => a.id - b.id);
   }
 
+  onSelectedBrand() : void{
+    this.selectedBrands = this.numberOfProductsPerBrand
+                             .filter(brandOption => brandOption.checked)
+                             .map(brandOption => brandOption.brand);
+  }
 
   onSelectedPriceRange() : void{
-
+    this.selectedPriceRanges = this.numberOfProductsPerPriceRange
+                             .filter(priceRangeOption => priceRangeOption.checked)
+                             .map(priceRangeOption => priceRangeOption.rangeId);
   }
 
   ngOnDestroy(){

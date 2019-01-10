@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Brand;
-import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.model.ProductPage;
@@ -27,7 +26,6 @@ import springeshop.model.ProductsPerPriceRange;
 import springeshop.service.BrandService;
 import springeshop.service.InventoryService;
 import springeshop.service.ProductImageService;
-import springeshop.service.ProductService;
 import springeshop.service.SearchService;
 import springeshop.util.Constants;
 import springeshop.util.ErrorMessage;
@@ -89,13 +87,20 @@ public class SearchApiController {
 			logger.error("Brand with name {} does not  exist", brandname);
 				return new ResponseEntity<>(new ErrorMessage("Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
 		}
+		
+		List<double[]> priceRangeList = new ArrayList<>();
+		
+		if(ranges != null){
+			for(String range : ranges){
+				double[] rangeValues = new double[2];
+				rangeValues[0] = getRangeMin(range);
+				rangeValues[1] = getRangeMax(range);
+				priceRangeList.add(rangeValues);
+			}
 			
-		if(ranges == null){
-			productsNumber = searchService.findSearchProductsNumberByBrand(keywords,  brandService.findByName(brandname));
-		}else{
-
 		}
 		
+		productsNumber = searchService.findSearchProductsNumberByBrand(keywords,  brandService.findByName(brandname), priceRangeList);
 			
 		ProductsPerBrand pNumber =  new ProductsPerBrand();
 		pNumber.setNumber(productsNumber);

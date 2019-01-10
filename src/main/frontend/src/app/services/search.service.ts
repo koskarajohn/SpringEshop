@@ -24,6 +24,7 @@ export class SearchService {
   private pageParam = "?page=";
   private searchParam = "?keyword=";
   private searchParamAnd =  '&keyword=';
+  private rangeParameterAnd = '&range=';
 
   constructor(private http : HttpClient) { }
 
@@ -61,13 +62,20 @@ export class SearchService {
     return this.http.get<Brand[]>(this.searchApi + this.brandsPath + paramString);
   }
 
-  getSearchProductsNumberByBrand(searchTerms : string[], brands : Brand[]) : Observable<ProductsPerBrand>{
+  getSearchProductsNumberByBrand(searchTerms : string[], brands : Brand[],  rangeParameters : number[]) : Observable<ProductsPerBrand>{
     let paramString = '';
-
     searchTerms.forEach((keyword, index) => {
       paramString = index === 0 ? paramString = paramString + this.searchParam + keyword : paramString = paramString + this.searchParamAnd + keyword;
     });
-    
+
+    if(rangeParameters.length > 0){
+      rangeParameters.forEach(range => {
+        paramString =  paramString + this.rangeParameterAnd + range;
+      });
+
+    }
+
     return from(brands).pipe(mergeMap(brand => <Observable<ProductsPerBrand>> this.http.get<ProductsPerBrand>(this.searchApi + this.brandsPath + '/' + brand.name + this.productsPath + this.countPath + paramString)));
   }
+
 }

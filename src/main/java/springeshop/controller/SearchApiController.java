@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.Brand;
+import springeshop.model.Category;
 import springeshop.model.Product;
 import springeshop.model.ProductImage;
 import springeshop.model.ProductPage;
@@ -29,6 +30,7 @@ import springeshop.service.ProductImageService;
 import springeshop.service.ProductService;
 import springeshop.service.SearchService;
 import springeshop.util.Constants;
+import springeshop.util.ErrorMessage;
 
 @RestController
 @RequestMapping("/api")
@@ -73,6 +75,33 @@ public class SearchApiController {
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);
 		}
+	}
+	
+	@RequestMapping(value = "/search/brands/{brandname}/products/count", method = RequestMethod.GET)
+	public 	ResponseEntity<?> getCategoryBrandProductsNumber(@PathVariable("brandname") String brandname, 
+			@RequestParam(value = "range", required = false) String[] ranges, @RequestParam(value = "keyword") String[] keywords){
+		
+
+		
+		int productsNumber = 0;
+		
+		if(!brandService.doesBrandExist(brandname)){
+			logger.error("Brand with name {} does not  exist", brandname);
+				return new ResponseEntity<>(new ErrorMessage("Brand with name {} does not  exist"), HttpStatus.BAD_REQUEST);
+		}
+			
+		if(ranges == null){
+			productsNumber = searchService.findSearchProductsNumberByBrand(keywords,  brandService.findByName(brandname));
+		}else{
+
+		}
+		
+			
+		ProductsPerBrand pNumber =  new ProductsPerBrand();
+		pNumber.setNumber(productsNumber);
+		pNumber.setBrand(brandname);
+			
+		return new ResponseEntity<ProductsPerBrand>(pNumber, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/search/ranges/{rangeid}/products/count", method = RequestMethod.GET)

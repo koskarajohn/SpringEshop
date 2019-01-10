@@ -2221,6 +2221,8 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedPriceRanges = [];
     }
     SearchSidebarComponent.prototype.ngOnInit = function () {
+    };
+    SearchSidebarComponent.prototype.ngOnChanges = function (changes) {
         this.getPriceRanges();
         this.getBrands();
     };
@@ -2242,6 +2244,25 @@ var SearchSidebarComponent = /** @class */ (function () {
             });
         })
             .catch(function (error) { return console.log(error); });
+    };
+    SearchSidebarComponent.prototype.updateBrands = function () {
+        var _this = this;
+        var numberOfProdsPerBrandArray = [];
+        this.httpSubscription3 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, this.selectedPriceRanges)
+            .subscribe(function (item) {
+            item.checked = _this.numberOfProductsPerBrand[_this.numberOfProductsPerBrand.findIndex(function (x) { return x.brand === item.brand; })].checked;
+            numberOfProdsPerBrandArray.push(item);
+            numberOfProdsPerBrandArray.sort(function (a, b) {
+                var aIndex = _this.searchBrands.findIndex(function (brand) { return brand.name === a.brand; });
+                var bIndex = _this.searchBrands.findIndex(function (brand) { return brand.name === b.brand; });
+                return aIndex - bIndex;
+            });
+            if (numberOfProdsPerBrandArray.length === _this.searchBrands.length) {
+                _this.numberOfProductsPerBrand = numberOfProdsPerBrandArray;
+            }
+        }, function (error) {
+            console.log(error);
+        });
     };
     SearchSidebarComponent.prototype.getPriceRanges = function () {
         var _this = this;
@@ -2283,6 +2304,7 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedPriceRanges = this.numberOfProductsPerPriceRange
             .filter(function (priceRangeOption) { return priceRangeOption.checked; })
             .map(function (priceRangeOption) { return priceRangeOption.rangeId; });
+        this.updateBrands();
     };
     SearchSidebarComponent.prototype.ngOnDestroy = function () {
         if (this.httpSubscription !== undefined)

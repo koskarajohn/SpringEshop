@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PriceRange } from 'src/app/models/priceRange';
 import { ProductsPerPriceRange } from 'src/app/models/productsPerPriceRange';
 import { ProductsPerBrand } from 'src/app/models/productsPerBrand';
@@ -11,7 +11,7 @@ import { Brand } from 'src/app/models/brand';
   templateUrl: './search-sidebar.component.html',
   styleUrls: ['./search-sidebar.component.css']
 })
-export class SearchSidebarComponent implements OnInit, OnDestroy{
+export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
 
   @Input() searchTerms : string[];
   searchBrands : Brand[];
@@ -30,6 +30,10 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
   constructor(private searchService : SearchService) { }
 
   ngOnInit() {
+    
+  }
+
+  ngOnChanges(changes : SimpleChanges): void {
     this.getPriceRanges();
     this.getBrands();
   }
@@ -52,6 +56,26 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
                         });
                       })
                       .catch(error => console.log(error));
+  }
+
+  updateBrands() : void{
+    let numberOfProdsPerBrandArray :  ProductsPerBrand[] = [];
+    this.httpSubscription3 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, this.selectedPriceRanges)
+                                                 .subscribe(item => {
+                                                   item.checked = this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(x => x.brand === item.brand)].checked;
+                                                  numberOfProdsPerBrandArray.push(item);
+                                                  numberOfProdsPerBrandArray.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
+                                                    const aIndex = this.searchBrands.findIndex(brand => brand.name === a.brand);
+                                                    const bIndex = this.searchBrands.findIndex(brand => brand.name === b.brand);
+                                                    return aIndex - bIndex;
+                                                 });
+                                                 if(numberOfProdsPerBrandArray.length === this.searchBrands.length){
+                                                  this.numberOfProductsPerBrand = numberOfProdsPerBrandArray;
+                                                 }
+                                                 },
+                                                 error => {
+                                                   console.log(error);
+                                                 });
   }
 
   getPriceRanges() : void{
@@ -97,6 +121,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy{
     this.selectedPriceRanges = this.numberOfProductsPerPriceRange
                              .filter(priceRangeOption => priceRangeOption.checked)
                              .map(priceRangeOption => priceRangeOption.rangeId);
+
+    this.updateBrands();
   }
 
   ngOnDestroy(){

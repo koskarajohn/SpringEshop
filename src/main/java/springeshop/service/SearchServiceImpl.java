@@ -132,4 +132,31 @@ public class SearchServiceImpl implements SearchService{
 		return brands;
 	}
 
+	@Override
+	public int findSearchProductsNumberByBrand(String[] searchTerms, Brand brand) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+        List<Predicate> searchPredicatesList = new ArrayList<>();
+	    
+	    if(searchTerms.length > 0){
+	    	for(String term : searchTerms){
+	    		searchPredicatesList.add(criteriaBuilder.like(productsRoot.get("name"), "%" + term +"%"));
+	    	}
+	    }
+	    
+	    Predicate[] searchPredicatesArray = new Predicate[searchPredicatesList.size()];
+	    searchPredicatesList.toArray(searchPredicatesArray);
+	    
+	    Predicate searchPredicate = criteriaBuilder.or(searchPredicatesArray);
+	    Predicate brandPredicate = criteriaBuilder.equal(productsRoot.get("brand"), brand);
+	    
+	    criteriaQuery.where(criteriaBuilder.and(searchPredicate, brandPredicate));
+	    int number = 0;
+	    number = entityManager.createQuery(criteriaQuery).getResultList().size();
+	    
+		return number;
+	}
+
 }

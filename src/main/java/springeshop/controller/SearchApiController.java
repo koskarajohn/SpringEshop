@@ -75,8 +75,8 @@ public class SearchApiController {
 		}
 	}
 	
-	@RequestMapping(value = "/search/count", method = RequestMethod.GET)
-	public ResponseEntity<?> getSearchProductsNumbersByRange(@RequestParam("rangeid") String rangeid, @RequestParam(value = "brand", required = false) String[] brands,
+	@RequestMapping(value = "/search/ranges/{rangeid}/products/count", method = RequestMethod.GET)
+	public ResponseEntity<?> getSearchProductsNumbersByRange(@PathVariable("rangeid") String rangeid, @RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "keyword") String[] keywords){
 		
 		ProductsPerPriceRange ppNumber = new ProductsPerPriceRange();

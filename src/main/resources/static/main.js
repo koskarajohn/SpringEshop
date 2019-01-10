@@ -3288,37 +3288,40 @@ var SearchService = /** @class */ (function () {
         this.searchApi = '/api/search';
         this.brandsPath = '/brands';
         this.countPath = '/count';
+        this.productsPath = '/products';
+        this.rangesPath = '/ranges';
         this.brandParam = '&brand=';
-        this.rangeParam = '?rangeid=';
         this.pageParam = "?page=";
-        this.searchParam = "&keyword=";
-        this.searchParamQuestion = '?keyword=';
+        this.searchParam = "?keyword=";
+        this.searchParamAnd = '&keyword=';
     }
     SearchService.prototype.getSearchProducts = function (searchParameters, page) {
         var _this = this;
         var paramString = this.pageParam + page;
-        searchParameters.forEach(function (keyword) { return paramString = paramString + _this.searchParam + keyword; });
+        searchParameters.forEach(function (keyword) { return paramString = paramString + _this.searchParamAnd + keyword; });
         return this.http.get(this.searchApi + paramString);
     };
     SearchService.prototype.getSearchProductsNumberByPriceRange = function (searchTerms, priceRanges, brandParameters) {
         var _this = this;
         var paramString = '';
-        searchTerms.forEach(function (term) { return paramString = paramString + _this.searchParam + term; });
+        searchTerms.forEach(function (keyword, index) {
+            paramString = index === 0 ? paramString = paramString + _this.searchParam + keyword : paramString = paramString + _this.searchParamAnd + keyword;
+        });
         if (brandParameters.length === 0) {
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString); }));
         }
         else {
             brandParameters.forEach(function (brand) {
                 paramString = paramString + _this.brandParam + brand;
             });
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.countPath + _this.rangeParam + range.id + paramString); }));
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["from"])(priceRanges).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (range) { return _this.http.get(_this.searchApi + _this.rangesPath + '/' + range.id + _this.productsPath + _this.countPath + paramString); }));
         }
     };
     SearchService.prototype.getSearchBrands = function (searchParameters) {
         var _this = this;
         var paramString = '';
         searchParameters.forEach(function (keyword, index) {
-            paramString = index === 0 ? paramString = paramString + _this.searchParamQuestion + keyword : paramString = paramString + _this.searchParam + keyword;
+            paramString = index === 0 ? paramString = paramString + _this.searchParam + keyword : paramString = paramString + _this.searchParamAnd + keyword;
         });
         return this.http.get(this.searchApi + this.brandsPath + paramString);
     };

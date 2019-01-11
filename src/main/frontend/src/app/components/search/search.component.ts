@@ -19,6 +19,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   productPage : ProductPage;
   pageNumbers : number[];
   isGetSearchProductsRequestDone : boolean = true;
+  didSearchReturnAnyProducts : boolean = true;
 
   keywords : string[] = [];
   userSearchString : string = '';
@@ -66,15 +67,23 @@ export class SearchComponent implements OnInit, OnDestroy {
 
           
       this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
-        this.pageNumbers = [];
-        this.productPage = productPage;
-        this.products = productPage.content;
-        this.setProductRange(this.productPage.number, this.productPage.numberOfElements);
-        this.isGetSearchProductsRequestDone = true;
-        this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
+        if(productPage !== null){
+          this.pageNumbers = [];
+          this.productPage = productPage;
+          this.products = productPage.content;
+          this.setProductRange(this.productPage.number, this.productPage.numberOfElements);
+          this.isGetSearchProductsRequestDone = true;
+          this.didSearchReturnAnyProducts = true;
+          this.initializePageNumberArray(this.pageNumbers, this.productPage.totalPages);
+        }else{
+          this.isGetSearchProductsRequestDone = true;
+          this.didSearchReturnAnyProducts = false;
+        }
+        
       },
       error => {
         this.isGetSearchProductsRequestDone = true;
+        this.didSearchReturnAnyProducts = false;
         console.log(error);
       });
 
@@ -87,9 +96,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.productPage = productPage;
       this.products = productPage.content;
       this.isGetSearchProductsRequestDone = true;
+      this.didSearchReturnAnyProducts = true;
     },
     error => {
       this.isGetSearchProductsRequestDone = true;
+      this.didSearchReturnAnyProducts = false;
       console.log(error);
     });
   }

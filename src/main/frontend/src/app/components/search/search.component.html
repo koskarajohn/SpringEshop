@@ -5,7 +5,7 @@
 
   <h2>Αναζήτηση για : {{userSearchString}}</h2>
 
-  <div class="row category-content">
+  <div *ngIf="didSearchReturnAnyProducts" class="row category-content">
 
     <div class="col-md-3 sidebar">
         <search-sidebar [searchTerms] = "keywords"></search-sidebar>
@@ -34,6 +34,8 @@
 
     </div>
   </div>
+
+  <p *ngIf="!didSearchReturnAnyProducts">Δεν βρέθηκαν προιόντα με αυτά τα κριτήρια.</p>
 </section>
 
 <i *ngIf="!isGetSearchProductsRequestDone" class="fas fa-sync-alt fa-2x fa-spin spinner" ></i>

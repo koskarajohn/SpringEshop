@@ -74,8 +74,9 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
     this.numberOfProductsPerBrand = [];
     this.searchService.getSearchBrands(this.searchTerms).toPromise()
                       .then(brands => {
-                        this.searchBrands = brands;
-                        this.httpSubscription2 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, this.selectedPriceRanges).subscribe(item => {
+                        if(brands !== null){
+                          this.searchBrands = brands;
+                          this.httpSubscription2 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, this.selectedPriceRanges).subscribe(item => {
                           this.numberOfProductsPerBrand.push(item);
                           this.numberOfProductsPerBrand.sort((a: ProductsPerBrand, b: ProductsPerBrand) => {
                             const aIndex = brands.findIndex(brand => brand.name === a.brand);
@@ -86,6 +87,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                         error => {
                           console.log(error);
                         });
+                        }
                       })
                       .catch(error => console.log(error));
   }

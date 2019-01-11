@@ -2261,17 +2261,19 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.numberOfProductsPerBrand = [];
         this.searchService.getSearchBrands(this.searchTerms).toPromise()
             .then(function (brands) {
-            _this.searchBrands = brands;
-            _this.httpSubscription2 = _this.searchService.getSearchProductsNumberByBrand(_this.searchTerms, _this.searchBrands, _this.selectedPriceRanges).subscribe(function (item) {
-                _this.numberOfProductsPerBrand.push(item);
-                _this.numberOfProductsPerBrand.sort(function (a, b) {
-                    var aIndex = brands.findIndex(function (brand) { return brand.name === a.brand; });
-                    var bIndex = brands.findIndex(function (brand) { return brand.name === b.brand; });
-                    return aIndex - bIndex;
+            if (brands !== null) {
+                _this.searchBrands = brands;
+                _this.httpSubscription2 = _this.searchService.getSearchProductsNumberByBrand(_this.searchTerms, _this.searchBrands, _this.selectedPriceRanges).subscribe(function (item) {
+                    _this.numberOfProductsPerBrand.push(item);
+                    _this.numberOfProductsPerBrand.sort(function (a, b) {
+                        var aIndex = brands.findIndex(function (brand) { return brand.name === a.brand; });
+                        var bIndex = brands.findIndex(function (brand) { return brand.name === b.brand; });
+                        return aIndex - bIndex;
+                    });
+                }, function (error) {
+                    console.log(error);
                 });
-            }, function (error) {
-                console.log(error);
-            });
+            }
         })
             .catch(function (error) { return console.log(error); });
     };
@@ -2405,7 +2407,7 @@ module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, fn : 'no', page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div *ngIf=\"didSearchReturnAnyProducts\" class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, fn : 'no', page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n\n  <p *ngIf=\"!didSearchReturnAnyProducts\">Δεν βρέθηκαν προιόντα με αυτά τα κριτήρια.</p>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -2442,6 +2444,7 @@ var SearchComponent = /** @class */ (function () {
         this.searchService = searchService;
         this.currentPage = 0;
         this.isGetSearchProductsRequestDone = true;
+        this.didSearchReturnAnyProducts = true;
         this.keywords = [];
         this.userSearchString = '';
         this.brandParameters = [];
@@ -2474,14 +2477,22 @@ var SearchComponent = /** @class */ (function () {
                 _this.selectedValue = 'asc';
             }
             _this.httpSubscription = _this.searchService.getSearchProducts(_this.keywords, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
-                _this.pageNumbers = [];
-                _this.productPage = productPage;
-                _this.products = productPage.content;
-                _this.setProductRange(_this.productPage.number, _this.productPage.numberOfElements);
-                _this.isGetSearchProductsRequestDone = true;
-                _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
+                if (productPage !== null) {
+                    _this.pageNumbers = [];
+                    _this.productPage = productPage;
+                    _this.products = productPage.content;
+                    _this.setProductRange(_this.productPage.number, _this.productPage.numberOfElements);
+                    _this.isGetSearchProductsRequestDone = true;
+                    _this.didSearchReturnAnyProducts = true;
+                    _this.initializePageNumberArray(_this.pageNumbers, _this.productPage.totalPages);
+                }
+                else {
+                    _this.isGetSearchProductsRequestDone = true;
+                    _this.didSearchReturnAnyProducts = false;
+                }
             }, function (error) {
                 _this.isGetSearchProductsRequestDone = true;
+                _this.didSearchReturnAnyProducts = false;
                 console.log(error);
             });
         });
@@ -2493,8 +2504,10 @@ var SearchComponent = /** @class */ (function () {
             _this.productPage = productPage;
             _this.products = productPage.content;
             _this.isGetSearchProductsRequestDone = true;
+            _this.didSearchReturnAnyProducts = true;
         }, function (error) {
             _this.isGetSearchProductsRequestDone = true;
+            _this.didSearchReturnAnyProducts = false;
             console.log(error);
         });
     };

@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ProductPage } from 'src/app/models/productPage';
 import { Product } from 'src/app/models/product';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
+import { SearchSidebarComponent } from '../search-sidebar/search-sidebar.component';
 
 @Component({
   selector: 'app-search',
@@ -12,6 +13,7 @@ import { SearchService } from 'src/app/services/search.service';
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
+  @ViewChild(SearchSidebarComponent) sidebar : SearchSidebarComponent;
   currentPage : number = 0;
   products : Product[];
   productPage : ProductPage;
@@ -47,16 +49,21 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectedValue = 'asc';
+    this.keywords.forEach(keyword => this.userSearchString = this.userSearchString + ' ' + keyword);
     this.queryParamRouteSubscription = this.route.queryParams.subscribe(queryParams => {
       this.isGetSearchProductsRequestDone = false;
       this.currentPage = queryParams['page'];
-      this.keywords = queryParams['keyword'];
       this.brandParameters = queryParams['brand'];
       this.rangeParameters = queryParams['range'];
+      this.keywords = queryParams['keyword'];
+      let didSearchTermsChange = queryParams['fn'] === 'yes';
 
-      if(this.userSearchString === ''){
+      if(didSearchTermsChange){
+        this.userSearchString = '';
         this.keywords.forEach(keyword => this.userSearchString = this.userSearchString + ' ' + keyword);
+        this.selectedValue = 'asc';
       }
+
           
       this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
         this.pageNumbers = [];

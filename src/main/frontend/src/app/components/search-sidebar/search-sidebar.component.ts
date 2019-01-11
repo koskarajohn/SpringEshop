@@ -31,12 +31,43 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   constructor(private searchService : SearchService, private router : Router) { }
 
   ngOnInit() {
-    this.getPriceRanges();
-    this.getBrands();
+
   }
 
   ngOnChanges(changes : SimpleChanges): void {
-    
+    if(this.didSearchTermsChange(changes.searchTerms.previousValue, changes.searchTerms.currentValue)){
+      this.updateSidebar();
+    }
+  }
+
+  didSearchTermsChange(oldSearchTerms : string[], newSearchTerms : string[]) : boolean{
+    let didTheyChange = false;
+
+    if(oldSearchTerms === undefined){
+      didTheyChange = true;
+      return didTheyChange;
+    }
+
+    if(oldSearchTerms.length !== newSearchTerms.length){
+      didTheyChange = true;
+      return didTheyChange;
+    }
+
+    for(let i=0; i < oldSearchTerms.length; i++){
+      if(oldSearchTerms[i] !== newSearchTerms[i]){
+        didTheyChange = true;
+        break;
+      }
+    }
+
+    return didTheyChange;
+  }
+
+  updateSidebar() : void{
+    this.selectedBrands = [];
+    this.selectedPriceRanges = [];
+    this.getPriceRanges();
+    this.getBrands();
   }
 
   getBrands() : void{
@@ -137,7 +168,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                              .filter(brandOption => brandOption.checked)
                              .map(brandOption => brandOption.brand);
 
-    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});
+    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, fn : 'no', page : 0}});
     this.updatePriceRanges();
   }
 
@@ -146,7 +177,7 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                              .filter(priceRangeOption => priceRangeOption.checked)
                              .map(priceRangeOption => priceRangeOption.rangeId);
 
-    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});                       
+    this.router.navigate(['/search'], {queryParams : { keyword : this.searchTerms, brand : this.selectedBrands, range : this.selectedPriceRanges, fn : 'no', page : 0}});                       
     this.updateBrands();
   }
 

@@ -1539,7 +1539,7 @@ var NavigationBarComponent = /** @class */ (function () {
     NavigationBarComponent.prototype.onSearchClicked = function () {
         var regularExpression = /[^0-9^a-z]+/;
         var keywords = this.searchText.split(regularExpression);
-        this.router.navigate(['/search'], { queryParams: { keyword: keywords, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
+        this.router.navigate(['/search'], { queryParams: { keyword: keywords, brand: this.selectedBrands, range: this.selectedPriceRanges, fn: 'yes', page: 0 } });
     };
     NavigationBarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2226,10 +2226,35 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedPriceRanges = [];
     }
     SearchSidebarComponent.prototype.ngOnInit = function () {
-        this.getPriceRanges();
-        this.getBrands();
     };
     SearchSidebarComponent.prototype.ngOnChanges = function (changes) {
+        if (this.didSearchTermsChange(changes.searchTerms.previousValue, changes.searchTerms.currentValue)) {
+            this.updateSidebar();
+        }
+    };
+    SearchSidebarComponent.prototype.didSearchTermsChange = function (oldSearchTerms, newSearchTerms) {
+        var didTheyChange = false;
+        if (oldSearchTerms === undefined) {
+            didTheyChange = true;
+            return didTheyChange;
+        }
+        if (oldSearchTerms.length !== newSearchTerms.length) {
+            didTheyChange = true;
+            return didTheyChange;
+        }
+        for (var i = 0; i < oldSearchTerms.length; i++) {
+            if (oldSearchTerms[i] !== newSearchTerms[i]) {
+                didTheyChange = true;
+                break;
+            }
+        }
+        return didTheyChange;
+    };
+    SearchSidebarComponent.prototype.updateSidebar = function () {
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
+        this.getPriceRanges();
+        this.getBrands();
     };
     SearchSidebarComponent.prototype.getBrands = function () {
         var _this = this;
@@ -2323,14 +2348,14 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.selectedBrands = this.numberOfProductsPerBrand
             .filter(function (brandOption) { return brandOption.checked; })
             .map(function (brandOption) { return brandOption.brand; });
-        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
+        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, fn: 'no', page: 0 } });
         this.updatePriceRanges();
     };
     SearchSidebarComponent.prototype.onSelectedPriceRange = function () {
         this.selectedPriceRanges = this.numberOfProductsPerPriceRange
             .filter(function (priceRangeOption) { return priceRangeOption.checked; })
             .map(function (priceRangeOption) { return priceRangeOption.rangeId; });
-        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, page: 0 } });
+        this.router.navigate(['/search'], { queryParams: { keyword: this.searchTerms, brand: this.selectedBrands, range: this.selectedPriceRanges, fn: 'no', page: 0 } });
         this.updateBrands();
     };
     SearchSidebarComponent.prototype.ngOnDestroy = function () {
@@ -2380,7 +2405,7 @@ module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, fn : 'no', page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -2397,6 +2422,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_services_search_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/search.service */ "./src/app/services/search.service.ts");
+/* harmony import */ var _search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../search-sidebar/search-sidebar.component */ "./src/app/components/search-sidebar/search-sidebar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2406,6 +2432,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2433,14 +2460,18 @@ var SearchComponent = /** @class */ (function () {
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.selectedValue = 'asc';
+        this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
             _this.isGetSearchProductsRequestDone = false;
             _this.currentPage = queryParams['page'];
-            _this.keywords = queryParams['keyword'];
             _this.brandParameters = queryParams['brand'];
             _this.rangeParameters = queryParams['range'];
-            if (_this.userSearchString === '') {
+            _this.keywords = queryParams['keyword'];
+            var didSearchTermsChange = queryParams['fn'] === 'yes';
+            if (didSearchTermsChange) {
+                _this.userSearchString = '';
                 _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
+                _this.selectedValue = 'asc';
             }
             _this.httpSubscription = _this.searchService.getSearchProducts(_this.keywords, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                 _this.pageNumbers = [];
@@ -2483,6 +2514,10 @@ var SearchComponent = /** @class */ (function () {
         if (this.httpSubscription2 !== undefined)
             this.httpSubscription2.unsubscribe();
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SearchSidebarComponent"]),
+        __metadata("design:type", _search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SearchSidebarComponent"])
+    ], SearchComponent.prototype, "sidebar", void 0);
     SearchComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-search',

@@ -87,7 +87,7 @@ export class NavigationBarComponent implements OnInit{
   onSearchClicked() : void{
     var regularExpression = /[^0-9^a-z]+/;
     var keywords = this.searchText.split(regularExpression);
-    this.router.navigate(['/search'], {queryParams : { keyword : keywords, brand : this.selectedBrands, range : this.selectedPriceRanges, page : 0}});
+    this.router.navigate(['/search'], {queryParams : { keyword : keywords, brand : this.selectedBrands, range : this.selectedPriceRanges, fn : 'yes', page : 0}});
   }
 
 }

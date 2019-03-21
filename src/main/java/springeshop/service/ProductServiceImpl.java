@@ -78,11 +78,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId) {
-		return productRepository.findByCategoryIdAndBrandId(categoryId, brandId);
-	}
-
-	@Override
 	public int findNumberOfProductsOfBrandInCategory(int categoryid, int brandid) {
 		return productRepository.findNumberOfProductsOfBrandInCategory(categoryid, brandid);
 	}

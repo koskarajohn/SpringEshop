@@ -61,7 +61,7 @@ public class CategoryApiController {
 	
 	@RequestMapping(value = "/categories/{name}", method = RequestMethod.GET)
 	public 	ResponseEntity<?> getCategoryProducts(@PathVariable("name") String name, @RequestParam(value = "page", required = true) int page, 
-			@RequestParam(value = "order", required = false) String order, @RequestParam(value = "brand", required = false) String[] brands,
+			@RequestParam(value = "order", required = true) String order, @RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "range", required = false) String[] ranges){
 		
 		Page<Product> products;
@@ -80,7 +80,7 @@ public class CategoryApiController {
 			products = productService.findByCategoryId(category.getId(), PageRequest.of(page, 6, sortDirection, "price"));
 			addImagesAndQuantityToProducts(products.getContent());
 			
-			if(products == null){
+			if(!products.hasContent()){
 				logger.error("No products found.");
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
@@ -123,6 +123,7 @@ public class CategoryApiController {
 			ProductImage productImage = productImageService.findByProductId(product.getId());
 	        product.setSmallImageUrl(productImage.getSmallImageurl());
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
+	        product.setVerySmallImageUrl(productImage.getVerySmallImageurl());
 	        
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);

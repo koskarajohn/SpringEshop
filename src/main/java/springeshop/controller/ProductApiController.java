@@ -61,7 +61,6 @@ public class ProductApiController {
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
 	public ResponseEntity<?> getProductsByFilter(@RequestParam(value = "filter", required = false) String filter, @RequestParam(value = "page", required = false) int page){
 					
-		
 		if(filter.equals("favorite")){
 			Page<Product> favoriteProducts = productService.findFavoriteProducts(PageRequest.of(page, 4));
 			
@@ -82,8 +81,7 @@ public class ProductApiController {
 			return new ResponseEntity<Page<Product>>(newProducts, HttpStatus.OK);
 		}else 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-		
+			
 	}
 	
 	private void addImagesAndQuantityToProducts(Page<Product> products){

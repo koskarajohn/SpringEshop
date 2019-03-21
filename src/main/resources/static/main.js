@@ -1507,14 +1507,6 @@ var NavigationBarComponent = /** @class */ (function () {
             });
         });
     };
-    NavigationBarComponent.prototype.storeUserName = function () {
-        var storedUser = localStorage.getItem('user');
-        var storedUserId = localStorage.getItem('userid');
-        if (storedUser !== undefined)
-            this.user = storedUser;
-        if (storedUserId !== undefined)
-            this.userId = storedUserId;
-    };
     NavigationBarComponent.prototype.initialiseCategories = function () {
         this.categories = [];
         for (var i = 0; i < this.greekCategoryNames.length; i++) {
@@ -1523,6 +1515,14 @@ var NavigationBarComponent = /** @class */ (function () {
             navigationCategory.englishName = this.englishCategoryNames[i];
             this.categories.push(navigationCategory);
         }
+    };
+    NavigationBarComponent.prototype.storeUserName = function () {
+        var storedUser = localStorage.getItem('user');
+        var storedUserId = localStorage.getItem('userid');
+        if (storedUser !== undefined)
+            this.user = storedUser;
+        if (storedUserId !== undefined)
+            this.userId = storedUserId;
     };
     NavigationBarComponent.prototype.logout = function () {
         this.authenticationService.logout();
@@ -1624,7 +1624,7 @@ var OrderComponent = /** @class */ (function () {
     };
     OrderComponent.prototype.getOrderDate = function () {
         var date = new Date(new Date(this.order.order_date)).getDate();
-        var month = new Date(new Date(this.order.order_date)).getMonth();
+        var month = new Date(new Date(this.order.order_date)).getMonth() + 1;
         var year = new Date(new Date(this.order.order_date)).getFullYear();
         return date + '/' + month + '/' + year;
     };

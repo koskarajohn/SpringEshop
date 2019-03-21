@@ -35,7 +35,7 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   getOrderDate() : string{
     let date = new Date(new Date(this.order.order_date)).getDate();
-    let month = new Date(new Date(this.order.order_date)).getMonth();
+    let month = new Date(new Date(this.order.order_date)).getMonth() + 1;
     let year = new Date(new Date(this.order.order_date)).getFullYear();
     return date + '/' + month + '/' + year;
   }

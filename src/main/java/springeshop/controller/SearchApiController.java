@@ -146,7 +146,7 @@ public class SearchApiController {
 	}
 	
 	@RequestMapping(value = "/search/brands", method = RequestMethod.GET)
-	public ResponseEntity<?> getSearchProductsNumbersByRange(@RequestParam(value = "keyword") String[] keywords){
+	public ResponseEntity<?> getSearchProductsBrands(@RequestParam(value = "keyword") String[] keywords){
 		
 		List<Brand> brands = searchService.findSearchBrands(keywords);
 		

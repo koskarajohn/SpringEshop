@@ -28,7 +28,6 @@ public interface ProductService {
     Page<Product> findNewProducts(Pageable pageable);
     
 	List<Brand> findCategoryBrands(int id);
-	List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId);
 	int findNumberOfProductsInCategory(int categoryid);
 	
 	int findNumberOfProductsOfBrandInCategory(int categoryid, int brandid);

@@ -22,7 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	
 	//Products
 	Page<Product> findByCategoryId(int id, Pageable pageable);
-	List<Product> findByCategoryIdAndBrandId(int categoryId, int brandId);
 	
 	@Query("select prod from Product prod where prod.is_favorite = true")
 	Page<Product> findFavoriteProducts(Pageable pageable);

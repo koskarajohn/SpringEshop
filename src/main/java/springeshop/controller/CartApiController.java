@@ -163,7 +163,6 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		int prodId = Integer.parseInt(productid);
 		
 		User user = userService.findById(usrId);
-		Product product = productService.findById(prodId);
 		
 		if(user == null){
 			return new ResponseEntity<>(new ErrorMessage("User does not exist"), HttpStatus.BAD_REQUEST);
@@ -194,7 +193,6 @@ public static final Logger logger = LoggerFactory.getLogger(BrandApiController.c
 		int prodId = Integer.parseInt(productid);
 		
 		User user = userService.findById(usrId);
-		Product product = productService.findById(prodId);
 		
 		if(user == null){
 			return new ResponseEntity<>(new ErrorMessage("Unable to delete. User does not exist"), HttpStatus.BAD_REQUEST);

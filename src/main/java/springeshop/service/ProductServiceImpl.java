@@ -1,5 +1,6 @@
 package springeshop.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,7 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findByProductId(id);
 	}
 
+	@Cacheable("mycache")
 	@Override
 	public Page<Product> findByCategoryId(int id, Pageable pageable) {
 		return productRepository.findByCategoryId(id, pageable);

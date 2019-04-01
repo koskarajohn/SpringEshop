@@ -1,5 +1,7 @@
 package springeshop.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +15,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "deal_images")
-public class DealImage {
+public class DealImage implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2160467568262404405L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

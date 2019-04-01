@@ -1,5 +1,7 @@
 package springeshop.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +16,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "inventory")
-public class Inventory {
+public class Inventory implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3996079506803076009L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

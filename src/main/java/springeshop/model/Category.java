@@ -1,5 +1,7 @@
 package springeshop.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,13 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2325684366508611224L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

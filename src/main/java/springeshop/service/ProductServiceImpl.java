@@ -39,6 +39,7 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findById(id);
 	}
 
+	@Cacheable("mycache")
 	@Override
 	public Product findByName(String name) {
 		return productRepository.findByName(name);

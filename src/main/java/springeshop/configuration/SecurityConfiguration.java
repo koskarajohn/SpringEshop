@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @EnableWebSecurity
 @Configuration
@@ -34,6 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			//.and().csrf().disable();
 		    .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		
+		http.headers().cacheControl().disable();
+		
 	}
 	
 	@Autowired
@@ -45,6 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Bean(name = "passwordEncoder")
 	public BCryptPasswordEncoder passwordEncoder() {
-	return new BCryptPasswordEncoder();
+	    return new BCryptPasswordEncoder();
+	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	    web.ignoring().antMatchers("/static/**");
 	}
 }

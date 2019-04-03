@@ -2470,6 +2470,7 @@ var SearchComponent = /** @class */ (function () {
             _this.brandParameters = queryParams['brand'];
             _this.rangeParameters = queryParams['range'];
             _this.keywords = queryParams['keyword'];
+            _this.checkForCorrectValuesFromBackButton();
             var didSearchTermsChange = queryParams['fn'] === 'yes';
             if (didSearchTermsChange) {
                 _this.userSearchString = '';
@@ -2496,6 +2497,19 @@ var SearchComponent = /** @class */ (function () {
                 console.log(error);
             });
         });
+    };
+    SearchComponent.prototype.checkForCorrectValuesFromBackButton = function () {
+        if (typeof (this.keywords) === 'string') {
+            var temp = [];
+            temp.push(this.keywords);
+            this.keywords = temp;
+        }
+        if (this.brandParameters == null) {
+            this.brandParameters = [];
+        }
+        if (this.rangeParameters == null) {
+            this.rangeParameters = [];
+        }
     };
     SearchComponent.prototype.onOrderChange = function (order) {
         var _this = this;

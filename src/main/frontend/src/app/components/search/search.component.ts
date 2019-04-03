@@ -57,6 +57,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.brandParameters = queryParams['brand'];
       this.rangeParameters = queryParams['range'];
       this.keywords = queryParams['keyword'];
+
+      this.checkForCorrectValuesFromBackButton();
+
       let didSearchTermsChange = queryParams['fn'] === 'yes';
 
       if(didSearchTermsChange){
@@ -88,6 +91,22 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
 
     });
+  }
+
+  checkForCorrectValuesFromBackButton() : void{
+    if(typeof(this.keywords) === 'string'){
+      let temp = [];
+      temp.push(this.keywords);
+      this.keywords = temp;
+    }
+
+    if(this.brandParameters == null){
+      this.brandParameters = [] as string[];
+    }
+
+    if(this.rangeParameters == null){
+      this.rangeParameters = [] as string[];
+    }
   }
 
   onOrderChange(order : any){

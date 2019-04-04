@@ -497,8 +497,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryPageComponent", function() { return CategoryPageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/category.service */ "./src/app/services/category.service.ts");
-/* harmony import */ var _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var src_app_services_category_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/category.service */ "./src/app/services/category.service.ts");
+/* harmony import */ var _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../category-sidebar/category-sidebar.component */ "./src/app/components/category-sidebar/category-sidebar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -512,15 +513,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var CategoryPageComponent = /** @class */ (function () {
-    function CategoryPageComponent(route, categoryService) {
+    function CategoryPageComponent(route, categoryService, router) {
         this.route = route;
         this.categoryService = categoryService;
+        this.router = router;
         this.currentPage = 0;
         this.brandParameters = [];
         this.rangeParameters = [];
         this.isGetCategoryProductsRequestDone = true;
         this.isClickFromNavigationBar = false;
+        this.wasBackButtonClicked = false;
         this.greekCategories = {
             vitamins: 'Βιταμίνες',
             minerals: 'Μέταλλα',
@@ -561,6 +566,14 @@ var CategoryPageComponent = /** @class */ (function () {
                 _this.isGetCategoryProductsRequestDone = true;
             });
         });
+        this.routerEventSubscription = this.router.events
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])(function (event) { return event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]; }))
+            .subscribe(function (event) {
+            console.log("route:", event.url);
+            if (event.navigationTrigger === 'popstate') {
+                _this.wasBackButtonClicked = true;
+            }
+        });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
             _this.isGetCategoryProductsRequestDone = false;
             var oldCategory = _this.category;
@@ -576,6 +589,11 @@ var CategoryPageComponent = /** @class */ (function () {
             var didBrandParametersChange = false;
             if (newBrandParametersLength !== undefined) {
                 didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength ? true : false;
+                if (didBrandParametersChange && typeof (_this.brandParameters) === 'string') {
+                    var temp = [];
+                    temp.push(_this.brandParameters);
+                    _this.brandParameters = temp;
+                }
             }
             var oldRangeParametersLength = _this.rangeParameters.length;
             var newRangeParametersLength;
@@ -586,6 +604,23 @@ var CategoryPageComponent = /** @class */ (function () {
             var didRangeParametersChange = false;
             if (newRangeParametersLength !== undefined) {
                 didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength ? true : false;
+                if (didRangeParametersChange && typeof (_this.rangeParameters) === 'string') {
+                    var temp = [];
+                    temp.push(_this.rangeParameters);
+                    _this.rangeParameters = temp;
+                }
+            }
+            if (queryParams['brand'] == null) {
+                _this.brandParameters = [];
+                didBrandParametersChange = true;
+            }
+            if (queryParams['range'] == null) {
+                _this.rangeParameters = [];
+                didRangeParametersChange = true;
+            }
+            if (_this.wasBackButtonClicked && (_this.brandParameters.length !== 0 || _this.rangeParameters.length !== 0)) {
+                _this.sidebar.updateSidebarWithoutRefresh(_this.brandParameters, _this.rangeParameters);
+                _this.wasBackButtonClicked = false;
             }
             _this.category = _this.route.snapshot.params['name'];
             _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
@@ -633,14 +668,15 @@ var CategoryPageComponent = /** @class */ (function () {
     CategoryPageComponent.prototype.ngOnDestroy = function () {
         this.paramRouteSubscription.unsubscribe();
         this.queryParamRouteSubscription.unsubscribe();
+        this.routerEventSubscription.unsubscribe();
         if (this.httpSubscription !== undefined)
             this.httpSubscription.unsubscribe();
         if (this.httpSubscription2 !== undefined)
             this.httpSubscription2.unsubscribe();
     };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["CategorySidebarComponent"]),
-        __metadata("design:type", _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["CategorySidebarComponent"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["CategorySidebarComponent"]),
+        __metadata("design:type", _category_sidebar_category_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["CategorySidebarComponent"])
     ], CategoryPageComponent.prototype, "sidebar", void 0);
     CategoryPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -648,7 +684,7 @@ var CategoryPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./category-page.component.html */ "./src/app/components/category-page/category-page.component.html"),
             styles: [__webpack_require__(/*! ./category-page.component.css */ "./src/app/components/category-page/category-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_category_service__WEBPACK_IMPORTED_MODULE_2__["CategoryService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_category_service__WEBPACK_IMPORTED_MODULE_3__["CategoryService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], CategoryPageComponent);
     return CategoryPageComponent;
 }());
@@ -721,6 +757,52 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.selectedPriceRanges = [];
         this.getPriceRanges();
         this.getBrands();
+    };
+    CategorySidebarComponent.prototype.updateSidebarWithoutRefresh = function (brands, ranges) {
+        var previouslySelectedBrands = this.numberOfProductsPerBrand
+            .filter(function (brandOption) { return brandOption.checked; })
+            .map(function (brandOption) { return brandOption.brand; });
+        var previouslySelectedPriceRanges = this.numberOfProductsPerPriceRange
+            .filter(function (priceRangeOption) { return priceRangeOption.checked; })
+            .map(function (priceRangeOption) { return priceRangeOption.rangeId.toString(); });
+        if (brands.length === 0) {
+            this.numberOfProductsPerBrand.forEach(function (brandOption) { return brandOption.checked = false; });
+        }
+        else if (previouslySelectedBrands.length < brands.length) {
+            var addedBrand_1 = this.getAddedElement(previouslySelectedBrands, brands);
+            this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === addedBrand_1; })].checked = true;
+        }
+        else if (previouslySelectedBrands.length > brands.length) {
+            var removedBrand_1 = this.getRemovedElement(previouslySelectedBrands, brands);
+            this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === removedBrand_1; })].checked = false;
+        }
+        if (ranges.length === 0) {
+            this.numberOfProductsPerPriceRange.forEach(function (rangeOption) { return rangeOption.checked = false; });
+        }
+        else if (previouslySelectedPriceRanges.length < ranges.length) {
+            var addedRange_1 = this.getAddedElement(previouslySelectedPriceRanges, ranges);
+            this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === addedRange_1; })].checked = true;
+        }
+        else if (previouslySelectedPriceRanges.length > ranges.length) {
+            var removedRange_1 = this.getRemovedElement(previouslySelectedPriceRanges, ranges);
+            this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === removedRange_1; })].checked = false;
+        }
+    };
+    CategorySidebarComponent.prototype.getRemovedElement = function (array1, array2) {
+        var removedElement = '';
+        array1.forEach(function (element) {
+            if (!array2.includes(element))
+                removedElement = element;
+        });
+        return removedElement;
+    };
+    CategorySidebarComponent.prototype.getAddedElement = function (array1, array2) {
+        var addedElement = '';
+        array2.forEach(function (element) {
+            if (!array1.includes(element))
+                addedElement = element;
+        });
+        return addedElement;
     };
     CategorySidebarComponent.prototype.getBrands = function () {
         var _this = this;

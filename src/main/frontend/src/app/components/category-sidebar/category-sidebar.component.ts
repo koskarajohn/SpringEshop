@@ -47,6 +47,57 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     this.getBrands();
   }
 
+  updateSidebarWithoutRefresh(brands : string[], ranges : string[]){
+
+    let previouslySelectedBrands = this.numberOfProductsPerBrand
+                             .filter(brandOption => brandOption.checked)
+                             .map(brandOption => brandOption.brand);
+    
+    let previouslySelectedPriceRanges = this.numberOfProductsPerPriceRange
+                             .filter(priceRangeOption => priceRangeOption.checked)
+                             .map(priceRangeOption => priceRangeOption.rangeId.toString());
+    
+    if(brands.length === 0){
+      this.numberOfProductsPerBrand.forEach(brandOption => brandOption.checked = false);
+    }else if(previouslySelectedBrands.length < brands.length ){
+      let addedBrand = this.getAddedElement(previouslySelectedBrands, brands);
+      this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brandOption => brandOption.brand === addedBrand)].checked = true;
+    }else if(previouslySelectedBrands.length > brands.length ){
+      let removedBrand = this.getRemovedElement(previouslySelectedBrands, brands);
+      this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brandOption => brandOption.brand === removedBrand)].checked = false;
+    }
+
+    if(ranges.length === 0){
+      this.numberOfProductsPerPriceRange.forEach(rangeOption => rangeOption.checked = false);
+    }else if(previouslySelectedPriceRanges.length < ranges.length){
+      let addedRange = this.getAddedElement(previouslySelectedPriceRanges, ranges);
+      this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(rangeOption => rangeOption.rangeId.toString() === addedRange)].checked = true;
+    }else if(previouslySelectedPriceRanges.length > ranges.length){
+      let removedRange = this.getRemovedElement(previouslySelectedPriceRanges, ranges);
+      this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(rangeOption => rangeOption.rangeId.toString() === removedRange)].checked = false;
+    }
+  }
+
+  getRemovedElement(array1 : string[], array2 : string[]) : string{
+     let removedElement = '';
+      array1.forEach(element => {
+        if(!array2.includes(element))
+            removedElement =  element;
+      });
+
+    return removedElement;
+  }
+
+  getAddedElement(array1 : string[], array2 : string[]) : string{
+      let addedElement = '';
+      array2.forEach(element => {
+        if(!array1.includes(element))
+          addedElement =  element;
+      });
+    
+      return addedElement;
+  }
+
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
     this.categoryService.getCategoryBrands(this.category).toPromise()

@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Event as NavigationEvent, NavigationStart } from "@angular/router";
+import { filter } from "rxjs/operators";
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { Product } from 'src/app/models/product';
@@ -24,6 +26,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   rangeParameters : string[] = [];
   isGetCategoryProductsRequestDone : boolean = true;
   isClickFromNavigationBar : boolean = false;
+  wasBackButtonClicked : boolean = false;
 
   productNumberLow : number ;
   productNumberHigh : number;
@@ -32,6 +35,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   queryParamRouteSubscription : Subscription;
   httpSubscription : Subscription;
   httpSubscription2 : Subscription;
+  routerEventSubscription : Subscription;
 
   greekCategories = {
     vitamins : 'Βιταμίνες',
@@ -55,7 +59,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
   private selectedValue : string;
 
-  constructor(private route : ActivatedRoute, private categoryService : CategoryService) { }
+  constructor(private route : ActivatedRoute, private categoryService : CategoryService, private router : Router) { }
 
   ngOnInit() {
     this.paramRouteSubscription = this.route.params.subscribe(params => {
@@ -79,6 +83,15 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.routerEventSubscription = this.router.events
+                                                .pipe(filter(event => event instanceof NavigationStart))
+                                                .subscribe( ( event: NavigationStart ) => {
+                                                       console.log( "route:", event.url );
+                                                       if(event.navigationTrigger === 'popstate'){
+                                                         this.wasBackButtonClicked = true;
+                                                       }
+                                                 });
+
     this.queryParamRouteSubscription =  this.route.queryParams.subscribe(queryParams => {
       this.isGetCategoryProductsRequestDone = false;
       let oldCategory = this.category;
@@ -96,6 +109,11 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
       if(newBrandParametersLength !== undefined){
         didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
+        if(didBrandParametersChange && typeof(this.brandParameters) === 'string'){
+          let temp = [];
+          temp.push(this.brandParameters);
+          this.brandParameters = temp;
+        }
       }
 
       let oldRangeParametersLength = this.rangeParameters.length;
@@ -108,6 +126,26 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
       if(newRangeParametersLength !== undefined){
         didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength  ? true : false;
+        if(didRangeParametersChange && typeof(this.rangeParameters) === 'string'){
+          let temp = [];
+          temp.push(this.rangeParameters);
+          this.rangeParameters = temp;
+        }
+      }
+
+      if(queryParams['brand'] == null){
+        this.brandParameters = [];
+        didBrandParametersChange = true;
+      }
+
+      if(queryParams['range'] == null){
+        this.rangeParameters = [];
+        didRangeParametersChange = true;
+      }
+
+      if(this.wasBackButtonClicked && (this.brandParameters.length !== 0 || this.rangeParameters.length !== 0)){
+        this.sidebar.updateSidebarWithoutRefresh(this.brandParameters, this.rangeParameters);
+        this.wasBackButtonClicked = false;
       }
       
       this.category = this.route.snapshot.params['name'];
@@ -161,6 +199,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.paramRouteSubscription.unsubscribe();
     this.queryParamRouteSubscription.unsubscribe();
+    this.routerEventSubscription.unsubscribe();
     if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
   }

@@ -581,43 +581,23 @@ var CategoryPageComponent = /** @class */ (function () {
             var isClickFromNavigationBarParam = queryParams['fn'] === 'yes';
             _this.currentPage = queryParams['page'];
             var oldBrandParametersLength = _this.brandParameters.length;
-            var newBrandParametersLength;
-            if (queryParams['brand'] !== undefined) {
-                _this.brandParameters = queryParams['brand'];
-                newBrandParametersLength = _this.brandParameters.length;
+            _this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
+            if (typeof (_this.brandParameters) === 'string') {
+                var temp = [];
+                temp.push(_this.brandParameters);
+                _this.brandParameters = temp;
             }
-            var didBrandParametersChange = false;
-            if (newBrandParametersLength !== undefined) {
-                didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength ? true : false;
-                if (didBrandParametersChange && typeof (_this.brandParameters) === 'string') {
-                    var temp = [];
-                    temp.push(_this.brandParameters);
-                    _this.brandParameters = temp;
-                }
-            }
+            var newBrandParametersLength = _this.brandParameters.length;
+            var didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength ? true : false;
             var oldRangeParametersLength = _this.rangeParameters.length;
-            var newRangeParametersLength;
-            if (queryParams['range'] !== undefined) {
-                _this.rangeParameters = queryParams['range'];
-                newRangeParametersLength = _this.rangeParameters.length;
+            _this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
+            if (typeof (_this.rangeParameters) === 'string') {
+                var temp = [];
+                temp.push(_this.rangeParameters);
+                _this.rangeParameters = temp;
             }
-            var didRangeParametersChange = false;
-            if (newRangeParametersLength !== undefined) {
-                didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength ? true : false;
-                if (didRangeParametersChange && typeof (_this.rangeParameters) === 'string') {
-                    var temp = [];
-                    temp.push(_this.rangeParameters);
-                    _this.rangeParameters = temp;
-                }
-            }
-            if (queryParams['brand'] == null) {
-                _this.brandParameters = [];
-                didBrandParametersChange = true;
-            }
-            if (queryParams['range'] == null) {
-                _this.rangeParameters = [];
-                didRangeParametersChange = true;
-            }
+            var newRangeParametersLength = _this.rangeParameters.length;
+            var didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength ? true : false;
             if (_this.wasBackButtonClicked && (_this.brandParameters.length !== 0 || _this.rangeParameters.length !== 0)) {
                 _this.sidebar.updateSidebarWithoutRefresh(_this.brandParameters, _this.rangeParameters);
                 _this.wasBackButtonClicked = false;
@@ -767,25 +747,31 @@ var CategorySidebarComponent = /** @class */ (function () {
             .map(function (priceRangeOption) { return priceRangeOption.rangeId.toString(); });
         if (brands.length === 0) {
             this.numberOfProductsPerBrand.forEach(function (brandOption) { return brandOption.checked = false; });
+            this.updatePriceRangesBackButton(brands);
         }
         else if (previouslySelectedBrands.length < brands.length) {
             var addedBrand_1 = this.getAddedElement(previouslySelectedBrands, brands);
             this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === addedBrand_1; })].checked = true;
+            this.updatePriceRangesBackButton(brands);
         }
         else if (previouslySelectedBrands.length > brands.length) {
             var removedBrand_1 = this.getRemovedElement(previouslySelectedBrands, brands);
             this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === removedBrand_1; })].checked = false;
+            this.updatePriceRangesBackButton(brands);
         }
         if (ranges.length === 0) {
             this.numberOfProductsPerPriceRange.forEach(function (rangeOption) { return rangeOption.checked = false; });
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
         }
         else if (previouslySelectedPriceRanges.length < ranges.length) {
             var addedRange_1 = this.getAddedElement(previouslySelectedPriceRanges, ranges);
             this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === addedRange_1; })].checked = true;
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
         }
         else if (previouslySelectedPriceRanges.length > ranges.length) {
             var removedRange_1 = this.getRemovedElement(previouslySelectedPriceRanges, ranges);
             this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === removedRange_1; })].checked = false;
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
         }
     };
     CategorySidebarComponent.prototype.getRemovedElement = function (array1, array2) {
@@ -842,6 +828,21 @@ var CategorySidebarComponent = /** @class */ (function () {
             console.log(error);
         });
     };
+    CategorySidebarComponent.prototype.updateBrandsBackButton = function (selectedPriceRanges) {
+        var _this = this;
+        var numberOfProdsPerBrandArray = [];
+        this.httpSubscription6 = this.categoryService.getCategoryProductsNumberByBrand(this.category, this.categoryBrands, selectedPriceRanges)
+            .subscribe(function (item) {
+            numberOfProdsPerBrandArray.push(item);
+            if (numberOfProdsPerBrandArray.length === _this.categoryBrands.length) {
+                numberOfProdsPerBrandArray.forEach(function (prodPerBrand) {
+                    _this.numberOfProductsPerBrand[_this.numberOfProductsPerBrand.findIndex(function (brand) { return brand.brand === prodPerBrand.brand; })].number = prodPerBrand.number;
+                });
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
     CategorySidebarComponent.prototype.getPriceRanges = function () {
         var _this = this;
         this.initializePriceRanges();
@@ -872,6 +873,22 @@ var CategorySidebarComponent = /** @class */ (function () {
             });
             if (numberOfProdsArray.length === 4) {
                 _this.numberOfProductsPerPriceRange = numberOfProdsArray;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    CategorySidebarComponent.prototype.updatePriceRangesBackButton = function (selectedBrands) {
+        var _this = this;
+        this.initializePriceRanges();
+        var numberOfProdsArray = [];
+        this.httpSubscription5 = this.categoryService.getCategoryProductsNumberByPriceRange(this.category, this.priceRanges, selectedBrands)
+            .subscribe(function (range) {
+            numberOfProdsArray.push(range);
+            if (numberOfProdsArray.length === 4) {
+                numberOfProdsArray.forEach(function (prodPerPriceRange) {
+                    _this.numberOfProductsPerPriceRange[_this.numberOfProductsPerPriceRange.findIndex(function (range) { return range.rangeId === prodPerPriceRange.rangeId; })].number = prodPerPriceRange.number;
+                });
             }
         }, function (error) {
             console.log(error);
@@ -923,6 +940,10 @@ var CategorySidebarComponent = /** @class */ (function () {
         if (this.httpSubscription3 !== undefined)
             this.httpSubscription3.unsubscribe();
         if (this.httpSubscription4 !== undefined)
+            this.httpSubscription4.unsubscribe();
+        if (this.httpSubscription5 !== undefined)
+            this.httpSubscription3.unsubscribe();
+        if (this.httpSubscription6 !== undefined)
             this.httpSubscription4.unsubscribe();
     };
     __decorate([

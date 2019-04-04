@@ -100,48 +100,27 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
       this.currentPage = queryParams['page'];
 
       let oldBrandParametersLength = this.brandParameters.length;
-      let newBrandParametersLength;
-      if( queryParams['brand'] !== undefined){
-        this.brandParameters = queryParams['brand'];
-        newBrandParametersLength = this.brandParameters.length;
-      } 
-      let didBrandParametersChange = false;
 
-      if(newBrandParametersLength !== undefined){
-        didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
-        if(didBrandParametersChange && typeof(this.brandParameters) === 'string'){
-          let temp = [];
-          temp.push(this.brandParameters);
-          this.brandParameters = temp;
-        }
+      this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
+      if(typeof(this.brandParameters) === 'string'){
+        let temp = [];
+        temp.push(this.brandParameters);
+        this.brandParameters = temp;
       }
+      let newBrandParametersLength = this.brandParameters.length;
+      let didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
+      
 
       let oldRangeParametersLength = this.rangeParameters.length;
-      let newRangeParametersLength;
-      if( queryParams['range'] !== undefined){
-        this.rangeParameters = queryParams['range'];
-        newRangeParametersLength = this.rangeParameters.length;
-      } 
-      let didRangeParametersChange = false;
-
-      if(newRangeParametersLength !== undefined){
-        didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength  ? true : false;
-        if(didRangeParametersChange && typeof(this.rangeParameters) === 'string'){
-          let temp = [];
-          temp.push(this.rangeParameters);
-          this.rangeParameters = temp;
-        }
+      
+      this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
+      if(typeof(this.rangeParameters) === 'string'){
+        let temp = [];
+        temp.push(this.rangeParameters);
+        this.rangeParameters = temp;
       }
-
-      if(queryParams['brand'] == null){
-        this.brandParameters = [];
-        didBrandParametersChange = true;
-      }
-
-      if(queryParams['range'] == null){
-        this.rangeParameters = [];
-        didRangeParametersChange = true;
-      }
+      let newRangeParametersLength = this.rangeParameters.length;
+      let didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength  ? true : false;
 
       if(this.wasBackButtonClicked && (this.brandParameters.length !== 0 || this.rangeParameters.length !== 0)){
         this.sidebar.updateSidebarWithoutRefresh(this.brandParameters, this.rangeParameters);

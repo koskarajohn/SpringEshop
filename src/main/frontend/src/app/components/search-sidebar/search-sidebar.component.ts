@@ -27,6 +27,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   httpSubscription2 : Subscription;
   httpSubscription3 : Subscription;
   httpSubscription4 : Subscription;
+  httpSubscription5 : Subscription;
+  httpSubscription6 : Subscription;
   
   constructor(private searchService : SearchService, private router : Router) { }
 
@@ -70,6 +72,61 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
     this.getBrands();
   }
 
+  updateSidebarWithoutRefresh(brands : string[], ranges : string[]){
+
+    let previouslySelectedBrands = this.numberOfProductsPerBrand
+                             .filter(brandOption => brandOption.checked)
+                             .map(brandOption => brandOption.brand);                      
+    
+    let previouslySelectedPriceRanges = this.numberOfProductsPerPriceRange
+                             .filter(priceRangeOption => priceRangeOption.checked)
+                             .map(priceRangeOption => priceRangeOption.rangeId.toString());
+    
+    if(brands.length === 0){
+      this.numberOfProductsPerBrand.forEach(brandOption => brandOption.checked = false);
+      this.updatePriceRangesBackButton(brands);
+    }else if(previouslySelectedBrands.length < brands.length ){
+      let addedBrand = this.getAddedElement(previouslySelectedBrands, brands);
+      this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brandOption => brandOption.brand === addedBrand)].checked = true;
+      this.updatePriceRangesBackButton(brands);
+    }else if(previouslySelectedBrands.length > brands.length ){
+      let removedBrand = this.getRemovedElement(previouslySelectedBrands, brands);
+      this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brandOption => brandOption.brand === removedBrand)].checked = false;
+      this.updatePriceRangesBackButton(brands);
+    }
+
+    if(ranges.length === 0){
+      this.numberOfProductsPerPriceRange.forEach(rangeOption => rangeOption.checked = false);
+      this.updateBrandsBackButton(ranges.map(range => Number(range)));
+    }else if(previouslySelectedPriceRanges.length < ranges.length){
+      let addedRange = this.getAddedElement(previouslySelectedPriceRanges, ranges);
+      this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(rangeOption => rangeOption.rangeId.toString() === addedRange)].checked = true;
+      this.updateBrandsBackButton(ranges.map(range => Number(range)));
+    }else if(previouslySelectedPriceRanges.length > ranges.length){
+      let removedRange = this.getRemovedElement(previouslySelectedPriceRanges, ranges);
+      this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(rangeOption => rangeOption.rangeId.toString() === removedRange)].checked = false;
+      this.updateBrandsBackButton(ranges.map(range => Number(range)));
+    }
+  }
+
+  getRemovedElement(array1 : string[], array2 : string[]) : string{
+    let removedElement = '';
+     array1.forEach(element => {
+       if(!array2.includes(element))
+           removedElement =  element;
+     });
+   return removedElement;
+ }
+
+ getAddedElement(array1 : string[], array2 : string[]) : string{
+     let addedElement = '';
+     array2.forEach(element => {
+       if(!array1.includes(element))
+         addedElement =  element;
+     });
+     return addedElement;
+ }
+
   getBrands() : void{
     this.numberOfProductsPerBrand = [];
     this.searchService.getSearchBrands(this.searchTerms).toPromise()
@@ -112,6 +169,22 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                                                  });
   }
 
+  updateBrandsBackButton(selectedPriceRanges : number[]) : void{
+    let numberOfProdsPerBrandArray :  ProductsPerBrand[] = [];
+    this.httpSubscription6 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, selectedPriceRanges)
+                                                 .subscribe(item => {
+                                                  numberOfProdsPerBrandArray.push(item);
+                                                 if(numberOfProdsPerBrandArray.length === this.searchBrands.length){
+                                                  numberOfProdsPerBrandArray.forEach(prodPerBrand => {
+                                                    this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brand => brand.brand === prodPerBrand.brand)].number = prodPerBrand.number;
+                                                  });
+                                                 }
+                                                 },
+                                                 error => {
+                                                   console.log(error);
+                                                 });
+  }
+
   getPriceRanges() : void{
     this.initializePriceRanges();
     this.numberOfProductsPerPriceRange = [];
@@ -141,6 +214,23 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                           });
                           if(numberOfProdsArray.length === 4){
                             this.numberOfProductsPerPriceRange = numberOfProdsArray;
+                          }
+                        }, 
+                        error => {
+                          console.log(error);
+                        });
+  }
+
+  updatePriceRangesBackButton(selectedBrands : string[]) : void{
+    this.initializePriceRanges();
+    let numberOfProdsArray :  ProductsPerPriceRange[] = [];
+    this.httpSubscription5 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, selectedBrands)
+                        .subscribe(range => {
+                          numberOfProdsArray.push(range);
+                          if(numberOfProdsArray.length === 4){
+                            numberOfProdsArray.forEach(prodPerPriceRange => {
+                              this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(range => range.rangeId === prodPerPriceRange.rangeId)].number = prodPerPriceRange.number;
+                              });
                           }
                         }, 
                         error => {
@@ -188,6 +278,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
     if(this.httpSubscription3 !== undefined) this.httpSubscription3.unsubscribe();
     if(this.httpSubscription4 !== undefined) this.httpSubscription4.unsubscribe();
+    if(this.httpSubscription5 !== undefined) this.httpSubscription3.unsubscribe();
+    if(this.httpSubscription6 !== undefined) this.httpSubscription4.unsubscribe();
   }
 
 }

@@ -2359,6 +2359,58 @@ var SearchSidebarComponent = /** @class */ (function () {
         this.getPriceRanges();
         this.getBrands();
     };
+    SearchSidebarComponent.prototype.updateSidebarWithoutRefresh = function (brands, ranges) {
+        var previouslySelectedBrands = this.numberOfProductsPerBrand
+            .filter(function (brandOption) { return brandOption.checked; })
+            .map(function (brandOption) { return brandOption.brand; });
+        var previouslySelectedPriceRanges = this.numberOfProductsPerPriceRange
+            .filter(function (priceRangeOption) { return priceRangeOption.checked; })
+            .map(function (priceRangeOption) { return priceRangeOption.rangeId.toString(); });
+        if (brands.length === 0) {
+            this.numberOfProductsPerBrand.forEach(function (brandOption) { return brandOption.checked = false; });
+            this.updatePriceRangesBackButton(brands);
+        }
+        else if (previouslySelectedBrands.length < brands.length) {
+            var addedBrand_1 = this.getAddedElement(previouslySelectedBrands, brands);
+            this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === addedBrand_1; })].checked = true;
+            this.updatePriceRangesBackButton(brands);
+        }
+        else if (previouslySelectedBrands.length > brands.length) {
+            var removedBrand_1 = this.getRemovedElement(previouslySelectedBrands, brands);
+            this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(function (brandOption) { return brandOption.brand === removedBrand_1; })].checked = false;
+            this.updatePriceRangesBackButton(brands);
+        }
+        if (ranges.length === 0) {
+            this.numberOfProductsPerPriceRange.forEach(function (rangeOption) { return rangeOption.checked = false; });
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
+        }
+        else if (previouslySelectedPriceRanges.length < ranges.length) {
+            var addedRange_1 = this.getAddedElement(previouslySelectedPriceRanges, ranges);
+            this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === addedRange_1; })].checked = true;
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
+        }
+        else if (previouslySelectedPriceRanges.length > ranges.length) {
+            var removedRange_1 = this.getRemovedElement(previouslySelectedPriceRanges, ranges);
+            this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(function (rangeOption) { return rangeOption.rangeId.toString() === removedRange_1; })].checked = false;
+            this.updateBrandsBackButton(ranges.map(function (range) { return Number(range); }));
+        }
+    };
+    SearchSidebarComponent.prototype.getRemovedElement = function (array1, array2) {
+        var removedElement = '';
+        array1.forEach(function (element) {
+            if (!array2.includes(element))
+                removedElement = element;
+        });
+        return removedElement;
+    };
+    SearchSidebarComponent.prototype.getAddedElement = function (array1, array2) {
+        var addedElement = '';
+        array2.forEach(function (element) {
+            if (!array1.includes(element))
+                addedElement = element;
+        });
+        return addedElement;
+    };
     SearchSidebarComponent.prototype.getBrands = function () {
         var _this = this;
         this.numberOfProductsPerBrand = [];
@@ -2399,6 +2451,21 @@ var SearchSidebarComponent = /** @class */ (function () {
             console.log(error);
         });
     };
+    SearchSidebarComponent.prototype.updateBrandsBackButton = function (selectedPriceRanges) {
+        var _this = this;
+        var numberOfProdsPerBrandArray = [];
+        this.httpSubscription6 = this.searchService.getSearchProductsNumberByBrand(this.searchTerms, this.searchBrands, selectedPriceRanges)
+            .subscribe(function (item) {
+            numberOfProdsPerBrandArray.push(item);
+            if (numberOfProdsPerBrandArray.length === _this.searchBrands.length) {
+                numberOfProdsPerBrandArray.forEach(function (prodPerBrand) {
+                    _this.numberOfProductsPerBrand[_this.numberOfProductsPerBrand.findIndex(function (brand) { return brand.brand === prodPerBrand.brand; })].number = prodPerBrand.number;
+                });
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
     SearchSidebarComponent.prototype.getPriceRanges = function () {
         var _this = this;
         this.initializePriceRanges();
@@ -2428,6 +2495,22 @@ var SearchSidebarComponent = /** @class */ (function () {
             });
             if (numberOfProdsArray.length === 4) {
                 _this.numberOfProductsPerPriceRange = numberOfProdsArray;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    SearchSidebarComponent.prototype.updatePriceRangesBackButton = function (selectedBrands) {
+        var _this = this;
+        this.initializePriceRanges();
+        var numberOfProdsArray = [];
+        this.httpSubscription5 = this.searchService.getSearchProductsNumberByPriceRange(this.searchTerms, this.priceRanges, selectedBrands)
+            .subscribe(function (range) {
+            numberOfProdsArray.push(range);
+            if (numberOfProdsArray.length === 4) {
+                numberOfProdsArray.forEach(function (prodPerPriceRange) {
+                    _this.numberOfProductsPerPriceRange[_this.numberOfProductsPerPriceRange.findIndex(function (range) { return range.rangeId === prodPerPriceRange.rangeId; })].number = prodPerPriceRange.number;
+                });
             }
         }, function (error) {
             console.log(error);
@@ -2471,6 +2554,10 @@ var SearchSidebarComponent = /** @class */ (function () {
         if (this.httpSubscription3 !== undefined)
             this.httpSubscription3.unsubscribe();
         if (this.httpSubscription4 !== undefined)
+            this.httpSubscription4.unsubscribe();
+        if (this.httpSubscription5 !== undefined)
+            this.httpSubscription3.unsubscribe();
+        if (this.httpSubscription6 !== undefined)
             this.httpSubscription4.unsubscribe();
     };
     __decorate([
@@ -2528,6 +2615,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_services_search_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/search.service */ "./src/app/services/search.service.ts");
 /* harmony import */ var _search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../search-sidebar/search-sidebar.component */ "./src/app/components/search-sidebar/search-sidebar.component.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2541,13 +2629,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var SearchComponent = /** @class */ (function () {
-    function SearchComponent(route, searchService) {
+    function SearchComponent(route, searchService, router) {
         this.route = route;
         this.searchService = searchService;
+        this.router = router;
         this.currentPage = 0;
         this.isGetSearchProductsRequestDone = true;
         this.didSearchReturnAnyProducts = true;
+        this.wasBackButtonClicked = false;
         this.keywords = [];
         this.userSearchString = '';
         this.brandParameters = [];
@@ -2567,18 +2659,30 @@ var SearchComponent = /** @class */ (function () {
         var _this = this;
         this.selectedValue = 'asc';
         this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
+        this.routerEventSubscription = this.router.events
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(function (event) { return event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]; }))
+            .subscribe(function (event) {
+            console.log("route:", event.url);
+            if (event.navigationTrigger === 'popstate') {
+                _this.wasBackButtonClicked = true;
+            }
+        });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
             _this.isGetSearchProductsRequestDone = false;
             _this.currentPage = queryParams['page'];
-            _this.brandParameters = queryParams['brand'];
-            _this.rangeParameters = queryParams['range'];
-            _this.keywords = queryParams['keyword'];
-            _this.checkForCorrectValuesFromBackButton();
+            _this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
+            _this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
+            _this.keywords = queryParams['keyword'] == null ? [] : queryParams['keyword'];
+            _this.checkForStringValues();
             var didSearchTermsChange = queryParams['fn'] === 'yes';
             if (didSearchTermsChange) {
                 _this.userSearchString = '';
                 _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
                 _this.selectedValue = 'asc';
+            }
+            if (_this.wasBackButtonClicked) {
+                _this.sidebar.updateSidebarWithoutRefresh(_this.brandParameters, _this.rangeParameters);
+                _this.wasBackButtonClicked = false;
             }
             _this.httpSubscription = _this.searchService.getSearchProducts(_this.keywords, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                 if (productPage !== null) {
@@ -2601,23 +2705,27 @@ var SearchComponent = /** @class */ (function () {
             });
         });
     };
-    SearchComponent.prototype.checkForCorrectValuesFromBackButton = function () {
+    SearchComponent.prototype.checkForStringValues = function () {
         if (typeof (this.keywords) === 'string') {
             var temp = [];
             temp.push(this.keywords);
             this.keywords = temp;
         }
-        if (this.brandParameters == null) {
-            this.brandParameters = [];
+        if (typeof (this.brandParameters) === 'string') {
+            var temp = [];
+            temp.push(this.brandParameters);
+            this.brandParameters = temp;
         }
-        if (this.rangeParameters == null) {
-            this.rangeParameters = [];
+        if (typeof (this.rangeParameters) === 'string') {
+            var temp = [];
+            temp.push(this.rangeParameters);
+            this.rangeParameters = temp;
         }
     };
     SearchComponent.prototype.onOrderChange = function (order) {
         var _this = this;
         this.isGetSearchProductsRequestDone = false;
-        this.httpSubscription = this.searchService.getSearchProducts(this.keywords, this.currentPage, order, this.brandParameters, this.rangeParameters).subscribe(function (productPage) {
+        this.httpSubscription2 = this.searchService.getSearchProducts(this.keywords, this.currentPage, order, this.brandParameters, this.rangeParameters).subscribe(function (productPage) {
             _this.productPage = productPage;
             _this.products = productPage.content;
             _this.isGetSearchProductsRequestDone = true;
@@ -2639,6 +2747,7 @@ var SearchComponent = /** @class */ (function () {
     };
     SearchComponent.prototype.ngOnDestroy = function () {
         this.queryParamRouteSubscription.unsubscribe();
+        this.routerEventSubscription.unsubscribe();
         if (this.httpSubscription !== undefined)
             this.httpSubscription.unsubscribe();
         if (this.httpSubscription2 !== undefined)
@@ -2654,7 +2763,7 @@ var SearchComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./search.component.html */ "./src/app/components/search/search.component.html"),
             styles: [__webpack_require__(/*! ./search.component.css */ "./src/app/components/search/search.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_search_service__WEBPACK_IMPORTED_MODULE_2__["SearchService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_search_service__WEBPACK_IMPORTED_MODULE_2__["SearchService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], SearchComponent);
     return SearchComponent;
 }());

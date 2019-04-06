@@ -481,7 +481,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , fn : 'no', brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ {{categoryTitle}}\r\n  </div>\r\n</div>\r\n\r\n<!-- Content -->\r\n<section class=\"container\">\r\n  <h1>{{categoryTitle}}</h1>\r\n  <div class=\"row category-content\">\r\n    <div class=\"col-md-3 sidebar\">\r\n        <category-sidebar [category] = \"category\" [brandParametersForSidebar] = \"brandParametersForSidebar\" [rangeParametersForSidebar] = \"rangeParametersForSidebar\"></category-sidebar>\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <div class=\"mb-5\">\r\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\r\n          <span>Κατάταξη ως προς:</span>\r\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\r\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\r\n          </select>\r\n        </div>\r\n\r\n        <div class=\"row product-content\">\r\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\r\n                 <product-item [product] = \"productItem\"></product-item>\r\n            </div>\r\n        </div>\r\n\r\n        <ul class=\"pagination\">\r\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\r\n              <a class=\"page-link\" routerLink=\"/category/{{category}}\" [queryParams]=\"{ page: i , fn : 'no', brand : brandParameters, range : rangeParameters}\">{{page}}</a>\r\n            </li>\r\n        </ul> \r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<i *ngIf=\"!isGetCategoryProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -523,6 +523,8 @@ var CategoryPageComponent = /** @class */ (function () {
         this.currentPage = 0;
         this.brandParameters = [];
         this.rangeParameters = [];
+        this.brandParametersForSidebar = [];
+        this.rangeParametersForSidebar = [];
         this.isGetCategoryProductsRequestDone = true;
         this.isClickFromNavigationBar = false;
         this.wasBackButtonClicked = false;
@@ -549,11 +551,16 @@ var CategoryPageComponent = /** @class */ (function () {
         var _this = this;
         this.paramRouteSubscription = this.route.params.subscribe(function (params) {
             _this.isGetCategoryProductsRequestDone = false;
-            _this.brandParameters = [];
+            _this.getBrandParametersValue(_this.route.snapshot.queryParams);
+            _this.getRangeParametersValue(_this.route.snapshot.queryParams);
             _this.selectedValue = 'asc';
             _this.category = params['name'];
             _this.currentPage = _this.route.snapshot.queryParams['page'];
             _this.categoryTitle = params['name'] === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[params['name']];
+            if (!(_this.brandParameters.length === 0 && _this.rangeParameters.length === 0)) {
+                _this.brandParametersForSidebar = _this.brandParameters;
+                _this.rangeParametersForSidebar = _this.rangeParameters;
+            }
             _this.httpSubscription = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                 _this.pageNumbers = [];
                 _this.productPage = productPage;
@@ -581,32 +588,23 @@ var CategoryPageComponent = /** @class */ (function () {
             var isClickFromNavigationBarParam = queryParams['fn'] === 'yes';
             _this.currentPage = queryParams['page'];
             var oldBrandParametersLength = _this.brandParameters.length;
-            _this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
-            if (typeof (_this.brandParameters) === 'string') {
-                var temp = [];
-                temp.push(_this.brandParameters);
-                _this.brandParameters = temp;
-            }
+            _this.getBrandParametersValue(queryParams);
             var newBrandParametersLength = _this.brandParameters.length;
             var didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength ? true : false;
             var oldRangeParametersLength = _this.rangeParameters.length;
-            _this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
-            if (typeof (_this.rangeParameters) === 'string') {
-                var temp = [];
-                temp.push(_this.rangeParameters);
-                _this.rangeParameters = temp;
-            }
+            _this.getRangeParametersValue(queryParams);
             var newRangeParametersLength = _this.rangeParameters.length;
             var didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength ? true : false;
-            if (_this.wasBackButtonClicked && (_this.brandParameters.length !== 0 || _this.rangeParameters.length !== 0)) {
+            _this.category = _this.route.snapshot.params['name'];
+            _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
+            if (_this.wasBackButtonClicked && oldCategory === _this.category && (_this.brandParameters.length !== 0 || _this.rangeParameters.length !== 0)) {
                 _this.sidebar.updateSidebarWithoutRefresh(_this.brandParameters, _this.rangeParameters);
                 _this.wasBackButtonClicked = false;
             }
-            _this.category = _this.route.snapshot.params['name'];
-            _this.categoryTitle = _this.category === 'fish-oils' ? _this.greekCategories['fishoils'] : _this.greekCategories[_this.category];
             if (oldCategory === _this.category && (_this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange)) {
                 if (isClickFromNavigationBarParam && (didBrandParametersChange || didRangeParametersChange) && (_this.brandParameters.length === 0 && _this.rangeParameters.length === 0)) {
-                    _this.sidebar.updateSidebar();
+                    _this.brandParametersForSidebar = _this.brandParameters;
+                    _this.rangeParametersForSidebar = _this.rangeParameters;
                 }
                 _this.httpSubscription2 = _this.categoryService.getCategoryProductsPage(_this.category, _this.currentPage, _this.selectedValue, _this.brandParameters, _this.rangeParameters).subscribe(function (productPage) {
                     _this.pageNumbers = [];
@@ -621,6 +619,22 @@ var CategoryPageComponent = /** @class */ (function () {
                 });
             }
         });
+    };
+    CategoryPageComponent.prototype.getBrandParametersValue = function (queryParams) {
+        this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
+        if (typeof (this.brandParameters) === 'string') {
+            var temp = [];
+            temp.push(this.brandParameters);
+            this.brandParameters = temp;
+        }
+    };
+    CategoryPageComponent.prototype.getRangeParametersValue = function (queryParams) {
+        this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
+        if (typeof (this.rangeParameters) === 'string') {
+            var temp = [];
+            temp.push(this.rangeParameters);
+            this.rangeParameters = temp;
+        }
     };
     CategoryPageComponent.prototype.onOrderChange = function (order) {
         var _this = this;
@@ -727,14 +741,21 @@ var CategorySidebarComponent = /** @class */ (function () {
         this.selectedBrands = [];
         this.selectedPriceRanges = [];
     }
-    CategorySidebarComponent.prototype.ngOnInit = function () {
-    };
+    CategorySidebarComponent.prototype.ngOnInit = function () { };
     CategorySidebarComponent.prototype.ngOnChanges = function (changes) {
+        this.brandParametersForSidebar = changes['brandParametersForSidebar'] == null ? [] : changes['brandParametersForSidebar'].currentValue;
+        this.rangeParametersForSidebar = changes['rangeParametersForSidebar'] == null ? [] : changes['rangeParametersForSidebar'].currentValue;
+        if (this.brandParametersForSidebar.length > 0 || this.rangeParametersForSidebar.length > 0) {
+            this.selectedBrands = this.brandParametersForSidebar;
+            this.selectedPriceRanges = this.rangeParametersForSidebar.map(function (range) { return Number(range); });
+        }
+        else {
+            this.selectedBrands = [];
+            this.selectedPriceRanges = [];
+        }
         this.updateSidebar();
     };
     CategorySidebarComponent.prototype.updateSidebar = function () {
-        this.selectedBrands = [];
-        this.selectedPriceRanges = [];
         this.getPriceRanges();
         this.getBrands();
     };
@@ -803,6 +824,11 @@ var CategorySidebarComponent = /** @class */ (function () {
                     var bIndex = brands.findIndex(function (brand) { return brand.name === b.brand; });
                     return aIndex - bIndex;
                 });
+                if (_this.numberOfProductsPerBrand.length === _this.categoryBrands.length && _this.selectedBrands.length > 0) {
+                    _this.selectedBrands.forEach(function (selectedBrand) {
+                        _this.numberOfProductsPerBrand[_this.numberOfProductsPerBrand.findIndex(function (brand) { return brand.brand === selectedBrand; })].checked = true;
+                    });
+                }
             }, function (error) {
                 console.log(error);
             });
@@ -854,6 +880,11 @@ var CategorySidebarComponent = /** @class */ (function () {
                 var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
                 return aIndex - bIndex;
             });
+            if (_this.numberOfProductsPerPriceRange.length === 4 && _this.selectedPriceRanges.length > 0) {
+                _this.selectedPriceRanges.forEach(function (selectedRange) {
+                    _this.numberOfProductsPerPriceRange[_this.numberOfProductsPerPriceRange.findIndex(function (range) { return range.rangeId === selectedRange; })].checked = true;
+                });
+            }
         }, function (error) {
             console.log(error);
         });
@@ -942,14 +973,22 @@ var CategorySidebarComponent = /** @class */ (function () {
         if (this.httpSubscription4 !== undefined)
             this.httpSubscription4.unsubscribe();
         if (this.httpSubscription5 !== undefined)
-            this.httpSubscription3.unsubscribe();
+            this.httpSubscription5.unsubscribe();
         if (this.httpSubscription6 !== undefined)
-            this.httpSubscription4.unsubscribe();
+            this.httpSubscription6.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", String)
     ], CategorySidebarComponent.prototype, "category", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], CategorySidebarComponent.prototype, "brandParametersForSidebar", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], CategorySidebarComponent.prototype, "rangeParametersForSidebar", void 0);
     CategorySidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'category-sidebar',

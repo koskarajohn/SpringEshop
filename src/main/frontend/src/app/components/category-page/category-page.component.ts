@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Event as NavigationEvent, NavigationStart } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { Subscription } from 'rxjs';
@@ -24,6 +24,8 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   pageNumbers : number[];
   brandParameters = [] as string[];
   rangeParameters : string[] = [];
+  brandParametersForSidebar = [] as string[];
+  rangeParametersForSidebar = [] as string[];
   isGetCategoryProductsRequestDone : boolean = true;
   isClickFromNavigationBar : boolean = false;
   wasBackButtonClicked : boolean = false;
@@ -64,11 +66,17 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.paramRouteSubscription = this.route.params.subscribe(params => {
       this.isGetCategoryProductsRequestDone = false;
-      this.brandParameters= [];
+      this.getBrandParametersValue(this.route.snapshot.queryParams);
+      this.getRangeParametersValue(this.route.snapshot.queryParams);
       this.selectedValue = 'asc';
       this.category = params['name'];
       this.currentPage =  this.route.snapshot.queryParams['page'];
       this.categoryTitle = params['name'] === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[params['name']];
+      if(!(this.brandParameters.length === 0 && this.rangeParameters.length === 0)){
+        this.brandParametersForSidebar = this.brandParameters;
+        this.rangeParametersForSidebar = this.rangeParameters;
+      }
+         
       this.httpSubscription = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
         this.pageNumbers = [];
         this.productPage = productPage;
@@ -101,37 +109,29 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
 
       let oldBrandParametersLength = this.brandParameters.length;
 
-      this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
-      if(typeof(this.brandParameters) === 'string'){
-        let temp = [];
-        temp.push(this.brandParameters);
-        this.brandParameters = temp;
-      }
+      this.getBrandParametersValue(queryParams);
       let newBrandParametersLength = this.brandParameters.length;
       let didBrandParametersChange = oldBrandParametersLength !== newBrandParametersLength  ? true : false;
       
 
       let oldRangeParametersLength = this.rangeParameters.length;
       
-      this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
-      if(typeof(this.rangeParameters) === 'string'){
-        let temp = [];
-        temp.push(this.rangeParameters);
-        this.rangeParameters = temp;
-      }
+      this.getRangeParametersValue(queryParams);
       let newRangeParametersLength = this.rangeParameters.length;
       let didRangeParametersChange = oldRangeParametersLength !== newRangeParametersLength  ? true : false;
 
-      if(this.wasBackButtonClicked && (this.brandParameters.length !== 0 || this.rangeParameters.length !== 0)){
-        this.sidebar.updateSidebarWithoutRefresh(this.brandParameters, this.rangeParameters);
-        this.wasBackButtonClicked = false;
-      }
-      
       this.category = this.route.snapshot.params['name'];
       this.categoryTitle = this.category === 'fish-oils' ? this.greekCategories['fishoils'] : this.greekCategories[this.category];
+
+      if(this.wasBackButtonClicked && oldCategory === this.category && (this.brandParameters.length !== 0 || this.rangeParameters.length !== 0)){
+        this.sidebar.updateSidebarWithoutRefresh(this.brandParameters, this.rangeParameters);
+        this.wasBackButtonClicked = false;
+      } 
+      
       if( oldCategory === this.category && (this.currentPage != oldPage || didBrandParametersChange || didRangeParametersChange) ){
         if(isClickFromNavigationBarParam && (didBrandParametersChange || didRangeParametersChange) && (this.brandParameters.length === 0 && this.rangeParameters.length === 0)){
-          this.sidebar.updateSidebar();
+          this.brandParametersForSidebar = this.brandParameters;
+          this.rangeParametersForSidebar = this.rangeParameters;
         }
 
         this.httpSubscription2 = this.categoryService.getCategoryProductsPage(this.category, this.currentPage, this.selectedValue, this.brandParameters, this.rangeParameters).subscribe(productPage => {
@@ -148,6 +148,24 @@ export class CategoryPageComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  getBrandParametersValue(queryParams : Params) : void{
+    this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
+      if(typeof(this.brandParameters) === 'string'){
+        let temp = [];
+        temp.push(this.brandParameters);
+        this.brandParameters = temp;
+      }
+  }
+
+  getRangeParametersValue(queryParams : Params) : void{
+    this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
+      if(typeof(this.rangeParameters) === 'string'){
+        let temp = [];
+        temp.push(this.rangeParameters);
+        this.rangeParameters = temp;
+      }
   }
 
   onOrderChange(order : any){

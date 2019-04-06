@@ -17,6 +17,8 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   
 
   @Input() category : string;
+  @Input() brandParametersForSidebar : string[];
+  @Input() rangeParametersForSidebar : string[];
   categoryBrands : Brand[];
   numberOfProductsPerBrand: ProductsPerBrand[];
   numberOfProductsPerPriceRange: ProductsPerPriceRange[];
@@ -31,19 +33,26 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
   httpSubscription4 : Subscription;
   httpSubscription5 : Subscription;
   httpSubscription6 : Subscription;
+
   constructor(private categoryService : CategoryService, private router : Router) { }
 
-  ngOnInit() {            
-    
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes : SimpleChanges): void {
+    this.brandParametersForSidebar = changes['brandParametersForSidebar'] == null ? [] : changes['brandParametersForSidebar'].currentValue;
+    this.rangeParametersForSidebar = changes['rangeParametersForSidebar'] == null ? [] : changes['rangeParametersForSidebar'].currentValue;
+    if(this.brandParametersForSidebar.length > 0 || this.rangeParametersForSidebar.length > 0){
+      this.selectedBrands = this.brandParametersForSidebar;
+      this.selectedPriceRanges = this.rangeParametersForSidebar.map(range => Number(range));
+    }else{
+      this.selectedBrands = [];
+      this.selectedPriceRanges = [];
+    }
+
     this.updateSidebar();
   }
 
   updateSidebar() : void{
-    this.selectedBrands = [];
-    this.selectedPriceRanges = [];
     this.getPriceRanges();
     this.getBrands();
   }
@@ -114,7 +123,12 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                               const aIndex = brands.findIndex(brand => brand.name === a.brand);
                               const bIndex = brands.findIndex(brand => brand.name === b.brand);
                               return aIndex - bIndex;
-                           });
+                            });
+                            if(this.numberOfProductsPerBrand.length === this.categoryBrands.length && this.selectedBrands.length > 0){
+                              this.selectedBrands.forEach(selectedBrand => {
+                                this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brand => brand.brand === selectedBrand)].checked = true;
+                              });
+                            }
                           }, 
                           error => {
                             console.log(error);
@@ -169,7 +183,12 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
         const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
         const bIndex = this.priceRanges.findIndex(priceRange => priceRange.id === b.rangeId);
         return aIndex - bIndex;
-     });
+      });
+      if(this.numberOfProductsPerPriceRange.length === 4 && this.selectedPriceRanges.length > 0){
+        this.selectedPriceRanges.forEach(selectedRange => {
+          this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(range => range.rangeId === selectedRange)].checked = true;
+        });
+      }
     },
     error => {
       console.log(error);
@@ -206,7 +225,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
                           if(numberOfProdsArray.length === 4){
                             numberOfProdsArray.forEach(prodPerPriceRange => {
                               this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(range => range.rangeId === prodPerPriceRange.rangeId)].number = prodPerPriceRange.number;
-                              });
+                            });
                           }
                         }, 
                         error => {
@@ -263,7 +282,7 @@ export class CategorySidebarComponent implements OnInit, OnDestroy, OnChanges {
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
     if(this.httpSubscription3 !== undefined) this.httpSubscription3.unsubscribe();
     if(this.httpSubscription4 !== undefined) this.httpSubscription4.unsubscribe();
-    if(this.httpSubscription5 !== undefined) this.httpSubscription3.unsubscribe();
-    if(this.httpSubscription6 !== undefined) this.httpSubscription4.unsubscribe();
+    if(this.httpSubscription5 !== undefined) this.httpSubscription5.unsubscribe();
+    if(this.httpSubscription6 !== undefined) this.httpSubscription6.unsubscribe();
   }
 }

@@ -160,7 +160,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.queryParamRouteSubscription.unsubscribe();
     this.routerEventSubscription.unsubscribe();
-    if(this.httpSubscription !== undefined)this.httpSubscription.unsubscribe();
+    if(this.httpSubscription !== undefined) this.httpSubscription.unsubscribe();
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
   }
 

@@ -2370,7 +2370,17 @@ var SearchSidebarComponent = /** @class */ (function () {
     SearchSidebarComponent.prototype.ngOnInit = function () {
     };
     SearchSidebarComponent.prototype.ngOnChanges = function (changes) {
+        this.brandParameters = changes['brandParameters'] == null ? [] : changes['brandParameters'].currentValue;
+        this.rangeParameters = changes['rangeParameters'] == null ? [] : changes['rangeParameters'].currentValue;
         if (this.didSearchTermsChange(changes.searchTerms.previousValue, changes.searchTerms.currentValue)) {
+            if (this.brandParameters.length > 0 || this.rangeParameters.length > 0) {
+                this.selectedBrands = this.brandParameters;
+                this.selectedPriceRanges = this.rangeParameters.map(function (range) { return Number(range); });
+            }
+            else {
+                this.selectedBrands = [];
+                this.selectedPriceRanges = [];
+            }
             this.updateSidebar();
         }
     };
@@ -2393,8 +2403,6 @@ var SearchSidebarComponent = /** @class */ (function () {
         return didTheyChange;
     };
     SearchSidebarComponent.prototype.updateSidebar = function () {
-        this.selectedBrands = [];
-        this.selectedPriceRanges = [];
         this.getPriceRanges();
         this.getBrands();
     };
@@ -2464,6 +2472,11 @@ var SearchSidebarComponent = /** @class */ (function () {
                         var bIndex = brands.findIndex(function (brand) { return brand.name === b.brand; });
                         return aIndex - bIndex;
                     });
+                    if (_this.numberOfProductsPerBrand.length === _this.searchBrands.length && _this.selectedBrands.length > 0) {
+                        _this.selectedBrands.forEach(function (selectedBrand) {
+                            _this.numberOfProductsPerBrand[_this.numberOfProductsPerBrand.findIndex(function (brand) { return brand.brand === selectedBrand; })].checked = true;
+                        });
+                    }
                 }, function (error) {
                     console.log(error);
                 });
@@ -2516,6 +2529,11 @@ var SearchSidebarComponent = /** @class */ (function () {
                 var bIndex = _this.priceRanges.findIndex(function (priceRange) { return priceRange.id === b.rangeId; });
                 return aIndex - bIndex;
             });
+            if (_this.numberOfProductsPerPriceRange.length === 4 && _this.selectedPriceRanges.length > 0) {
+                _this.selectedPriceRanges.forEach(function (selectedRange) {
+                    _this.numberOfProductsPerPriceRange[_this.numberOfProductsPerPriceRange.findIndex(function (range) { return range.rangeId === selectedRange; })].checked = true;
+                });
+            }
         }, function (error) {
             console.log(error);
         });
@@ -2595,14 +2613,22 @@ var SearchSidebarComponent = /** @class */ (function () {
         if (this.httpSubscription4 !== undefined)
             this.httpSubscription4.unsubscribe();
         if (this.httpSubscription5 !== undefined)
-            this.httpSubscription3.unsubscribe();
+            this.httpSubscription5.unsubscribe();
         if (this.httpSubscription6 !== undefined)
-            this.httpSubscription4.unsubscribe();
+            this.httpSubscription6.unsubscribe();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Array)
     ], SearchSidebarComponent.prototype, "searchTerms", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], SearchSidebarComponent.prototype, "brandParameters", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], SearchSidebarComponent.prototype, "rangeParameters", void 0);
     SearchSidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'search-sidebar',
@@ -2636,7 +2662,7 @@ module.exports = "section h2{\r\n    text-align: center;\r\n    margin-bottom: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div *ngIf=\"didSearchReturnAnyProducts\" class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, fn : 'no', page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n\n  <p *ngIf=\"!didSearchReturnAnyProducts\">Δεν βρέθηκαν προιόντα με αυτά τα κριτήρια.</p>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Content -->\n<section class=\"container\">\n\n  <h2>Αναζήτηση για : {{userSearchString}}</h2>\n\n  <div *ngIf=\"didSearchReturnAnyProducts\" class=\"row category-content\">\n\n    <div class=\"col-md-3 sidebar\">\n        <search-sidebar [searchTerms] = \"keywords\" [brandParameters] = \"brandParameters\" [rangeParameters] = \"rangeParameters\"></search-sidebar>\n    </div>\n\n    <div class=\"col-md-9\">\n        <div class=\"mb-5\">\n          <span class=\"mx-4\">Προιόντα {{productNumberLow}}-{{productNumberHigh}} από {{productPage?.totalElements}}</span>\n          <span>Κατάταξη ως προς:</span>\n          <select class=\"ml-2\" [(ngModel)]=\"selectedValue\" (ngModelChange)=\"onOrderChange($event)\">\n            <option *ngFor=\"let option of selectOptions;\" [value]=\"option.value\">{{option.name}}</option>\n          </select>\n        </div>\n\n        <div class=\"row product-content\">\n            <div class=\"col-sm-6 col-md-6 col-lg-4 mb-5\" *ngFor=\"let productItem of products\">\n                 <product-item [product] = \"productItem\"></product-item>\n            </div>\n        </div>\n\n        <ul class=\"pagination\">\n            <li *ngFor=\"let page of pageNumbers; let i = index;\" [ngClass] = \" i == currentPage ? 'page-item active' : 'page-item'\">\n              <a class=\"page-link\" routerLink=\"/search\" [queryParams]=\"{ keyword : keywords, brand : brandParameters, range : rangeParameters, fn : 'no', page: i}\">{{page}}</a>\n            </li>\n        </ul> \n\n    </div>\n  </div>\n\n  <p *ngIf=\"!didSearchReturnAnyProducts\">Δεν βρέθηκαν προιόντα με αυτά τα κριτήρια.</p>\n</section>\n\n<i *ngIf=\"!isGetSearchProductsRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 

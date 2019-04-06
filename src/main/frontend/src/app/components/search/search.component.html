@@ -8,7 +8,7 @@
   <div *ngIf="didSearchReturnAnyProducts" class="row category-content">
 
     <div class="col-md-3 sidebar">
-        <search-sidebar [searchTerms] = "keywords"></search-sidebar>
+        <search-sidebar [searchTerms] = "keywords" [brandParameters] = "brandParameters" [rangeParameters] = "rangeParameters"></search-sidebar>
     </div>
 
     <div class="col-md-9">

@@ -15,6 +15,9 @@ import { Router } from '@angular/router';
 export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
 
   @Input() searchTerms : string[];
+  @Input() brandParameters : string[];
+  @Input() rangeParameters : string[];
+
   searchBrands : Brand[];
   priceRanges : PriceRange[];
   numberOfProductsPerBrand: ProductsPerBrand[];
@@ -37,7 +40,16 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   }
 
   ngOnChanges(changes : SimpleChanges): void {
+    this.brandParameters = changes['brandParameters'] == null ? [] : changes['brandParameters'].currentValue;
+    this.rangeParameters = changes['rangeParameters'] == null ? [] : changes['rangeParameters'].currentValue;
     if(this.didSearchTermsChange(changes.searchTerms.previousValue, changes.searchTerms.currentValue)){
+      if(this.brandParameters.length > 0 || this.rangeParameters.length > 0){
+        this.selectedBrands = this.brandParameters;
+        this.selectedPriceRanges = this.rangeParameters.map(range => Number(range));
+      }else{
+        this.selectedBrands = [];
+        this.selectedPriceRanges = [];
+      }
       this.updateSidebar();
     }
   }
@@ -66,8 +78,6 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   }
 
   updateSidebar() : void{
-    this.selectedBrands = [];
-    this.selectedPriceRanges = [];
     this.getPriceRanges();
     this.getBrands();
   }
@@ -139,7 +149,12 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
                             const aIndex = brands.findIndex(brand => brand.name === a.brand);
                             const bIndex = brands.findIndex(brand => brand.name === b.brand);
                             return aIndex - bIndex;
-                         });
+                          });
+                          if(this.numberOfProductsPerBrand.length === this.searchBrands.length && this.selectedBrands.length > 0){
+                            this.selectedBrands.forEach(selectedBrand => {
+                              this.numberOfProductsPerBrand[this.numberOfProductsPerBrand.findIndex(brand => brand.brand === selectedBrand)].checked = true;
+                            });
+                          }
                         }, 
                         error => {
                           console.log(error);
@@ -194,7 +209,12 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
         const aIndex = this.priceRanges.findIndex(priceRange => priceRange.id === a.rangeId);
         const bIndex = this.priceRanges.findIndex(priceRange => priceRange.id === b.rangeId);
         return aIndex - bIndex;
-     });
+      });
+      if(this.numberOfProductsPerPriceRange.length === 4 && this.selectedPriceRanges.length > 0){
+        this.selectedPriceRanges.forEach(selectedRange => {
+          this.numberOfProductsPerPriceRange[this.numberOfProductsPerPriceRange.findIndex(range => range.rangeId === selectedRange)].checked = true;
+        });
+      }
     },
     error => {
       console.log(error);
@@ -278,8 +298,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
     if(this.httpSubscription2 !== undefined) this.httpSubscription2.unsubscribe();
     if(this.httpSubscription3 !== undefined) this.httpSubscription3.unsubscribe();
     if(this.httpSubscription4 !== undefined) this.httpSubscription4.unsubscribe();
-    if(this.httpSubscription5 !== undefined) this.httpSubscription3.unsubscribe();
-    if(this.httpSubscription6 !== undefined) this.httpSubscription4.unsubscribe();
+    if(this.httpSubscription5 !== undefined) this.httpSubscription5.unsubscribe();
+    if(this.httpSubscription6 !== undefined) this.httpSubscription6.unsubscribe();
   }
 
 }

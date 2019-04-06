@@ -57,15 +57,8 @@ export class SearchSidebarComponent implements OnInit, OnDestroy, OnChanges{
   didSearchTermsChange(oldSearchTerms : string[], newSearchTerms : string[]) : boolean{
     let didTheyChange = false;
 
-    if(oldSearchTerms === undefined){
-      didTheyChange = true;
-      return didTheyChange;
-    }
-
-    if(oldSearchTerms.length !== newSearchTerms.length){
-      didTheyChange = true;
-      return didTheyChange;
-    }
+    if(oldSearchTerms === undefined) return true;
+    if(oldSearchTerms.length !== newSearchTerms.length) return true;
 
     for(let i=0; i < oldSearchTerms.length; i++){
       if(oldSearchTerms[i] !== newSearchTerms[i]){

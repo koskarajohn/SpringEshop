@@ -7,6 +7,10 @@ a {
   a:focus, a:hover, a:active {
     color: #04BF00;
   }
+
+  a:hover{
+    cursor: pointer;
+  }
   
   .background-primary {
     background-color: #fff;

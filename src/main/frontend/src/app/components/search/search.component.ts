@@ -67,6 +67,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.queryParamRouteSubscription = this.route.queryParams.subscribe(queryParams => {
       this.isGetSearchProductsRequestDone = false;
+      let oldKeywords = this.keywords;
       this.currentPage = queryParams['page'];
       this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
       this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
@@ -74,15 +75,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       this.checkForStringValues();
 
-      let didSearchTermsChange = queryParams['fn'] === 'yes';
-
-      if(didSearchTermsChange){
+      if(this.didSearchTermsChange(oldKeywords, this.keywords)){
         this.userSearchString = '';
         this.keywords.forEach(keyword => this.userSearchString = this.userSearchString + ' ' + keyword);
         this.selectedValue = 'asc';
       }
 
-      if(this.wasBackButtonClicked){
+      if(this.wasBackButtonClicked && !this.didSearchTermsChange(oldKeywords, this.keywords)){
         this.sidebar.updateSidebarWithoutRefresh(this.brandParameters, this.rangeParameters);
         this.wasBackButtonClicked = false;
       }
@@ -109,6 +108,22 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
 
     });
+  }
+
+  didSearchTermsChange(oldSearchTerms : string[], newSearchTerms : string[]) : boolean{
+    let didTheyChange = false;
+
+    if(oldSearchTerms === undefined) return true;
+    if(oldSearchTerms.length !== newSearchTerms.length) return true;
+
+    for(let i=0; i < oldSearchTerms.length; i++){
+      if(oldSearchTerms[i] !== newSearchTerms[i]){
+        didTheyChange = true;
+        break;
+      }
+    }
+
+    return didTheyChange;
   }
 
   checkForStringValues() : void{

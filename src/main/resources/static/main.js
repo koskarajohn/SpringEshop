@@ -2386,14 +2386,10 @@ var SearchSidebarComponent = /** @class */ (function () {
     };
     SearchSidebarComponent.prototype.didSearchTermsChange = function (oldSearchTerms, newSearchTerms) {
         var didTheyChange = false;
-        if (oldSearchTerms === undefined) {
-            didTheyChange = true;
-            return didTheyChange;
-        }
-        if (oldSearchTerms.length !== newSearchTerms.length) {
-            didTheyChange = true;
-            return didTheyChange;
-        }
+        if (oldSearchTerms === undefined)
+            return true;
+        if (oldSearchTerms.length !== newSearchTerms.length)
+            return true;
         for (var i = 0; i < oldSearchTerms.length; i++) {
             if (oldSearchTerms[i] !== newSearchTerms[i]) {
                 didTheyChange = true;
@@ -2734,18 +2730,18 @@ var SearchComponent = /** @class */ (function () {
         });
         this.queryParamRouteSubscription = this.route.queryParams.subscribe(function (queryParams) {
             _this.isGetSearchProductsRequestDone = false;
+            var oldKeywords = _this.keywords;
             _this.currentPage = queryParams['page'];
             _this.brandParameters = queryParams['brand'] == null ? [] : queryParams['brand'];
             _this.rangeParameters = queryParams['range'] == null ? [] : queryParams['range'];
             _this.keywords = queryParams['keyword'] == null ? [] : queryParams['keyword'];
             _this.checkForStringValues();
-            var didSearchTermsChange = queryParams['fn'] === 'yes';
-            if (didSearchTermsChange) {
+            if (_this.didSearchTermsChange(oldKeywords, _this.keywords)) {
                 _this.userSearchString = '';
                 _this.keywords.forEach(function (keyword) { return _this.userSearchString = _this.userSearchString + ' ' + keyword; });
                 _this.selectedValue = 'asc';
             }
-            if (_this.wasBackButtonClicked) {
+            if (_this.wasBackButtonClicked && !_this.didSearchTermsChange(oldKeywords, _this.keywords)) {
                 _this.sidebar.updateSidebarWithoutRefresh(_this.brandParameters, _this.rangeParameters);
                 _this.wasBackButtonClicked = false;
             }
@@ -2769,6 +2765,20 @@ var SearchComponent = /** @class */ (function () {
                 console.log(error);
             });
         });
+    };
+    SearchComponent.prototype.didSearchTermsChange = function (oldSearchTerms, newSearchTerms) {
+        var didTheyChange = false;
+        if (oldSearchTerms === undefined)
+            return true;
+        if (oldSearchTerms.length !== newSearchTerms.length)
+            return true;
+        for (var i = 0; i < oldSearchTerms.length; i++) {
+            if (oldSearchTerms[i] !== newSearchTerms[i]) {
+                didTheyChange = true;
+                break;
+            }
+        }
+        return didTheyChange;
     };
     SearchComponent.prototype.checkForStringValues = function () {
         if (typeof (this.keywords) === 'string') {

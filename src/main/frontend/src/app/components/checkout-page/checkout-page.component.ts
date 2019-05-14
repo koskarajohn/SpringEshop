@@ -9,6 +9,7 @@ import { OrderDetails } from 'src/app/models/orderDetails';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/models/order';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'checkout-page',
@@ -30,7 +31,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   private httpSubscription : Subscription; 
 
   constructor(private authenticationService : AuthenticationService, private cartService : CartService
-             , private checkoutService : CheckoutService, private router : Router) { }
+             , private checkoutService : CheckoutService, private userService : UserService,private router : Router) { }
 
   ngOnInit() {
     this.orderDetails.isShippingAddressSameWithBillingAddress = true;
@@ -43,6 +44,13 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
     if(this.isUserLoggedIn && !this.isLocalStorageEmpty){
       let userId = localStorage.getItem('userid');
       this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(cartProducts => this.cartProducts = cartProducts);
+      this.userService.getUser(userId).toPromise()
+                                                                      .then(userData => {
+                                                                        this.orderDetails.email = userData.email;
+                                                                        this.orderDetails.shipping_info.first_name = userData.first_name;
+                                                                        this.orderDetails.shipping_info.last_name = userData.last_name;
+                                                                        this.orderDetails.shipping_info.phone = userData.phone;
+                                                                      }).catch(error =>console.log(error));
     }else if(!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist){
       this.cartProducts = this.cartService.getAnonymousUserCart();
     }

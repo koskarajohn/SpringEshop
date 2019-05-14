@@ -1041,6 +1041,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
 /* harmony import */ var src_app_services_checkout_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/checkout.service */ "./src/app/services/checkout.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/user.service */ "./src/app/services/user.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1055,11 +1056,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var CheckoutPageComponent = /** @class */ (function () {
-    function CheckoutPageComponent(authenticationService, cartService, checkoutService, router) {
+    function CheckoutPageComponent(authenticationService, cartService, checkoutService, userService, router) {
         this.authenticationService = authenticationService;
         this.cartService = cartService;
         this.checkoutService = checkoutService;
+        this.userService = userService;
         this.router = router;
         this.orderDetails = {};
         this.isSameAddressChecked = true;
@@ -1079,6 +1082,13 @@ var CheckoutPageComponent = /** @class */ (function () {
         if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
             var userId = localStorage.getItem('userid');
             this.httpSubscription = this.cartService.getCartProducts(userId).subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; });
+            this.userService.getUser(userId).toPromise()
+                .then(function (userData) {
+                _this.orderDetails.email = userData.email;
+                _this.orderDetails.shipping_info.first_name = userData.first_name;
+                _this.orderDetails.shipping_info.last_name = userData.last_name;
+                _this.orderDetails.shipping_info.phone = userData.phone;
+            }).catch(function (error) { return console.log(error); });
         }
         else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist) {
             this.cartProducts = this.cartService.getAnonymousUserCart();
@@ -1154,7 +1164,7 @@ var CheckoutPageComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./checkout-page.component.css */ "./src/app/components/checkout-page/checkout-page.component.css")]
         }),
         __metadata("design:paramtypes", [src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"], src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_2__["CartService"],
-            src_app_services_checkout_service__WEBPACK_IMPORTED_MODULE_3__["CheckoutService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+            src_app_services_checkout_service__WEBPACK_IMPORTED_MODULE_3__["CheckoutService"], src_app_services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], CheckoutPageComponent);
     return CheckoutPageComponent;
 }());
@@ -3788,6 +3798,50 @@ var SearchService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], SearchService);
     return SearchService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/user.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/user.service.ts ***!
+  \******************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+        this.usersApiEndpoint = '/api/users/';
+    }
+    UserService.prototype.getUser = function (id) {
+        return this.http.get(this.usersApiEndpoint + id);
+    };
+    UserService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], UserService);
+    return UserService;
 }());
 
 

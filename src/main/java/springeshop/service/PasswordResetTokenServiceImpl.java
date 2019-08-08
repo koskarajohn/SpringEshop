@@ -15,6 +15,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService{
 	
 	@Autowired
 	private PasswordResetTokenRepository passwordResetTokenRepository;
+	
 
 	@Override
 	public void saveToken(PasswordResetToken token) {
@@ -24,6 +25,16 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService{
 	@Override
 	public PasswordResetToken findByUser(User user) {
 		return passwordResetTokenRepository.findByUser(user);
+	}
+
+	@Override
+	public PasswordResetToken findByToken(String token) {
+		return passwordResetTokenRepository.findByToken(token);
+	}
+
+	@Override
+	public void deleteToken(PasswordResetToken token) {
+		passwordResetTokenRepository.delete(token);
 	}
 
 }

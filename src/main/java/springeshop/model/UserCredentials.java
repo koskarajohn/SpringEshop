@@ -5,9 +5,7 @@ public class UserCredentials {
 	private String email;
 	private String password;
 	
-	public UserCredentials(){
-
-	}
+	public UserCredentials(){}
 
 	public String getEmail() {
 		return email;

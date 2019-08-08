@@ -10,4 +10,5 @@ import springeshop.model.User;
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Integer>{
 
 	PasswordResetToken findByUser(User user);
+	PasswordResetToken findByToken(String token);
 }

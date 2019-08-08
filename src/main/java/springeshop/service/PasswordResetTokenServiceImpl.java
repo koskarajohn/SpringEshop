@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import springeshop.model.PasswordResetToken;
+import springeshop.model.User;
 import springeshop.repositories.PasswordResetTokenRepository;
 
 @Service("passwordResetTokenService")
@@ -18,6 +19,11 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService{
 	@Override
 	public void saveToken(PasswordResetToken token) {
 		passwordResetTokenRepository.save(token);
+	}
+
+	@Override
+	public PasswordResetToken findByUser(User user) {
+		return passwordResetTokenRepository.findByUser(user);
 	}
 
 }

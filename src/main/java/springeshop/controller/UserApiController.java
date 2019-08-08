@@ -21,6 +21,7 @@ import springeshop.model.PasswordResetToken;
 import springeshop.model.ResetPasswordRequest;
 import springeshop.model.User;
 import springeshop.model.UserData;
+import springeshop.service.EmailService;
 import springeshop.service.PasswordResetTokenService;
 import springeshop.service.UserService;
 
@@ -34,6 +35,9 @@ public class UserApiController {
 	
 	@Autowired
 	private PasswordResetTokenService passwordResetTokenService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@GetMapping("/users/{id}")
 	public ResponseEntity<?> getUser(@PathVariable("id") String id){
@@ -61,6 +65,12 @@ public class UserApiController {
 			return ResponseEntity.badRequest().build();
 		}
 		
+		PasswordResetToken existingToken = passwordResetTokenService.findByUser(user);
+		if(existingToken != null && existingToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+			emailService.sendResetPasswordEmail(user, "https://www.sport24.gr");
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		
 		try {
 			PasswordResetToken token = new PasswordResetToken();
 			token.setUser(user);
@@ -70,6 +80,7 @@ public class UserApiController {
 			LocalDateTime expiryDate = now.plusDays(1);
 			token.setExpiryDate(expiryDate);
 			passwordResetTokenService.saveToken(token);
+			emailService.sendResetPasswordEmail(user, "https://www.sport24.gr");
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

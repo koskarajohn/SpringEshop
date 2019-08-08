@@ -18,6 +18,7 @@ import org.thymeleaf.context.Context;
 
 import springeshop.model.CartProduct;
 import springeshop.model.Order;
+import springeshop.model.User;
 
 @Component
 public class EmailServiceImpl implements EmailService{
@@ -75,4 +76,26 @@ public class EmailServiceImpl implements EmailService{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		return dateFormat.format(new Date());
 	}
+
+	@Override
+	@Async
+	public void sendResetPasswordEmail(User user, String link) {
+		try {
+			MimeMessage message = emailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+			helper.setTo(user.getEmail()); 
+			helper.setSubject("Reset Password Email"); 
+			helper.setText(constructResetPasswordEmailTemplate(user, link), true);
+	        emailSender.send(message);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String constructResetPasswordEmailTemplate(User user, String link) {
+        Context context = new Context();
+        context.setVariable("name", user.getFirst_name() +  " " + user.getLast_name());
+        context.setVariable("link", link);
+        return templateEngine.process("reset_password_email", context);
+    }
 }

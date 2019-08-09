@@ -38,6 +38,7 @@
                     <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
                         <div *ngIf="password.errors.required">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>
                     </div>
+                    <div class="forgot-password"><a routerLink="/user/resetPassword">Ξέχασες τον κωδικό σου?</a></div>
                     <div *ngIf="passwordIsNotCorrect" class="invalid-feedback">{{passwordIsNotCorrectErrorMessage}}</div>
                 </div>
 

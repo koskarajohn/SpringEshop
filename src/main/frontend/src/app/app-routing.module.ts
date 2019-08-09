@@ -9,6 +9,8 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { IndexPageComponent } from './components/index-page/index-page.component';
 import { OrderComponent } from './components/order/order.component';
 import { SearchComponent } from './components/search/search.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 export const appRoutes: Routes = [
   { path: '', 
@@ -46,6 +48,14 @@ export const appRoutes: Routes = [
   {
     path: 'search',
     component:SearchComponent
+  },
+  {
+    path: 'user/resetPassword',
+    component:ResetPasswordComponent
+  },
+  {
+    path: 'user/changePassword',
+    component:ChangePasswordComponent
   }
 ];
 

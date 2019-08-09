@@ -20,15 +20,19 @@ section.login form .form-group input{
   background:	#E0E0E0;
 }
 
+section.login form .form-group div.forgot-password a{
+  font-weight: 500;
+}
+
 section.login form .submit{
   text-align: center;
-  margin-top: 32px
+  margin-top: 1rem;
 }
 
 section.login form .submit button{
   padding-left: 24px;
   padding-right: 24px;
-  margin-right: 16px;
+  margin-right: 1rem;
 }
 
 section.login form .submit a{

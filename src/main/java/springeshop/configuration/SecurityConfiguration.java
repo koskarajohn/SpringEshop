@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.anonymous().authorities("ROLE_GUEST").and()
 		    .authorizeRequests()
-		    .antMatchers(HttpMethod.GET, "/*", "/api/**", "/category/**", "/product/**").permitAll()
+		    .antMatchers(HttpMethod.GET, "/*", "/api/**", "/category/**", "/product/**", "/user/**").permitAll()
 		    .antMatchers(HttpMethod.POST, "/api/**").permitAll()
 		    .antMatchers(HttpMethod.GET, "/anonymous/session").permitAll()
 		    .antMatchers(HttpMethod.POST, "/authentication/validateuser").permitAll()

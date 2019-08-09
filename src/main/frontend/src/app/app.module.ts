@@ -24,6 +24,8 @@ import { AuthenticationStatusChangeInterceptor } from './interceptors/authentica
 import { OrderComponent } from './components/order/order.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchSidebarComponent } from './components/search-sidebar/search-sidebar.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { SearchSidebarComponent } from './components/search-sidebar/search-sideb
     OrderComponent,
     SearchComponent,
     SearchSidebarComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

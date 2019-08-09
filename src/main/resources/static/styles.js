@@ -621,9 +621,9 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.8.4.RELEASE\SpringEshop\src\main\frontend\node_modules\bootstrap\dist\css\bootstrap.min.css */"./node_modules/bootstrap/dist/css/bootstrap.min.css");
-__webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.8.4.RELEASE\SpringEshop\src\main\frontend\node_modules\@fortawesome\fontawesome-free\css\all.min.css */"./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
-module.exports = __webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.8.4.RELEASE\SpringEshop\src\main\frontend\src\styles.css */"./src/styles.css");
+__webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.9.8.RELEASE\SpringEshop\src\main\frontend\node_modules\bootstrap\dist\css\bootstrap.min.css */"./node_modules/bootstrap/dist/css/bootstrap.min.css");
+__webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.9.8.RELEASE\SpringEshop\src\main\frontend\node_modules\@fortawesome\fontawesome-free\css\all.min.css */"./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
+module.exports = __webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.9.8.RELEASE\SpringEshop\src\main\frontend\src\styles.css */"./src/styles.css");
 
 
 /***/ })

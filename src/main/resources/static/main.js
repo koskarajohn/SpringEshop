@@ -45,12 +45,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_index_page_index_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/index-page/index-page.component */ "./src/app/components/index-page/index-page.component.ts");
 /* harmony import */ var _components_order_order_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/order/order.component */ "./src/app/components/order/order.component.ts");
 /* harmony import */ var _components_search_search_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/search/search.component */ "./src/app/components/search/search.component.ts");
+/* harmony import */ var _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/reset-password/reset-password.component */ "./src/app/components/reset-password/reset-password.component.ts");
+/* harmony import */ var _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/change-password/change-password.component */ "./src/app/components/change-password/change-password.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -97,6 +101,14 @@ var appRoutes = [
     {
         path: 'search',
         component: _components_search_search_component__WEBPACK_IMPORTED_MODULE_10__["SearchComponent"]
+    },
+    {
+        path: 'user/resetPassword',
+        component: _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__["ResetPasswordComponent"]
+    },
+    {
+        path: 'user/changePassword',
+        component: _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_12__["ChangePasswordComponent"]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -227,12 +239,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_order_order_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/order/order.component */ "./src/app/components/order/order.component.ts");
 /* harmony import */ var _components_search_search_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/search/search.component */ "./src/app/components/search/search.component.ts");
 /* harmony import */ var _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/search-sidebar/search-sidebar.component */ "./src/app/components/search-sidebar/search-sidebar.component.ts");
+/* harmony import */ var _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/reset-password/reset-password.component */ "./src/app/components/reset-password/reset-password.component.ts");
+/* harmony import */ var _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/change-password/change-password.component */ "./src/app/components/change-password/change-password.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -284,6 +300,8 @@ var AppModule = /** @class */ (function () {
                 _components_order_order_component__WEBPACK_IMPORTED_MODULE_23__["OrderComponent"],
                 _components_search_search_component__WEBPACK_IMPORTED_MODULE_24__["SearchComponent"],
                 _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__["SearchSidebarComponent"],
+                _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__["ResetPasswordComponent"],
+                _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__["ChangePasswordComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -1004,6 +1022,111 @@ var CategorySidebarComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/change-password/change-password.component.css":
+/*!**************************************************************************!*\
+  !*** ./src/app/components/change-password/change-password.component.css ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection form .submit p{\r\n  display: inline;\r\n}\r\n\r\nsection form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection form .submit{\r\n  text-align: center;\r\n  margin-top: 1.5rem;\r\n}\r\n\r\nsection form .submit button{\r\npadding-left: 24px;\r\npadding-right: 24px;\r\n}\r\n\r\nsection form div.token-error{\r\n  font-size: 80%;\r\n  color: #dc3545;\r\n}\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/components/change-password/change-password.component.html":
+/*!***************************************************************************!*\
+  !*** ./src/app/components/change-password/change-password.component.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n            <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αλλαγή κωδικού\n    </div>\n</div>\n\n<section>\n  <div class=\"container\">\n      <h1>Αλλαγή κωδικού</h1>\n         \n      <form *ngIf=\"!wasPasswordChangeCorrect\" name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n\n          <div class=\"form-group\">\n              <label>Kωδικός</label>\n              <input type=\"password\" name=\"password\" class=\"form-control\" [(ngModel)]=\"changePasswordRequest.password\" #password=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && password.invalid}\" required minlength=\"6\">\n              <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\n                  <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\n                  <div *ngIf=\"password.errors.minlength\">Ο κωδικός πρέπει να έχει μήκος τουλάχιστον 6 χαρακτήρες</div>\n              </div>\n          </div>\n\n          <div class=\"form-group\">\n              <label>Επαλήθευση Κωδικού</label>\n              <input type=\"password\" name=\"confirmpassword\" class=\"form-control\" [(ngModel)]=\"confirmationPassword\" #confirmpassword=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && !arePasswordsFieldsTheSame()}\">\n              <div *ngIf=\"f.submitted && !arePasswordsFieldsTheSame()\" class=\"invalid-feedback\">Οι κωδικοί δεν είναι ίδιοι</div>\n          </div>\n          <div *ngIf=\"isTokenInvalid\" class=\"token-error\">Το token δεν είναι έγκυρο</div>\n          <div *ngIf=\"isTokenExpired\" class=\"token-error\">Το token έχει λήξει</div>\n\n          <div class=\"submit\">\n              <button class=\"btn btn-primary\">Αλλαγή κωδικού</button>\n          </div>\n\n      </form>\n\n      <p *ngIf=\"wasPasswordChangeCorrect\">Η αλλαγή του κωδικού σας έγινε με επιτυχία</p>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/change-password/change-password.component.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/change-password/change-password.component.ts ***!
+  \*************************************************************************/
+/*! exports provided: ChangePasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChangePasswordComponent", function() { return ChangePasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_reset_password_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/reset-password.service */ "./src/app/services/reset-password.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ChangePasswordComponent = /** @class */ (function () {
+    function ChangePasswordComponent(route, resetPasswordService) {
+        this.route = route;
+        this.resetPasswordService = resetPasswordService;
+        this.changePasswordRequest = {};
+        this.wasPasswordChangeCorrect = false;
+        this.isTokenExpired = false;
+        this.isTokenInvalid = false;
+    }
+    ChangePasswordComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.paramRouteSubscription = this.route.queryParams.subscribe(function (params) {
+            _this.token = params['token'];
+        });
+    };
+    ChangePasswordComponent.prototype.arePasswordsFieldsTheSame = function () {
+        return this.changePasswordRequest.password === this.confirmationPassword;
+    };
+    ChangePasswordComponent.prototype.onSubmit = function () {
+        var _this = this;
+        if (this.arePasswordsFieldsTheSame()) {
+            this.resetPasswordService.changePassword(this.changePasswordRequest, this.token).toPromise()
+                .then(function (response) {
+                _this.isTokenInvalid = false;
+                _this.isTokenExpired = false;
+                _this.wasPasswordChangeCorrect = true;
+            })
+                .catch(function (error) {
+                if (error.status === 400) {
+                    _this.isTokenInvalid = true;
+                    _this.isTokenExpired = false;
+                }
+                else if (error.status === 401) {
+                    _this.isTokenInvalid = false;
+                    _this.isTokenExpired = true;
+                }
+            });
+        }
+    };
+    ChangePasswordComponent.prototype.ngOnDestroy = function () {
+        if (this.paramRouteSubscription !== undefined)
+            this.paramRouteSubscription.unsubscribe();
+    };
+    ChangePasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-change-password',
+            template: __webpack_require__(/*! ./change-password.component.html */ "./src/app/components/change-password/change-password.component.html"),
+            styles: [__webpack_require__(/*! ./change-password.component.css */ "./src/app/components/change-password/change-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], src_app_services_reset_password_service__WEBPACK_IMPORTED_MODULE_1__["ResetPasswordService"]])
+    ], ChangePasswordComponent);
+    return ChangePasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/checkout-page/checkout-page.component.css":
 /*!**********************************************************************!*\
   !*** ./src/app/components/checkout-page/checkout-page.component.css ***!
@@ -1322,7 +1445,7 @@ var IndexPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Login --- */\r\n\r\nsection.login{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.login h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.login form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.login form .submit{\r\n  text-align: center;\r\n  margin-top: 32px\r\n}\r\n\r\nsection.login form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  margin-right: 16px;\r\n}\r\n\r\nsection.login form .submit a{\r\n  text-decoration: underline;\r\n}\r\n\r\nsection.login form .submit a:hover{\r\n  text-decoration: none;\r\n}"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Login --- */\r\n\r\nsection.login{\r\n  padding-bottom: 32px;\r\n}\r\n\r\nsection.login h1{\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n}\r\n\r\nsection.login form .form-group input{\r\n  background:\t#E0E0E0;\r\n}\r\n\r\nsection.login form .form-group div.forgot-password a{\r\n  font-weight: 500;\r\n}\r\n\r\nsection.login form .submit{\r\n  text-align: center;\r\n  margin-top: 1rem;\r\n}\r\n\r\nsection.login form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  margin-right: 1rem;\r\n}\r\n\r\nsection.login form .submit a{\r\n  text-decoration: underline;\r\n}\r\n\r\nsection.login form .submit a:hover{\r\n  text-decoration: none;\r\n}"
 
 /***/ }),
 
@@ -1333,7 +1456,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n               </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div class=\"forgot-password\"><a routerLink=\"/user/resetPassword\">Ξέχασες τον κωδικό σου?</a></div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n               </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2317,6 +2440,90 @@ var RegisterPageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [src_app_services_register_service__WEBPACK_IMPORTED_MODULE_1__["RegisterService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], RegisterPageComponent);
     return RegisterPageComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/reset-password/reset-password.component.css":
+/*!************************************************************************!*\
+  !*** ./src/app/components/reset-password/reset-password.component.css ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\r\n.breadcrumbs{\r\n  padding-top: 8px;\r\n  padding-bottom: 16px;\r\n}\r\n\r\n section{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\n section h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\n section form .form-group input{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\n section form .submit{\r\n    text-align: center;\r\n    margin-top: 1rem;\r\n  }\r\n\r\n section form .submit button{\r\n    padding-left: 24px;\r\n    padding-right: 24px;\r\n    margin-right: 1rem;\r\n  }\r\n\r\n section form .submit a{\r\n    text-decoration: underline;\r\n  }\r\n\r\n section form .submit a:hover{\r\n    text-decoration: none;\r\n  }"
+
+/***/ }),
+
+/***/ "./src/app/components/reset-password/reset-password.component.html":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/reset-password/reset-password.component.html ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n    <div class=\"container\">\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\n        Αλλαγή κωδικού\n    </div>\n</div>\n\n<section>\n  <div class=\"container\">\n      <h1>Αλλαγή κωδικού</h1>\n\n      <form *ngIf=\"!wasResetPasswordSuccessful\" name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n          <div class=\"form-group\">\n              <label>Πληκτρολογήστε το email σας</label>\n              <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"resetPasswordRequest.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\n              <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\n                  <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\n                  <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\n              </div>\n              <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\n          </div>\n\n          <div class=\"submit\">\n            <button class=\"btn btn-primary\">Αποστολή email</button>\n          </div>\n      </form>\n\n      <p *ngIf=\"wasResetPasswordSuccessful\">Το email αλλαγής κωδικού στάλθηκε επιτυχώς.</p>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/reset-password/reset-password.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/reset-password/reset-password.component.ts ***!
+  \***********************************************************************/
+/*! exports provided: ResetPasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordComponent", function() { return ResetPasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_reset_password_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/reset-password.service */ "./src/app/services/reset-password.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ResetPasswordComponent = /** @class */ (function () {
+    function ResetPasswordComponent(resetPasswordService) {
+        this.resetPasswordService = resetPasswordService;
+        this.resetPasswordRequest = {};
+        this.emailDoesNotExist = false;
+        this.wasResetPasswordSuccessful = false;
+        this.emailDoesNotExistErrorMessage = 'Δεν υπάρχει λογαριασμός με αυτό το email';
+    }
+    ResetPasswordComponent.prototype.ngOnInit = function () {
+    };
+    ResetPasswordComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.resetPasswordService.resetPassword(this.resetPasswordRequest).toPromise()
+            .then(function (response) {
+            _this.emailDoesNotExist = false;
+            _this.wasResetPasswordSuccessful = true;
+        })
+            .catch(function (error) {
+            if (error.status === 400) {
+                _this.emailDoesNotExist = true;
+            }
+            _this.wasResetPasswordSuccessful = false;
+        });
+    };
+    ResetPasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-reset-password',
+            template: __webpack_require__(/*! ./reset-password.component.html */ "./src/app/components/reset-password/reset-password.component.html"),
+            styles: [__webpack_require__(/*! ./reset-password.component.css */ "./src/app/components/reset-password/reset-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [src_app_services_reset_password_service__WEBPACK_IMPORTED_MODULE_1__["ResetPasswordService"]])
+    ], ResetPasswordComponent);
+    return ResetPasswordComponent;
 }());
 
 
@@ -3701,6 +3908,55 @@ var RegisterService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/reset-password.service.ts":
+/*!****************************************************!*\
+  !*** ./src/app/services/reset-password.service.ts ***!
+  \****************************************************/
+/*! exports provided: ResetPasswordService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordService", function() { return ResetPasswordService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ResetPasswordService = /** @class */ (function () {
+    function ResetPasswordService(http) {
+        this.http = http;
+        this.resetPasswordApiEndpoint = '/api/user/resetPassword';
+        this.changePasswordApiEndpoint = '/api/user/changePassword';
+        this.tokenParam = '?token=';
+    }
+    ResetPasswordService.prototype.resetPassword = function (resetPasswordRequest) {
+        return this.http.post(this.resetPasswordApiEndpoint, resetPasswordRequest);
+    };
+    ResetPasswordService.prototype.changePassword = function (changePasswordRequest, token) {
+        return this.http.post(this.changePasswordApiEndpoint + this.tokenParam + token, changePasswordRequest);
+    };
+    ResetPasswordService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ResetPasswordService);
+    return ResetPasswordService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/search.service.ts":
 /*!********************************************!*\
   !*** ./src/app/services/search.service.ts ***!
@@ -3899,7 +4155,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.8.4.RELEASE\SpringEshop\src\main\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\Kostas\Documents\workspace-sts-3.9.8.RELEASE\SpringEshop\src\main\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })

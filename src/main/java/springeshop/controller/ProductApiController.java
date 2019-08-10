@@ -1,5 +1,6 @@
 package springeshop.controller;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -59,7 +60,15 @@ public class ProductApiController {
     private AmazonS3ClientService amazonS3ClientService;
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ResponseEntity<?> getProductsByFilter(@RequestParam(value = "filter", required = false) String filter, @RequestParam(value = "page", required = false) int page){
+	public ResponseEntity<?> getProductsByFilter(@RequestParam(value = "filter", required = false) String filter
+			                                   , @RequestParam(value = "page", required = false) int page
+			                                   ,@RequestParam(value = "id", required = false) String[] ids){
+		
+		if(ids != null) {
+			List<Product> products = productService.findSpecificProducts(ids);
+			addQuantityToProducts(products);
+			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		}
 					
 		if(filter.equals("favorite")){
 			Page<Product> favoriteProducts = productService.findFavoriteProducts(PageRequest.of(page, 4));
@@ -91,6 +100,13 @@ public class ProductApiController {
 	        product.setLargeImageUrl(productImage.getLargeImageurl());
 	        product.setVerySmallImageUrl(productImage.getVerySmallImageurl());
 	        
+	        int productQuantity = inventoryService.findProductQuantity(product.getId());
+	        product.setQuantity(productQuantity);
+		}
+	}
+	
+	private void addQuantityToProducts(List<Product> products) {
+		for(Product product : products){
 	        int productQuantity = inventoryService.findProductQuantity(product.getId());
 	        product.setQuantity(productQuantity);
 		}

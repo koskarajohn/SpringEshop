@@ -1995,6 +1995,7 @@ var ProductPageComponent = /** @class */ (function () {
         this.wantedQuantity = 1;
         this.isProductAvailable = false;
         this.isAddProductRequestDone = true;
+        this.isInventoryNotEnough = false;
         this.pageParam = 0;
         this.categories = {
             Vitamins: { greekName: 'Βιταμίνες', route: 'vitamins' },
@@ -2031,6 +2032,11 @@ var ProductPageComponent = /** @class */ (function () {
     };
     ProductPageComponent.prototype.addProductToCart = function () {
         var _this = this;
+        this.isInventoryNotEnough = this.wantedQuantity > this.product.quantity;
+        if (this.isInventoryNotEnough && this.isProductAvailable) {
+            this.productAvailability = 'Υπάρχουν μόνο ' + this.product.quantity + ' προϊόντα διαθέσιμα';
+            return;
+        }
         if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
             var userId_1 = localStorage.getItem('userid');
             this.isAddProductRequestDone = false;

@@ -35,4 +35,5 @@ public interface ProductService {
 	
 	int findNumberOfProductsWithinPriceRange(Category category, double min, double max);
 	int findNumberOfSpecificBrandsProductsWithinPriceRange(Category category,  double min, double max, List<Brand> brands);
+	List<Product> findSpecificProducts(String[] ids);
 }

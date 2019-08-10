@@ -224,4 +224,21 @@ public class ProductServiceImpl implements ProductService{
 		return number;
 	}
 
+	@Override
+	public List<Product> findSpecificProducts(String[] ids) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+	    
+	    Root<Product> productsRoot = criteriaQuery.from(Product.class);
+	    List<Integer> listIds = new ArrayList<>();
+	    for(String id : ids) {
+	    	listIds.add(Integer.parseInt(id));
+	    }
+	    
+	    criteriaQuery.select(productsRoot)
+                     .where(productsRoot.get("id").in(listIds));
+	    List<Product> products = entityManager.createQuery(criteriaQuery).getResultList();		                           
+		return products;
+	}
+
 }

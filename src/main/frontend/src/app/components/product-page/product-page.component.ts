@@ -26,6 +26,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   wantedQuantity : number = 1;
   isProductAvailable : boolean = false;
   isAddProductRequestDone : boolean = true;
+  isInventoryNotEnough : boolean = false;
 
   productCategory : string ;
   categoryRoute : string;
@@ -73,6 +74,12 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   addProductToCart() : void{
+    this.isInventoryNotEnough = this.wantedQuantity > this.product.quantity;
+    if(this.isInventoryNotEnough && this.isProductAvailable) {
+      this.productAvailability = 'Υπάρχουν μόνο ' + this.product.quantity + ' προϊόντα διαθέσιμα'
+      return;
+    }
+
     if(this.isUserLoggedIn && !this.isLocalStorageEmpty){
       let userId = localStorage.getItem('userid');
       this.isAddProductRequestDone = false;

@@ -79,13 +79,13 @@ public class UserApiController {
 					existingToken.setToken(UUID.randomUUID().toString());
 					existingToken.setExpiryDate(getTomorrow());
 					passwordResetTokenService.saveToken(existingToken);
-					emailService.sendResetPasswordEmail(user, "http://localhost:8080/user/changePassword?token=" + existingToken.getToken());
+					emailService.sendResetPasswordEmail(user, "https://springeshop.herokuapp.com/user/changePassword?token=" + existingToken.getToken());
 					return new ResponseEntity<>(HttpStatus.CREATED);
 				} catch (DataAccessException e) {
 					throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}else{
-				emailService.sendResetPasswordEmail(user, "http://localhost:8080/user/changePassword?token=" + existingToken.getToken());
+				emailService.sendResetPasswordEmail(user, "https://springeshop.herokuapp.com/user/changePassword?token=" + existingToken.getToken());
 				return new ResponseEntity<>(HttpStatus.CREATED);
 			}
 		}
@@ -96,7 +96,7 @@ public class UserApiController {
 			token.setToken(UUID.randomUUID().toString());
 			token.setExpiryDate(getTomorrow());
 			passwordResetTokenService.saveToken(token);
-			emailService.sendResetPasswordEmail(user, "http://localhost:8080/user/changePassword?token=" + token.getToken());
+			emailService.sendResetPasswordEmail(user, "https://springeshop.herokuapp.com/user/changePassword?token=" + token.getToken());
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

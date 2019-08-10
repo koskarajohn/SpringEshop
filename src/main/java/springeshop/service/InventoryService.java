@@ -6,4 +6,5 @@ public interface InventoryService {
 
 	int findProductQuantity(int productid);
 	void saveProductQuantity(Inventory productInventory);
+	Inventory findProductInventory(int productid);
 }

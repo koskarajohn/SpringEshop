@@ -3,9 +3,7 @@ package springeshop.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import springeshop.model.Inventory;
 import springeshop.repositories.InventoryRepository;
 
@@ -24,6 +22,11 @@ public class InventoryServiceImpl implements InventoryService{
 	@Override
 	public void saveProductQuantity(Inventory productInventory) {
 		inventoryRepository.save(productInventory);
+	}
+
+	@Override
+	public Inventory findProductInventory(int productid) {
+		return inventoryRepository.findProductInventory(productid);
 	}
 
 }

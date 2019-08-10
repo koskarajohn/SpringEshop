@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import springeshop.model.CartProduct;
+import springeshop.model.Inventory;
 import springeshop.model.Order;
 import springeshop.model.OrderDetails;
 import springeshop.model.OrderProduct;
@@ -25,6 +26,7 @@ import springeshop.model.OrderProductPrimaryKey;
 import springeshop.model.User;
 import springeshop.service.BillingInfoService;
 import springeshop.service.EmailService;
+import springeshop.service.InventoryService;
 import springeshop.service.OrderProductService;
 import springeshop.service.OrderService;
 import springeshop.service.ProductService;
@@ -55,6 +57,9 @@ public class OrderApiController {
 	
 	@Autowired
 	private BillingInfoService billingInfoService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Autowired
 	private EmailService emailService;
@@ -95,6 +100,11 @@ public class OrderApiController {
 					orderProduct.setProduct(productService.findById(cartProduct.getProductid()));
 					orderProduct.setQuantity(cartProduct.getQuantity());
 					orderProducts.add(orderProduct);
+					
+					Inventory productInventory = inventoryService.findProductInventory(cartProduct.getProductid());
+					int currentQuantity = productInventory.getQuantity();
+					productInventory.setQuantity(currentQuantity - cartProduct.getQuantity());
+					inventoryService.saveProductQuantity(productInventory);
 				}
 					
 				if(orderProductService.saveOrderProducts(orderProducts)){

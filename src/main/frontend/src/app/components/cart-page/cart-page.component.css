@@ -73,6 +73,13 @@ section.cart{
     margin-top: 16px;
   }
 
+  section.cart table td div.inventory-error{
+    font-size:14px;
+    font-weight: 400;
+    margin-top: 16px;
+    color:red;
+  }
+
   section.cart a:not([href]):not([tabindex]):hover{
     color:red;
     cursor: pointer;

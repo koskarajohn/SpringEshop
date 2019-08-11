@@ -30,6 +30,7 @@
                                           <a routerLink="/product/{{product.name}}" class="brand">{{product.brand}}</a>
                                           <a routerLink="/product/{{product.name}}" class="name">{{product.name}}</a>
                                           <a class="delete" (click)="deleteProduct(product)" >Αφαίρεση</a>
+                                          <div class="inventory-error" *ngIf="!product.isInventoryEnough">Υπάρχουν διαθέσιμα μόνο {{product.quantity}}!</div>
                                      </td>
                                       <td>
                                           <input type="number" class="form-control" [(ngModel)]="product.quantity" (input)="updateCart(product)">

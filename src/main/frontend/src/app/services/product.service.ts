@@ -13,7 +13,9 @@ export class ProductService {
   private productListsApi = '/api/products';
   private favoriteParam = '?filter=favorite';
   private newParam = '?filter=new';
+  private idParam = '&id=';
   private pageParam = '&page=';
+  private pageParamQuestion = '?page=';
 
   constructor(private http : HttpClient) { }
 
@@ -35,5 +37,11 @@ export class ProductService {
 
   getSingleProduct(name : string) : Observable<Product>{
     return this.http.get<Product>(this.productListsApi + '/' + name);
+  }
+
+  getSpecificProducts(ids : number[]) : Observable<Product[]>{
+    let params = this.pageParamQuestion + '0';
+    ids.forEach(id => params = params + this.idParam + id);
+    return this.http.get<Product[]>(this.productListsApi + params);
   }
 }

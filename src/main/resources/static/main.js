@@ -334,7 +334,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Shopping Cart --- */\r\n\r\nsection.cart{\r\n    margin-top: 16px;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\nsection.cart .table-content{\r\n    margin-top: 64px;\r\n  }\r\n\r\nsection.cart .table-responsive{\r\n    overflow-x: hidden;\r\n  }\r\n\r\nsection.cart table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\nsection.cart table tr, section.cart table tr{\r\n    border-left: 1px solid #dee2e6;\r\n    border-right: 1px solid #dee2e6;\r\n  }\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\r\n  }\r\n\r\nsection.cart table td input.form-control{\r\n    width: 75%;\r\n    text-align: center;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\nsection.cart table td a.brand{\r\n    display: block;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.brand:hover, section.cart table td a.name:hover{\r\n    -webkit-text-decoration-style: none;\r\n            text-decoration-style: none;\r\n  }\r\n\r\nsection.cart table td a.name{\r\n    display: block;\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.delete{\r\n    font-size:14px;\r\n    font-weight: 400;\r\n    display: inline-block;\r\n    margin-top: 16px;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]):hover{\r\n    color:red;\r\n    cursor: pointer;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]){\r\n    color:red;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n/* --- Shopping Cart --- */\r\n\r\nsection.cart{\r\n    margin-top: 16px;\r\n    margin-bottom: 48px;\r\n  }\r\n\r\nsection.cart .table-content{\r\n    margin-top: 64px;\r\n  }\r\n\r\nsection.cart .table-responsive{\r\n    overflow-x: hidden;\r\n  }\r\n\r\nsection.cart table tr td{\r\n    padding-top: 1.25rem;\r\n    padding-bottom: 1.25rem;\r\n  }\r\n\r\nsection.cart table tr, section.cart table tr{\r\n    border-left: 1px solid #dee2e6;\r\n    border-right: 1px solid #dee2e6;\r\n  }\r\n\r\ninput::-webkit-outer-spin-button, input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\r\n  }\r\n\r\nsection.cart table td input.form-control{\r\n    width: 75%;\r\n    text-align: center;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\nsection.cart table td a.brand{\r\n    display: block;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.brand:hover, section.cart table td a.name:hover{\r\n    -webkit-text-decoration-style: none;\r\n            text-decoration-style: none;\r\n  }\r\n\r\nsection.cart table td a.name{\r\n    display: block;\r\n    font-size: 18px;\r\n    font-weight: 400;\r\n    margin-bottom:8px;\r\n  }\r\n\r\nsection.cart table td a.delete{\r\n    font-size:14px;\r\n    font-weight: 400;\r\n    display: inline-block;\r\n    margin-top: 16px;\r\n  }\r\n\r\nsection.cart table td div.inventory-error{\r\n    font-size:14px;\r\n    font-weight: 400;\r\n    margin-top: 16px;\r\n    color:red;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]):hover{\r\n    color:red;\r\n    cursor: pointer;\r\n  }\r\n\r\nsection.cart a:not([href]):not([tabindex]){\r\n    color:red;\r\n  }"
 
 /***/ }),
 
@@ -345,7 +345,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ Καλάθι\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div *ngIf=\"!isUserCartEmpty()\" class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"brand\">{{product.brand}}</a>\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"name\">{{product.name}}</a>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}€</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <div *ngIf=\"isUserCartEmpty()\" class=\"mt-4\"><p>Το καλάθι σου είναι άδειο!.</p></div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div *ngIf=\"!isUserCartEmpty()\" class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\" (click)=\"navigateToIndex()\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\" (click)=\"navigateToCheckout()\">Checkout</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n  <div class=\"container\">\r\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/ Καλάθι\r\n  </div>\r\n</div>\r\n\r\n<!-- Shopping Cart -->\r\n<section  class=\"cart\">\r\n  <div class=\"container\">\r\n      <h1 class=\"text-center\">Καλάθι</h1>\r\n      <div *ngIf=\"!isUserCartEmpty()\" class=\"row table-content\">\r\n              <div class=\"col-12\">\r\n                      <div class=\"table-responsive\">\r\n                          <table class=\"table\">\r\n                              <thead class=\"text-center\">\r\n                                  <th>Εικόνα</th>\r\n                                  <th>Προιόν</th>\r\n                                  <th>Ποσότητα</th>\r\n                                  <th>Τιμή</th>\r\n                                  <th>Σύνολο</th>\r\n                              </thead>\r\n      \r\n                              <tbody>\r\n                                  <tr *ngFor=\"let product of cartProducts\">\r\n                                      <td><img class=\"d-block mx-auto\" src=\"{{product.imageUrl}}\" /></td>\r\n                                      <td class=\"text-left\">\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"brand\">{{product.brand}}</a>\r\n                                          <a routerLink=\"/product/{{product.name}}\" class=\"name\">{{product.name}}</a>\r\n                                          <a class=\"delete\" (click)=\"deleteProduct(product)\" >Αφαίρεση</a>\r\n                                          <div class=\"inventory-error\" *ngIf=\"!product.isInventoryEnough\">Υπάρχουν διαθέσιμα μόνο {{product.quantity}}!</div>\r\n                                     </td>\r\n                                      <td>\r\n                                          <input type=\"number\" class=\"form-control\" [(ngModel)]=\"product.quantity\" (input)=\"updateCart(product)\">\r\n                                      </td>\r\n                                      <td class=\"text-center\">{{product.price}}€</td>\r\n                                      <td class=\"text-center\">{{product.price * product.quantity}}€</td>\r\n                                  </tr>\r\n      \r\n                                  <tr>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td></td>\r\n                                      <td class=\"text-center\">Σύνολο</td>\r\n                                      <td class=\"text-center\">{{getTotalCartPrice()}}€</td>\r\n                                  </tr>\r\n                              </tbody>\r\n                          </table>\r\n                      </div>\r\n              </div>\r\n              \r\n      </div>\r\n\r\n      <div *ngIf=\"isUserCartEmpty()\" class=\"mt-4\"><p>Το καλάθι σου είναι άδειο!.</p></div>\r\n\r\n      <i *ngIf=\"!isUpdateProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n      \r\n      <div *ngIf=\"!isUserCartEmpty()\" class=\"row\">\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-light\" (click)=\"navigateToIndex()\">Συνέχισε τις αγορές</button>\r\n          </div>\r\n\r\n          <div class=\"col-sm-12 col-md-6\">\r\n              <button class=\"btn btn-block btn-primary\" (click)=\"navigateToCheckout()\">Checkout</button>\r\n          </div>\r\n      </div>\r\n      \r\n  </div>  \r\n</section>\r\n\r\n<my-footer></my-footer>\r\n"
 
 /***/ }),
 
@@ -364,6 +364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_product_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/product.service */ "./src/app/services/product.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -378,11 +379,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var CartPageComponent = /** @class */ (function () {
-    function CartPageComponent(router, authenticationService, cartService) {
+    function CartPageComponent(router, authenticationService, cartService, productService) {
         this.router = router;
         this.authenticationService = authenticationService;
         this.cartService = cartService;
+        this.productService = productService;
         this.isUpdateProductRequestDone = true;
         this.isUserLoggedIn = false;
         this.isLocalStorageEmpty = localStorage.length === 0;
@@ -394,11 +397,18 @@ var CartPageComponent = /** @class */ (function () {
         if (this.isUserLoggedIn && !this.isLocalStorageEmpty) {
             var userId = localStorage.getItem('userid');
             this.httpSubscription = this.cartService.getCartProducts(userId)
-                .subscribe(function (cartProducts) { return _this.cartProducts = cartProducts; }, function (error) { return console.log(error); });
+                .subscribe(function (cartProducts) {
+                _this.cartProducts = cartProducts;
+                _this.iniatializeInventoryVariable(_this.cartProducts);
+            }, function (error) { return console.log(error); });
         }
         else if (!this.isUserLoggedIn && this.cartService.doesAnonymousUserCartExist) {
             this.cartProducts = this.cartService.getAnonymousUserCart();
+            this.iniatializeInventoryVariable(this.cartProducts);
         }
+    };
+    CartPageComponent.prototype.iniatializeInventoryVariable = function (cartProducts) {
+        this.cartProducts.forEach(function (cartProduct) { return cartProduct.isInventoryEnough = true; });
     };
     CartPageComponent.prototype.isUserCartEmpty = function () {
         return this.cartProducts.length === 0;
@@ -442,21 +452,57 @@ var CartPageComponent = /** @class */ (function () {
                     .then(function (response) {
                     _this.navigationBar.setCartCount(_this.navigationBar.userId);
                     _this.isUpdateProductRequestDone = true;
+                    if (!product.isInventoryEnough) {
+                        _this.updateInventoryStatus(product);
+                    }
                 })
                     .catch(function (erroResponse) { return _this.isUpdateProductRequestDone = true; });
             }
             else {
                 this.cartService.updateUserCartProduct(product);
                 this.cartProducts = this.cartService.getAnonymousUserCart();
+                this.iniatializeInventoryVariable(this.cartProducts);
                 this.navigationBar.setAnonymousUserCartCount();
+                if (!product.isInventoryEnough) {
+                    this.updateInventoryStatus(product);
+                }
             }
+        }
+    };
+    CartPageComponent.prototype.updateInventoryStatus = function (cartProduct) {
+        var correspondingProduct = this.products.find(function (product) { return product.id === cartProduct.productid; });
+        if (cartProduct.quantity < correspondingProduct.quantity) {
+            cartProduct.isInventoryEnough = true;
         }
     };
     CartPageComponent.prototype.navigateToIndex = function () {
         this.router.navigate(['']);
     };
     CartPageComponent.prototype.navigateToCheckout = function () {
-        this.router.navigate(['/checkout']);
+        var _this = this;
+        this.productService.getSpecificProducts(this.getCartProductIds()).toPromise()
+            .then(function (products) {
+            _this.products = products;
+            if (_this.isProductInventoryEnough(_this.products)) {
+                _this.router.navigate(['/checkout']);
+            }
+        })
+            .catch(function (error) { return console.log(error); });
+    };
+    CartPageComponent.prototype.getCartProductIds = function () {
+        return this.cartProducts.map(function (x) { return x.productid; });
+    };
+    CartPageComponent.prototype.isProductInventoryEnough = function (products) {
+        var isEnough = true;
+        this.cartProducts.forEach(function (cartProduct) {
+            var correspondingProduct = products.find(function (product) { return product.id === cartProduct.productid; });
+            if (cartProduct.quantity > correspondingProduct.quantity) {
+                cartProduct.quantity = correspondingProduct.quantity;
+                cartProduct.isInventoryEnough = false;
+                isEnough = false;
+            }
+        });
+        return isEnough;
     };
     CartPageComponent.prototype.ngOnDestroy = function () {
         if (this.httpSubscription !== undefined)
@@ -472,7 +518,8 @@ var CartPageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./cart-page.component.html */ "./src/app/components/cart-page/cart-page.component.html"),
             styles: [__webpack_require__(/*! ./cart-page.component.css */ "./src/app/components/cart-page/cart-page.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__["CartService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"],
+            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_1__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_5__["ProductService"]])
     ], CartPageComponent);
     return CartPageComponent;
 }());
@@ -3838,7 +3885,9 @@ var ProductService = /** @class */ (function () {
         this.productListsApi = '/api/products';
         this.favoriteParam = '?filter=favorite';
         this.newParam = '?filter=new';
+        this.idParam = '&id=';
         this.pageParam = '&page=';
+        this.pageParamQuestion = '?page=';
     }
     ProductService.prototype.getFavoriteProductsInformation = function () {
         return this.http.get(this.productListsApi + this.favoriteParam + this.pageParam + '0');
@@ -3856,6 +3905,12 @@ var ProductService = /** @class */ (function () {
     };
     ProductService.prototype.getSingleProduct = function (name) {
         return this.http.get(this.productListsApi + '/' + name);
+    };
+    ProductService.prototype.getSpecificProducts = function (ids) {
+        var _this = this;
+        var params = this.pageParamQuestion + '0';
+        ids.forEach(function (id) { return params = params + _this.idParam + id; });
+        return this.http.get(this.productListsApi + params);
     };
     ProductService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

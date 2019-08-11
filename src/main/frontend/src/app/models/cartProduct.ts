@@ -6,4 +6,5 @@ export class CartProduct{
     price : number
     quantity : number
     imageUrl : string
+    isInventoryEnough : boolean;
 }

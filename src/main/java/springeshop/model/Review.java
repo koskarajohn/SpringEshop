@@ -1,5 +1,7 @@
 package springeshop.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,11 +30,6 @@ public class Review {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@Column(name = "user_name")
-	@NotNull(message = "Please provide user name")
-	@Size(min = 3, max = 254, message = "Name must be between 3 and 254 characters")
-	private String userName;
-	
 	@Column(name = "text")
 	@NotNull(message = "Please provide review text")
 	private String text;
@@ -40,6 +37,10 @@ public class Review {
 	@Column(name = "rating")
 	@NotNull
 	private int rating;
+	
+	@Column(name = "date", columnDefinition = "DATE")
+	@NotNull
+	private LocalDate date;
 	
 	public Review() {}
 
@@ -67,14 +68,6 @@ public class Review {
 		this.user = user;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getText() {
 		return text;
 	}
@@ -90,5 +83,12 @@ public class Review {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 }

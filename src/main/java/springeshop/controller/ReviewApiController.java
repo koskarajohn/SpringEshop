@@ -1,5 +1,6 @@
 package springeshop.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -40,20 +41,18 @@ public class ReviewApiController {
 	public ResponseEntity<?> createReview(@Valid @RequestBody Review review){
 		
 		Product product = productService.findById(review.getProduct().getId());
-		User user = null;
+		
 		if(product == null)
 			return ResponseEntity.badRequest().build();
 		
-		if(review.getUser() != null) {
-			user = userService.findById(review.getUser().getId());
-			if(user == null)
-				return ResponseEntity.badRequest().build();
-		}
+		User user = userService.findById(review.getUser().getId());
+		if(user == null)
+			return ResponseEntity.badRequest().build();
 		
 		try {
 			review.setProduct(product);
-			if(user != null && review.getUser() != null)
-			     review.setUser(user);
+			review.setUser(user);
+			review.setDate(LocalDate.now());
 			reviewService.saveReview(review);
 			return ResponseEntity.noContent().build();
 		} catch (DataAccessException e) {

@@ -26,6 +26,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SearchSidebarComponent } from './components/search-sidebar/search-sidebar.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AddReviewComponent } from './components/add-review/add-review.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     SearchSidebarComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
+    AddReviewComponent
   ],
   imports: [
     BrowserModule,

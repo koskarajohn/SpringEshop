@@ -47,12 +47,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_search_search_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/search/search.component */ "./src/app/components/search/search.component.ts");
 /* harmony import */ var _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/reset-password/reset-password.component */ "./src/app/components/reset-password/reset-password.component.ts");
 /* harmony import */ var _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/change-password/change-password.component */ "./src/app/components/change-password/change-password.component.ts");
+/* harmony import */ var _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/add-review/add-review.component */ "./src/app/components/add-review/add-review.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -109,6 +111,10 @@ var appRoutes = [
     {
         path: 'user/changePassword',
         component: _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_12__["ChangePasswordComponent"]
+    },
+    {
+        path: 'product/:name/review/new',
+        component: _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_13__["AddReviewComponent"]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -241,12 +247,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/search-sidebar/search-sidebar.component */ "./src/app/components/search-sidebar/search-sidebar.component.ts");
 /* harmony import */ var _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/reset-password/reset-password.component */ "./src/app/components/reset-password/reset-password.component.ts");
 /* harmony import */ var _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/change-password/change-password.component */ "./src/app/components/change-password/change-password.component.ts");
+/* harmony import */ var _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/add-review/add-review.component */ "./src/app/components/add-review/add-review.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -302,6 +310,7 @@ var AppModule = /** @class */ (function () {
                 _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__["SearchSidebarComponent"],
                 _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__["ResetPasswordComponent"],
                 _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__["ChangePasswordComponent"],
+                _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_28__["AddReviewComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -321,6 +330,78 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/add-review/add-review.component.css":
+/*!****************************************************************!*\
+  !*** ./src/app/components/add-review/add-review.component.css ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection form .form-group input, section form .form-group textarea{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\nsection form .form-group textarea.form-control{\r\n    background:\t#E0E0E0;\r\n    height: 10rem;\r\n  }\r\n\r\nsection form .submit{\r\n    text-align: center;\r\n    margin-top: 32px\r\n  }\r\n\r\nsection form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  }"
+
+/***/ }),
+
+/***/ "./src/app/components/add-review/add-review.component.html":
+/*!*****************************************************************!*\
+  !*** ./src/app/components/add-review/add-review.component.html ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αξιολόγηση\n  </div>\n</div>\n\n<section>\n  <div class=\"container\">\n    <h1>Προσθήκη αξιολόγησης</h1>\n\n    <form name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n        <div class=\"form-group\">\n            <label>Όνομα</label>\n            <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"review.userName\" #username=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && (username.invalid || usernameError)}\" required minlength=\"2\">\n            <div *ngIf=\"f.submitted && username.invalid\" class=\"invalid-feedback\">\n                <div *ngIf=\"username.errors.required\">Πρέπει να συμπληρώσετε το Username</div>\n                <div *ngIf=\"username.errors.minlength\">Το Username πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>\n            </div>\n            <div *ngIf=\"usernameError\" class=\"invalid-feedback\">Το username υπάρχει ήδη</div>\n        </div>\n\n        <div class=\"form-group\">\n            <label>Κείμενο</label>\n            <textarea class=\"form-control\" [(ngModel)]=\"review.text\" name=\"textarea\"></textarea>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Βαθμολογία</label>\n          <div>\n            <rating></rating>\n          </div>\n        </div>\n\n        <div class=\"submit\">\n            <button class=\"btn btn-primary\">Προσθήκη αξιολόγησης</button>\n        </div>\n    </form>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/add-review/add-review.component.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/components/add-review/add-review.component.ts ***!
+  \***************************************************************/
+/*! exports provided: AddReviewComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddReviewComponent", function() { return AddReviewComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_review_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/review.service */ "./src/app/services/review.service.ts");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AddReviewComponent = /** @class */ (function () {
+    function AddReviewComponent(reviewService, authenticationService) {
+        this.reviewService = reviewService;
+        this.authenticationService = authenticationService;
+        this.review = {};
+    }
+    AddReviewComponent.prototype.ngOnInit = function () {
+    };
+    AddReviewComponent.prototype.onSubmit = function () {
+    };
+    AddReviewComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-add-review',
+            template: __webpack_require__(/*! ./add-review.component.html */ "./src/app/components/add-review/add-review.component.html"),
+            styles: [__webpack_require__(/*! ./add-review.component.css */ "./src/app/components/add-review/add-review.component.css")]
+        }),
+        __metadata("design:paramtypes", [src_app_services_review_service__WEBPACK_IMPORTED_MODULE_1__["ReviewService"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
+    ], AddReviewComponent);
+    return AddReviewComponent;
 }());
 
 
@@ -1503,7 +1584,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div class=\"forgot-password\"><a routerLink=\"/user/resetPassword\">Ξέχασες τον κωδικό σου?</a></div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n               </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div class=\"forgot-password\"><a routerLink=\"/user/resetPassword\">Ξέχασες τον κωδικό σου?</a></div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n            </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2337,7 +2418,7 @@ var ProductsCarouselComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "span.checked{\r\n    color: orange;\r\n}"
+module.exports = "i:hover{\r\n    cursor: pointer;\r\n    \r\n}\r\n\r\ni.checked{\r\n    color: orange;\r\n}\r\n\r\nspan{\r\n    display: inline-block;\r\n    margin-left: 1.5rem;\r\n    font-size: 1.25rem;\r\n}"
 
 /***/ }),
 
@@ -2348,7 +2429,7 @@ module.exports = "span.checked{\r\n    color: orange;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<input type=\"checkbox\" class=\"mr-2\">\n<span *ngFor=\"let checkedStar of counter(checkedStars)\" class=\"fa fa-star checked\"></span>\n<ng-container *ngIf=\"areThereUncheckedstars\">\n    <span *ngFor=\"let uncheckedStar of counter(uncheckedStars)\" class=\"fa fa-star\"></span>\n</ng-container>\n<span class=\"ml-2\">(303)</span>\n"
+module.exports = "<i *ngFor=\"let star of stars\" [ngClass]=\"star.isChecked ? 'fa fa-star fa-2x checked' : 'fa fa-star fa-2x'\" (click)=\"onStarClick(star)\" ></i>\n<span *ngIf=\"isRatingSelected()\">{{selectedRatingText}}</span>\n\n"
 
 /***/ }),
 
@@ -2375,19 +2456,40 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var RatingComponent = /** @class */ (function () {
     function RatingComponent() {
+        this.stars = [];
+        this.ratingTexts = ['Πολύ κακό', 'Κακό', 'Μέτριο', 'Καλό', 'Πολύ καλό'];
+        this.selectedRatingText = '';
     }
     RatingComponent.prototype.ngOnInit = function () {
-        this.totalStars = 5;
-        this.checkedStars = this.totalStars - this.uncheckedStars;
-        this.areThereUncheckedstars = this.uncheckedStars > 0;
+        this.initializeStars();
     };
-    RatingComponent.prototype.counter = function (i) {
-        return new Array(i);
+    RatingComponent.prototype.initializeStars = function () {
+        for (var i = 0; i < 5; i++) {
+            var star = {};
+            star.id = i + 1;
+            star.isChecked = false;
+            star.text = this.ratingTexts[i];
+            this.stars.push(star);
+        }
     };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], RatingComponent.prototype, "uncheckedStars", void 0);
+    RatingComponent.prototype.isRatingSelected = function () {
+        return this.selectedRatingText.length > 0;
+    };
+    RatingComponent.prototype.onStarClick = function (star) {
+        this.selectedRatingText = this.ratingTexts[star.id - 1];
+        this.addStars(star.id - 1);
+        this.removeStars(star.id - 1);
+    };
+    RatingComponent.prototype.addStars = function (endIndex) {
+        for (var i = 0; i <= endIndex; i++) {
+            this.stars[i].isChecked = true;
+        }
+    };
+    RatingComponent.prototype.removeStars = function (endIndex) {
+        for (var i = endIndex + 1; i < this.stars.length; i++) {
+            this.stars[i].isChecked = false;
+        }
+    };
     RatingComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'rating',
@@ -4012,6 +4114,50 @@ var ResetPasswordService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], ResetPasswordService);
     return ResetPasswordService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/review.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/services/review.service.ts ***!
+  \********************************************/
+/*! exports provided: ReviewService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReviewService", function() { return ReviewService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ReviewService = /** @class */ (function () {
+    function ReviewService(http) {
+        this.http = http;
+        this.reviewsEndpoint = '/api/reviews';
+    }
+    ReviewService.prototype.createReview = function (review) {
+        return this.http.post(this.reviewsEndpoint, review);
+    };
+    ReviewService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ReviewService);
+    return ReviewService;
 }());
 
 

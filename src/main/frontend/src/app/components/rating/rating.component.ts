@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Star } from 'src/app/models/star';
 
 @Component({
   selector: 'rating',
@@ -7,21 +8,45 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RatingComponent implements OnInit {
 
-  totalStars : number;
-  checkedStars : number;
-  @Input() uncheckedStars : number;
-  areThereUncheckedstars : boolean;
+  private stars : Star[] = [];
+  private ratingTexts : string[] = ['Πολύ κακό', 'Κακό', 'Μέτριο', 'Καλό', 'Πολύ καλό'];
+  private selectedRatingText : string = '';
 
   constructor() { }
 
   ngOnInit() {
-    this.totalStars = 5;
-    this.checkedStars = this.totalStars - this.uncheckedStars
-    this.areThereUncheckedstars = this.uncheckedStars > 0 ;
+    this.initializeStars();
   }
 
-  counter( i : number){
-    return new Array(i);
-  } 
+  initializeStars() : void{
+    for(let i=0; i<5; i++){
+      let star = {} as Star;
+      star.id = i + 1;
+      star.isChecked = false;
+      star.text = this.ratingTexts[i];
+      this.stars.push(star);
+    }
+  }
 
+  isRatingSelected() : boolean{
+    return this.selectedRatingText.length > 0;
+  }
+
+  onStarClick(star : Star) : void{
+    this.selectedRatingText = this.ratingTexts[star.id - 1];
+    this.addStars(star.id - 1);
+    this.removeStars(star.id -1);
+  }
+
+  addStars(endIndex : number) : void{
+    for(let i=0; i<=endIndex; i++){
+      this.stars[i].isChecked = true;
+    }
+  }
+
+  removeStars(endIndex : number) : void{
+    for(let i=endIndex + 1; i<this.stars.length; i++){
+      this.stars[i].isChecked = false;
+    }
+  }
 }

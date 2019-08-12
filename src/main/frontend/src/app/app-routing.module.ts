@@ -11,6 +11,7 @@ import { OrderComponent } from './components/order/order.component';
 import { SearchComponent } from './components/search/search.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AddReviewComponent } from './components/add-review/add-review.component';
 
 export const appRoutes: Routes = [
   { path: '', 
@@ -56,6 +57,10 @@ export const appRoutes: Routes = [
   {
     path: 'user/changePassword',
     component:ChangePasswordComponent
+  },
+  {
+    path : 'product/:name/review/new',
+    component : AddReviewComponent
   }
 ];
 

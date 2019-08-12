@@ -1,6 +1,3 @@
-<input type="checkbox" class="mr-2">
-<span *ngFor="let checkedStar of counter(checkedStars)" class="fa fa-star checked"></span>
-<ng-container *ngIf="areThereUncheckedstars">
-    <span *ngFor="let uncheckedStar of counter(uncheckedStars)" class="fa fa-star"></span>
-</ng-container>
-<span class="ml-2">(303)</span>
+<i *ngFor="let star of stars" [ngClass]="star.isChecked ? 'fa fa-star fa-2x checked' : 'fa fa-star fa-2x'" (click)="onStarClick(star)" ></i>
+<span *ngIf="isRatingSelected()">{{selectedRatingText}}</span>
+

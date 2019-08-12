@@ -22,6 +22,12 @@ section{
     background:	#E0E0E0;
     height: 10rem;
   }
+
+  section form div.form-group div.rating-error{
+    font-size: 80%;
+    color: #dc3545;
+    margin-top: 0.25rem;
+  }
   
   section form .submit{
     text-align: center;

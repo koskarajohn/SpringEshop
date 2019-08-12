@@ -343,7 +343,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection form .form-group input, section form .form-group textarea{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\nsection form .form-group textarea.form-control{\r\n    background:\t#E0E0E0;\r\n    height: 10rem;\r\n  }\r\n\r\nsection form .submit{\r\n    text-align: center;\r\n    margin-top: 32px\r\n  }\r\n\r\nsection form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection form .form-group input, section form .form-group textarea{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\nsection form .form-group textarea.form-control{\r\n    background:\t#E0E0E0;\r\n    height: 10rem;\r\n  }\r\n\r\nsection form div.form-group div.rating-error{\r\n    font-size: 80%;\r\n    color: #dc3545;\r\n  }\r\n\r\nsection form .submit{\r\n    text-align: center;\r\n    margin-top: 32px\r\n  }\r\n\r\nsection form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  }"
 
 /***/ }),
 
@@ -354,7 +354,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αξιολόγηση\n  </div>\n</div>\n\n<section>\n  <div class=\"container\">\n    <h1>Προσθήκη αξιολόγησης</h1>\n\n    <form name=\"form\" (ngSubmit)=\"f.form.valid && onSubmit()\" #f=\"ngForm\" novalidate>\n        <div class=\"form-group\">\n            <label>Όνομα</label>\n            <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"review.userName\" #username=\"ngModel\" [ngClass]=\"{'is-invalid' : f.submitted && (username.invalid || usernameError)}\" required minlength=\"2\">\n            <div *ngIf=\"f.submitted && username.invalid\" class=\"invalid-feedback\">\n                <div *ngIf=\"username.errors.required\">Πρέπει να συμπληρώσετε το Username</div>\n                <div *ngIf=\"username.errors.minlength\">Το Username πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>\n            </div>\n            <div *ngIf=\"usernameError\" class=\"invalid-feedback\">Το username υπάρχει ήδη</div>\n        </div>\n\n        <div class=\"form-group\">\n            <label>Κείμενο</label>\n            <textarea class=\"form-control\" [(ngModel)]=\"review.text\" name=\"textarea\"></textarea>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Βαθμολογία</label>\n          <div>\n            <rating></rating>\n          </div>\n        </div>\n\n        <div class=\"submit\">\n            <button class=\"btn btn-primary\">Προσθήκη αξιολόγησης</button>\n        </div>\n    </form>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αξιολόγηση\n  </div>\n</div>\n\n<section>\n  <div class=\"container\">\n    <h1>Αξιολόγηση</h1>\n\n    <form name=\"form\" (ngSubmit)=\"onSubmit()\" #f=\"ngForm\">\n        <div class=\"form-group\">\n            <label>Όνομα</label>\n            <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"review.user.username\" [disabled]=\"true\">\n        </div>\n\n        <div class=\"form-group\">\n            <label>Κείμενο</label>\n            <textarea class=\"form-control\" [(ngModel)]=\"review.text\" name=\"textarea\"></textarea>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Βαθμολογία</label>\n          <div>\n            <rating (ratingEmitter)=\"getRating($event)\"></rating>\n          </div>\n          <div class=\"rating-error\" *ngIf=\"!isRatingSelected() && wasSubmitButtonClicked\">Πρέπει να επιλέξετε βαθμολογία</div> \n        </div>\n\n        <div class=\"submit\">\n            <button class=\"btn btn-primary\">Προσθήκη αξιολόγησης</button>\n        </div>\n    </form>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -371,6 +371,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_services_review_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/review.service */ "./src/app/services/review.service.ts");
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -383,15 +385,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AddReviewComponent = /** @class */ (function () {
     function AddReviewComponent(reviewService, authenticationService) {
         this.reviewService = reviewService;
         this.authenticationService = authenticationService;
         this.review = {};
+        this.wasSubmitButtonClicked = false;
     }
     AddReviewComponent.prototype.ngOnInit = function () {
+        this.review.user = {};
+        this.review.product = {};
+        this.review.user.username = localStorage.getItem('user');
+        this.review.user.id = Number(localStorage.getItem('userid'));
     };
     AddReviewComponent.prototype.onSubmit = function () {
+        this.wasSubmitButtonClicked = true;
+    };
+    AddReviewComponent.prototype.getRating = function (rating) {
+        if (Object(util__WEBPACK_IMPORTED_MODULE_3__["isNumber"])(rating)) {
+            this.review.rating = rating;
+        }
+    };
+    AddReviewComponent.prototype.isRatingSelected = function () {
+        return this.review.rating !== undefined;
     };
     AddReviewComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1584,7 +1601,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div class=\"forgot-password\"><a routerLink=\"/user/resetPassword\">Ξέχασες τον κωδικό σου?</a></div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n            </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/\r\n        Είσοδος\r\n    </div>\r\n</div>\r\n\r\n<section *ngIf=\"isRedirectedFromRegister\" class=\"my-4\">\r\n    <div class=\"container\">\r\n        <div  class=\"alert alert-success text-center\">\r\n             Η εγγραφή πραγματοποιήθηκε επιτυχώς\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<!-- Login -->\r\n<section class=\"login\">\r\n        <div class=\"container\">\r\n            <h1>Είσοδος</h1>\r\n\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label>E-mail</label>\r\n                    <input type=\"email\" class=\"form-control\" name=\"email\" [(ngModel)]=\"userCredentials.email\" #email = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (email.invalid || emailDoesNotExist)}\" required email>\r\n                    <div *ngIf=\"f.submitted && email.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"email.errors.required\">Πρέπει να συμπληρώσετε το email</div>\r\n                        <div *ngIf=\"email.errors.email\">Το email πρέπει να έχει τη σωστή μορφή</div>\r\n                    </div>\r\n                    <div *ngIf=\"emailDoesNotExist\" class=\"invalid-feedback\">{{emailDoesNotExistErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label>Kωδικός</label>\r\n                    <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"userCredentials.password\" #password = \"ngModel\" [ngClass]=\"{'is-invalid': f.submitted && (password.invalid || passwordIsNotCorrect)}\" required>\r\n                    <div *ngIf=\"f.submitted && password.invalid\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"password.errors.required\">Πρέπει να πληκτρολογήσετε έναν κωδικό</div>\r\n                    </div>\r\n                    <div class=\"forgot-password\"><a routerLink=\"/user/resetPassword\">Ξέχασες τον κωδικό σου?</a></div>\r\n                    <div *ngIf=\"passwordIsNotCorrect\" class=\"invalid-feedback\">{{passwordIsNotCorrectErrorMessage}}</div>\r\n                </div>\r\n\r\n                <div class=\"submit\">\r\n                    <button class=\"btn btn-primary\">Είσοδος</button>\r\n                </div>\r\n               </form>\r\n        </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2459,6 +2476,7 @@ var RatingComponent = /** @class */ (function () {
         this.stars = [];
         this.ratingTexts = ['Πολύ κακό', 'Κακό', 'Μέτριο', 'Καλό', 'Πολύ καλό'];
         this.selectedRatingText = '';
+        this.ratingEmitter = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     RatingComponent.prototype.ngOnInit = function () {
         this.initializeStars();
@@ -2479,6 +2497,7 @@ var RatingComponent = /** @class */ (function () {
         this.selectedRatingText = this.ratingTexts[star.id - 1];
         this.addStars(star.id - 1);
         this.removeStars(star.id - 1);
+        this.ratingEmitter.emit(star.id);
     };
     RatingComponent.prototype.addStars = function (endIndex) {
         for (var i = 0; i <= endIndex; i++) {
@@ -2490,6 +2509,10 @@ var RatingComponent = /** @class */ (function () {
             this.stars[i].isChecked = false;
         }
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], RatingComponent.prototype, "ratingEmitter", void 0);
     RatingComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'rating',

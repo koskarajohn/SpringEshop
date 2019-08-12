@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Star } from 'src/app/models/star';
 
 @Component({
@@ -11,6 +11,7 @@ export class RatingComponent implements OnInit {
   private stars : Star[] = [];
   private ratingTexts : string[] = ['Πολύ κακό', 'Κακό', 'Μέτριο', 'Καλό', 'Πολύ καλό'];
   private selectedRatingText : string = '';
+  @Output() ratingEmitter : EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -36,6 +37,7 @@ export class RatingComponent implements OnInit {
     this.selectedRatingText = this.ratingTexts[star.id - 1];
     this.addStars(star.id - 1);
     this.removeStars(star.id -1);
+    this.ratingEmitter.emit(star.id);
   }
 
   addStars(endIndex : number) : void{

@@ -12,7 +12,7 @@ export class ReviewService {
 
   constructor(private http : HttpClient) { }
 
-  private createReview(review : Review) : Observable<any>{
+  public createReview(review : Review) : Observable<any>{
     return this.http.post<Observable<any>>(this.reviewsEndpoint, review);
   }
 }

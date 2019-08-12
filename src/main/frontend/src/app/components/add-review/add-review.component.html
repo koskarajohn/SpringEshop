@@ -8,18 +8,13 @@
 </div>
 
 <section>
-  <div class="container">
-    <h1>Προσθήκη αξιολόγησης</h1>
+  <div *ngIf="isAuthenticated" class="container">
+    <h1>Αξιολόγηση</h1>
 
-    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+    <form name="form" (ngSubmit)="onSubmit()" #f="ngForm">
         <div class="form-group">
             <label>Όνομα</label>
-            <input type="text" name="username" class="form-control" [(ngModel)]="review.userName" #username="ngModel" [ngClass]="{'is-invalid' : f.submitted && (username.invalid || usernameError)}" required minlength="2">
-            <div *ngIf="f.submitted && username.invalid" class="invalid-feedback">
-                <div *ngIf="username.errors.required">Πρέπει να συμπληρώσετε το Username</div>
-                <div *ngIf="username.errors.minlength">Το Username πρέπει να έχει μήκος τουλάχιστον δύο χαρακτήρες</div>
-            </div>
-            <div *ngIf="usernameError" class="invalid-feedback">Το username υπάρχει ήδη</div>
+            <input type="text" name="username" class="form-control" [(ngModel)]="review.user.username" [disabled]="true">
         </div>
 
         <div class="form-group">
@@ -30,8 +25,9 @@
         <div class="form-group">
           <label>Βαθμολογία</label>
           <div>
-            <rating></rating>
+            <rating (ratingEmitter)="getRating($event)"></rating>
           </div>
+          <div class="rating-error" *ngIf="!isRatingSelected() && wasSubmitButtonClicked">Πρέπει να επιλέξετε βαθμολογία</div> 
         </div>
 
         <div class="submit">
@@ -39,6 +35,7 @@
         </div>
     </form>
   </div>
+  <div *ngIf="!isAuthenticated">Δεν έχετε εξουσιοδότηση για αυτή τη σελίδα</div>
 </section>
 
 <my-footer></my-footer>

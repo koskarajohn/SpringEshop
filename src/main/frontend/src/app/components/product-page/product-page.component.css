@@ -78,12 +78,17 @@ p span.checked{
     margin-top: 1.5rem;
   }
 
-  section.reviews div.container p{
+  section.reviews > div.container > p{
     margin-bottom: 0;
   }
 
-  section.reviews div.container p.rating{
+  section.reviews > div.container > p.rating{
     margin-top: 1.5rem;
     font-size: 1.25rem;
     font-weight: bold;
   }
+
+  section.reviews > div.container > div{
+    margin-bottom: 2rem;
+  }
+  

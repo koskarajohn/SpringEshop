@@ -7,7 +7,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartService } from 'src/app/services/cart.service';
 import { CartProduct } from 'src/app/models/cartProduct';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
-import { NavigationCategory } from 'src/app/models/navigationCategory';
+import { Review } from 'src/app/models/review';
+import { ReviewService } from 'src/app/services/review.service';
 
 @Component({
   selector: 'product-page',
@@ -27,6 +28,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   isProductAvailable : boolean = false;
   isAddProductRequestDone : boolean = true;
   isInventoryNotEnough : boolean = false;
+  reviews : Review[] = [];
 
   productCategory : string ;
   categoryRoute : string;
@@ -44,8 +46,9 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   private isUserLoggedIn : boolean = false;
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
 
-  constructor(private route : ActivatedRoute, private authenticationService : AuthenticationService
-    , private cartService : CartService, private productService : ProductService, private router : Router) { }
+  constructor(private route : ActivatedRoute, private authenticationService : AuthenticationService, 
+              private cartService : CartService, private productService : ProductService, 
+              private router : Router, private reviewService : ReviewService) { }
 
   ngOnInit() {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
@@ -57,8 +60,13 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                                                 this.categoryRoute = product.category.name === 'Fish-Oils' ? this.categories.Fishoils.route : this.categories[product.category.name].route;
                                                 this.isProductAvailable = product.quantity > 0;
                                                 this.productAvailability =  this.isProductAvailable ? this.available : this.notAvailable ;
+                                                this.getReviews();
                                               });
-    
+  }
+
+  getReviews() : void{
+    this.reviewService.getReviews(this.product.id).toPromise().then(reviews => this.reviews = reviews)
+                                                              .catch(error => console.log(error));
   }
 
   increaseProductQuantity() : void{

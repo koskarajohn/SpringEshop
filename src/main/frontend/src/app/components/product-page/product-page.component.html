@@ -59,7 +59,10 @@
         <p class="rating">4.7</p>
         <p>5 κριτικές</p>
         <div><button type="button" class="btn btn-primary" (click)="navigateToAddReview()">Αξιολόγησε το προιόν</button></div>
+
+        <review *ngFor="let review of reviews" [review]="review"></review>
     </div>
+
 </section>
 
 <my-footer></my-footer>

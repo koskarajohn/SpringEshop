@@ -248,12 +248,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/reset-password/reset-password.component */ "./src/app/components/reset-password/reset-password.component.ts");
 /* harmony import */ var _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/change-password/change-password.component */ "./src/app/components/change-password/change-password.component.ts");
 /* harmony import */ var _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/add-review/add-review.component */ "./src/app/components/add-review/add-review.component.ts");
+/* harmony import */ var _components_review_review_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/review/review.component */ "./src/app/components/review/review.component.ts");
+/* harmony import */ var _components_star_star_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/star/star.component */ "./src/app/components/star/star.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -310,7 +314,9 @@ var AppModule = /** @class */ (function () {
                 _components_search_sidebar_search_sidebar_component__WEBPACK_IMPORTED_MODULE_25__["SearchSidebarComponent"],
                 _components_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_26__["ResetPasswordComponent"],
                 _components_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_27__["ChangePasswordComponent"],
-                _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_28__["AddReviewComponent"]
+                _components_add_review_add_review_component__WEBPACK_IMPORTED_MODULE_28__["AddReviewComponent"],
+                _components_review_review_component__WEBPACK_IMPORTED_MODULE_29__["ReviewComponent"],
+                _components_star_star_component__WEBPACK_IMPORTED_MODULE_30__["StarComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -2107,7 +2113,7 @@ var OrderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n.breadcrumbs a.route:hover{\r\n  text-decoration: none;\r\n}\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.description, section.reviews{\r\n      margin-top: 1.5rem;\r\n      margin-bottom: 2rem;\r\n  }\r\n\r\nsection.description div.container h3, section.reviews div.container h3{\r\n    font-size: 1.5rem;\r\n    text-transform: uppercase;\r\n  }\r\n\r\nsection.description div.container p{\r\n    margin-top: 1.5rem;\r\n  }\r\n\r\nsection.reviews div.container p{\r\n    margin-bottom: 0;\r\n  }\r\n\r\nsection.reviews div.container p.rating{\r\n    margin-top: 1.5rem;\r\n    font-size: 1.25rem;\r\n    font-weight: bold;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n.breadcrumbs a.route:hover{\r\n  text-decoration: none;\r\n}\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.description, section.reviews{\r\n      margin-top: 1.5rem;\r\n      margin-bottom: 2rem;\r\n  }\r\n\r\nsection.description div.container h3, section.reviews div.container h3{\r\n    font-size: 1.5rem;\r\n    text-transform: uppercase;\r\n  }\r\n\r\nsection.description div.container p{\r\n    margin-top: 1.5rem;\r\n  }\r\n\r\nsection.reviews > div.container > p{\r\n    margin-bottom: 0;\r\n  }\r\n\r\nsection.reviews > div.container > p.rating{\r\n    margin-top: 1.5rem;\r\n    font-size: 1.25rem;\r\n    font-weight: bold;\r\n  }\r\n\r\nsection.reviews > div.container > div{\r\n    margin-bottom: 2rem;\r\n  }\r\n  "
 
 /***/ }),
 
@@ -2118,7 +2124,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>\r\n        / <a routerLink=\"/category/{{categoryRoute}}\" class=\"route\" [queryParams]=\"{ page: pageParam}\">{{productCategory}}</a>\r\n        / {{product?.name}}\r\n    </div>\r\n  </div>\r\n\r\n<div class=\"container\">\r\n    <div class=\"row justify-content-center\">\r\n        <div class=\"col-sm-4 product-image\">\r\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\r\n        </div>\r\n        <div class=\"col-sm-4 product-details\">\r\n            <h4>{{product?.name}}</h4>\r\n            <h3>{{product?.price}}€</h3>\r\n            <p><span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star\"></span>\r\n            </p>\r\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\r\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\r\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\r\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\r\n\r\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\r\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\r\n                <span>{{wantedQuantity}}</span>\r\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\r\n            </div>\r\n\r\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\" [disabled] = \"!isAddProductRequestDone\" (click)=\"addProductToCart()\">\r\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\r\n            </button>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<i *ngIf=\"!isAddProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<!-- Description -->\r\n<section class=\"description\">\r\n  <div class=\"container\">\r\n      <h3>Περιγραφη</h3>\r\n      <p>{{product?.description}}</p>\r\n\r\n  </div>\r\n</section>\r\n\r\n<section class=\"reviews\">\r\n    <div class=\"container\">\r\n        <h3>Αξιολογησεις</h3>\r\n\r\n        <p class=\"rating\">4.7</p>\r\n        <p>5 κριτικές</p>\r\n        <div><button type=\"button\" class=\"btn btn-primary\" (click)=\"navigateToAddReview()\">Αξιολόγησε το προιόν</button></div>\r\n    </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>\r\n        / <a routerLink=\"/category/{{categoryRoute}}\" class=\"route\" [queryParams]=\"{ page: pageParam}\">{{productCategory}}</a>\r\n        / {{product?.name}}\r\n    </div>\r\n  </div>\r\n\r\n<div class=\"container\">\r\n    <div class=\"row justify-content-center\">\r\n        <div class=\"col-sm-4 product-image\">\r\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\r\n        </div>\r\n        <div class=\"col-sm-4 product-details\">\r\n            <h4>{{product?.name}}</h4>\r\n            <h3>{{product?.price}}€</h3>\r\n            <p><span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star\"></span>\r\n            </p>\r\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\r\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\r\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\r\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\r\n\r\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\r\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\r\n                <span>{{wantedQuantity}}</span>\r\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\r\n            </div>\r\n\r\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\" [disabled] = \"!isAddProductRequestDone\" (click)=\"addProductToCart()\">\r\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\r\n            </button>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<i *ngIf=\"!isAddProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<!-- Description -->\r\n<section class=\"description\">\r\n  <div class=\"container\">\r\n      <h3>Περιγραφη</h3>\r\n      <p>{{product?.description}}</p>\r\n\r\n  </div>\r\n</section>\r\n\r\n<section class=\"reviews\">\r\n    <div class=\"container\">\r\n        <h3>Αξιολογησεις</h3>\r\n\r\n        <p class=\"rating\">4.7</p>\r\n        <p>5 κριτικές</p>\r\n        <div><button type=\"button\" class=\"btn btn-primary\" (click)=\"navigateToAddReview()\">Αξιολόγησε το προιόν</button></div>\r\n\r\n        <review *ngFor=\"let review of reviews\" [review]=\"review\"></review>\r\n    </div>\r\n\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2138,6 +2144,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/cart.service */ "./src/app/services/cart.service.ts");
 /* harmony import */ var _navigation_bar_navigation_bar_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../navigation-bar/navigation-bar.component */ "./src/app/components/navigation-bar/navigation-bar.component.ts");
+/* harmony import */ var src_app_services_review_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/review.service */ "./src/app/services/review.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2153,13 +2160,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ProductPageComponent = /** @class */ (function () {
-    function ProductPageComponent(route, authenticationService, cartService, productService, router) {
+    function ProductPageComponent(route, authenticationService, cartService, productService, router, reviewService) {
         this.route = route;
         this.authenticationService = authenticationService;
         this.cartService = cartService;
         this.productService = productService;
         this.router = router;
+        this.reviewService = reviewService;
         this.available = "Σε απόθεμα";
         this.notAvailable = "Δεν είναι διαθέσιμο";
         this.productAvailability = "";
@@ -2167,6 +2176,7 @@ var ProductPageComponent = /** @class */ (function () {
         this.isProductAvailable = false;
         this.isAddProductRequestDone = true;
         this.isInventoryNotEnough = false;
+        this.reviews = [];
         this.pageParam = 0;
         this.categories = {
             Vitamins: { greekName: 'Βιταμίνες', route: 'vitamins' },
@@ -2190,7 +2200,13 @@ var ProductPageComponent = /** @class */ (function () {
             _this.categoryRoute = product.category.name === 'Fish-Oils' ? _this.categories.Fishoils.route : _this.categories[product.category.name].route;
             _this.isProductAvailable = product.quantity > 0;
             _this.productAvailability = _this.isProductAvailable ? _this.available : _this.notAvailable;
+            _this.getReviews();
         });
+    };
+    ProductPageComponent.prototype.getReviews = function () {
+        var _this = this;
+        this.reviewService.getReviews(this.product.id).toPromise().then(function (reviews) { return _this.reviews = reviews; })
+            .catch(function (error) { return console.log(error); });
     };
     ProductPageComponent.prototype.increaseProductQuantity = function () {
         this.wantedQuantity += 1;
@@ -2268,7 +2284,8 @@ var ProductPageComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./product-page.component.css */ "./src/app/components/product-page/product-page.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
-            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], src_app_services_review_service__WEBPACK_IMPORTED_MODULE_6__["ReviewService"]])
     ], ProductPageComponent);
     return ProductPageComponent;
 }());
@@ -2731,6 +2748,78 @@ var ResetPasswordComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [src_app_services_reset_password_service__WEBPACK_IMPORTED_MODULE_1__["ResetPasswordService"]])
     ], ResetPasswordComponent);
     return ResetPasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/review/review.component.css":
+/*!********************************************************!*\
+  !*** ./src/app/components/review/review.component.css ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "div div.user{\r\n    font-size: 18px;\r\n    font-weight: 800;\r\n    line-height: 1;\r\n    color: #54585a;\r\n}\r\n\r\ndiv > p{\r\n    margin-bottom: 0;\r\n    margin-top: 1rem;\r\n}\r\n\r\ndiv.outer{\r\n    margin-bottom: 2rem;\r\n    background-color: #F5F5F5;\r\n    padding: 1rem;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/review/review.component.html":
+/*!*********************************************************!*\
+  !*** ./src/app/components/review/review.component.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"outer\">\n  <div>\n    <star *ngFor=\"let star of getArray()\"></star>\n  </div>\n  <div class=\"user\">Από {{review.user.username}}, {{review.date}}</div>\n  <p>{{review.text}}</p>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/review/review.component.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/components/review/review.component.ts ***!
+  \*******************************************************/
+/*! exports provided: ReviewComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReviewComponent", function() { return ReviewComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_models_review__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/models/review */ "./src/app/models/review.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ReviewComponent = /** @class */ (function () {
+    function ReviewComponent() {
+    }
+    ReviewComponent.prototype.ngOnInit = function () {
+    };
+    ReviewComponent.prototype.getArray = function () {
+        return new Array(this.review.rating);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", src_app_models_review__WEBPACK_IMPORTED_MODULE_1__["Review"])
+    ], ReviewComponent.prototype, "review", void 0);
+    ReviewComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'review',
+            template: __webpack_require__(/*! ./review.component.html */ "./src/app/components/review/review.component.html"),
+            styles: [__webpack_require__(/*! ./review.component.css */ "./src/app/components/review/review.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ReviewComponent);
+    return ReviewComponent;
 }());
 
 
@@ -3334,6 +3423,69 @@ var ShopServicesComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/star/star.component.css":
+/*!****************************************************!*\
+  !*** ./src/app/components/star/star.component.css ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "i.checked{\r\n    color: orange;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/star/star.component.html":
+/*!*****************************************************!*\
+  !*** ./src/app/components/star/star.component.html ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<i  class=\"fa fa-star checked\"></i>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/star/star.component.ts":
+/*!***************************************************!*\
+  !*** ./src/app/components/star/star.component.ts ***!
+  \***************************************************/
+/*! exports provided: StarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StarComponent", function() { return StarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var StarComponent = /** @class */ (function () {
+    function StarComponent() {
+    }
+    StarComponent.prototype.ngOnInit = function () {
+    };
+    StarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'star',
+            template: __webpack_require__(/*! ./star.component.html */ "./src/app/components/star/star.component.html"),
+            styles: [__webpack_require__(/*! ./star.component.css */ "./src/app/components/star/star.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], StarComponent);
+    return StarComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/interceptors/authenticationStatusChangeInterceptor.ts":
 /*!***********************************************************************!*\
   !*** ./src/app/interceptors/authenticationStatusChangeInterceptor.ts ***!
@@ -3423,6 +3575,26 @@ var Product = /** @class */ (function () {
     function Product() {
     }
     return Product;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/review.ts":
+/*!**********************************!*\
+  !*** ./src/app/models/review.ts ***!
+  \**********************************/
+/*! exports provided: Review */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Review", function() { return Review; });
+var Review = /** @class */ (function () {
+    function Review() {
+    }
+    return Review;
 }());
 
 
@@ -4199,9 +4371,13 @@ var ReviewService = /** @class */ (function () {
     function ReviewService(http) {
         this.http = http;
         this.reviewsEndpoint = '/api/reviews';
+        this.productIdParam = '?productid=';
     }
     ReviewService.prototype.createReview = function (review) {
         return this.http.post(this.reviewsEndpoint, review);
+    };
+    ReviewService.prototype.getReviews = function (productId) {
+        return this.http.get(this.reviewsEndpoint + this.productIdParam + productId);
     };
     ReviewService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

@@ -40,7 +40,7 @@ public class ReviewApiController {
 	@PostMapping("/reviews")
 	public ResponseEntity<?> createReview(@Valid @RequestBody Review review){
 		
-		Product product = productService.findById(review.getProduct().getId());
+		Product product = productService.findByName(review.getProduct().getName());
 		
 		if(product == null)
 			return ResponseEntity.badRequest().build();

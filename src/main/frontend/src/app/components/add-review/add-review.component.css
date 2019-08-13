@@ -38,3 +38,7 @@ section{
   padding-left: 24px;
   padding-right: 24px;
   }
+
+  section div.login a{
+    color: #04BF00;
+  }

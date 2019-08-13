@@ -9,9 +9,9 @@
 
 <section>
   <div *ngIf="isAuthenticated" class="container">
-    <h1>Αξιολόγηση</h1>
+    <h1>Αξιολόγησε το {{productName}}</h1>
 
-    <form name="form" (ngSubmit)="onSubmit()" #f="ngForm">
+    <form *ngIf="!wasReviewCreated" name="form" (ngSubmit)="onSubmit()" #f="ngForm">
         <div class="form-group">
             <label>Όνομα</label>
             <input type="text" name="username" class="form-control" [(ngModel)]="review.user.username" [disabled]="true">
@@ -34,8 +34,14 @@
             <button class="btn btn-primary">Προσθήκη αξιολόγησης</button>
         </div>
     </form>
+
+    <div *ngIf="wasReviewCreated">H αξιολογήση πραγματοποιήθηκε επιτυχώς!</div>
   </div>
-  <div *ngIf="!isAuthenticated">Δεν έχετε εξουσιοδότηση για αυτή τη σελίδα</div>
+
+  <div *ngIf="!isAuthenticated" class="container">
+      <div class="login">Πρέπει να <a routerLink="/login">συνδεθείτε</a>, για να αξιολογήσετε το προιόν.</div>
+  </div>
+  
 </section>
 
 <my-footer></my-footer>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Product } from 'src/app/models/product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -45,7 +45,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   private isLocalStorageEmpty : boolean = localStorage.length === 0;  
 
   constructor(private route : ActivatedRoute, private authenticationService : AuthenticationService
-    , private cartService : CartService, private productService : ProductService) { }
+    , private cartService : CartService, private productService : ProductService, private router : Router) { }
 
   ngOnInit() {
     this.isUserLoggedIn = this.authenticationService.isAuthenticated;
@@ -118,6 +118,10 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       this.cartService.addProductToAnonymousUserCart(cartProduct);
       this.navigationBar.setAnonymousUserCartCount();
     }
+  }
+
+  navigateToAddReview() : void{
+    this.router.navigate(['/product/' + this.product.name + '/review/new']);
   }
 
   ngOnDestroy(){

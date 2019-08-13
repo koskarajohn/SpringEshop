@@ -343,7 +343,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection form .form-group input, section form .form-group textarea{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\nsection form .form-group textarea.form-control{\r\n    background:\t#E0E0E0;\r\n    height: 10rem;\r\n  }\r\n\r\nsection form div.form-group div.rating-error{\r\n    font-size: 80%;\r\n    color: #dc3545;\r\n  }\r\n\r\nsection form .submit{\r\n    text-align: center;\r\n    margin-top: 32px\r\n  }\r\n\r\nsection form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\nsection{\r\n    padding-bottom: 32px;\r\n  }\r\n\r\nsection h1{\r\n    text-align: center;\r\n    margin-bottom: 32px;\r\n  }\r\n\r\nsection form .form-group input, section form .form-group textarea{\r\n    background:\t#E0E0E0;\r\n  }\r\n\r\nsection form .form-group textarea.form-control{\r\n    background:\t#E0E0E0;\r\n    height: 10rem;\r\n  }\r\n\r\nsection form div.form-group div.rating-error{\r\n    font-size: 80%;\r\n    color: #dc3545;\r\n    margin-top: 0.25rem;\r\n  }\r\n\r\nsection form .submit{\r\n    text-align: center;\r\n    margin-top: 32px\r\n  }\r\n\r\nsection form .submit button{\r\n  padding-left: 24px;\r\n  padding-right: 24px;\r\n  }\r\n\r\nsection div.login a{\r\n    color: #04BF00;\r\n  }"
 
 /***/ }),
 
@@ -354,7 +354,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αξιολόγηση\n  </div>\n</div>\n\n<section>\n  <div class=\"container\">\n    <h1>Αξιολόγηση</h1>\n\n    <form name=\"form\" (ngSubmit)=\"onSubmit()\" #f=\"ngForm\">\n        <div class=\"form-group\">\n            <label>Όνομα</label>\n            <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"review.user.username\" [disabled]=\"true\">\n        </div>\n\n        <div class=\"form-group\">\n            <label>Κείμενο</label>\n            <textarea class=\"form-control\" [(ngModel)]=\"review.text\" name=\"textarea\"></textarea>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Βαθμολογία</label>\n          <div>\n            <rating (ratingEmitter)=\"getRating($event)\"></rating>\n          </div>\n          <div class=\"rating-error\" *ngIf=\"!isRatingSelected() && wasSubmitButtonClicked\">Πρέπει να επιλέξετε βαθμολογία</div> \n        </div>\n\n        <div class=\"submit\">\n            <button class=\"btn btn-primary\">Προσθήκη αξιολόγησης</button>\n        </div>\n    </form>\n  </div>\n</section>\n\n<my-footer></my-footer>\n"
+module.exports = "<navigation-bar></navigation-bar>\n\n<!-- Breadcrumbs -->\n<div class=\"breadcrumbs\">\n  <div class=\"container\">\n      <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>/Αξιολόγηση\n  </div>\n</div>\n\n<section>\n  <div *ngIf=\"isAuthenticated\" class=\"container\">\n    <h1>Αξιολόγησε το {{productName}}</h1>\n\n    <form *ngIf=\"!wasReviewCreated\" name=\"form\" (ngSubmit)=\"onSubmit()\" #f=\"ngForm\">\n        <div class=\"form-group\">\n            <label>Όνομα</label>\n            <input type=\"text\" name=\"username\" class=\"form-control\" [(ngModel)]=\"review.user.username\" [disabled]=\"true\">\n        </div>\n\n        <div class=\"form-group\">\n            <label>Κείμενο</label>\n            <textarea class=\"form-control\" [(ngModel)]=\"review.text\" name=\"textarea\"></textarea>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Βαθμολογία</label>\n          <div>\n            <rating (ratingEmitter)=\"getRating($event)\"></rating>\n          </div>\n          <div class=\"rating-error\" *ngIf=\"!isRatingSelected() && wasSubmitButtonClicked\">Πρέπει να επιλέξετε βαθμολογία</div> \n        </div>\n\n        <div class=\"submit\">\n            <button class=\"btn btn-primary\">Προσθήκη αξιολόγησης</button>\n        </div>\n    </form>\n\n    <div *ngIf=\"wasReviewCreated\">H αξιολογήση πραγματοποιήθηκε επιτυχώς!</div>\n  </div>\n\n  <div *ngIf=\"!isAuthenticated\" class=\"container\">\n      <div class=\"login\">Πρέπει να <a routerLink=\"/login\">συνδεθείτε</a>, για να αξιολογήσετε το προιόν.</div>\n  </div>\n  \n</section>\n\n<my-footer></my-footer>\n"
 
 /***/ }),
 
@@ -373,6 +373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
 /* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -386,21 +387,41 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AddReviewComponent = /** @class */ (function () {
-    function AddReviewComponent(reviewService, authenticationService) {
+    function AddReviewComponent(reviewService, authenticationService, route) {
         this.reviewService = reviewService;
         this.authenticationService = authenticationService;
+        this.route = route;
+        this.productName = '';
         this.review = {};
         this.wasSubmitButtonClicked = false;
+        this.wasReviewCreated = false;
     }
     AddReviewComponent.prototype.ngOnInit = function () {
-        this.review.user = {};
-        this.review.product = {};
-        this.review.user.username = localStorage.getItem('user');
-        this.review.user.id = Number(localStorage.getItem('userid'));
+        var _this = this;
+        this.isAuthenticated = this.authenticationService.isAuthenticated;
+        if (this.isAuthenticated) {
+            this.paramSubscription = this.route.params.subscribe(function (params) {
+                _this.productName = params['name'];
+                _this.review.product = {};
+                _this.review.product.name = _this.productName;
+            });
+            this.review.user = {};
+            this.review.user.username = localStorage.getItem('user');
+            this.review.user.id = Number(localStorage.getItem('userid'));
+        }
     };
     AddReviewComponent.prototype.onSubmit = function () {
+        var _this = this;
         this.wasSubmitButtonClicked = true;
+        if (this.isRatingSelected()) {
+            this.reviewService.createReview(this.review).toPromise().then(function (response) { return _this.wasReviewCreated = true; })
+                .catch(function (error) {
+                console.log(error);
+                _this.wasReviewCreated = false;
+            });
+        }
     };
     AddReviewComponent.prototype.getRating = function (rating) {
         if (Object(util__WEBPACK_IMPORTED_MODULE_3__["isNumber"])(rating)) {
@@ -410,13 +431,17 @@ var AddReviewComponent = /** @class */ (function () {
     AddReviewComponent.prototype.isRatingSelected = function () {
         return this.review.rating !== undefined;
     };
+    AddReviewComponent.prototype.ngOnDestroy = function () {
+        if (this.paramSubscription !== undefined)
+            this.paramSubscription.unsubscribe();
+    };
     AddReviewComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-add-review',
             template: __webpack_require__(/*! ./add-review.component.html */ "./src/app/components/add-review/add-review.component.html"),
             styles: [__webpack_require__(/*! ./add-review.component.css */ "./src/app/components/add-review/add-review.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_services_review_service__WEBPACK_IMPORTED_MODULE_1__["ReviewService"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
+        __metadata("design:paramtypes", [src_app_services_review_service__WEBPACK_IMPORTED_MODULE_1__["ReviewService"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
     ], AddReviewComponent);
     return AddReviewComponent;
 }());
@@ -2082,7 +2107,7 @@ var OrderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n.breadcrumbs a.route:hover{\r\n  text-decoration: none;\r\n}\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.product-information{\r\n      margin-top: 24px;\r\n      margin-bottom: 32px;\r\n    }\r\n\r\nsection.product-information .tab-content #description p{\r\n      margin-bottom: 0;\r\n    }\r\n\r\nsection.product-information ul li.nav-item a.active{\r\n      background-color: #04BF00;\r\n    }"
+module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-top: 8px;\r\n    padding-bottom: 16px;\r\n}\r\n\r\n.breadcrumbs a.route:hover{\r\n  text-decoration: none;\r\n}\r\n\r\n/* --- Product --- */\r\n\r\n.product-details{\r\n  margin-top: 16px;\r\n}\r\n\r\n.product-details h3{\r\n  color: #E00000 ;\r\n}\r\n\r\np span.checked{\r\n  color: orange;\r\n}\r\n\r\ndiv.product-details div.input-group{\r\n    width: 176px;\r\n\r\n    margin-bottom: 16px;\r\n  }\r\n\r\ndiv.product-details div.input-group button{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n\r\ndiv.input-group span{\r\n    width: 96px;\r\n    line-height: 40px;\r\n    text-align:center;\r\n    border:0.5px inset black;\r\n    display: inline-block;\r\n  }\r\n\r\n.spinner{\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    z-index: 999;\r\n  }\r\n\r\n@media (max-width: 576px){\r\n\r\n.product-image img{\r\n    display: block;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n  }\r\n\r\n.product-details{\r\n    text-align: center;\r\n  }\r\n}\r\n\r\n/* --- Addition Product Information--- */\r\n\r\nsection.description, section.reviews{\r\n      margin-top: 1.5rem;\r\n      margin-bottom: 2rem;\r\n  }\r\n\r\nsection.description div.container h3, section.reviews div.container h3{\r\n    font-size: 1.5rem;\r\n    text-transform: uppercase;\r\n  }\r\n\r\nsection.description div.container p{\r\n    margin-top: 1.5rem;\r\n  }\r\n\r\nsection.reviews div.container p{\r\n    margin-bottom: 0;\r\n  }\r\n\r\nsection.reviews div.container p.rating{\r\n    margin-top: 1.5rem;\r\n    font-size: 1.25rem;\r\n    font-weight: bold;\r\n  }"
 
 /***/ }),
 
@@ -2093,7 +2118,7 @@ module.exports = "/* --- Breadcrumbs --- */\r\n\r\n.breadcrumbs{\r\n    padding-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>\r\n        / <a routerLink=\"/category/{{categoryRoute}}\" class=\"route\" [queryParams]=\"{ page: pageParam}\">{{productCategory}}</a>\r\n        / {{product?.name}}\r\n    </div>\r\n  </div>\r\n\r\n<div class=\"container\">\r\n    <div class=\"row justify-content-center\">\r\n        <div class=\"col-sm-4 product-image\">\r\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\r\n        </div>\r\n        <div class=\"col-sm-4 product-details\">\r\n            <h4>{{product?.name}}</h4>\r\n            <h3>{{product?.price}}€</h3>\r\n            <p><span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star\"></span>\r\n            </p>\r\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\r\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\r\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\r\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\r\n\r\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\r\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\r\n                <span>{{wantedQuantity}}</span>\r\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\r\n            </div>\r\n\r\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\" [disabled] = \"!isAddProductRequestDone\" (click)=\"addProductToCart()\">\r\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\r\n            </button>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<i *ngIf=\"!isAddProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<!-- Additional Product Informaition -->\r\n<section class=\"product-information\">\r\n  <div class=\"container\">\r\n      <div class=\"row\">\r\n          <div class=\"col-sm-12\">\r\n              <ul class=\"nav nav-pills\">\r\n                  <li class=\"nav-item\">\r\n                      <a class=\"nav-link active\" data-toggle=\"pill\" href=\"#description\">Περιγραφή</a>\r\n                  </li>\r\n                  <li class=\"nav-item\">\r\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#additional-info\">Επιπλέον Πληροφοριες</a>\r\n                  </li>\r\n                  <li class=\"nav-item\">\r\n                      <a class=\"nav-link\" data-toggle=\"pill\" href=\"#reviews\">Αξιολογήσεις</a>\r\n                  </li>\r\n              </ul>\r\n\r\n              <div class=\"tab-content\">\r\n                  <div id=\"description\" class=\"container tab-pane active\">\r\n                      <br>\r\n                      <p>{{product?.description}}</p>\r\n   \r\n                      \r\n                  </div> \r\n                  <div id=\"additional-info\" class=\"container tab-pane fade\">\r\n                      <br>\r\n                      <p><strong>Health is one of most important things in our life.</strong> \r\n                          We think that it is a real luck to have a strong health. \r\n                          Our way of life doesn’t increase the physiological condition of our body. \r\n                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. \r\n                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>\r\n                  </div>\r\n                  <div id=\"reviews\" class=\"container tab-pane fade\">\r\n                      <br>\r\n                      <p>There are no reviews for this product.</p>\r\n                      <button type=\"button\" class=\"btn btn-primary\">Γράψτε μια αξιολόγηση</button>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
+module.exports = "<navigation-bar></navigation-bar>\r\n\r\n<!-- Breadcrumbs -->\r\n<div class=\"breadcrumbs\">\r\n    <div class=\"container\">\r\n        <a routerLink=\"/\"><i class=\"fas fa-home mr-1\"></i></a>\r\n        / <a routerLink=\"/category/{{categoryRoute}}\" class=\"route\" [queryParams]=\"{ page: pageParam}\">{{productCategory}}</a>\r\n        / {{product?.name}}\r\n    </div>\r\n  </div>\r\n\r\n<div class=\"container\">\r\n    <div class=\"row justify-content-center\">\r\n        <div class=\"col-sm-4 product-image\">\r\n            <img class=\"img-fluid\" src=\"{{product?.largeImageUrl}}\" alt=\"\">\r\n        </div>\r\n        <div class=\"col-sm-4 product-details\">\r\n            <h4>{{product?.name}}</h4>\r\n            <h3>{{product?.price}}€</h3>\r\n            <p><span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star checked\"></span>\r\n                <span class=\"fa fa-star\"></span>\r\n            </p>\r\n            <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>\r\n            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>\r\n            <p><strong>Πόντοι ανταμοιβής</strong> : 250</p>\r\n            <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>\r\n\r\n            <div *ngIf=\"isProductAvailable\" class=\"input-group\">\r\n                <button type=\"button\" (click)=\"decreaseProductQuantity()\" [disabled] = \"isProductQuantityOne()\" >-</button>\r\n                <span>{{wantedQuantity}}</span>\r\n                <button type=\"button\" (click)=\"increaseProductQuantity()\">+</button>\r\n            </div>\r\n\r\n            <button *ngIf=\"isProductAvailable\" type=\"button\" class=\"btn btn-primary\" [disabled] = \"!isAddProductRequestDone\" (click)=\"addProductToCart()\">\r\n                <i class=\"fas fa-cart-plus mr-2\"></i>Προσθήκη στο καλάθι\r\n            </button>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<i *ngIf=\"!isAddProductRequestDone\" class=\"fas fa-sync-alt fa-2x fa-spin spinner\" ></i>\r\n\r\n<!-- Description -->\r\n<section class=\"description\">\r\n  <div class=\"container\">\r\n      <h3>Περιγραφη</h3>\r\n      <p>{{product?.description}}</p>\r\n\r\n  </div>\r\n</section>\r\n\r\n<section class=\"reviews\">\r\n    <div class=\"container\">\r\n        <h3>Αξιολογησεις</h3>\r\n\r\n        <p class=\"rating\">4.7</p>\r\n        <p>5 κριτικές</p>\r\n        <div><button type=\"button\" class=\"btn btn-primary\" (click)=\"navigateToAddReview()\">Αξιολόγησε το προιόν</button></div>\r\n    </div>\r\n</section>\r\n\r\n<my-footer></my-footer>\r\n\r\n"
 
 /***/ }),
 
@@ -2129,11 +2154,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var ProductPageComponent = /** @class */ (function () {
-    function ProductPageComponent(route, authenticationService, cartService, productService) {
+    function ProductPageComponent(route, authenticationService, cartService, productService, router) {
         this.route = route;
         this.authenticationService = authenticationService;
         this.cartService = cartService;
         this.productService = productService;
+        this.router = router;
         this.available = "Σε απόθεμα";
         this.notAvailable = "Δεν είναι διαθέσιμο";
         this.productAvailability = "";
@@ -2222,6 +2248,9 @@ var ProductPageComponent = /** @class */ (function () {
             this.navigationBar.setAnonymousUserCartCount();
         }
     };
+    ProductPageComponent.prototype.navigateToAddReview = function () {
+        this.router.navigate(['/product/' + this.product.name + '/review/new']);
+    };
     ProductPageComponent.prototype.ngOnDestroy = function () {
         if (this.routeSubscription !== undefined)
             this.routeSubscription.unsubscribe();
@@ -2239,7 +2268,7 @@ var ProductPageComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./product-page.component.css */ "./src/app/components/product-page/product-page.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
-            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"]])
+            src_app_services_cart_service__WEBPACK_IMPORTED_MODULE_4__["CartService"], src_app_services_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], ProductPageComponent);
     return ProductPageComponent;
 }());

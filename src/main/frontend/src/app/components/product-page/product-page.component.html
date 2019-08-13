@@ -43,47 +43,23 @@
 
 <i *ngIf="!isAddProductRequestDone" class="fas fa-sync-alt fa-2x fa-spin spinner" ></i>
 
-<!-- Additional Product Informaition -->
-<section class="product-information">
+<!-- Description -->
+<section class="description">
   <div class="container">
-      <div class="row">
-          <div class="col-sm-12">
-              <ul class="nav nav-pills">
-                  <li class="nav-item">
-                      <a class="nav-link active" data-toggle="pill" href="#description">Περιγραφή</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#additional-info">Επιπλέον Πληροφοριες</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#reviews">Αξιολογήσεις</a>
-                  </li>
-              </ul>
+      <h3>Περιγραφη</h3>
+      <p>{{product?.description}}</p>
 
-              <div class="tab-content">
-                  <div id="description" class="container tab-pane active">
-                      <br>
-                      <p>{{product?.description}}</p>
-   
-                      
-                  </div> 
-                  <div id="additional-info" class="container tab-pane fade">
-                      <br>
-                      <p><strong>Health is one of most important things in our life.</strong> 
-                          We think that it is a real luck to have a strong health. 
-                          Our way of life doesn’t increase the physiological condition of our body. 
-                          Alcohol, cigarettes, unhealthy food, stresses and other factors have a great influence on our health. 
-                          The human’s immune system is very uncertain thing because there is a countless quantity of different dangerous viruses and bacteria. From ancient times plague and other infectious diseases have been killing people without leaving them any chance to survive.</p>
-                  </div>
-                  <div id="reviews" class="container tab-pane fade">
-                      <br>
-                      <p>There are no reviews for this product.</p>
-                      <button type="button" class="btn btn-primary">Γράψτε μια αξιολόγηση</button>
-                  </div>
-              </div>
-          </div>
-      </div>
   </div>
+</section>
+
+<section class="reviews">
+    <div class="container">
+        <h3>Αξιολογησεις</h3>
+
+        <p class="rating">4.7</p>
+        <p>5 κριτικές</p>
+        <div><button type="button" class="btn btn-primary" (click)="navigateToAddReview()">Αξιολόγησε το προιόν</button></div>
+    </div>
 </section>
 
 <my-footer></my-footer>

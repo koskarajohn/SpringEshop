@@ -64,15 +64,26 @@ p span.checked{
   
   /* --- Addition Product Information--- */
   
-  section.product-information{
-      margin-top: 24px;
-      margin-bottom: 32px;
-    }
-    
-    section.product-information .tab-content #description p{
-      margin-bottom: 0;
-    }
-    
-    section.product-information ul li.nav-item a.active{
-      background-color: #04BF00;
-    }
+  section.description, section.reviews{
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+  }
+
+  section.description div.container h3, section.reviews div.container h3{
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  section.description div.container p{
+    margin-top: 1.5rem;
+  }
+
+  section.reviews div.container p{
+    margin-bottom: 0;
+  }
+
+  section.reviews div.container p.rating{
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }

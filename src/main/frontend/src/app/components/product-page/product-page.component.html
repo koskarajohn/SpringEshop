@@ -17,7 +17,19 @@
         <div class="col-sm-4 product-details">
             <h4>{{product?.name}}</h4>
             <h3>{{product?.price}}€</h3>
-            <product-rating [rating]="rating"></product-rating>
+
+            <span *ngIf="isGetRatingRequestDone" class="score">
+                <div class="score-wrap">
+                    <span class="stars-active" [style.width.%]="width">
+                        <i *ngFor="let star of getArray()" class="fas fa-star fa-lg checked" aria-hidden="true"></i>
+                    </span>
+                    <span class="stars-inactive">
+                       <i *ngFor="let star of getArray()" class="far fa-star fa-lg checked" aria-hidden="true"></i>
+                   </span>
+                </div>
+                <span *ngIf="areThereAnyReviews" class="rating">{{rating}}</span>
+            </span>
+
             <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>
             <p><strong>Κωδικός Προιόντος</strong> : 14325</p>
             <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>
@@ -51,7 +63,8 @@
         <h3>Αξιολογησεις</h3>
 
         <div class="reviews-info">
-            <h2>139 αξιολογήσεις πελατών</h2>
+            <h2 *ngIf="areThereAnyReviews">{{reviewsCount}} αξιολογήσεις πελατών</h2>
+            <h2 *ngIf="!areThereAnyReviews">Δεν υπάρχουν αξιολογήσεις</h2>
             <button type="button" class="btn btn-primary" (click)="navigateToAddReview()">Αξιολόγησε το προιόν</button>
         </div>
 

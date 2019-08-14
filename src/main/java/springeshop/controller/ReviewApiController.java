@@ -69,14 +69,17 @@ public class ReviewApiController {
 		if(product == null)
 			return ResponseEntity.badRequest().build();
 		
-		if(query.equals("rating")) { 
-			ProductRating rating = new ProductRating();
-			rating.setRating(reviewService.findAverageRating(product));
-			return ResponseEntity.ok(rating);
-		}else {
+		if(query == null) {
 			List<Review> reviews = reviewService.findByProduct(product);
 			return ResponseEntity.ok(reviews);
 		}
 		
+		if(query.equals("rating")) { 
+			ProductRating rating = new ProductRating();
+			rating.setRating(reviewService.findAverageRating(product));
+			return ResponseEntity.ok(rating);
+		}
+		
+		return ResponseEntity.status(500).build();
 	}
 }

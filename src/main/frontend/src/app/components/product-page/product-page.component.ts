@@ -29,8 +29,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   isAddProductRequestDone : boolean = true;
   isInventoryNotEnough : boolean = false;
   reviews : Review[] = [];
-
-  raing : number;
+  reviewsCount : number = 0;
+  areThereAnyReviews : boolean = false;
+  rating : number = 0;
+  width : number = 0;
+  isGetRatingRequestDone : boolean = false;
 
   productCategory : string ;
   categoryRoute : string;
@@ -67,8 +70,33 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   getReviews() : void{
-    this.reviewService.getReviews(this.product.id).toPromise().then(reviews => this.reviews = reviews)
+    this.reviewService.getReviews(this.product.id).toPromise().then(reviews => {
+                                                                   this.reviews = reviews;
+                                                                   this.areThereAnyReviews = this.reviews.length > 0;
+                                                                   this.reviewsCount = this.reviews.length;
+                                                                   if(this.areThereAnyReviews){
+                                                                     this.getRating();
+                                                                   }else{
+                                                                     this.isGetRatingRequestDone = true;
+                                                                   }
+                                                              })
                                                               .catch(error => console.log(error));
+  }
+
+  getRating() : void{
+    this.reviewService.getProductAverageRating(this.product.id).toPromise().then(productRating => {
+                                                                            this.rating = productRating.rating;
+                                                                            this.width = (this.rating / 5) * 100;
+                                                                            this.isGetRatingRequestDone = true;
+                                                                          })
+                                                                          .catch(error => {
+                                                                            console.log(error);
+                                                                            this.isGetRatingRequestDone = true;
+                                                                          });
+  }
+
+  getArray(){
+    return new Array(5);
   }
 
   increaseProductQuantity() : void{

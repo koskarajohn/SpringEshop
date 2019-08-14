@@ -30,6 +30,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   isInventoryNotEnough : boolean = false;
   reviews : Review[] = [];
 
+  raing : number;
+
   productCategory : string ;
   categoryRoute : string;
   pageParam : number = 0;

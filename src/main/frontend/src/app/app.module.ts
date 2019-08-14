@@ -29,6 +29,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { AddReviewComponent } from './components/add-review/add-review.component';
 import { ReviewComponent } from './components/review/review.component';
 import { StarComponent } from './components/star/star.component';
+import { ProductRatingComponent } from './components/product-rating/product-rating.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { StarComponent } from './components/star/star.component';
     ChangePasswordComponent,
     AddReviewComponent,
     ReviewComponent,
-    StarComponent
+    StarComponent,
+    ProductRatingComponent
   ],
   imports: [
     BrowserModule,

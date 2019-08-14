@@ -19,13 +19,6 @@
   color: #E00000 ;
 }
 
-div.container > div.row > div.product-details > p.rating > span{
-  display: inline-block;
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-left: 0.5rem;
-}
-
 div.product-details div.input-group{
     width: 176px;
     margin-bottom: 16px;
@@ -93,4 +86,3 @@ div.product-details div.input-group{
     margin-bottom: 2rem;
     margin-top: 2rem;
   }
-  

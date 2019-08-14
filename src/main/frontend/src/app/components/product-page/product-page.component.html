@@ -17,7 +17,7 @@
         <div class="col-sm-4 product-details">
             <h4>{{product?.name}}</h4>
             <h3>{{product?.price}}€</h3>
-            <p class="rating"><star *ngFor="let review of reviews"></star><span>4.7</span></p>
+            <product-rating [rating]="rating"></product-rating>
             <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>
             <p><strong>Κωδικός Προιόντος</strong> : 14325</p>
             <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>

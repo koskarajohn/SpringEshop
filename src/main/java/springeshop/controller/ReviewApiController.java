@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import springeshop.model.Product;
+import springeshop.model.ProductRating;
 import springeshop.model.Review;
 import springeshop.model.User;
 import springeshop.service.ProductService;
@@ -61,13 +62,21 @@ public class ReviewApiController {
 	}
 	
 	@GetMapping("/reviews")
-	public ResponseEntity<?> getReviews(@RequestParam( value = "productid",required = false) String productId){
+	public ResponseEntity<?> getReviews(@RequestParam(value = "productid", required = false) String productId,
+			                            @RequestParam(value = "query",required = false) String query){
 		
 		Product product = productService.findById(Integer.parseInt(productId));
 		if(product == null)
 			return ResponseEntity.badRequest().build();
 		
-		List<Review> reviews = reviewService.findByProduct(product);
-		return ResponseEntity.ok(reviews);
+		if(query.equals("rating")) { 
+			ProductRating rating = new ProductRating();
+			rating.setRating(reviewService.findAverageRating(product));
+			return ResponseEntity.ok(rating);
+		}else {
+			List<Review> reviews = reviewService.findByProduct(product);
+			return ResponseEntity.ok(reviews);
+		}
+		
 	}
 }

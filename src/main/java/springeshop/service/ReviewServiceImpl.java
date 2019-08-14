@@ -28,4 +28,9 @@ public class ReviewServiceImpl implements ReviewService{
 		reviewRepository.save(review);
 	}
 
+	@Override
+	public Double findAverageRating(Product product) {
+		return reviewRepository.findAverageRating(product);
+	}
+
 }

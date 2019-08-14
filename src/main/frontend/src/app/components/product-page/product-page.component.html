@@ -18,7 +18,7 @@
             <h4>{{product?.name}}</h4>
             <h3>{{product?.price}}€</h3>
 
-            <span *ngIf="isGetRatingRequestDone" class="score">
+            <span class="score">
                 <div class="score-wrap">
                     <span class="stars-active" [style.width.%]="width">
                         <i *ngFor="let star of getArray()" class="fas fa-star fa-lg checked" aria-hidden="true"></i>

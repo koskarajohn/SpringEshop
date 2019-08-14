@@ -33,7 +33,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   areThereAnyReviews : boolean = false;
   rating : number = 0;
   width : number = 0;
-  isGetRatingRequestDone : boolean = false;
 
   productCategory : string ;
   categoryRoute : string;
@@ -76,8 +75,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
                                                                    this.reviewsCount = this.reviews.length;
                                                                    if(this.areThereAnyReviews){
                                                                      this.getRating();
-                                                                   }else{
-                                                                     this.isGetRatingRequestDone = true;
                                                                    }
                                                               })
                                                               .catch(error => console.log(error));
@@ -87,11 +84,9 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.reviewService.getProductAverageRating(this.product.id).toPromise().then(productRating => {
                                                                             this.rating = productRating.rating;
                                                                             this.width = (this.rating / 5) * 100;
-                                                                            this.isGetRatingRequestDone = true;
                                                                           })
                                                                           .catch(error => {
                                                                             console.log(error);
-                                                                            this.isGetRatingRequestDone = true;
                                                                           });
   }
 

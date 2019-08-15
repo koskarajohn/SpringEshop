@@ -31,7 +31,7 @@
             </span>
 
             <p><strong>Εταιρία</strong> : {{product?.brand.name}}</p>
-            <p><strong>Κωδικός Προιόντος</strong> : 14325</p>
+            <p><strong>Κωδικός Προιόντος</strong> : {{product?.id}}</p>
             <p><strong>Διαθεσιμότητα</strong> : {{productAvailability}}</p>
 
             <div *ngIf="isProductAvailable" class="input-group">

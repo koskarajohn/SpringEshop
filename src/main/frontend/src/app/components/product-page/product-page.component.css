@@ -105,8 +105,8 @@ vertical-align: text-bottom;
   /* --- Addition Product Information--- */
   
   section.description, section.reviews{
-      margin-top: 1.5rem;
-      margin-bottom: 2rem;
+      margin-top: 2rem;
+      margin-bottom: 4rem;
   }
 
   section.description div.container h3, section.reviews div.container h3{
